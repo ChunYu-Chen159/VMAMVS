@@ -427,13 +427,15 @@ function SDGGraph(data) {
             .classed("highlight", false)
             .selectAll("line")
             .attr("marker-end", d => {
-                if (d.type === REL_HTTPREQUEST || d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
+                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
                     if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
                         return"url(#arrow-l)"
                     } else {
                         return "url(#arrow-m)";
                     }
-                } else if (d.type === REL_NEWERPATCHVERSION) {
+                } else if (d.type === REL_HTTPREQUEST) {
+                    return "url(#arrow-request)";
+                }else if (d.type === REL_NEWERPATCHVERSION) {
                     return"url(#arrow-l-warning)"
                 }
             });
@@ -491,16 +493,22 @@ function SDGGraph(data) {
                 }
             })
             .attr("marker-end", d => {
-                if (d.type === REL_HTTPREQUEST || d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
+                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
                     if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
                         return"url(#arrow-l)"
                     } else {
                         return "url(#arrow-m)";
                     }
-                } else if (d.type === REL_NEWERPATCHVERSION) {
+                } else if (d.type === REL_HTTPREQUEST) {
+                    return "url(#arrow-request)";
+                }else if (d.type === REL_NEWERPATCHVERSION) {
                     return"url(#arrow-l-warning)"
                 }
             });
+
+        linkEnter.filter(d => d.type === REL_HTTPREQUEST)
+            .classed("request", true);
+
 
         linkEnter.filter(d => d.type === REL_NEWERPATCHVERSION)
             .classed("warning", true)

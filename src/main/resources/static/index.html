@@ -94,6 +94,12 @@
 			stroke-opacity: 1;
 		}
 
+		.links line.request {
+			stroke-linecap: round;
+			stroke: #78ca3b;
+			stroke-opacity: 1;
+		}
+
         .dash line {
             stroke-dasharray: 5;
         }
@@ -125,6 +131,11 @@
 			stroke-width: 0;
 			stroke: #d6d6d6;
 			fill: #d6d6d6;
+		}
+		.request.arrow {
+			stroke-width: 0;
+			stroke: #78ca3b;
+			fill: #78ca3b;
 		}
 
 		.highlight.arrow {
@@ -181,6 +192,17 @@
 					markerHeight="10"
 					viewBox="0 0 10 10"
 					refX="17"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-request"
+					class="arrow request"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="12.5"
 					refY="6"
 					orient="auto">
 				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
