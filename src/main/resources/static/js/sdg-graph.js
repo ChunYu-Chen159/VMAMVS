@@ -397,33 +397,24 @@ function SDGGraph(data) {
 
                 if (sleuthDataLength !== 0) {
                     for(let i = 0; i < sleuthDataLength; i++){
-                        let targetNode = data.links.find(targetNode => targetNode.target === d.target);
-                        //console.log("targetNode: " + JSON.stringify(targetNode));
-                        //console.log("sleuthData[i].targetServiceVersion: " + sleuthData[i].targetServiceVersion);
-                        //console.log("targetNode.version: " + targetNode.source.version);
-                        if(d.source.path === sleuthData[i].path &&
-                            d.source.appName === sleuthData[i].appName &&
-                            sleuthData[i].targetServiceVersion === targetNode.source.version &&
-                            sleuthData[i].targetAppName === targetNode.source.appName) {
+
+                        var marker = document.createElement("marker");
+                        marker.setAttribute('id',"arrow-request-" + sleuthData[i].path.substring(1));
+                        marker.setAttribute('class','arrow request');
+                        marker.setAttribute('markerWidth','10');
+                        marker.setAttribute('markerHeight','10');
+                        marker.setAttribute('viewBox','0 0 10 10');
+                        marker.setAttribute('refX','17');
+                        marker.setAttribute('refY','6');
+                        marker.setAttribute('orient','auto');
+                        var marker_path = document.createElement("path");
+                        marker_path.setAttribute('d','M2,2 L10,6 L2,10 L6,6 L2,2');
+                        marker.appendChild(marker_path);
+
+                        var graph_defs = document.getElementById("graph_defs");
+                        graph_defs.appendChild(marker);
 
 
-                            var marker = document.createElement("marker");
-                            marker.setAttribute('id',"arrow-request-" + sleuthData[i].path.substring(1));
-                            marker.setAttribute('class','arrow request');
-                            marker.setAttribute('markerWidth','10');
-                            marker.setAttribute('markerHeight','10');
-                            marker.setAttribute('viewBox','0 0 10 10');
-                            marker.setAttribute('refX','17');
-                            marker.setAttribute('refY','6');
-                            marker.setAttribute('orient','auto');
-                            var marker_path = document.createElement("path");
-                            marker_path.setAttribute('d','M2,2 L10,6 L2,10 L6,6 L2,2');
-                            marker.appendChild(marker_path);
-
-                            var graph_defs = document.getElementById("graph_defs");
-                            graph_defs.appendChild(marker);
-
-                        }
                     }
                 }
             });
