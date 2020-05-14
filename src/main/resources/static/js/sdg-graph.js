@@ -485,7 +485,7 @@ function SDGGraph(data) {
                             if(parseInt(sleuthData[i].num) === 0)
                                 return 3;
                             else
-                                return 6 + 6 * ( parseInt(sleuthData[i].num)/parseInt(totalRequestNum) );
+                                return 6 + 12 * ( parseInt(sleuthData[i].num)/parseInt(totalRequestNum) );
                         }
                     }
                 }else{
