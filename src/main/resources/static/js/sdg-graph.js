@@ -394,29 +394,6 @@ function SDGGraph(data) {
                     //console.log("sleuthData:：:：" + JSON.stringify(responseJSON[i]));
                     totalRequestNum += parseInt(responseJSON[i].num);
                 }
-
-                if (sleuthDataLength !== 0) {
-                    for(let i = 0; i < sleuthDataLength; i++){
-
-                        var marker = document.createElement("marker");
-                        marker.setAttribute('id',"arrow-request-" + sleuthData[i].path.substring(1));
-                        marker.setAttribute('class','arrow request');
-                        marker.setAttribute('markerWidth','10');
-                        marker.setAttribute('markerHeight','10');
-                        marker.setAttribute('viewBox','0 0 10 10');
-                        marker.setAttribute('refX','17');
-                        marker.setAttribute('refY','6');
-                        marker.setAttribute('orient','auto');
-                        var marker_path = document.createElement("path");
-                        marker_path.setAttribute('d','M2,2 L10,6 L2,10 L6,6 L2,2');
-                        marker.appendChild(marker_path);
-
-                        var graph_defs = document.getElementById("graph_defs");
-                        graph_defs.appendChild(marker);
-
-
-                    }
-                }
             });
     }
 
@@ -534,32 +511,11 @@ function SDGGraph(data) {
                                 sleuthData[i].targetServiceVersion === targetNode.source.version &&
                                 sleuthData[i].targetAppName === targetNode.source.appName) {
 
-
-                                /*var marker = document.createElement("marker");
-                                marker.setAttribute('id',"arrow-request-" + sleuthData[i].path.substring(1));
-                                marker.setAttribute('class','arrow request');
-                                marker.setAttribute('markerWidth','10');
-                                marker.setAttribute('markerHeight','10');
-                                marker.setAttribute('viewBox','0 0 10 10');
-                                marker.setAttribute('refX','17');
-                                marker.setAttribute('refY','6');
-                                marker.setAttribute('orient','auto');
-                                var marker_path = document.createElement("path");
-                                marker_path.setAttribute('d','M2,2 L10,6 L2,10 L6,6 L2,2');
-                                marker.appendChild(marker_path);
-
-                                var graph_defs = document.getElementById("graph_defs");
-                                graph_defs.appendChild(marker);*/
-
-                                return "url(#arrow-request-" + sleuthData[i].path.substring(1) + ")";
-
-
-
-          /*                      if(parseInt(sleuthData[i].num) === 0) {
+                                if(parseInt(sleuthData[i].num) === 0) {
                                     return "url(#arrow-request-m)";
                                 }else {
                                     return "url(#arrow-request)";
-                                }*/
+                                }
                             }
                         }
                     }else{
