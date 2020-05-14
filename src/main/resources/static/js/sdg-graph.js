@@ -504,10 +504,12 @@ function SDGGraph(data) {
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return"url(#arrow-l-warning)"
                 }
+            })
+            .attr("class", d => {
+                if (d.type === REL_HTTPREQUEST) {
+                    return "request";
+                }
             });
-
-        linkEnter.filter(d => d.type === REL_HTTPREQUEST)
-            .classed("request", true);
 
 
         linkEnter.filter(d => d.type === REL_NEWERPATCHVERSION)
