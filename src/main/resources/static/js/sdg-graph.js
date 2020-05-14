@@ -472,7 +472,6 @@ function SDGGraph(data) {
                 // 根據端點請求數量更改線的粗細
                 if (d.type === REL_HTTPREQUEST && sleuthDataLength !== 0) {
                     for(let i = 0; i < sleuthDataLength; i++){
-                        console.log("d.type === REL_HTTPREQUEST");
                         let targetNode = data.links.find(targetNode => targetNode.target === d.target);
                         //console.log("targetNode: " + JSON.stringify(targetNode));
                         //console.log("sleuthData[i].targetServiceVersion: " + sleuthData[i].targetServiceVersion);
@@ -500,9 +499,28 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
+                    if (sleuthDataLength !== 0) {
+                        for(let i = 0; i < sleuthDataLength; i++){
+                            let targetNode = data.links.find(targetNode => targetNode.target === d.target);
+                            //console.log("targetNode: " + JSON.stringify(targetNode));
+                            //console.log("sleuthData[i].targetServiceVersion: " + sleuthData[i].targetServiceVersion);
+                            //console.log("targetNode.version: " + targetNode.source.version);
+                            if(d.source.path === sleuthData[i].path &&
+                                d.source.appName === sleuthData[i].appName &&
+                                sleuthData[i].targetServiceVersion === targetNode.source.version &&
+                                sleuthData[i].targetAppName === targetNode.source.appName) {
+
+                                if(parseInt(sleuthData[i].num) === 0)
+                                    return "url(#arrow-request-m)";
+                                else
+                                    return "url(#arrow-request)";
+                            }
+                        }
+                    }else{
+                        return "url(#arrow-request-m)";
+                    }
                 }else if (d.type === REL_NEWERPATCHVERSION) {
-                    return"url(#arrow-l-warning)"
+                    return "url(#arrow-l-warning)";
                 }
             })
             .attr("class", d => {
