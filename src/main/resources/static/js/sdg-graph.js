@@ -401,6 +401,7 @@ function SDGGraph(data) {
         //console.log(data);
         console.log("update");
 
+        await getSleuthData();
 
         /*
         let nodes = collapse ? data.nodes.filter(node => !node.labels.includes(LABEL_ENDPOINT)) : data.nodes;
@@ -436,7 +437,7 @@ function SDGGraph(data) {
                 } else if (d.type === REL_HTTPREQUEST) {
                     return "url(#arrow-request)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
-                    return"url(#arrow-l-warning)"
+                    return "url(#arrow-l-warning)";
                 }
             });
         link.filter(d => d.highlight)
@@ -464,7 +465,7 @@ function SDGGraph(data) {
         // ENTER new links
         let linkEnter = link.enter().append("g");
 
-        await getSleuthData();
+        // await getSleuthData();
 
         linkEnter.append("line")
             .attr("stroke-width", d => {
@@ -510,10 +511,32 @@ function SDGGraph(data) {
                                 sleuthData[i].targetServiceVersion === targetNode.source.version &&
                                 sleuthData[i].targetAppName === targetNode.source.appName) {
 
-                                if(parseInt(sleuthData[i].num) === 0)
+
+                                var marker = document.createElement("marker");
+                                marker.setAttribute('id',"arrow-request-" + sleuthData[i].path.substring(1));
+                                marker.setAttribute('class','arrow request');
+                                marker.setAttribute('markerWidth','10');
+                                marker.setAttribute('markerHeight','10');
+                                marker.setAttribute('viewBox','0 0 10 10');
+                                marker.setAttribute('refX','17');
+                                marker.setAttribute('refY','6');
+                                marker.setAttribute('orient','auto');
+                                var marker_path = document.createElement("path");
+                                marker_path.setAttribute('d','M2,2 L10,6 L2,10 L6,6 L2,2');
+                                marker.appendChild(marker_path);
+
+                                var defs = document.getElementById("defs");
+                                defs.appendChild(marker);
+
+                                return "arrow-request-" + sleuthData[i].path.substring(1);
+
+
+
+          /*                      if(parseInt(sleuthData[i].num) === 0) {
                                     return "url(#arrow-request-m)";
-                                else
+                                }else {
                                     return "url(#arrow-request)";
+                                }*/
                             }
                         }
                     }else{
