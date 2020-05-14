@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Service Graph</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/jquery.json-viewer.css">
+	<style type="text/css">
+
+		body {
+			margin: 0px;
+		}
+
+		.sdg-spacing {
+			margin-bottom: 500px;
+		}
+
+		.canvas {
+			position: fixed;
+			left: 0px;
+			right: 0px;
+			top: 0px;
+			bottom: 0px;
+		}
+
+		.split-up.canvas {
+			bottom: 50%!important;
+		}
+
+		.split-down.canvas {
+			top: 50%!important;
+		}
+
+		/*
+		.card {
+			height: 0px;
+			opacity: 0;
+			transition: opacity 0.15s;
+		}
+
+		.card.show {
+			height: auto;
+			opacity: 1;
+		}
+		.card-header {
+			display: none;
+		}
+
+		.card-header.show {
+			display: block;
+		}
+
+		.card-body {
+			display: none;
+		}
+
+		.card-body.show {
+			display: block;
+		}
+		*/
+
+		.tab-content {
+			overflow: auto;
+		}
+
+		.container-fluid {
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+
+		.node {
+			stroke: #ffffff;
+			stroke-width: 3px;
+		}
+
+		.highlight.node {
+			stroke: rgba(0, 114, 235, 0.7)!important;
+			stroke-width: 10px;
+		}
+
+        .warning.node {
+            stroke: rgba(255, 165, 0, 0.7);
+            stroke-width: 10px;
+        }
+
+		.error.node {
+			stroke: rgba(255, 0, 0, 0.7);
+			stroke-width: 10px;
+		}
+
+		.links line {
+			stroke-linecap: round;
+			stroke: #d6d6d6;
+			stroke-opacity: 1;
+		}
+
+        .dash line {
+            stroke-dasharray: 5;
+        }
+
+		.links text {
+			text-anchor: middle;
+			fill: #555;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 8px;
+		}
+
+		.highlight line {
+			stroke: rgba(0, 114, 235, 0.7);
+		}
+
+        .warning line {
+            stroke: rgba(255, 165, 0, 0.7);
+        }
+
+		.node-labels text {
+			text-anchor: middle;
+			stroke-width: .005em;
+			fill: #555;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 12px;
+		}
+
+		.normal.arrow {
+			stroke-width: 0;
+			stroke: #d6d6d6;
+			fill: #d6d6d6;
+		}
+
+		.highlight.arrow {
+			stroke-width: 0;
+			stroke: #0072EB;
+			fill: #0072EB;
+		}
+
+		.warning.arrow {
+			stroke-width: 0;
+			stroke: orange;
+			fill: orange;
+		}
+
+		.notification.dropdown-menu {
+			/*display:inline-block;*/
+			width: fit-content;
+		}
+
+		.notification.dropdown-menu .dropdown-item {
+			word-wrap: break-word;
+			white-space: normal;
+		}
+
+	</style>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+	<script defer src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://d3js.org/d3-color.v1.min.js"></script>
+	<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<!-- https://github.com/abodelot/jquery.json-viewer -->
+	<script defer src="js/jquery.json-viewer.js"></script>
+	<script src="js/html2canvas.min.js"></script>
+	<script src="js/d3-symbol-extra.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<script defer src="js/sdg-graph.js"></script>
+	<script defer src="js/spc-graph.js"></script>
+	<script defer src="js/index.js"></script>
+</head>
+<body>
+<div id="sdg-canvas" class="canvas border">
+	<svg id = "graph">
+		<defs>
+			<marker
+					id="arrow-m"
+					class="arrow normal"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="17"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-l"
+					class="arrow normal"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="22"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-m-highlight"
+					class="arrow highlight"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="17"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-l-highlight"
+					class="arrow highlight"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="22"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-m-warning"
+					class="arrow warning"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="17"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-l-warning"
+					class="arrow warning"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="22"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+		</defs>
+	</svg>
+</div>
+
+<div id="spc-canvas" class="canvas border collapse"></div>
+<div aria-live="polite" aria-atomic="true" class="mt-3" style="z-index: 1;position: fixed; left: 50%; transform: translateX(-50%);">
+    <div id="toast-div">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="8000">
+            <div class="toast-header">
+                <strong class="mr-auto"></strong>
+                <small>just now</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+	<div class="row justify-content-between">
+		<div class="sdg-spacing col-auto align-self-start">
+			<nav class="navbar navbar-light bg-light rounded-lg border shadow-sm pt-0 pb-0">
+				<button class="navbar-toggler border-0 collapsed" id="system-options-menu-button" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" disabled>
+					<span class="fas fa-bars"></span>
+				</button>
+				<div class="dropdown navbar-brand">
+					<button class="btn dropdown-toggle" type="button" id="systemsDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Select system
+					</button>
+					<div id="systemsDropdownMenu" class="dropdown-menu" aria-labelledby="systemsDropdownMenuButton">
+					</div>
+
+					<button id="reduce_SVG" class="btn" type="button">—</button>
+					<button id="increase_SVG" class="btn" type="button">＋</button>
+					<button id="reset_SVG" class="btn" type="button">※</button>
+
+				</div>
+				<div class="collapse navbar-collapse" id="navbarNavDropdown">
+					<ul class="navbar-nav">
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="sdgGraphOptionsMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Dependency graph options
+							</a>
+							<div class="dropdown-menu" aria-labelledby="sdgGraphOptionsMenuLink">
+								<div class="dropdown-item">
+									<form>
+										<div class="custom-control custom-switch">
+											<input name="enableRestFailureAlert" type="checkbox" class="custom-control-input" id="graph-enable-collapse">
+											<label class="custom-control-label" for="graph-enable-collapse">Collapse dependency</label>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="spcGraphOptionsMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								SPC graph options
+							</a>
+							<div class="dropdown-menu" aria-labelledby="spcGraphOptionsMenuLink">
+								<form>
+									<div class="dropdown-item">
+										<div class="custom-control custom-switch">
+											<input name="enableControlChart" type="checkbox" class="custom-control-input" id="graph-show-control-chart">
+											<label class="custom-control-label" for="graph-show-control-chart">Show control chart</label>
+										</div>
+									</div>
+									<div class="dropdown-divider"></div>
+									<h6 class="dropdown-header">Types</h6>
+									<div class="dropdown-item">
+										<div class="custom-control custom-radio">
+											<input type="radio" id="spc-apps-failure-status-rate" name="controlChartType" class="custom-control-input" value="failureStatusRate" data-protocol="websocket" data-target="apps" checked>
+											<label class="custom-control-label" for="spc-apps-failure-status-rate">Failure status rate (multiple services)</label>
+										</div>
+									</div>
+
+<!--									<div class="dropdown-item">
+										<div class="custom-control custom-radio">
+											<input type="radio" id="spc-apps-average-duration" name="controlChartType" class="custom-control-input" value="thresholdAverageDuration" data-protocol="websocket" data-target="apps">
+											<label class="custom-control-label" for="spc-apps-average-duration">Average duration (multiple services)</label>
+										</div>
+									</div>-->
+									<div class="dropdown-item tip" id="spc-app-duration-dropdown-item" data-toggle="tooltip" title="To choose the service, click the service node on the dependency graph">
+										<div class="custom-control custom-radio">
+											<input type="radio" id="spc-app-duration" name="controlChartType" class="custom-control-input" value="duration" data-protocol="http" data-target="app">
+											<label class="custom-control-label" for="spc-app-duration">Duration (single service)</label>
+										</div>
+									</div>
+                                    <div class="dropdown-item tip" id="spc-app-ver-usage-dropdown-item" data-toggle="tooltip" title="To choose the service, click the service node on the dependency graph">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="spc-app-ver-usage" name="controlChartType" class="custom-control-input" value="ver-usage" data-protocol="http" data-target="app">
+                                            <label class="custom-control-label" for="spc-app-ver-usage">Version usage (single service)</label>
+                                        </div>
+                                    </div>
+								</form>
+							</div>
+						</div>
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="notificationsMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Notifications
+							</a>
+							<div class="dropdown-menu notification" aria-labelledby="notificationsMenuLink">
+								<button class="dropdown-item">
+								</button>
+							</div>
+						</div>
+						<li class="nav-item">
+							<a class="nav-link" id="download-graph" href="#" download="graph.png">Download graph</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div id="card-div" class="col-lg-4 align-self-start collapse">
+			<div id="node-card" class="card shadow-sm">
+				<div class="card-header">
+					<button type="button" class="close" aria-label="close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h5 class="card-title"></h5>
+					<ul class="nav nav-pills card-header-pills" role="tablist">
+						<li class="nav-item">
+							<a id="information-tab" class="nav-link rounded-pill collapse" href="#node-infomation" data-toggle="tab" role="tab" aria-controls="node-infomation" aria-selected="false">
+                                <i class="fas fa-info-circle"></i>
+                                Information
+                            </a>
+						</li>
+						<li class="nav-item">
+							<a id="graph-tab" class="nav-link rounded-pill collapse" href="#node-graph" data-toggle="tab" tole="tab" aria-controls="node-graph" aria-selected="false">
+                                <i class="fas fa-project-diagram"></i>
+                                Graph
+                            </a>
+						</li>
+						<li class="nav-item">
+							<a id="monitor-tab" class="nav-link rounded-pill collapse" href="#node-monitor" data-toggle="tab" tole="tab" aria-controls="node-monitor" aria-selected="false">
+                                <i class="fas fa-chart-bar"></i>
+                                Monitor
+                            </a>
+						</li>
+                        <li class="nav-item">
+                            <a id="alert-tab" class="nav-link rounded-pill collapse" href="#node-alert" data-toggle="tab" tole="tab" aria-controls="node-alert" aria-selected="false">
+                                <i class="fas fa-bell"></i>
+                                Alert
+                            </a>
+                        </li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<div id="node-infomation" class="tab-pane fade show active" role="tabpanel" aria-labelledby="information-tab">
+						<div class="card-body">
+							<h5 class="card-title">Description</h5>
+						</div>
+					</div>
+					<div id="node-graph" class="tab-pane fade" role="tabpanel" aria-labelledby="node-graph-tab">
+						<div class="card-body">
+							<h5 class="card-title">Graph options</h5>
+							<div class="list-group" id="graph-list" role="tablist">
+                                <button class="list-group-item list-group-item-action" id="graph-providers">Providers</button>
+                                <button class="list-group-item list-group-item-action" id="graph-consumers">Consumers</button>
+								<button class="list-group-item list-group-item-action" id="graph-upper-dependency-strong">Strong upper dependency chain</button>
+                                <button class="list-group-item list-group-item-action" id="graph-upper-dependency-weak">Weak upper dependency chain</button>
+								<button class="list-group-item list-group-item-action" id="graph-lower-dependency-strong">Strong lower dependency chain</button>
+								<button class="list-group-item list-group-item-action" id="graph-lower-dependency-weak">Weak lower dependency chain</button>
+							</div>
+						</div>
+					</div>
+					<div id="node-monitor" class="tab-pane fade" role="tabpanel" aria-labelledby="monitor-tab">
+						<div class="card-body">
+							<h5 class="card-title"></h5>
+							<h6 class="card-subtitle">Health</h6>
+							<pre id="health-json"></pre>
+							<h6 class="card-subtitle">Metrics (Spring Actuator)</h6>
+							<pre id="metrics-actuator-json"></pre>
+                            <h6 class="card-subtitle">Metrics (Elasticsearch)</h6>
+                            <pre id="metrics-elasticsearch-json"></pre>
+						</div>
+					</div>
+                    <div id="node-alert" class="tab-pane fade" role="tabpanel" aria-labelledby="alert-tab">
+                        <div class="card-body">
+                            <form class="needs-validation" id="node-setting-form" novalidate>
+								<h5 class="card-title">Failure alert</h5>
+                                <h6 class="card-subtitle mt-4 mb-2 text-muted">Thresholds</h6>
+                                <div class="form-group">
+                                    <label for="failure-status-rate">Failure status rate (recent 100 response)</label>
+                                    <output for="failure-status-rate" id="failure-status-rate-text">100%</output>
+                                    <input name="failureStatusRate" type="range" class="custom-range" id="failure-status-rate" value="100">
+                                    <label for="failure-error-count">Error count (recent one hour)</label>
+                                    <input name="failureErrorCount" type="number" class="form-control" id="failure-error-count" placeholder="Maximum number of error logs per hours" min="0">
+                                </div>
+                                <h6 class="card-subtitle mt-4 mb-2 text-muted">Switches</h6>
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input name="enableRestFailureAlert" type="checkbox" class="custom-control-input" id="enable-rest-failure-alert">
+                                        <label class="custom-control-label" for="enable-rest-failure-alert">Enable failure alert by using data from Spring Actuator</label>
+                                    </div>
+                                    <div class="custom-control custom-switch">
+                                        <input name="enableLogFailureAlert" type="checkbox" class="custom-control-input" id="enable-log-failure-alert">
+                                        <label class="custom-control-label" for="enable-log-failure-alert">Enable failure alert by using data from Elasticsearch</label>
+                                    </div>
+                                </div>
+
+                                <h5 class="card-title">Duration alert</h5>
+                                <h6 class="card-subtitle mt-4 mb-2 text-muted">Thresholds</h6>
+                                <div class="form-group">
+                                    <label for="threshold-spc-high-duration-rate">SPC high duration rate (recent 100 response)</label>
+                                    <output for="threshold-spc-high-duration-rate" id="threshold-spc-high-duration-rate-text">100%</output>
+                                    <input name="thresholdSPCHighDurationRate" type="range" class="custom-range" id="threshold-spc-high-duration-rate" value="100">
+                                </div>
+                                <h6 class="card-subtitle mt-4 mb-2 text-muted">Switches</h6>
+                                <div class="form-group">
+									<div class="custom-control custom-switch">
+										<input name="enableSPCHighDurationRateAlert" type="checkbox" class="custom-control-input" id="enable-spc-high-duration-rate-alert">
+										<label class="custom-control-label" for="enable-spc-high-duration-rate-alert">Enable SPC high duration rate alert by using data from Elasticsearch</label>
+									</div>
+                                </div>
+
+								<h5 class="card-title">Average duration alert</h5>
+								<h6 class="card-subtitle mt-4 mb-2 text-muted">Thresholds</h6>
+								<div class="form-group">
+									<label for="threshold-average-duration">Average duration (recent 100 response)</label>
+									<input name="thresholdAverageDuration" type="number" class="form-control" id="threshold-average-duration" placeholder="Maximum average duration of responses" min="0">
+								</div>
+								<h6 class="card-subtitle mt-4 mb-2 text-muted">Switches</h6>
+								<div class="form-group">
+									<div class="custom-control custom-switch">
+										<input name="enableRestAverageDurationAlert" type="checkbox" class="custom-control-input" id="enable-rest-average-duration-alert">
+										<label class="custom-control-label" for="enable-rest-average-duration-alert">Enable average duration alert by using data from Spring Actuator</label>
+									</div>
+									<div class="custom-control custom-switch">
+										<input name="enableLogAverageDurationAlert" type="checkbox" class="custom-control-input" id="enable-log-average-duration-alert">
+										<label class="custom-control-label" for="enable-log-average-duration-alert">Enable average duration alert by using data from Elasticsearch</label>
+									</div>
+								</div>
+
+								<h5 class="card-title">Strong dependency alert</h5>
+								<h6 class="card-subtitle mt-4 mb-2 text-muted">Thresholds</h6>
+								<div class="form-group">
+									<label for="strong-upper-dependency-count">Strong upper dependency count</label>
+									<input name="strongUpperDependencyCount" type="number" class="form-control" id="strong-upper-dependency-count" placeholder="Maximum number of strong upper dependency services" min="0">
+								</div>
+                                <div class="form-group">
+                                    <label for="strong-lower-dependency-count">Strong lower dependency count</label>
+                                    <input name="strongLowerDependencyCount" type="number" class="form-control" id="strong-lower-dependency-count" placeholder="Maximum number of strong lower dependency services" min="0">
+                                </div>
+                                <h6 class="card-subtitle mt-4 mb-2 text-muted">Switches</h6>
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input name="enableStrongDependencyAlert" type="checkbox" class="custom-control-input" id="enable-strong-dependency-alert">
+                                        <label class="custom-control-label" for="enable-strong-dependency-alert">Enable strong dependency alert</label>
+                                    </div>
+                                </div>
+                                <h5 class="card-title">Weak dependency alert</h5>
+                                <h6 class="card-subtitle mt-4 mb-2 text-muted">Thresholds</h6>
+                                <div class="form-group">
+                                    <label for="weak-upper-dependency-count">Weak upper dependency count</label>
+                                    <input name="weakUpperDependencyCount" type="number" class="form-control" id="weak-upper-dependency-count" placeholder="Maximum number of weak upper dependency services" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="weak-lower-dependency-count">Weak lower dependency count</label>
+                                    <input name="weakLowerDependencyCount" type="number" class="form-control" id="weak-lower-dependency-count" placeholder="Maximum number of weak lower dependency services" min="0">
+                                </div>
+                                <h6 class="card-subtitle mt-4 mb-2 text-muted">Switches</h6>
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input name="enableWeakDependencyAlert" type="checkbox" class="custom-control-input" id="enable-weak-dependency-alert">
+                                        <label class="custom-control-label" for="enable-weak-dependency-alert">Enable weak dependency alert</label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit" id="node-setting-submit">Save</button>
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+
