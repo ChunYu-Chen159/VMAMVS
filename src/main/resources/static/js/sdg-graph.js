@@ -525,8 +525,8 @@ function SDGGraph(data) {
                                 marker_path.setAttribute('d','M2,2 L10,6 L2,10 L6,6 L2,2');
                                 marker.appendChild(marker_path);
 
-                                var defs = document.getElementById("defs");
-                                defs.appendChild(marker);
+                                var graph_defs = document.getElementById("graph_defs");
+                                graph_defs.appendChild(marker);
 
                                 return "arrow-request-" + sleuthData[i].path.substring(1);
 
