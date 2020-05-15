@@ -1239,6 +1239,9 @@ function SDGGraph(data) {
 
         // Card header
         if (d.labels.includes(LABEL_ENDPOINT)) {
+/************************************************************************/
+            cardHeaderTitle.before("<span class=\"badge badge-pill badge-success\">" + "PASS" + "</span>");
+
             cardHeaderTitle.append("<span class=\"badge badge-pill\">" + d.method.toUpperCase() + "</span>");
             if (d.method === "get") {
                 cardHeaderTitle.find(".badge").addClass("badge-primary");
