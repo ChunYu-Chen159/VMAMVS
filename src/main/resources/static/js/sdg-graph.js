@@ -1437,9 +1437,6 @@ function SDGGraph(data) {
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
 
-                                console.log(contractContent[0]["testResult"]["status"]);
-                                console.log(contractContent[1]["testResult"]["status"]);
-
                                 let size = 0;
                                 for( let api in contractContent){
                                     if(contractContent.hasOwnProperty(api))
