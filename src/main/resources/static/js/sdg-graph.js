@@ -1428,7 +1428,7 @@ function SDGGraph(data) {
                         else
                             parentNode = parentNodeTemp;
 
-                        contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
+                        //contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
 
                         fetch("/web-page/app/swagger/" + parentNode.appId)
                             .then(response => response.json())
@@ -1438,7 +1438,7 @@ function SDGGraph(data) {
                                 console.log(contractContent);
 
                                 for(let api in contractContent) {
-                                    contractGroup.append("<button class=\"list-group-item list-group-item-action\" id=\"contract-" + api + "\">" + api + "</button>");
+                                    contractGroup.append("<button class=\"list-group-item list-group-item-action\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                 }
                             });
 
