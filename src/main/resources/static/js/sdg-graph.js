@@ -1437,17 +1437,12 @@ function SDGGraph(data) {
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
 
-                                for(let api in contractContent) {
-                                    // list-group-item-danger, list-group-item-success
-                                    console.log(api);
-                                    console.log(api["testResult"]);
-                                    console.log(api["testResult"]["status"]);
-                                    if (api["testResult"]["status"] === "PASS"){
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
-                                    }else {
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                for ( let i = 0; i < contractContent.length; i++) {
+                                    if (contractContent[i]["testResult"]["status"] === "PASS") {
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
+                                    } else {
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
                                     }
-
                                 }
                             });
 
