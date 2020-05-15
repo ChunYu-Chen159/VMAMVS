@@ -1239,8 +1239,6 @@ function SDGGraph(data) {
 
         // Card header
         if (d.labels.includes(LABEL_ENDPOINT)) {
-/************************************************************************/
-            cardHeaderTitle.before("<span class=\"badge badge-pill badge-success\">" + "PASS" + "</span>");
 
             cardHeaderTitle.append("<span class=\"badge badge-pill\">" + d.method.toUpperCase() + "</span>");
             if (d.method === "get") {
@@ -1254,7 +1252,9 @@ function SDGGraph(data) {
             }
             cardHeaderTitle.append(" " + d.path);
         } else if (d.labels.includes(LABEL_SERVICE)) {
-            cardHeaderTitle.append(d.appName)
+            /************************************************************************/
+            cardHeaderTitle.append("<span class=\"badge badge-pill badge-success\">" + "PASS" + "</span>")
+                .append(d.appName)
                 .append(" <span class=\"badge badge-pill badge-secondary\">" + d.version + "</span>");
         } else if (d.labels.includes(LABEL_QUEUE)) {
             cardHeaderTitle.append("<span class=\"badge badge-pill badge-info\">MESSAGE QUEUE</span>")
