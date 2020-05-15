@@ -1116,6 +1116,7 @@ function SDGGraph(data) {
     let cardInfoTab = $("#information-tab");
     let cardGraphTab = $("#graph-tab");
     let cardMonitorTab = $("#monitor-tab");
+    let cardContractTab = $("#contract-tab");
     let cardAlertTab = $("#alert-tab");
 
     let nodeInfoBody = $("#node-infomation .card-body").first();
@@ -1172,6 +1173,7 @@ function SDGGraph(data) {
         cardInfoTab.removeClass("show");
         cardGraphTab.removeClass("show");
         cardMonitorTab.removeClass("show");
+        cardContractTab.removeClass("show");
         cardAlertTab.removeClass("show");
 
 
@@ -1179,10 +1181,12 @@ function SDGGraph(data) {
             cardInfoTab.addClass("show");
             cardGraphTab.addClass("show");
             cardMonitorTab.addClass("show");
+            cardContractTab.addClass("show");
             cardAlertTab.addClass("show");
             if (!(cardGraphTab.hasClass("active") ||
                 cardMonitorTab.hasClass("active") ||
-                cardAlertTab.hasClass("active"))) {
+                cardAlertTab.hasClass("active")   ||
+                cardContractTab.hasClass("active"))) {
                 cardInfoTab.tab('show');
             }
         } else {
