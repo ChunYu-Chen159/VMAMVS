@@ -1431,21 +1431,26 @@ function SDGGraph(data) {
                         //contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
 
                         fetch("/web-page/app/swagger/" + parentNode.appId)
-                            .then(response2 => response2.json())
+                            .then(response => response.json())
                             .then(json2 => {
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
 
+                                console.log(contractContent[0]["testResult"]["status"]);
+                                console.log(contractContent[1]["testResult"]["status"]);
 
-
-                                for ( let i = 0; i < contractContent.length; i++) {
-                                    console.log(contractContent[i]);
-                                    if (contractContent[i]["testResult"]["status"] === "PASS") {
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
-                                    } else {
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
+                                for(let api in contractContent) {
+                                    // list-group-item-danger, list-group-item-success
+                                    console.log(api);
+                                    console.log(api["testResult"]);
+                                    console.log(api["testResult"]["status"]);
+                                    if (api["testResult"]["status"] === "PASS"){
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                    }else {
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }
+
                                 }
                             });
 
