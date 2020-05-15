@@ -1437,21 +1437,22 @@ function SDGGraph(data) {
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
 
-                                let size = 0;
                                 for( let api in contractContent){
-                                    if(contractContent.hasOwnProperty(api))
-                                        size++;
+                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + contractContent[api].substring(1) + "\">" + contractContent[api] + "</button>");
+                                    }else {
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + contractContent[api].substring(1) + "\">" + contractContent[api] + "</button>");
+                                    }
                                 }
-                                console.log(size);
 
-                                for( let i = 0; i < size; i++){
+/*                                for( let i = 0; i < size; i++){
                                     console.log(contractContent[i]);
                                     if (contractContent.keys(i)["testResult"]["status"] === "PASS"){
                                         contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
                                     }else {
                                         contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
                                     }
-                                }
+                                }*/
 
                                 /*for(let api in contractContent) {
                                     // list-group-item-danger, list-group-item-success
