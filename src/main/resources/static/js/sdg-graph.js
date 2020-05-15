@@ -376,6 +376,7 @@ function SDGGraph(data) {
 
     function findNodeById_returnResult(id) {
         let result;
+        console.log(data.nodes);
         data.nodes.some(node => {
             if (node.id === id) {
                 result = node;
