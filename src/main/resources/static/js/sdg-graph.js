@@ -1214,6 +1214,8 @@ function SDGGraph(data) {
 
         nodeInfoBody.empty();
 
+        contractGroup.empty();
+
         graphList.find(".active").removeClass("active");
         graphProvider.unbind();
         graphConsumers.unbind();
@@ -1431,18 +1433,6 @@ function SDGGraph(data) {
                                 for(let api in contractContent) {
                                     contractGroup.append("<button class=\"list-group-item list-group-item-action\" id=\"contract-" + api + "\">" + api + "</button>");
                                 }
-
-/*
-
-                                nodeInfoBody.append("<a class='card-subtitle' href='http://" + json.host + "/swagger-ui.html' target='_blank'>Swagger UI</a>");
-                                for (let key in json.info) {
-                                    if (key !== "version" && key !== "title") {
-                                        nodeInfoBody.append("<h5 class=\"card-title\">" + key.charAt(0).toUpperCase() + key.slice(1) + "</h5>");
-                                        nodeInfoBody.append(json.info[key]);
-                                    }
-                                }
-                                startMonitor(json.host);
-                                catchContractTestResult(json);*/
                             });
 
                     });
