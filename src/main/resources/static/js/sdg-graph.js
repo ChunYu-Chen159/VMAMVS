@@ -385,7 +385,6 @@ function SDGGraph(data) {
                 return result;
             }
         });
-        return null;
     }
 
     function findLinkById(id) {
