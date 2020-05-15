@@ -1150,6 +1150,7 @@ function SDGGraph(data) {
     let metricsElasticsearchJson = $("#metrics-elasticsearch-json");
 
     let contractGroup = $('#graph-contractList');
+    let serviceCondition = $('#serviceCondition');
 
 
     let nodeSettingforms = $("#node-setting-form");
@@ -1276,7 +1277,7 @@ function SDGGraph(data) {
             /************************************************************************/
             // <a href="#" class="badge badge-success">Success</a>
             //<span class="badge badge-pill badge-success">Success</span>
-            cardHeaderTitle.append("<a href=\"#\" onclick=\"document.getElementById('contract-tab').click()\" class=\"badge badge-pill badge-success\">" + "PASS" + "</a> ")
+            cardHeaderTitle.append("<a id=\"serviceCondition\" href=\"#\" onclick=\"document.getElementById('contract-tab').click()\" class=\"badge badge-pill badge-success\">" + "PASS" + "</a> ")
                 .append(d.appName)
                 .append(" <span class=\"badge badge-pill badge-secondary\">" + d.version + "</span>");
         } else if (d.labels.includes(LABEL_QUEUE)) {
@@ -1298,7 +1299,6 @@ function SDGGraph(data) {
                         }
                     }
                     startMonitor(json.host);
-                    catchContractTestResult(json);
                 });
         }
 
@@ -1439,59 +1439,19 @@ function SDGGraph(data) {
 
                                 for( let api in contractContent){
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                        serviceCondition.setAttribute("class","badge badge-pill badge-success");
+                                        serviceCondition.innerText = "PASS";
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }else {
+                                        serviceCondition.setAttribute("class","badge badge-pill badge-warning");
+                                        serviceCondition.innerText = "WARNING";
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }
                                 }
-
-/*                                for( let i = 0; i < size; i++){
-                                    console.log(contractContent[i]);
-                                    if (contractContent.keys(i)["testResult"]["status"] === "PASS"){
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
-                                    }else {
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
-                                    }
-                                }*/
-
-                                /*for(let api in contractContent) {
-                                    // list-group-item-danger, list-group-item-success
-                                    console.log(api);
-                                    console.log(api["testResult"]);
-                                    console.log(api["testResult"]["status"]);
-                                    if (api["testResult"]["status"] === "PASS"){
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
-                                    }else {
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
-                                    }
-
-                                }*/
                             });
 
                     });
                 });
-
-            //------------
-/*            fetch("/web-page/app/swagger/" + d.appId)
-                .then(response => response.json())
-                .then(json => {
-                    nodeInfoBody.append("<a class='card-subtitle' href='http://" + json.host + "/swagger-ui.html' target='_blank'>Swagger UI</a>");
-                    for (let key in json.info) {
-                        if (key !== "version" && key !== "title") {
-                            nodeInfoBody.append("<h5 class=\"card-title\">" + key.charAt(0).toUpperCase() + key.slice(1) + "</h5>");
-                            nodeInfoBody.append(json.info[key]);
-                        }
-                    }
-                    startMonitor(json.host);
-                    catchContractTestResult(json);
-                });*/
-        }
-
-
-        function catchContractTestResult(json) {
-            console.log(json.host);
-            console.log(json["host"]);
-            console.log(json["x-contract"]);
         }
 
         // Alert
