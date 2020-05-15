@@ -415,6 +415,12 @@
                                 Monitor
                             </a>
 						</li>
+						<li class="nav-item">
+							<a id="contract-tab" class="nav-link rounded-pill collapse" href="#node-contract" data-toggle="tab" tole="tab" aria-controls="node-contract" aria-selected="false">
+								<i class="fas fa-file-contract"></i>
+								Contract
+							</a>
+						</li>
                         <li class="nav-item">
                             <a id="alert-tab" class="nav-link rounded-pill collapse" href="#node-alert" data-toggle="tab" tole="tab" aria-controls="node-alert" aria-selected="false">
                                 <i class="fas fa-bell"></i>
@@ -451,6 +457,14 @@
 							<pre id="metrics-actuator-json"></pre>
                             <h6 class="card-subtitle">Metrics (Elasticsearch)</h6>
                             <pre id="metrics-elasticsearch-json"></pre>
+						</div>
+					</div>
+					<div id="node-contract" class="tab-pane fade" role="tabpanel" aria-labelledby="contract-tab">
+						<div class="card-body">
+							<h5 class="card-title">Contract Test Result</h5>
+							<div class="list-group" id="graph-contractList" role="tablist">
+								<!--????????-->
+							</div>
 						</div>
 					</div>
                     <div id="node-alert" class="tab-pane fade" role="tabpanel" aria-labelledby="alert-tab">

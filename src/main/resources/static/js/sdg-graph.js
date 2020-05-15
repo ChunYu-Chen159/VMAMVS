@@ -1253,7 +1253,9 @@ function SDGGraph(data) {
             cardHeaderTitle.append(" " + d.path);
         } else if (d.labels.includes(LABEL_SERVICE)) {
             /************************************************************************/
-            cardHeaderTitle.append("<a href=\"#\" class=\"badge badge-success\">" + "PASS" + "</a> ")
+            // <a href="#" class="badge badge-success">Success</a>
+            //<span class="badge badge-pill badge-success">Success</span>
+            cardHeaderTitle.append("<a href=\"#\" class=\"badge badge-pill badge-success\">" + "PASS" + "</a> ")
                 .append(d.appName)
                 .append(" <span class=\"badge badge-pill badge-secondary\">" + d.version + "</span>");
         } else if (d.labels.includes(LABEL_QUEUE)) {
