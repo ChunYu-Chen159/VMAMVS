@@ -1439,12 +1439,12 @@ function SDGGraph(data) {
 
                                 for( let api in contractContent){
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                        serviceCondition.setAttribute("class","badge badge-pill badge-success");
-                                        serviceCondition.innerText = "PASS";
+                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-success");
+                                        document.getElementById('serviceCondition').innerText = "PASS";
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }else {
-                                        serviceCondition.setAttribute("class","badge badge-pill badge-warning");
-                                        serviceCondition.innerText = "WARNING";
+                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
+                                        document.getElementById('serviceCondition').innerText = "WARNING";
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }
                                 }
