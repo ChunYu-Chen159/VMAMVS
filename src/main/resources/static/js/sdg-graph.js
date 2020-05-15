@@ -1439,7 +1439,7 @@ function SDGGraph(data) {
 
                                 for(let api in contractContent) {
                                     // list-group-item-danger, list-group-item-success
-                                    if (api.testResult.status === "PASS"){
+                                    if (api["testResult"]["status"] === "PASS"){
                                         contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }else {
                                         contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
