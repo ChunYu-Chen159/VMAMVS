@@ -64,6 +64,9 @@ function SDGGraph(data) {
     let graphWidth = +svg.attr("width");
     let graphHeight = +svg.attr("height");
 
+
+    getSleuthData();
+
     function resize() {
         graph.setAttribute("width", canvas.clientWidth);
         graph.setAttribute("height", canvas.clientHeight);
@@ -464,8 +467,6 @@ function SDGGraph(data) {
 
         // ENTER new links
         let linkEnter = link.enter().append("g");
-
-        // await getSleuthData();
 
         linkEnter.append("line")
             .attr("stroke-width", d => {
@@ -1281,6 +1282,7 @@ function SDGGraph(data) {
                         }
                     }
                     startMonitor(json.host);
+                    catchContractTestResult(json);
                 });
         }
 
@@ -1394,6 +1396,11 @@ function SDGGraph(data) {
                 .then(json => {
                     metricsElasticsearchJson.jsonViewer(json, {collapsed: true, withQuotes: false});
                 });
+        }
+
+        // Contract Tab
+        function catchContractTestResult(json) {
+            console.log(json.host);
         }
 
         // Alert
