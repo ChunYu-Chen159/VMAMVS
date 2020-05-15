@@ -1431,11 +1431,13 @@ function SDGGraph(data) {
                         //contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
 
                         fetch("/web-page/app/swagger/" + parentNode.appId)
-                            .then(response => response.json())
+                            .then(response2 => response2.json())
                             .then(json2 => {
 
-                                let contractContent = JSON.stringify(json2["x-contract"][d.appName.toLowerCase() + ".groovy"]);
+                                let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
+
+
 
                                 for ( let i = 0; i < contractContent.length; i++) {
                                     console.log(contractContent[i]);
