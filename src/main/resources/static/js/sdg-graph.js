@@ -378,9 +378,9 @@ function SDGGraph(data) {
         let result;
         let link2;
 
-        link2 = data.links.find(link => (link.target === id) && (link.type === REL_OWN));
+        link2 = data.links.find(link => (link.target.id === id) && (link.type === REL_OWN));
         console.log(link2);
-        result = data.nodes.find(node => node.id === link.source);
+        result = data.nodes.find(node => node.id === link.source.id);
         console.log(result);
         return result;
     }
