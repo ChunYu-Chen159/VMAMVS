@@ -1422,6 +1422,7 @@ function SDGGraph(data) {
                 .then(json => {
                     json.nodes.forEach(node => {
                         var parentNode = findParentById(node.id);
+                        contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
 
                         fetch("/web-page/app/swagger/" + parentNode.appId)
                             .then(response => response.json())
