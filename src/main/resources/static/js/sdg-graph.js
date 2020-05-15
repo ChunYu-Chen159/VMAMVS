@@ -1401,6 +1401,7 @@ function SDGGraph(data) {
         // Contract Tab
         function catchContractTestResult(json) {
             console.log(json.host);
+            console.log(json.x-contract);
         }
 
         // Alert
