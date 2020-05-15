@@ -376,14 +376,11 @@ function SDGGraph(data) {
 
     function findNodeById_returnResult(id) {
         let result;
-        id.nodes.forEach(HNode => {
-            data.nodes.some(node => {
-                if (node.id === HNode.id) {
-                    result = node;
-                    return result;
-                }
-            });
-
+        data.nodes.some(node => {
+            if (node.id === id) {
+                result = node;
+                return result;
+            }
         });
         return null;
     }
@@ -1421,7 +1418,7 @@ function SDGGraph(data) {
                     json.nodes.forEach(node => {
                         console.log(node);
                         console.log(node.id);
-                        console.log(findNodeById_returnResult(node));
+                        console.log(findNodeById_returnResult(node.id));
                     });
                 });
 
