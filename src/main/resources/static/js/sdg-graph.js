@@ -381,7 +381,7 @@ function SDGGraph(data) {
         data.nodes.find(node => {
             console.log(node.id);
             if (node.id === id) {
-                return node.json();
+                return node;
             }
         });
     }
@@ -1419,7 +1419,10 @@ function SDGGraph(data) {
                     json.nodes.forEach(node => {
                         console.log(node);
                         console.log(node.id);
-                        console.log(findNodeById_returnResult(node.id));
+                        findNodeById_returnResult(node.id)
+                            .then(response => {
+                               console.log(response.id);
+                            });
                     });
                 });
 
