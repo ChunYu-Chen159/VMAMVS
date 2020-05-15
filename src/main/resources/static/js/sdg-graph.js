@@ -1259,7 +1259,7 @@ function SDGGraph(data) {
             /************************************************************************/
             // <a href="#" class="badge badge-success">Success</a>
             //<span class="badge badge-pill badge-success">Success</span>
-            cardHeaderTitle.append("<a href=\"#\" class=\"badge badge-pill badge-success\">" + "PASS" + "</a> ")
+            cardHeaderTitle.append("<a href=\"#\" onclick=\"document.getElementById('contract-tab').click()\" class=\"badge badge-pill badge-success\">" + "PASS" + "</a> ")
                 .append(d.appName)
                 .append(" <span class=\"badge badge-pill badge-secondary\">" + d.version + "</span>");
         } else if (d.labels.includes(LABEL_QUEUE)) {
