@@ -374,6 +374,17 @@ function SDGGraph(data) {
         return result;
     }
 
+    function findNodeById_returnResult(id) {
+        let result;
+        data.nodes.some(node => {
+            if (node.id === id) {
+                result = node;
+                return result;
+            }
+        });
+        return null;
+    }
+
     function findLinkById(id) {
         let result;
         data.links.some(link => {
@@ -1399,6 +1410,31 @@ function SDGGraph(data) {
         }
 
         // Contract Tab
+        if (d.labels.includes(LABEL_ENDPOINT)) {
+        } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
+            fetch("/web-page/graph/providers/" + d.id)
+                .then(response => response.json())
+                .then(json => {
+                    console.log(findNodeById_returnResult(json));
+                });
+
+            //------------
+/*            fetch("/web-page/app/swagger/" + d.appId)
+                .then(response => response.json())
+                .then(json => {
+                    nodeInfoBody.append("<a class='card-subtitle' href='http://" + json.host + "/swagger-ui.html' target='_blank'>Swagger UI</a>");
+                    for (let key in json.info) {
+                        if (key !== "version" && key !== "title") {
+                            nodeInfoBody.append("<h5 class=\"card-title\">" + key.charAt(0).toUpperCase() + key.slice(1) + "</h5>");
+                            nodeInfoBody.append(json.info[key]);
+                        }
+                    }
+                    startMonitor(json.host);
+                    catchContractTestResult(json);
+                });*/
+        }
+
+
         function catchContractTestResult(json) {
             console.log(json.host);
             console.log(json["host"]);
