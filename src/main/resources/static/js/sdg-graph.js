@@ -1434,7 +1434,7 @@ function SDGGraph(data) {
                             .then(response => response.json())
                             .then(json2 => {
 
-                                let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
+                                let contractContent = JSON.stringify(json2["x-contract"][d.appName.toLowerCase() + ".groovy"]);
                                 console.log(contractContent);
 
                                 for ( let i = 0; i < contractContent.length; i++) {
