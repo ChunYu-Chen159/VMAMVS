@@ -374,7 +374,7 @@ function SDGGraph(data) {
         return result;
     }
 
-    function findNodeById_returnParent(id) {
+    function findParentById(id) {
         let result;
         let link2;
 
@@ -1149,6 +1149,9 @@ function SDGGraph(data) {
     let metricsActuratorJson = $("#metrics-actuator-json");
     let metricsElasticsearchJson = $("#metrics-elasticsearch-json");
 
+    let contractGroup = $('#graph-contractList');
+
+
     let nodeSettingforms = $("#node-setting-form");
 
     let failureStatusRateInput = nodeSettingforms.find("#failure-status-rate");
@@ -1416,10 +1419,32 @@ function SDGGraph(data) {
                 .then(response => response.json())
                 .then(json => {
                     json.nodes.forEach(node => {
-                        console.log(node);
-                        console.log(node.id);
-                        var nnn = findNodeById_returnParent(node.id);
-                        console.log(nnn);
+                        var parentNode = findParentById(node.id);
+
+                        fetch("/web-page/app/swagger/" + parentNode.appId)
+                            .then(response => response.json())
+                            .then(json2 => {
+
+                                let contractContent = json2.get("x-contract").get(d.appName.toLowerCase() + ".groovy");
+                                console.log(contractContent);
+
+                                for(let api in contractContent) {
+                                    contractGroup.append("<button class=\"list-group-item list-group-item-action\" id=\"contract-" + api + "\">" + api + "</button>");
+                                }
+
+
+
+                                nodeInfoBody.append("<a class='card-subtitle' href='http://" + json.host + "/swagger-ui.html' target='_blank'>Swagger UI</a>");
+                                for (let key in json.info) {
+                                    if (key !== "version" && key !== "title") {
+                                        nodeInfoBody.append("<h5 class=\"card-title\">" + key.charAt(0).toUpperCase() + key.slice(1) + "</h5>");
+                                        nodeInfoBody.append(json.info[key]);
+                                    }
+                                }
+                                startMonitor(json.host);
+                                catchContractTestResult(json);
+                            });
+
                     });
                 });
 
