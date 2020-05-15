@@ -94,6 +94,14 @@
 			stroke-opacity: 1;
 		}
 
+		.highlight line {
+			stroke: rgba(0, 114, 235, 0.7);
+		}
+
+		.warning line {
+			stroke: rgba(255, 165, 0, 0.7);
+		}
+
 		.links line.request {
 			stroke-linecap: round;
 			stroke: #b1a2a2;
@@ -111,13 +119,6 @@
 			font-size: 8px;
 		}
 
-		.highlight line {
-			stroke: rgba(0, 114, 235, 0.7);
-		}
-
-        .warning line {
-            stroke: rgba(255, 165, 0, 0.7);
-        }
 
 		.node-labels text {
 			text-anchor: middle;
@@ -132,11 +133,6 @@
 			stroke: #d6d6d6;
 			fill: #d6d6d6;
 		}
-		.request.arrow {
-			stroke-width: 0;
-			stroke: #b1a2a2;
-			fill: #b1a2a2;
-		}
 
 		.highlight.arrow {
 			stroke-width: 0;
@@ -148,6 +144,12 @@
 			stroke-width: 0;
 			stroke: orange;
 			fill: orange;
+		}
+
+		.request.arrow {
+			stroke-width: 0;
+			stroke: #b1a2a2;
+			fill: #b1a2a2;
 		}
 
 		.notification.dropdown-menu {
