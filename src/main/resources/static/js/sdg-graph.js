@@ -381,7 +381,7 @@ function SDGGraph(data) {
         data.nodes.find(node => {
             console.log(node.id);
             if (node.id === id) {
-                return node;
+                return node.json();
             }
         });
     }
