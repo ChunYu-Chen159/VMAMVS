@@ -1421,6 +1421,7 @@ function SDGGraph(data) {
                 .then(response => response.json())
                 .then(json => {
                     let parentNode;
+                    let condition = true;
                     json.nodes.forEach(node => {
                         let parentNodeTemp = findParentById(node.id);
                         if (parentNode === parentNodeTemp)
@@ -1436,21 +1437,26 @@ function SDGGraph(data) {
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
-
                                 for( let api in contractContent){
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-success");
-                                        document.getElementById('serviceCondition').innerText = "PASS";
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }else {
-                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
-                                        document.getElementById('serviceCondition').innerText = "WARNING";
+                                        condition = false;
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }
                                 }
                             });
 
                     });
+
+                    if( condition === true) {
+                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-success");
+                        document.getElementById('serviceCondition').innerText = "PASS";
+                    }else {
+                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
+                        document.getElementById('serviceCondition').innerText = "WARNING";
+                    }
+
                 });
         }
 
