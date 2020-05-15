@@ -1420,8 +1420,14 @@ function SDGGraph(data) {
             fetch("/web-page/graph/providers/" + d.id)
                 .then(response => response.json())
                 .then(json => {
+                    let parentNode;
                     json.nodes.forEach(node => {
-                        var parentNode = findParentById(node.id);
+                        let parentNodeTemp = findParentById(node.id);
+                        if (parentNode === parentNodeTemp)
+                            return;
+                        else
+                            parentNode = parentNodeTemp;
+
                         contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
 
                         fetch("/web-page/app/swagger/" + parentNode.appId)
