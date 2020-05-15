@@ -374,11 +374,17 @@ function SDGGraph(data) {
         return result;
     }
 
-    function findNodeById_returnResult(id) {
+    function findNodeById_returnParent(id) {
         let result;
+        let link;
         console.log(data.nodes);
         console.log(id);
-        result = data.nodes.find(node => node.id === id);
+        data.nodes.find(node => {
+
+        });
+
+        link = data.links.find(link => link.target === id && link.type === "OWN");
+        result = data.nodes.find(node => node.id === link.source);
         console.log(result);
         return result;
     }
@@ -1416,7 +1422,7 @@ function SDGGraph(data) {
                     json.nodes.forEach(node => {
                         console.log(node);
                         console.log(node.id);
-                        var nnn = findNodeById_returnResult(node.id);
+                        var nnn = findNodeById_returnParent(node.id);
                         console.log(nnn);
                     });
                 });
