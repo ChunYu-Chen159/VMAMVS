@@ -1432,7 +1432,7 @@ function SDGGraph(data) {
                                     contractGroup.append("<button class=\"list-group-item list-group-item-action\" id=\"contract-" + api + "\">" + api + "</button>");
                                 }
 
-
+/*
 
                                 nodeInfoBody.append("<a class='card-subtitle' href='http://" + json.host + "/swagger-ui.html' target='_blank'>Swagger UI</a>");
                                 for (let key in json.info) {
@@ -1442,7 +1442,7 @@ function SDGGraph(data) {
                                     }
                                 }
                                 startMonitor(json.host);
-                                catchContractTestResult(json);
+                                catchContractTestResult(json);*/
                             });
 
                     });
