@@ -1438,7 +1438,13 @@ function SDGGraph(data) {
                                 console.log(contractContent);
 
                                 for(let api in contractContent) {
-                                    contractGroup.append("<button class=\"list-group-item list-group-item-action\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                    // list-group-item-danger, list-group-item-success
+                                    if (api.testResult.status === "PASS"){
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                    }else {
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                    }
+
                                 }
                             });
 
