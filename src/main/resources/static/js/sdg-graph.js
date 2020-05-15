@@ -1446,7 +1446,7 @@ function SDGGraph(data) {
 
                                 for( let i = 0; i < size; i++){
                                     console.log(contractContent[i]);
-                                    if (contractContent[i]["testResult"]["status"] === "PASS"){
+                                    if (contractContent.keys(i)["testResult"]["status"] === "PASS"){
                                         contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
                                     }else {
                                         contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
