@@ -378,12 +378,9 @@ function SDGGraph(data) {
         let result;
         console.log(data.nodes);
         console.log(id);
-        data.nodes.find(node => {
-            console.log(node.id);
-            if (node.id === id) {
-                return node;
-            }
-        });
+        result = data.nodes.find(node => node.id === id);
+
+        return result;
     }
 
     function findLinkById(id) {
