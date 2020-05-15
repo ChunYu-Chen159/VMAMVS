@@ -1440,7 +1440,21 @@ function SDGGraph(data) {
                                 console.log(contractContent[0]["testResult"]["status"]);
                                 console.log(contractContent[1]["testResult"]["status"]);
 
-                                for(let api in contractContent) {
+                                let size = 0;
+                                for( let api in contractContent){
+                                    if(contractContent.hasOwnProperty(api))
+                                        size++;
+                                }
+
+                                for( let i = 0; i < size; i++){
+                                    if (contractContent[i]["testResult"]["status"] === "PASS"){
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-success\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
+                                    }else {
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + contractContent[i].substring(1) + "\">" + contractContent[i] + "</button>");
+                                    }
+                                }
+
+                                /*for(let api in contractContent) {
                                     // list-group-item-danger, list-group-item-success
                                     console.log(api);
                                     console.log(api["testResult"]);
@@ -1451,7 +1465,7 @@ function SDGGraph(data) {
                                         contractGroup.append("<button class=\"list-group-item list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }
 
-                                }
+                                }*/
                             });
 
                     });
