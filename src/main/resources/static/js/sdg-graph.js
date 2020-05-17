@@ -1476,7 +1476,8 @@ function SDGGraph(data) {
                                     highlightJson.concat("{\"id\":" + d.id + "}");
                                     highlightJson.concat(",");
                                     // consumer endpoint
-                                    let link_consumer_endpoint = data.links.find(lce => (lce.type === REL_OWN) && (lce.source === d.id));
+                                    let link_consumer_endpoint = data.links.find(lce => (lce.type === REL_OWN) && (lce.source.id === d.id));
+                                    console.log(link_consumer_endpoint);
                                     let node_consumer_endpoint = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === link_consumer_endpoint.id) &&(nce.target.id === node_provider_endpoint.id));
                                     console.log(node_consumer_endpoint);
                                     highlightJson.concat("{\"id\":" + node_consumer_endpoint.id + "}");
