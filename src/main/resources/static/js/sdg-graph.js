@@ -1417,7 +1417,6 @@ function SDGGraph(data) {
         // Contract Tab
         if (d.labels.includes(LABEL_ENDPOINT)) {
         } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
-            let condition = "PASS";
             fetch("/web-page/graph/providers/" + d.id)
                 .then(response => response.json())
                 .then(json => {
@@ -1441,7 +1440,8 @@ function SDGGraph(data) {
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }else {
-                                        condition = "WARNING";
+                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
+                                        document.getElementById('serviceCondition').innerText = "WARNING";
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }
                                 }
@@ -1449,16 +1449,6 @@ function SDGGraph(data) {
 
                     });
                 });
-
-            console.log(condition)
-
-            if( condition === "WARNING") {
-                document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
-                document.getElementById('serviceCondition').innerText = "WARNING";
-            }else {
-                document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-success");
-                document.getElementById('serviceCondition').innerText = "PASS";
-            }
         }
 
         // Alert
