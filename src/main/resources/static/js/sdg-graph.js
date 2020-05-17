@@ -1479,7 +1479,7 @@ function SDGGraph(data) {
                                     //let link_consumer_endpoint = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id));
 
                                     let node_consumer_endpoint = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
-                                        .forEach(lce => data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === lce.id) && (nce.target.id === node_provider_endpoint.id)));
+                                        .forEach(nce2 => data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === nce2.id) && (nce.target.id === node_provider_endpoint.id)));
                                     //let node_consumer_endpoint = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === link_consumer_endpoint.id) &&(nce.target.id === node_provider_endpoint.id));
                                     console.log(node_consumer_endpoint);
                                     highlightJson.concat("{\"id\":" + node_consumer_endpoint.id + "}");
