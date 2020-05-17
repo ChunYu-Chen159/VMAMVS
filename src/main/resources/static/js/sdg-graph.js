@@ -1428,11 +1428,11 @@ function SDGGraph(data) {
                         else
                             parentNode = parentNodeTemp;
 
-                        //contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
-
                         fetch("/web-page/app/swagger/" + parentNode.appId)
                             .then(response => response.json())
                             .then(json2 => {
+
+                                contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
