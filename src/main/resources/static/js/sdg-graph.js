@@ -1452,16 +1452,16 @@ function SDGGraph(data) {
                                 console.log(contractContent);
                                 for( let api in contractContent){
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1).replace("/","-") + "\">" + api + "</button>");
 
                                     }else {
                                         document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
                                         document.getElementById('serviceCondition').innerText = "WARNING";
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1).replace("/","-") + "\">" + api + "</button>");
                                     }
 
 
-                                    $('#contract-' + api.substring(1)).on("click", function () {
+                                    $('#contract-' + api.substring(1).replace("/","-")).on("click", function () {
                                             if (!$(this).hasClass("active")) {
                                                 $(this).parent().find(".active").removeClass("active");
                                                 $(this).addClass("active");
