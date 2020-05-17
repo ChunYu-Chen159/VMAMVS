@@ -376,7 +376,7 @@ function SDGGraph(data) {
 
     function findNodeById_returnResult(id) {
         let result;
-        result = data.nodes.some(node => node.id === id);
+        result = data.nodes.find(node => node.id === id);
         return result;
     }
 
@@ -404,7 +404,7 @@ function SDGGraph(data) {
 
     function findLinkById_returnResult(id) {
         let result;
-        result = data.links.some(link => (link.type + ":" + link.source.id + "-" + link.target.id) === id);
+        result = data.links.find(link => (link.type + ":" + link.source.id + "-" + link.target.id) === id);
         return result;
     }
 
