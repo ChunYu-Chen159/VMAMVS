@@ -1466,10 +1466,12 @@ function SDGGraph(data) {
 
                                     // provider endpoint
                                     let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
+                                    console.log(node_provider_endpoint);
                                     highlightJson.concat("{\"id\":" + node_provider_endpoint.id + "}");
                                     highlightJson.concat(",");
                                     // provider parent
                                     let pp = findParentById(node_provider_endpoint.id);
+                                    console.log(pp);
                                     highlightJson.concat("{\"id\":" + pp.id + "}");
                                     highlightJson.concat(",");
                                     // consumer parent
@@ -1494,6 +1496,7 @@ function SDGGraph(data) {
                                     let node_consumer_endpoint;
                                     data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
                                         .forEach(nce2 => {
+                                            console.log(nce2);
                                             let nceTemp = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === nce2.source.id) && (nce.target.id === node_provider_endpoint.id));
                                             console.log(nceTemp);
                                             if (nceTemp !== null)
