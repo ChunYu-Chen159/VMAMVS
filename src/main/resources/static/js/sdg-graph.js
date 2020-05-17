@@ -1422,7 +1422,10 @@ function SDGGraph(data) {
                 .then(json => {
                     let parentNode;
                     json.nodes.forEach(node => {
-                        let parentNodeTemp = findParentById(node.id);
+
+
+                        //let parentNodeTemp = findParentById(node.id);
+                        let parentNodeTemp = node.id.parentNode;
                         if (parentNode === parentNodeTemp)
                             return;
                         else
