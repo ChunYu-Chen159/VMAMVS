@@ -374,6 +374,12 @@ function SDGGraph(data) {
         return result;
     }
 
+    function findNodeById_returnResult(id) {
+        let result;
+        result = data.nodes.some(node => node.id === id);
+        return result;
+    }
+
     function findParentById(id) {
         let result;
         let link2;
@@ -393,6 +399,12 @@ function SDGGraph(data) {
                 return true;
             }
         });
+        return result;
+    }
+
+    function findLinkById_returnResult(id) {
+        let result;
+        result = data.links.some(link => (link.type + ":" + link.source.id + "-" + link.target.id) === id);
         return result;
     }
 
@@ -1440,6 +1452,52 @@ function SDGGraph(data) {
                                 for( let api in contractContent){
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+
+
+                                        console.log(findNodeById_returnResult(node.id));
+                                        console.log(findLinkById_returnResult(node.id));
+
+
+                                        /*$('#contract-' + api.substring(1)).on("click", function () {
+                                            if (!$(this).hasClass("active")) {
+                                                $(this).parent().find(".active").removeClass("active");
+                                                $(this).addClass("active");
+
+                                                let highlightJson = "";
+                                                highlightJson.append("[");
+                                                highlightJson.append("\"nodes\":[");
+                                                // consumer parent
+                                                findNodeById_returnResult
+                                                findLinkById_returnResult
+                                                // consumer endpoint
+                                                // provider endpoint
+                                                // provider parent
+
+
+
+                                                highlightJson.append("]");
+                                                highlightJson.append(",");
+                                                highlightJson.append("\"links\":[");
+                                                // consumer parent -- consumer endpoint
+                                                // consumer endpoint --> provider endpoint
+                                                // provider endpoint -- provider parent
+
+
+
+                                                highlightJson.append("]");
+                                                highlightJson.append("]");
+
+                                                JSON.parse(highlightJson);
+                                                highlight(highlightJson);
+
+                                            } else {
+                                                $(this).removeClass("active");
+                                                clearHighlight();
+                                            }
+                                        });*/
+
+
+
                                     }else {
                                         document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
                                         document.getElementById('serviceCondition').innerText = "WARNING";
