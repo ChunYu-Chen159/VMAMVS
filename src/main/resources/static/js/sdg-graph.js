@@ -1486,7 +1486,7 @@ function SDGGraph(data) {
                                             console.log(nce2);
                                             let dlff = data.links.find(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
                                             console.log(dlff);
-                                            if (dlff !== null){
+                                            if (dlff !== null && dlff !== undefined){
                                                 node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
                                             }else {
                                                 return;
