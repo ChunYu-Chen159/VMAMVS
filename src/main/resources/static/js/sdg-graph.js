@@ -1484,10 +1484,16 @@ function SDGGraph(data) {
                                     data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
                                         .forEach(nce2 => {
                                             console.log(nce2);
-                                            let dlff = data.links.find(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                                            let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
                                             console.log(dlff);
                                             if (dlff !== null && dlff !== undefined){
-                                                node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
+                                                dlff.forEach(dlfff => {
+                                                    let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                                    console.log(dnfTemp);
+                                                    highlightJson.concat("{\"id\":" + dnfTemp.id + "},");
+                                                });
+                                                //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
+                                                //node_consumer_endpoint = dlff;
                                             }else {
                                                 return;
                                             }
@@ -1495,8 +1501,8 @@ function SDGGraph(data) {
 
                                         });
                                     //let node_consumer_endpoint = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === link_consumer_endpoint.id) &&(nce.target.id === node_provider_endpoint.id));
-                                    console.log(node_consumer_endpoint);
-                                    highlightJson.concat("{\"id\":" + node_consumer_endpoint.id + "}");
+                                    //console.log(node_consumer_endpoint);
+                                    //highlightJson.concat("{\"id\":" + node_consumer_endpoint.id + "}");
 
                                     highlightJson.concat("]");
                                     highlightJson.concat(",");
