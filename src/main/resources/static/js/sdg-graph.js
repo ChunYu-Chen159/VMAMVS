@@ -405,6 +405,7 @@ function SDGGraph(data) {
     function findLinkById_returnResult(id) {
         let result;
         result = data.links.find(link => (link.type + ":" + link.source.id + "-" + link.target.id) === id);
+
         return result;
     }
 
@@ -1453,12 +1454,54 @@ function SDGGraph(data) {
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
 
+                                    }else {
+                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
+                                        document.getElementById('serviceCondition').innerText = "WARNING";
+                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
+                                    }
 
-                                        console.log(findNodeById_returnResult(node.id));
-                                        console.log(findLinkById_returnResult(node.id));
+                                    let highlightJson = "";
+                                    highlightJson.append("[");
+                                    highlightJson.append("\"nodes\":[");
+
+                                    // provider endpoint
+                                    let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
+                                    highlightJson.append("{\"id\":" + node_provider_endpoint.id + "}");
+                                    highlightJson.append(",");
+                                    // provider parent
+                                    let pp = findParentById(node_provider_endpoint.id);
+                                    highlightJson.append("{\"id\":" + pp.id + "}");
+                                    highlightJson.append(",");
+                                    // consumer parent
+                                    highlightJson.append("{\"id\":" + d.id + "}");
+                                    highlightJson.append(",");
+                                    // consumer endpoint
+                                    let link_consumer_endpoint = data.links.find(lce => (lce.type === REL_OWN) && (lce.source === d.id));
+                                    let node_consumer_endpoint = link_consumer_endpoint.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.target.id === node_provider_endpoint.id));
+                                    highlightJson.append("{\"id\":" + node_consumer_endpoint.id + "}");
+
+                                    highlightJson.append("]");
+                                    highlightJson.append(",");
+                                    highlightJson.append("\"links\":[");
+                                    // consumer parent -- consumer endpoint
+                                    highlightJson.append(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
+                                    // (link.type + ":" + link.source.id + "-" + link.target.id)
+                                    highlightJson.append(",");
+                                    // consumer endpoint --> provider endpoint
+                                    highlightJson.append(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
+                                    highlightJson.append(",");
+                                    // provider endpoint -- provider parent
+                                    highlightJson.append(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
 
 
-                                        /*$('#contract-' + api.substring(1)).on("click", function () {
+                                    highlightJson.append("]");
+                                    highlightJson.append("]");
+
+                                    console.log(highlightJson);
+                                    JSON.parse(highlightJson);
+                                    console.log(highlightJson);
+
+/*                                    $('#contract-' + api.substring(1)).on("click", function () {
                                             if (!$(this).hasClass("active")) {
                                                 $(this).parent().find(".active").removeClass("active");
                                                 $(this).addClass("active");
@@ -1466,28 +1509,43 @@ function SDGGraph(data) {
                                                 let highlightJson = "";
                                                 highlightJson.append("[");
                                                 highlightJson.append("\"nodes\":[");
-                                                // consumer parent
-                                                findNodeById_returnResult
-                                                findLinkById_returnResult
-                                                // consumer endpoint
+
                                                 // provider endpoint
+                                                let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
+                                                highlightJson.append("{\"id\":" + node_provider_endpoint.id + "}");
+                                                highlightJson.append(",");
                                                 // provider parent
-
-
+                                                let pp = findParentById(node_provider_endpoint.id);
+                                                highlightJson.append("{\"id\":" + pp.id + "}");
+                                                highlightJson.append(",");
+                                                // consumer parent
+                                                highlightJson.append("{\"id\":" + d.id + "}");
+                                                highlightJson.append(",");
+                                                // consumer endpoint
+                                                let link_consumer_endpoint = data.links.find(lce => (lce.type === REL_OWN) && (lce.source === d.id));
+                                                let node_consumer_endpoint = link_consumer_endpoint.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.target.id === node_provider_endpoint.id));
+                                                highlightJson.append("{\"id\":" + node_consumer_endpoint.id + "}");
 
                                                 highlightJson.append("]");
                                                 highlightJson.append(",");
                                                 highlightJson.append("\"links\":[");
                                                 // consumer parent -- consumer endpoint
+                                                highlightJson.append(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
+                                                // (link.type + ":" + link.source.id + "-" + link.target.id)
+                                                highlightJson.append(",");
                                                 // consumer endpoint --> provider endpoint
+                                                highlightJson.append(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
+                                                highlightJson.append(",");
                                                 // provider endpoint -- provider parent
-
+                                                highlightJson.append(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
 
 
                                                 highlightJson.append("]");
                                                 highlightJson.append("]");
 
+                                                console.log(highlightJson);
                                                 JSON.parse(highlightJson);
+                                                console.log(highlightJson);
                                                 highlight(highlightJson);
 
                                             } else {
@@ -1496,13 +1554,6 @@ function SDGGraph(data) {
                                             }
                                         });*/
 
-
-
-                                    }else {
-                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
-                                        document.getElementById('serviceCondition').innerText = "WARNING";
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
-                                    }
                                 }
                             });
 
