@@ -1424,8 +1424,7 @@ function SDGGraph(data) {
                     json.nodes.forEach(node => {
 
 
-                        //let parentNodeTemp = findParentById(node.id);
-                        let parentNodeTemp = node.id.parentNode;
+                        let parentNodeTemp = findParentById(node.id);
                         if (parentNode === parentNodeTemp)
                             return;
                         else
