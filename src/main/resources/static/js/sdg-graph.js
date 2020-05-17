@@ -1480,29 +1480,13 @@ function SDGGraph(data) {
                                     // consumer endpoint
                                     //let link_consumer_endpoint = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id));
 
-/*                                    let testttt = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id));
-                                    console.log(testttt);
-                                    let tes;
-                                    data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
-                                        .forEach(nce2 => {
-                                            let nceTemp = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === nce2.source.id) && (nce.target.id === node_provider_endpoint.id));
-                                            if (nceTemp !== null) {
-                                                tes = nceTemp;
-                                            }else {
-                                                return;
-                                            }
-                                        });
-                                    console.log(tes);*/
                                     let node_consumer_endpoint;
                                     data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
                                         .forEach(nce2 => {
                                             console.log(nce2);
-                                            let nceTemp = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === nce2.source.id) && (nce.target.id === node_provider_endpoint.id));
-                                            console.log(nceTemp);
-                                            if (nceTemp !== null)
-                                                node_consumer_endpoint = nceTemp;
-                                            else
-                                                return;
+                                            let dlf = data.links.find(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                                            node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlf.source.id);
+
                                         });
                                     //let node_consumer_endpoint = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === link_consumer_endpoint.id) &&(nce.target.id === node_provider_endpoint.id));
                                     console.log(node_consumer_endpoint);
