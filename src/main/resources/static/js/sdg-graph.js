@@ -1525,7 +1525,8 @@ function SDGGraph(data) {
                                                             dlff.forEach(dlfff => {
                                                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                                 console.log(dnfTemp);
-                                                                highlightJson += JSON.stringify(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id));
+                                                                //let findbyID = findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id);
+                                                                highlightJson += "{\"source\":" + d.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
                                                                 highlightJson += ",";
                                                             });
                                                             //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
@@ -1549,7 +1550,8 @@ function SDGGraph(data) {
                                                             dlff.forEach(dlfff => {
                                                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                                 console.log(dnfTemp);
-                                                                highlightJson += JSON.stringify(findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id));
+                                                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + node_provider_endpoint.id + "}";
+                                                                //highlightJson += JSON.stringify(findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id));
                                                                 highlightJson += ",";
                                                             });
                                                             //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
@@ -1564,7 +1566,8 @@ function SDGGraph(data) {
                                                 // highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
 
                                                 // provider endpoint -- provider parent
-                                                highlightJson += JSON.stringify(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
+                                                highlightJson += "{\"source\":" + pp.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + node_provider_endpoint.id + "}";
+                                                //highlightJson += JSON.stringify(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
 
 
                                                 highlightJson += "]";
