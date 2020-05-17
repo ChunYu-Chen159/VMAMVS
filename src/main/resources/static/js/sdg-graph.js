@@ -1466,114 +1466,87 @@ function SDGGraph(data) {
                                                 $(this).parent().find(".active").removeClass("active");
                                                 $(this).addClass("active");
 
+                                                // 要highlight的nodes, links
                                                 let highlightJson = "";
                                                 highlightJson += "{";
+
+                                                // 要highlight的nodes
                                                 highlightJson += "\"nodes\":[";
 
-                                                // provider endpoint
+                                                // node: provider endpoint
                                                 let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
-                                                console.log(node_provider_endpoint);
                                                 highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
                                                 highlightJson += ",";
-                                                // provider parent
+
+                                                // node: provider parent
                                                 let pp = findParentById(node_provider_endpoint.id);
-                                                console.log(pp);
                                                 highlightJson += "{\"id\":" + pp.id + "}";
                                                 highlightJson += ",";
-                                                // consumer parent
+
+                                                // node: consumer parent
                                                 highlightJson += "{\"id\":" + d.id + "}";
                                                 highlightJson += ",";
-                                                // consumer endpoint
-                                                //let link_consumer_endpoint = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id));
 
-                                                let node_consumer_endpoint;
-                                                data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
+                                                // nodes: consumer endpoint (可能不只一個)
+                                                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
                                                     .forEach(nce2 => {
-                                                        console.log(nce2);
                                                         let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
-                                                        console.log(dlff);
                                                         if (dlff !== null && dlff !== undefined){
                                                             dlff.forEach(dlfff => {
                                                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                                                console.log(dnfTemp);
                                                                 highlightJson += "{\"id\":" + dnfTemp.id + "}";
                                                                 highlightJson += ",";
                                                             });
-                                                            //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
-                                                            //node_consumer_endpoint = dlff;
-                                                        }else {
-                                                            return;
                                                         }
-
-
                                                     });
                                                 highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                                //let node_consumer_endpoint = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === link_consumer_endpoint.id) &&(nce.target.id === node_provider_endpoint.id));
-                                                //console.log(node_consumer_endpoint);
-                                                //highlightJson.concat("{\"id\":" + node_consumer_endpoint.id + "}");
 
                                                 highlightJson += "]";
                                                 highlightJson += ",";
+
+                                                // 要highlight的links
                                                 highlightJson += "\"links\":[";
-                                                // consumer parent -- consumer endpoint
-                                                data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
+
+                                                // link: consumer parent -OWN- consumer endpoint
+                                                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
                                                     .forEach(nce2 => {
-                                                        console.log(nce2);
                                                         let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
-                                                        console.log(dlff);
                                                         if (dlff !== null && dlff !== undefined){
                                                             dlff.forEach(dlfff => {
                                                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                                                console.log(dnfTemp);
-                                                                //let findbyID = findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id);
                                                                 highlightJson += "{\"source\":" + d.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
                                                                 highlightJson += ",";
                                                             });
-                                                            //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
-                                                            //node_consumer_endpoint = dlff;
                                                         }else {
                                                             return;
                                                         }
 
 
                                                     });
-                                                //highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                                // highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
 
-                                                // consumer endpoint --> provider endpoint
-                                                data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
+                                                // link: consumer endpoint -HTTPREQUEST-> provider endpoint
+                                                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
                                                     .forEach(nce2 => {
-                                                        console.log(nce2);
                                                         let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
-                                                        console.log(dlff);
                                                         if (dlff !== null && dlff !== undefined){
                                                             dlff.forEach(dlfff => {
                                                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                                                console.log(dnfTemp);
                                                                 highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + node_provider_endpoint.id + "}";
-                                                                //highlightJson += JSON.stringify(findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id));
                                                                 highlightJson += ",";
                                                             });
-                                                            //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
-                                                            //node_consumer_endpoint = dlff;
                                                         }else {
                                                             return;
                                                         }
 
 
                                                     });
-                                                //highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                                // highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
 
-                                                // provider endpoint -- provider parent
+                                                // link: provider parent -OWN- provider endpoint
                                                 highlightJson += "{\"source\":" + pp.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + node_provider_endpoint.id + "}";
-                                                //highlightJson += JSON.stringify(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
-
 
                                                 highlightJson += "]";
                                                 highlightJson += "}";
 
-                                                console.log(highlightJson);
                                                 let highlighttoJson = JSON.parse(highlightJson);
                                                 console.log(highlighttoJson);
                                                 highlight(highlighttoJson);
