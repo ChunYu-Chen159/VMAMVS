@@ -1145,6 +1145,7 @@ function SDGGraph(data) {
     let cardAlertTab = $("#alert-tab");
 
     let extraMessage = $('#extraMessage');
+    let messageJson = $('#message-json');
 
     let nodeInfoBody = $("#node-infomation .card-body").first();
     //let nodeInfoTitle = nodeInfoBody.find(".card-title").first();
@@ -1474,6 +1475,8 @@ function SDGGraph(data) {
                                                     extraMessage.removeClass("show");
                                                 else
                                                     extraMessage.addClass("show");
+
+                                                messageJson.jsonViewer(contractContent[api], {collapsed: true, withQuotes: false});
 
                                                 // 要highlight的nodes, links
                                                 let highlightJson = "";
