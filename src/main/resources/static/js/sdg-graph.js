@@ -1473,7 +1473,7 @@ function SDGGraph(data) {
                                                 $(this).addClass("active");
                                                 extraMessage.addClass("show");
 
-                                                messageJson.jsonViewer(contractContent[api], {collapsed: true, withQuotes: false});
+                                                messageJson.jsonViewer(contractContent[api], {collapsed: false, withQuotes: false});
 
                                                 // 要highlight的nodes, links
                                                 let highlightJson = "";
