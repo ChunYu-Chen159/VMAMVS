@@ -1417,11 +1417,11 @@ function SDGGraph(data) {
         // Contract Tab
         if (d.labels.includes(LABEL_ENDPOINT)) {
         } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
+            let condition = "PASS";
             fetch("/web-page/graph/providers/" + d.id)
                 .then(response => response.json())
                 .then(json => {
                     let parentNode;
-                    let condition;
                     json.nodes.forEach(node => {
                         let parentNodeTemp = findParentById(node.id);
                         if (parentNode === parentNodeTemp)
@@ -1441,25 +1441,24 @@ function SDGGraph(data) {
                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }else {
-                                        condition = "false";
+                                        condition = "WARNING";
                                         contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1) + "\">" + api + "</button>");
                                     }
                                 }
                             });
 
                     });
-
-                    console.log(condition)
-
-                    if( condition === "false") {
-                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
-                        document.getElementById('serviceCondition').innerText = "WARNING";
-                    }else {
-                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-success");
-                        document.getElementById('serviceCondition').innerText = "PASS";
-                    }
-
                 });
+
+            console.log(condition)
+
+            if( condition === "WARNING") {
+                document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
+                document.getElementById('serviceCondition').innerText = "WARNING";
+            }else {
+                document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-success");
+                document.getElementById('serviceCondition').innerText = "PASS";
+            }
         }
 
         // Alert
