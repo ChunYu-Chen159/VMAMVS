@@ -1461,22 +1461,22 @@ function SDGGraph(data) {
                                     }
 
                                     let highlightJson = "";
-                                    highlightJson.concat("{");
-                                    highlightJson.concat("\"nodes\":[");
+                                    highlightJson += "{";
+                                    highlightJson += "\"nodes\":[";
 
                                     // provider endpoint
                                     let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
                                     console.log(node_provider_endpoint);
-                                    highlightJson.concat("{\"id\":" + node_provider_endpoint.id + "}");
-                                    highlightJson.concat(",");
+                                    highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
+                                    highlightJson += ",";
                                     // provider parent
                                     let pp = findParentById(node_provider_endpoint.id);
                                     console.log(pp);
-                                    highlightJson.concat("{\"id\":" + pp.id + "}");
-                                    highlightJson.concat(",");
+                                    highlightJson += "{\"id\":" + pp.id + "}";
+                                    highlightJson += ",";
                                     // consumer parent
-                                    highlightJson.concat("{\"id\":" + d.id + "}");
-                                    highlightJson.concat(",");
+                                    highlightJson += "{\"id\":" + d.id + "}";
+                                    highlightJson += ",";
                                     // consumer endpoint
                                     //let link_consumer_endpoint = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id));
 
@@ -1490,7 +1490,7 @@ function SDGGraph(data) {
                                                 dlff.forEach(dlfff => {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
-                                                    highlightJson.concat("{\"id\":" + dnfTemp.id + "},");
+                                                    highlightJson += "{\"id\":" + dnfTemp.id + "}";
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
                                                 //node_consumer_endpoint = dlff;
@@ -1500,13 +1500,14 @@ function SDGGraph(data) {
 
 
                                         });
+                                    highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
                                     //let node_consumer_endpoint = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === link_consumer_endpoint.id) &&(nce.target.id === node_provider_endpoint.id));
                                     //console.log(node_consumer_endpoint);
                                     //highlightJson.concat("{\"id\":" + node_consumer_endpoint.id + "}");
 
-                                    highlightJson.concat("]");
-                                    highlightJson.concat(",");
-                                    highlightJson.concat("\"links\":[");
+                                    highlightJson += "]";
+                                    highlightJson += ",";
+                                    highlightJson += "\"links\":[";
                                     // consumer parent -- consumer endpoint
                                     data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
                                         .forEach(nce2 => {
@@ -1517,8 +1518,8 @@ function SDGGraph(data) {
                                                 dlff.forEach(dlfff => {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
-                                                    highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id));
-                                                    highlightJson.concat(",");
+                                                    highlightJson += findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id);
+                                                    highlightJson += ",";
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
                                                 //node_consumer_endpoint = dlff;
@@ -1528,6 +1529,7 @@ function SDGGraph(data) {
 
 
                                         });
+                                    highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
                                     // highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
 
                                     // consumer endpoint --> provider endpoint
@@ -1540,8 +1542,8 @@ function SDGGraph(data) {
                                                 dlff.forEach(dlfff => {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
-                                                    highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id));
-                                                    highlightJson.concat(",");
+                                                    highlightJson += findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id);
+                                                    highlightJson += ",";
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
                                                 //node_consumer_endpoint = dlff;
@@ -1551,14 +1553,15 @@ function SDGGraph(data) {
 
 
                                         });
+                                    highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
                                     // highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
 
                                     // provider endpoint -- provider parent
-                                    highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
+                                    highlightJson += findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id);
 
 
-                                    highlightJson.concat("]");
-                                    highlightJson.concat("}");
+                                    highlightJson += "]";
+                                    highlightJson += "}";
 
                                     console.log(highlightJson);
                                     JSON.parse(highlightJson);
