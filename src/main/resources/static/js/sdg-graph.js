@@ -1480,7 +1480,18 @@ function SDGGraph(data) {
 
                                     let testttt = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id));
                                     console.log(testttt);
-
+                                    let tes;
+                                    data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
+                                        .forEach(nce2 => {
+                                            let nceTemp = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === nce2.id) && (nce.target.id === node_provider_endpoint.id));
+                                            if (nceTemp !== null) {
+                                                tes = nceTemp;
+                                                break;
+                                            }else {
+                                                return;
+                                            }
+                                        });
+                                    console.log(tes);
                                     let node_consumer_endpoint = data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
                                         .forEach(nce2 => {
                                             let nceTemp = data.nodes.find(nce => (nce.type === REL_HTTPREQUEST) && (nce.source.id === nce2.id) && (nce.target.id === node_provider_endpoint.id));
