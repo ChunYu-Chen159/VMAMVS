@@ -1469,12 +1469,9 @@ function SDGGraph(data) {
                                     $('#contract-' + api.substring(1).replace("/","-")).on("click", function () {
                                             if (!$(this).hasClass("active")) {
                                                 $(this).parent().find(".active").removeClass("active");
+                                                extraMessage.removeClass("show");
                                                 $(this).addClass("active");
-
-                                                if(extraMessage.hasClass("show"))
-                                                    extraMessage.removeClass("show");
-                                                else
-                                                    extraMessage.addClass("show");
+                                                extraMessage.addClass("show");
 
                                                 messageJson.jsonViewer(contractContent[api], {collapsed: true, withQuotes: false});
 
