@@ -1144,6 +1144,8 @@ function SDGGraph(data) {
     let cardContractTab = $("#contract-tab");
     let cardAlertTab = $("#alert-tab");
 
+    let extraMessage = $('#extraMessage');
+
     let nodeInfoBody = $("#node-infomation .card-body").first();
     //let nodeInfoTitle = nodeInfoBody.find(".card-title").first();
 
@@ -1224,6 +1226,7 @@ function SDGGraph(data) {
 
         // init
         clearHighlight();
+        extraMessage.removeClass("show");
         cardHeaderTitle.empty();
 
         nodeInfoBody.empty();
@@ -1260,6 +1263,7 @@ function SDGGraph(data) {
         cardClose.on("click", function() {
             clearHighlight();
             cardDiv.removeClass("show");
+            extraMessage.removeClass("show");
 
             // Release stick node.
             if (!event) simulation.alphaTarget(0.3).restart();
@@ -1466,6 +1470,11 @@ function SDGGraph(data) {
                                                 $(this).parent().find(".active").removeClass("active");
                                                 $(this).addClass("active");
 
+                                                if(extraMessage.hasClass("show"))
+                                                    extraMessage.removeClass("show");
+                                                else
+                                                    extraMessage.addClass("show");
+
                                                 // 要highlight的nodes, links
                                                 let highlightJson = "";
                                                 highlightJson += "{";
@@ -1554,6 +1563,7 @@ function SDGGraph(data) {
                                             } else {
                                                 $(this).removeClass("active");
                                                 clearHighlight();
+                                                extraMessage.removeClass("show");
                                             }
                                         });
 
@@ -1717,6 +1727,7 @@ function SDGGraph(data) {
             update(graphData);
         } else {
             clearHighlight();
+            extraMessage.removeClass("show");
             graphData = data;
             update(emptyData);
             update(graphData);
