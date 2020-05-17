@@ -1432,7 +1432,7 @@ function SDGGraph(data) {
                             .then(response => response.json())
                             .then(json2 => {
 
-                                contractGroup.append("<h5 class=\"card-title\">" + parentNode.appName + "</h5>");
+                                contractGroup.append("<h5 class=\"card-title\">" + d.appName.toUpperCase() + "</h5>");
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
