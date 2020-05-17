@@ -1491,6 +1491,7 @@ function SDGGraph(data) {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
                                                     highlightJson += "{\"id\":" + dnfTemp.id + "}";
+                                                    highlightJson += ",";
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
                                                 //node_consumer_endpoint = dlff;
@@ -1518,7 +1519,7 @@ function SDGGraph(data) {
                                                 dlff.forEach(dlfff => {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
-                                                    highlightJson += findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id);
+                                                    highlightJson += JSON.stringify(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id));
                                                     highlightJson += ",";
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
@@ -1529,7 +1530,7 @@ function SDGGraph(data) {
 
 
                                         });
-                                    highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                    //highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
                                     // highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
 
                                     // consumer endpoint --> provider endpoint
@@ -1542,7 +1543,7 @@ function SDGGraph(data) {
                                                 dlff.forEach(dlfff => {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
-                                                    highlightJson += findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id);
+                                                    highlightJson += JSON.stringify(findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id));
                                                     highlightJson += ",";
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
@@ -1553,11 +1554,11 @@ function SDGGraph(data) {
 
 
                                         });
-                                    highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                    //highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
                                     // highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
 
                                     // provider endpoint -- provider parent
-                                    highlightJson += findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id);
+                                    highlightJson += JSON.stringify(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
 
 
                                     highlightJson += "]";
