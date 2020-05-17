@@ -1518,6 +1518,7 @@ function SDGGraph(data) {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
                                                     highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id));
+                                                    highlightJson.concat(",");
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
                                                 //node_consumer_endpoint = dlff;
@@ -1528,7 +1529,7 @@ function SDGGraph(data) {
 
                                         });
                                     // highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
-                                    highlightJson.concat(",");
+
                                     // consumer endpoint --> provider endpoint
                                     data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
                                         .forEach(nce2 => {
@@ -1540,6 +1541,7 @@ function SDGGraph(data) {
                                                     let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                                     console.log(dnfTemp);
                                                     highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id));
+                                                    highlightJson.concat(",");
                                                 });
                                                 //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
                                                 //node_consumer_endpoint = dlff;
@@ -1550,7 +1552,7 @@ function SDGGraph(data) {
 
                                         });
                                     // highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
-                                    highlightJson.concat(",");
+
                                     // provider endpoint -- provider parent
                                     highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
 
