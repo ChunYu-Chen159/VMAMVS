@@ -1508,10 +1508,48 @@ function SDGGraph(data) {
                                     highlightJson.concat(",");
                                     highlightJson.concat("\"links\":[");
                                     // consumer parent -- consumer endpoint
-                                    highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
+                                    data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
+                                        .forEach(nce2 => {
+                                            console.log(nce2);
+                                            let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                                            console.log(dlff);
+                                            if (dlff !== null && dlff !== undefined){
+                                                dlff.forEach(dlfff => {
+                                                    let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                                    console.log(dnfTemp);
+                                                    highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + dnfTemp.id));
+                                                });
+                                                //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
+                                                //node_consumer_endpoint = dlff;
+                                            }else {
+                                                return;
+                                            }
+
+
+                                        });
+                                    // highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + d.id + "-" + node_consumer_endpoint.id));
                                     highlightJson.concat(",");
                                     // consumer endpoint --> provider endpoint
-                                    highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
+                                    data.links.filter(lce => (lce.type === REL_OWN) && (lce.source.id === d.id))
+                                        .forEach(nce2 => {
+                                            console.log(nce2);
+                                            let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                                            console.log(dlff);
+                                            if (dlff !== null && dlff !== undefined){
+                                                dlff.forEach(dlfff => {
+                                                    let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                                    console.log(dnfTemp);
+                                                    highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + dnfTemp.id + "-" + node_provider_endpoint.id));
+                                                });
+                                                //node_consumer_endpoint = data.nodes.find(dnf => dnf.id === dlff.source.id);
+                                                //node_consumer_endpoint = dlff;
+                                            }else {
+                                                return;
+                                            }
+
+
+                                        });
+                                    // highlightJson.concat(findLinkById_returnResult(REL_HTTPREQUEST + ":" + node_consumer_endpoint.id + "-" + node_provider_endpoint.id));
                                     highlightJson.concat(",");
                                     // provider endpoint -- provider parent
                                     highlightJson.concat(findLinkById_returnResult(REL_OWN + ":" + pp.id + "-" + node_provider_endpoint.id));
