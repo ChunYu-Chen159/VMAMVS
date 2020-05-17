@@ -1431,7 +1431,7 @@ function SDGGraph(data) {
                         fetch("/web-page/app/swagger/" + parentNode.appId)
                             .then(response => response.json())
                             .then(json2 => {
-                                contractGroup.append("<h5 class=\"card-title\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
+                                contractGroup.append("<h5 class=\"card-contract\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                 console.log(contractContent);
