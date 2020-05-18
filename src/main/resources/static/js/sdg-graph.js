@@ -448,6 +448,7 @@ function SDGGraph(data) {
         link = link.data(data.links, d => { return d.type + ":" + d.source.id + "-" + d.target.id });
 
         // EXIT old links
+        // transition(t)
         link.exit().transition()
             .attr("stroke-width", 0)
             .remove();
@@ -589,7 +590,8 @@ function SDGGraph(data) {
         node = node.data(data.nodes, function(d) { return d.id;});
 
         // EXIT old nodes
-        node.exit().transition(t)
+        // transition(t)
+        node.exit().transition()
             .attr("fill-opacity", 0)
             .remove();
 
