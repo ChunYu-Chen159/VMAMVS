@@ -729,7 +729,10 @@ function SDGGraph(data) {
             .attr("alignment-baseline", "central")
             .style("font-size", 28)
             .style("fill", "#000000")
-            .text(d => d.number);
+            .text(d => {
+                return d.id;
+            });
+            //.text(d => d.number);//*********************修改Risk的地方*************************************************
 
         nodelabel.append("rect")
             .attr("class", "tag")
