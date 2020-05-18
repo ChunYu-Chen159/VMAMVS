@@ -132,7 +132,7 @@ function SDGGraph(data) {
         .alphaTarget(0.2)
         .on("tick", ticked);
 
-    let t = d3.transition().duration(600);
+    let t = d3.transition().duration(600).delay(500);
     let td = d3.transition().duration(600).delay(500);
 
     let color = d3.scaleOrdinal(d3.schemeSet2);
