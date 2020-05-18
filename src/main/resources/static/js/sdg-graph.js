@@ -132,7 +132,7 @@ function SDGGraph(data) {
         .alphaTarget(0.2)
         .on("tick", ticked);
 
-    let t = d3.transition().duration(100);
+    let t = d3.transition().duration(600);
     let td = d3.transition().duration(600).delay(500);
 
     let color = d3.scaleOrdinal(d3.schemeSet2);
@@ -448,7 +448,7 @@ function SDGGraph(data) {
         link = link.data(data.links, d => { return d.type + ":" + d.source.id + "-" + d.target.id });
 
         // EXIT old links
-        link.exit().transition(t)
+        link.exit().transition()
             .attr("stroke-width", 0)
             .remove();
 
