@@ -848,7 +848,8 @@ function SDGGraph(data) {
             .style("fill", "#000000")
             .text(d => {
                 if (d.labels.includes(LABEL_SERVICE)) {
-                    return d.number;
+                    //return d.number;
+                    return d.id;
                 }
             });
 
