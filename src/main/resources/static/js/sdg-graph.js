@@ -38,6 +38,10 @@ function SDGGraph(data) {
     const HIGHLIGHT_LEVEL_WARNING = "warning";
     const HIGHLIGHT_LEVEL_ERROR = "error";
 
+    const HIGHLIGHT_DEBUG_TEST_LEVEL_PASS = "dt_pass";
+    const HIGHLIGHT_DEBUG_TEST_LEVEL_WARNING = "dt_warning";
+    const HIGHLIGHT_DEBUG_TEST_LEVEL_FAIL = "dt_fail";
+
     const NODELABEL_NULL = "<<Null>>";
     const NODELABEL_OUTDATEDVER = "<<Outdated version>>";
 
@@ -110,7 +114,7 @@ function SDGGraph(data) {
 
 
 
-
+    // 畫相依圖
     let simulation = d3.forceSimulation(data.nodes)
         .force("link", d3.forceLink(data.links)
             .id(d => d.id)
@@ -128,7 +132,7 @@ function SDGGraph(data) {
         .alphaTarget(0.2)
         .on("tick", ticked);
 
-    let t = d3.transition().duration(600);
+    let t = d3.transition().duration(800);
     let td = d3.transition().duration(600).delay(500);
 
     let color = d3.scaleOrdinal(d3.schemeSet2);
@@ -729,10 +733,7 @@ function SDGGraph(data) {
             .attr("alignment-baseline", "central")
             .style("font-size", 28)
             .style("fill", "#000000")
-            .text(d => {
-                return d.id;
-            });
-            //.text(d => d.number);//*********************修改Risk的地方*************************************************
+            .text(d => d.number);
 
         nodelabel.append("rect")
             .attr("class", "tag")
@@ -848,7 +849,7 @@ function SDGGraph(data) {
             .style("fill", "#000000")
             .text(d => {
                 if (d.labels.includes(LABEL_SERVICE)) {
-                    //return d.number;
+                    //return d.number; //*********************修改Risk的地方*************************************************
                     return d.id;
                 }
             });
@@ -976,6 +977,7 @@ function SDGGraph(data) {
 
     }
 
+    // 定義ticked()，用來當tick發現數據改變時，要做的動作
     function ticked() {
         link.selectAll("line")
             .attr("x1", d => { return d.source.x; })
@@ -1041,6 +1043,7 @@ function SDGGraph(data) {
         $(parent).trigger('selectNode', d);
     }
 
+    // 定義拖拉的動作，因為在拖拉的過程中，會中斷模擬器，所以利用restart來重啟
     function dragstarted(d) {
         if (!d3.event.active) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
