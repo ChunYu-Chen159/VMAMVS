@@ -735,7 +735,7 @@ function SDGGraph(data) {
             .attr("alignment-baseline", "central")
             .style("font-size", 28)
             .style("fill", "#000000")
-            .text(d => d.number);
+            .text(d => d.id); //***Risk********************************************
 
         nodelabel.append("rect")
             .attr("class", "tag")
