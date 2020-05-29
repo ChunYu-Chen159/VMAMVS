@@ -800,22 +800,23 @@ function SDGGraph(data) {
                                 return;
                             else
                                 parentNode = parentNodeTemp;
+
+                            fetch("/web-page/app/swagger/" + parentNode.appId)
+                                .then(response => response.json())
+                                .then(json2 => {
+                                    let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
+                                    for( let api in contractContent){
+                                        if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                        }else {
+                                            updateContractTestFailNodeLabel(se, NODELABEL_CONTRACTTESTFAIL);
+                                            break;
+                                        }
+
+                                    }
+                                });
+                        });
                         });
 
-                        fetch("/web-page/app/swagger/" + parentNode.appId)
-                            .then(response => response.json())
-                            .then(json2 => {
-                                let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
-                                for( let api in contractContent){
-                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                    }else {
-                                        updateContractTestFailNodeLabel(se, NODELABEL_CONTRACTTESTFAIL);
-                                        break;
-                                    }
-
-                                }
-                            });
-                    });
             });
 
 
@@ -1002,21 +1003,22 @@ function SDGGraph(data) {
                                 return;
                             else
                                 parentNode = parentNodeTemp;
+
+                            fetch("/web-page/app/swagger/" + parentNode.appId)
+                                .then(response => response.json())
+                                .then(json2 => {
+                                    let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
+                                    for( let api in contractContent){
+                                        if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                        }else {
+                                            addContractTestFailNodeLabel(se, NODELABEL_CONTRACTTESTFAIL);
+                                            break;
+                                        }
+
+                                    }
+                                });
                         });
 
-                        fetch("/web-page/app/swagger/" + parentNode.appId)
-                            .then(response => response.json())
-                            .then(json2 => {
-                                let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
-                                for( let api in contractContent){
-                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                    }else {
-                                        addContractTestFailNodeLabel(se, NODELABEL_CONTRACTTESTFAIL);
-                                        break;
-                                    }
-
-                                }
-                            });
                     });
             });
 
