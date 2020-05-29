@@ -788,7 +788,38 @@ function SDGGraph(data) {
 
 
         //***********************修改Service框框、下方資訊的地方--1
+        nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
+            .forEach(se => {
+                fetch("/web-page/graph/providers/" + se.id)
+                    .then(response => response.json())
+                    .then(json => {
+                        let parentNode;
+                        json.nodes.forEach(node => {
+                            let parentNodeTemp = findParentById(node.id);
+                            if (parentNode === parentNodeTemp)
+                                return;
+                            else
+                                parentNode = parentNodeTemp;
+                        });
 
+                        fetch("/web-page/app/swagger/" + parentNode.appId)
+                            .then(response => response.json())
+                            .then(json2 => {
+                                let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
+                                for( let api in contractContent){
+                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                    }else {
+                                        updateContractTestFailNodeLabel(se, NODELABEL_CONTRACTTESTFAIL);
+                                        break;
+                                    }
+
+                                }
+                            });
+                    });
+            });
+
+
+        //***********************************************************
         let oldNullNodelabel = nodelabel.filter(d =>  d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT));
         updateExceptionNodeLabel(oldNullNodelabel, NODELABEL_NULL);
 
@@ -827,6 +858,56 @@ function SDGGraph(data) {
                 .attr("height", "16px")
                 .attr("x", function() {
                     let text = d3.select(this.parentNode).select("text.null-tag").node();
+                    return (text.getBBox().width + 8) / -2;
+                })
+                .attr("y", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position;
+                    for (position = 0; position < texts.length; position++) {
+                        if (texts[position].textContent === text) {
+                            break;
+                        }
+                    }
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 40 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 27 + position * 20;
+                    }
+                });
+        }
+
+        function updateContractTestFailNodeLabel (nodeLabel, text) {
+            nodeLabel.append("rect")
+                .attr("class", "tag contractTestFail-tag")
+                .attr("fill", "#dddddd")
+                .attr("fill-opacity", 0.5)
+                .attr("rx", 8)
+                .attr("ry", 8);
+
+            nodeLabel.append("text")
+                .attr("class", "tag contractTestFail-tag")
+                .attr("dx", 0)
+                .attr("dy", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position = texts.length - 1;
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 53 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 39 + position * 20;
+                    }
+                })
+                .attr("fill-opacity", 1)
+                .style("fill", "#ffc107")
+                .text(text);
+
+            nodeLabel.selectAll("rect.contractTestFail-tag")
+                .attr("width", function() {
+                    let text = d3.select(this.parentNode).select("text.contractTestFail-tag").node();
+                    return (text.getBBox().width + 8);
+                })
+                .attr("height", "16px")
+                .attr("x", function() {
+                    let text = d3.select(this.parentNode).select("text.contractTestFail-tag").node();
                     return (text.getBBox().width + 8) / -2;
                 })
                 .attr("y", function (d) {
@@ -909,7 +990,7 @@ function SDGGraph(data) {
         });
 
         //***********************修改Service框框、下方資訊的地方--2
-        data.nodes.filter(d => d.labels.includes(LABEL_SERVICE))
+        nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
             .forEach(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
