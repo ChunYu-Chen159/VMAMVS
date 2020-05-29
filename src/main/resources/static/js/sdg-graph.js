@@ -788,7 +788,7 @@ function SDGGraph(data) {
 
 
         //***********************修改Service框框、下方資訊的地方--1
-        nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
+/*        nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
             .forEach(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
@@ -817,7 +817,7 @@ function SDGGraph(data) {
                         });
                         });
 
-            });
+            });*/
 
 
         //***********************************************************
@@ -991,7 +991,7 @@ function SDGGraph(data) {
         });
 
         //***********************修改Service框框、下方資訊的地方--2
-        nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
+/*        nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
             .forEach(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
@@ -1020,7 +1020,7 @@ function SDGGraph(data) {
                         });
 
                     });
-            });
+            });*/
 
 
 
