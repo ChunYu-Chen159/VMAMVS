@@ -86,9 +86,12 @@ public class ContractService {
                                 System.out.println("statusssssss: " + status);
 
                                 if (status.equals("FAIL")) {
-                                    serviceRepository.setContractTestingConditionByAppId(s.getAppId(), "WARNING");
+                                    if(serviceRepository.setContractTestingConditionByAppId(s.getAppId(), "WARNING")) {
+                                        System.out.println("TRUE");
+                                    }else{
+                                        System.out.println("FALSE");
+                                    }
                                 }
-
 
                             });
 
@@ -98,7 +101,7 @@ public class ContractService {
 
                     } catch (JSONException err) {
                         err.printStackTrace();
-                        logger.error("Error", err.toString());
+                        logger.error(err.toString());
                     }
                 }
             }
