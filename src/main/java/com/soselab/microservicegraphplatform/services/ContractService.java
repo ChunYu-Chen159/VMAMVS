@@ -53,47 +53,53 @@ public class ContractService {
 
             List<String> providerService = generalRepository.getAllHttpRequestServiceWithService(s.getAppId());
 
-            for(String str : providerService) {
-                try {
-                    System.out.println("jsonstrrrrr: " + str);
-                    JSONObject jsonObj = new JSONObject(str);
+            if(providerService != null && !providerService.isEmpty()) {
 
-                    System.out.println("a: " + jsonObj.getString("systemName"));
-                    System.out.println("b: " + jsonObj.getString("appName"));
-                    System.out.println("c: " + jsonObj.getString("version"));
+                for (String str : providerService) {
+                    try {
+                        System.out.println("jsonstrrrrr: " + str);
+                        JSONObject jsonObj = new JSONObject(str);
 
-                    Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
+                        System.out.println("a: " + jsonObj.getString("systemName"));
+                        System.out.println("b: " + jsonObj.getString("appName"));
+                        System.out.println("c: " + jsonObj.getString("version"));
 
-                    System.out.println("d: " + swaggerMap);
+                        Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
 
-                    if (swaggerMap != null) {
-                        Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>(){});
-                        System.out.println("e: " + contractsMap);
-                        Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>(){});
-                        System.out.println("f: " + groovyMap);
-                        groovyMap.forEach((key, value) -> {
-                            Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>(){});
-                            Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>(){});
-                            String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>(){});
+                        System.out.println("d: " + swaggerMap);
 
-                            System.out.println("statusssssss: " + status);
+                        if (swaggerMap != null) {
+                            Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {
+                            });
+                            System.out.println("e: " + contractsMap);
+                            Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {
+                            });
+                            System.out.println("f: " + groovyMap);
+                            groovyMap.forEach((key, value) -> {
+                                Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {
+                                });
+                                Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {
+                                });
+                                String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {
+                                });
 
-                            if( status.equals("FAIL")) {
-                                serviceRepository.setContractTestingConditionByAppId(s.getAppId(),"WARNING");
-                            }
+                                System.out.println("statusssssss: " + status);
+
+                                if (status.equals("FAIL")) {
+                                    serviceRepository.setContractTestingConditionByAppId(s.getAppId(), "WARNING");
+                                }
 
 
-
-                        });
-
+                            });
 
 
+                        }
+
+
+                    } catch (JSONException err) {
+                        err.printStackTrace();
+                        logger.error("Error", err.toString());
                     }
-
-
-                }catch (JSONException err){
-                    err.printStackTrace();
-                    logger.error("Error", err.toString());
                 }
             }
 
