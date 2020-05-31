@@ -657,12 +657,12 @@ function SDGGraph(data) {
                     return color(d.appName);
                 }
             })
-            .attr("stroke-opacity", 0)
-            .attr("fill-opacity", 0);
-
-        nodeEnter.transition()
             .attr("stroke-opacity", 1)
             .attr("fill-opacity", 1);
+
+/*        nodeEnter.transition()
+            .attr("stroke-opacity", 1)
+            .attr("fill-opacity", 1);*/
 
         // Highlight
         nodeEnter.filter(d =>
