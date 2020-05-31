@@ -790,7 +790,7 @@ function SDGGraph(data) {
 
         //***********************修改Service框框、下方資訊的地方--1
         nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
-            .forEach(se => {
+            .then(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
                     .then(json => {
@@ -816,8 +816,7 @@ function SDGGraph(data) {
                                     }
                                 });
                         });
-                        });
-
+                    });
             });
 
 
@@ -997,7 +996,7 @@ function SDGGraph(data) {
         console.log(nodelabelEnter);
         //***********************修改Service框框、下方資訊的地方--2
         nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
-            .forEach(se => {
+            .then(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
                     .then(json => {
