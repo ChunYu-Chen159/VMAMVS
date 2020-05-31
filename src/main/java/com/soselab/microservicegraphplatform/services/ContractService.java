@@ -43,7 +43,7 @@ public class ContractService {
             System.out.println(s.getAppName());
             System.out.println(generalRepository.getAllHttpRequestServiceWithService(s.getAppName()));
 
-            return generalRepository.getAllHttpRequestServiceWithService(s.getAppName());
+            //return generalRepository.getAllHttpRequestServiceWithService(s.getAppName());
 
 
             /*// 新增contractTestingCondition上去Service
