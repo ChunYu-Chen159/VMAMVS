@@ -1,6 +1,7 @@
 package com.soselab.microservicegraphplatform.services;
 
 import com.soselab.microservicegraphplatform.bean.neo4j.Endpoint;
+import com.soselab.microservicegraphplatform.repositories.neo4j.GeneralRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.SleuthRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,14 +34,12 @@ public class SleuthService {
     // 最多抓幾筆資料回來
     private final String limit = "10000";
 
-
-
     @Autowired
-    private SleuthRepository sleuthRepository;
+    private GeneralRepository generalRepository;
 
     public List<String> calculateNumofRequest(){
 
-        List<String> temp = sleuthRepository.getAllServiceAndPathWithHTTP_REQUEST();
+        List<String> temp = generalRepository.getAllServiceAndPathWithHTTP_REQUEST();
 
         //System.out.println(temp);
 

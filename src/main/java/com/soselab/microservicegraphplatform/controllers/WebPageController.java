@@ -61,6 +61,8 @@ public class WebPageController {
     private ObjectMapper mapper;
     @Autowired
     private SleuthService sleuthService;
+    @Autowired
+    private ContractService contractService;
 
 
     @GetMapping("/system-names")
@@ -97,6 +99,12 @@ public class WebPageController {
     public String getSleuthTrace(@PathVariable("appName") String appName) {
         return sleuthService.getTraceInfo(appName);
     }
+
+    @GetMapping("/contract/getAllServiceContractTestingCondition/{systemName}")
+    public String getAllServiceContractTestingCondition(@PathVariable("systemName") String systemName) {
+        return contractService.getAllServiceContractTestingCondition(systemName).toString();
+    }
+
 
     @GetMapping("/graph/providers/{id}")
     public String getProviders(@PathVariable("id") Long id) {

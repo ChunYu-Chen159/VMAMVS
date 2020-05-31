@@ -107,4 +107,7 @@ public interface ServiceRepository extends Neo4jRepository<Service, Long> {
     @Query("MATCH (:Service{appId:{appId}})-[:OWN]->(:Endpoint)<-[:HTTP_REQUEST]-(n) RETURN count(n)>0 AS result")
     boolean isBeDependentByAppId(@Param("appId") String appId);
 
+    @Query("MATCH (s:Service {appId: {appId}}) WITH s, s.contractTestingCondition = {condition} as result SET s.contractTestingCondition = {condition} RETURN result")
+    boolean setContractTestingConditionByAppId(@Param("appId") String appId, @Param("num") String condition);
+
 }

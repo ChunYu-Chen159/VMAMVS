@@ -16,6 +16,23 @@ public interface GeneralRepository extends Neo4jRepository {
     @Query("MATCH (s:Service{systemName:{systemName}}) WITH DISTINCT s.appName as result RETURN result")
     List<String> getSystemAllServiceName(@Param("systemName") String systemName);
 
+    @Query("MATCH (s:Service) WITH DISTINCT s.appName as result RETURN result")
+    List<String> getSystemAllServiceName();
+
+    @Query("MATCH (n)-[:HTTP_REQUEST]->(e:Endpoint) " +
+            "OPTIONAL MATCH (n)<-[:OWN]-(parent:Service) " +
+            "OPTIONAL MATCH (e)<-[:OWN]-(targetParent:Service) " +
+            "WITH parent.version AS serviceVersion, targetParent.appName AS targetService, targetParent.version as targetServiceVersion , n.appName AS service, n.path AS path, n.method AS method " +
+            "ORDER BY service RETURN apoc.convert.toJson({serviceVersion:serviceVersion, targetAppName:targetService, targetServiceVersion:targetServiceVersion, method:method, path:path, appName:service})")
+    List<String> getAllServiceAndPathWithHTTP_REQUEST();
+
+
+    @Query("MATCH (n:Service {appName:{appName}})-[:OWN]->(e:Endpoint) " +
+            "OPTIONAL MATCH (e)-[:HTTP_REQUEST]->(e2:Endpoint) " +
+            "OPTIONAL MATCH (e2)-[:OWN]<-(providerService:Service) " +
+            "RETURN apoc.convert.toJson({services:[Service]})")
+    List<String> getAllHttpRequestServiceWithService(@Param("appName") String appName);
+
     @Query("MATCH (n) WHERE n:Service OR n:Endpoint OR n:Queue " +
             "MATCH ()-[r]->() WHERE (:Service)-[r:OWN]->(:Endpoint) OR ()-[r:HTTP_REQUEST]->() OR ()-[r:AMQP_PUBLISH]->() OR ()-[r:AMQP_SUBSCRIBE]-() " +
             "WITH collect(DISTINCT n) as ns, collect(DISTINCT r) as rs " +
