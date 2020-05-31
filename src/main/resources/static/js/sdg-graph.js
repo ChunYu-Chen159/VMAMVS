@@ -10,9 +10,6 @@ function SDGGraph(data) {
     const LABEL_HEAVY_WEAK_UPPER_DEPENDENCY = "HeavyWeakUpperDependency";
     const LABEL_HEAVY_WEAK_LOWER_DEPENDENCY = "HeavyWeakLowerDependency";
 
-    const LABEL_TESTFAIL = "";
-    const LABEL_HIGHRISK = "";
-
     const REL_OWN = "OWN";
     const REL_HTTPREQUEST = "HTTP_REQUEST";
     const REL_AMQPPUBLISH = "AMQP_PUBLISH";
@@ -41,9 +38,10 @@ function SDGGraph(data) {
     const HIGHLIGHT_LEVEL_WARNING = "warning";
     const HIGHLIGHT_LEVEL_ERROR = "error";
 
-    const HIGHLIGHT_DEBUG_TEST_LEVEL_PASS = "dt_pass";
-    const HIGHLIGHT_DEBUG_TEST_LEVEL_WARNING = "dt_warning";
-    const HIGHLIGHT_DEBUG_TEST_LEVEL_FAIL = "dt_fail";
+    const CONDITION_CONTRACTTEST_PASS = "PASS";
+    const CONDITION_CONTRACTTEST_WARNING = "WARNING";
+
+    const HIGHLIGHT_DEBUG_TEST_LEVEL_FAIL = "FAIL";
 
     const NODELABEL_NULL = "<<Null>>";
     const NODELABEL_OUTDATEDVER = "<<Outdated version>>";
@@ -787,6 +785,7 @@ function SDGGraph(data) {
         console.log(nodelabel);
 
         //***********************修改Service框框、下方資訊的地方--1
+        nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         let servicenodelabel = nodelabel.filter(d => d.labels.includes(LABEL_SERVICE));
         updateContractTestFailNodeLabel(servicenodelabel, NODELABEL_CONTRACTTESTFAIL);
 

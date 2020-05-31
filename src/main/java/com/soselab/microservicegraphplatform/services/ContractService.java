@@ -34,7 +34,7 @@ public class ContractService {
     private ObjectMapper mapper;
 
 
-    public List<String> setAllServiceContractTestingCondition(String systemName){
+    public void setAllServiceContractTestingCondition(String systemName){
         List<String> allServiceAppName = generalRepository.getSystemAllServiceName();
 
 
@@ -89,10 +89,6 @@ public class ContractService {
                 serviceRepository.setContractTestingConditionByAppId(s.getAppId(), "PASS");
 
         }
-
-
-
-        return allServiceAppName;
     }
 
 

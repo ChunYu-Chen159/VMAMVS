@@ -100,10 +100,10 @@ public class WebPageController {
         return sleuthService.getTraceInfo(appName);
     }
 
-    @GetMapping("/contract/getAllServiceContractTestingCondition/{systemName}")
+/*    @GetMapping("/contract/getAllServiceContractTestingCondition/{systemName}")
     public String getAllServiceContractTestingCondition(@PathVariable("systemName") String systemName) {
         return contractService.setAllServiceContractTestingCondition(systemName).toString();
-    }
+    }*/
 
 
     @GetMapping("/graph/providers/{id}")
