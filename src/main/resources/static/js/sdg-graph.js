@@ -788,7 +788,7 @@ function SDGGraph(data) {
 
 
         //***********************修改Service框框、下方資訊的地方--1
-/*        nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
+        nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
             .forEach(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
@@ -817,7 +817,7 @@ function SDGGraph(data) {
                         });
                         });
 
-            });*/
+            });
 
 
         //***********************************************************
@@ -828,6 +828,8 @@ function SDGGraph(data) {
         updateExceptionNodeLabel(oldOutDateVerNodeLabel, NODELABEL_OUTDATEDVER);
 
         function updateExceptionNodeLabel (nodeLabel, text) {
+            console.log(nodeLabel);
+            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag null-tag")
                 .attr("fill", "#dddddd")
@@ -878,6 +880,8 @@ function SDGGraph(data) {
         }
 
         function updateContractTestFailNodeLabel (nodeLabel, text) {
+            console.log(nodeLabel);
+            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag contractTestFail-tag")
                 .attr("fill", "#dddddd")
@@ -991,7 +995,7 @@ function SDGGraph(data) {
         });
 
         //***********************修改Service框框、下方資訊的地方--2
-/*        nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
+        nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
             .forEach(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
@@ -1020,7 +1024,7 @@ function SDGGraph(data) {
                         });
 
                     });
-            });*/
+            });
 
 
 
@@ -1032,6 +1036,8 @@ function SDGGraph(data) {
         addExceptionNodeLabel(outDateVerNodeLabel, NODELABEL_OUTDATEDVER);
 
         function addExceptionNodeLabel (nodeLabel, text) {
+            console.log(nodeLabel);
+            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag null-tag")
                 .attr("fill", "#dddddd")
@@ -1082,6 +1088,8 @@ function SDGGraph(data) {
         }
 
         function addContractTestFailNodeLabel (nodeLabel, text) {
+            console.log(nodeLabel);
+            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag contractTestFail-tag")
                 .attr("fill", "#dddddd")
