@@ -57,11 +57,20 @@ public class ContractService {
                 try {
                     System.out.println("jsonstrrrrr: " + str);
                     JSONObject jsonObj = new JSONObject(str);
+
+                    System.out.println("a: " + jsonObj.getString("systemName"));
+                    System.out.println("b: " + jsonObj.getString("appName"));
+                    System.out.println("c: " + jsonObj.getString("version"));
+
                     Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
+
+                    System.out.println("d: " + swaggerMap);
 
                     if (swaggerMap != null) {
                         Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>(){});
+                        System.out.println("e: " + contractsMap);
                         Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>(){});
+                        System.out.println("f: " + groovyMap);
                         groovyMap.forEach((key, value) -> {
                             Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>(){});
                             Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>(){});
