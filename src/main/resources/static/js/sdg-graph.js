@@ -1090,6 +1090,7 @@ function SDGGraph(data) {
             console.log(text);
             nodeLabel.append("rect")
                 .attr("class", function(d) {
+                    console.log(d);
                     fetch("/web-page/graph/providers/" + d.id)
                         .then(response => response.json())
                         .then(json => {
