@@ -25,7 +25,7 @@ import java.util.Map;
 @Configuration
 public class ContractService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SleuthService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContractService.class);
 
     @Autowired
     private GeneralRepository generalRepository;
@@ -81,6 +81,7 @@ public class ContractService {
 
 
                 }catch (JSONException err){
+                    err.printStackTrace();
                     logger.error("Error", err.toString());
                 }
             }
