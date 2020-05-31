@@ -20,8 +20,8 @@ public interface GeneralRepository extends Neo4jRepository {
     List<String> getSystemAllServiceName();
 
     @Query("MATCH (n)-[:HTTP_REQUEST]->(e:Endpoint) " +
-            "OPTIONAL MATCH (n)<-[:OWN]-(parent:Service) " +
-            "OPTIONAL MATCH (e)<-[:OWN]-(targetParent:Service) " +
+            "MATCH (n)<-[:OWN]-(parent:Service) " +
+            "MATCH (e)<-[:OWN]-(targetParent:Service) " +
             "WITH parent.version AS serviceVersion, targetParent.appName AS targetService, targetParent.version as targetServiceVersion , n.appName AS service, n.path AS path, n.method AS method " +
             "ORDER BY service RETURN apoc.convert.toJson({serviceVersion:serviceVersion, targetAppName:targetService, targetServiceVersion:targetServiceVersion, method:method, path:path, appName:service})")
     List<String> getAllServiceAndPathWithHTTP_REQUEST();
@@ -32,7 +32,7 @@ public interface GeneralRepository extends Neo4jRepository {
             "OPTIONAL MATCH (e2)<-[:OWN]-(providerService:Service) " +
             "RETURN apoc.convert.toJson({services:[providerService]})")*/
     @Query("MATCH (n:Endpoint)-[:HTTP_REQUEST]->(e:Endpoint) " +
-            "MATCH (n.)<-[:OWN]-(parent:Service) WHERE parent.appId = {appId} " +
+            "MATCH (n)<-[:OWN]-(parent:Service) WHERE parent.appId = {appId} " +
             "MATCH (e)<-[:OWN]-(targetParent:Service) " +
             "WITH [{id:id(targetParent), appId:targetParent.appId, appName:targetParent.appName, number:targetParent.number, systemName:targetParent.systemName, version:targetParent.version}] AS nodes " +
             "RETURN apoc.convert.toJson({services:[nodes]})")
