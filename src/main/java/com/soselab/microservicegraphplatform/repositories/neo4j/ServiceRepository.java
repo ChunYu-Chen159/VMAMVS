@@ -108,6 +108,6 @@ public interface ServiceRepository extends Neo4jRepository<Service, Long> {
     boolean isBeDependentByAppId(@Param("appId") String appId);
 
     @Query("MATCH (s:Service{appId:{appId}}) WITH s, s.contractTestingCondition = {contractTestingCondition} as result SET s.contractTestingCondition = {contractTestingCondition} RETURN result")
-    boolean setContractTestingConditionByAppId(@Param("appId") String appId, @Param("contractTestingCondition") String contractTestingCondition);
+    void setContractTestingConditionByAppId(@Param("appId") String appId, @Param("contractTestingCondition") String contractTestingCondition);
 
 }

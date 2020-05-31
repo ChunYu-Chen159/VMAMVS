@@ -102,7 +102,7 @@ public class WebPageController {
 
     @GetMapping("/contract/getAllServiceContractTestingCondition/{systemName}")
     public String getAllServiceContractTestingCondition(@PathVariable("systemName") String systemName) {
-        return contractService.getAllServiceContractTestingCondition(systemName).toString();
+        return contractService.setAllServiceContractTestingCondition(systemName).toString();
     }
 
 

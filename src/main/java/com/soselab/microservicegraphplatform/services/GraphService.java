@@ -56,6 +56,8 @@ public class GraphService {
     @Autowired
     private MonitorService monitorService;
     @Autowired
+    private ContractService contractService;
+    @Autowired
     private ObjectMapper mapper;
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -66,6 +68,7 @@ public class GraphService {
         // Store the graph json of each systems at a Map as cache.
         List<String> systemNames = generalRepository.getAllSystemName();
         for (String systemName : systemNames) {
+            contractService.setAllServiceContractTestingCondition(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
         }
     }
@@ -75,6 +78,7 @@ public class GraphService {
         Map<String, Boolean> systemIsUpdatedMap = updateGraphDB();
         systemIsUpdatedMap.forEach((systemName, isUpdated) -> {
             if (isUpdated) {
+                contractService.setAllServiceContractTestingCondition(systemName);
                 updateGraphJson(systemName);
             }
         });
