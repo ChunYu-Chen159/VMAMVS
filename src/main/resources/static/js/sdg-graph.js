@@ -870,7 +870,7 @@ function SDGGraph(data) {
                                             .then(response => response.json())
                                             .then(json2 => {
                                                 console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
                                                 for( let api in contractContent){
                                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                                     }else {
@@ -910,7 +910,7 @@ function SDGGraph(data) {
                                             .then(response => response.json())
                                             .then(json2 => {
                                                 console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
                                                 for( let api in contractContent){
                                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                                     }else {
@@ -1118,7 +1118,7 @@ function SDGGraph(data) {
                                             .then(response => response.json())
                                             .then(json2 => {
                                                 console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
                                                 for( let api in contractContent){
                                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                                     }else {
@@ -1158,7 +1158,7 @@ function SDGGraph(data) {
                                             .then(response => response.json())
                                             .then(json2 => {
                                                 console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
                                                 for( let api in contractContent){
                                                     if (contractContent[api]["testResult"]["status"] === "PASS"){
                                                     }else {
