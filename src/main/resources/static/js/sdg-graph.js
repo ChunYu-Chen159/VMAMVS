@@ -870,7 +870,7 @@ function SDGGraph(data) {
                                 fetch("/web-page/app/swagger/" + parentNode.appId)
                                     .then(response => response.json())
                                     .then(json2 => {
-                                        let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
+                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                         for( let api in contractContent){
                                             if (contractContent[api]["testResult"]["status"] === "PASS"){
                                             }else {
@@ -904,7 +904,7 @@ function SDGGraph(data) {
                                 fetch("/web-page/app/swagger/" + parentNode.appId)
                                     .then(response => response.json())
                                     .then(json2 => {
-                                        let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
+                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                         for( let api in contractContent){
                                             if (contractContent[api]["testResult"]["status"] === "PASS"){
                                             }else {
@@ -1090,7 +1090,7 @@ function SDGGraph(data) {
             console.log(text);
             nodeLabel.append("rect")
                 .attr("class", function(d) {
-                    fetch("/web-page/graph/providers/" + se.id)
+                    fetch("/web-page/graph/providers/" + d.id)
                         .then(response => response.json())
                         .then(json => {
                             let parentNode;
@@ -1104,7 +1104,7 @@ function SDGGraph(data) {
                                 fetch("/web-page/app/swagger/" + parentNode.appId)
                                     .then(response => response.json())
                                     .then(json2 => {
-                                        let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
+                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                         for( let api in contractContent){
                                             if (contractContent[api]["testResult"]["status"] === "PASS"){
                                             }else {
@@ -1125,7 +1125,7 @@ function SDGGraph(data) {
 
             nodeLabel.append("text")
                 .attr("class", function(d) {
-                    fetch("/web-page/graph/providers/" + se.id)
+                    fetch("/web-page/graph/providers/" + d.id)
                         .then(response => response.json())
                         .then(json => {
                             let parentNode;
@@ -1139,7 +1139,7 @@ function SDGGraph(data) {
                                 fetch("/web-page/app/swagger/" + parentNode.appId)
                                     .then(response => response.json())
                                     .then(json2 => {
-                                        let contractContent = json2["x-contract"][se.appName.toLowerCase() + ".groovy"];
+                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                         for( let api in contractContent){
                                             if (contractContent[api]["testResult"]["status"] === "PASS"){
                                             }else {
