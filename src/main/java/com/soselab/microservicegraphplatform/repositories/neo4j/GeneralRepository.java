@@ -30,7 +30,7 @@ public interface GeneralRepository extends Neo4jRepository {
     @Query("MATCH (n:Service{appName:{appName}})-[:OWN]->(e:Endpoint) " +
             "OPTIONAL MATCH (e)-[:HTTP_REQUEST]->(e2:Endpoint) " +
             "OPTIONAL MATCH (e2)<-[:OWN]-(providerService:Service) " +
-            "RETURN apoc.convert.toJson({services:[Service]})")
+            "RETURN apoc.convert.toJson({services:[providerService]})")
     List<String> getAllHttpRequestServiceWithService(@Param("appName") String appName);
 
     @Query("MATCH (n) WHERE n:Service OR n:Endpoint OR n:Queue " +
