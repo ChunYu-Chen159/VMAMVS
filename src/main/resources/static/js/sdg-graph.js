@@ -621,6 +621,9 @@ function SDGGraph(data) {
 
         node.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING)
             .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,true);
+        node.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_PASS)
+            .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,false);
+
 
         node.filter(d => !d.labels.includes(LABEL_NULLSERVICE) && !d.labels.includes(LABEL_NULLENDPOINT))
             .classed(HIGHLIGHT_LEVEL_ERROR, false);
@@ -672,6 +675,9 @@ function SDGGraph(data) {
 
         nodeEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING)
             .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,true);
+        nodeEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_PASS)
+            .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,false);
+
 
         nodeEnter.filter(d => d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT))
             .classed(HIGHLIGHT_LEVEL_ERROR, true);
