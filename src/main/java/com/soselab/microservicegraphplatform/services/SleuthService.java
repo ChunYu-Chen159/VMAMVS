@@ -34,12 +34,17 @@ public class SleuthService {
     // 最多抓幾筆資料回來
     private final String limit = "10000";
 
+
+
+    @Autowired
+    private SleuthRepository sleuthRepository;
+
     @Autowired
     private GeneralRepository generalRepository;
 
     public List<String> calculateNumofRequest(){
 
-        List<String> temp = generalRepository.getAllServiceAndPathWithHTTP_REQUEST();
+        List<String> temp = sleuthRepository.getAllServiceAndPathWithHTTP_REQUEST();
 
         //System.out.println(temp);
 

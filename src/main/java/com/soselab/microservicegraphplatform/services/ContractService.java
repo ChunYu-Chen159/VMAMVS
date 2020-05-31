@@ -65,6 +65,8 @@ public class ContractService {
                             Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>(){});
                             String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>(){});
 
+                            System.out.println("statusssssss: " + status);
+
                             if( status.equals("FAIL")) {
                                 serviceRepository.setContractTestingConditionByAppId(s.getAppId(),"WARNING");
                             }
