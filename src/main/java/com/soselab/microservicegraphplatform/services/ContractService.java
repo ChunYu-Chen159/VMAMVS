@@ -41,7 +41,7 @@ public class ContractService {
 
         for(Service s : ServicesInDB) {
             System.out.println(s.getAppName());
-            System.out.println(generalRepository.getAllHttpRequestServiceWithService(s.getAppName()));
+            System.out.println(generalRepository.getAllHttpRequestServiceWithService(s.getAppId()));
 
             //return generalRepository.getAllHttpRequestServiceWithService(s.getAppName());
 
