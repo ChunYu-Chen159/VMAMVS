@@ -852,9 +852,9 @@ function SDGGraph(data) {
             console.log(text);
             nodeLabel.append("rect")
                 .attr("class", function (d) {
-                    data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
+                    data.links.filter( eps => (eps.type === REL_OWN && eps.source.id === d.id))
                         .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.id)
+                            fetch("/web-page/graph/providers/" + ep.source.id)
                                 .then(response => response.json())
                                 .then(json => {
                                     console.log(json);
@@ -892,9 +892,9 @@ function SDGGraph(data) {
 
             nodeLabel.append("text")
                 .attr("class", function(d) {
-                    data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
+                    data.links.filter( eps => (eps.type === REL_OWN && eps.source.id === d.id))
                         .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.id)
+                            fetch("/web-page/graph/providers/" + ep.source.id)
                                 .then(response => response.json())
                                 .then(json => {
                                     console.log(json);
@@ -1100,7 +1100,7 @@ function SDGGraph(data) {
                 .attr("class", function(d) {
                     data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
                         .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.id)
+                            fetch("/web-page/graph/providers/" + ep.source.id)
                                 .then(response => response.json())
                                 .then(json => {
                                     console.log(json);
@@ -1140,7 +1140,7 @@ function SDGGraph(data) {
                 .attr("class", function(d) {
                     data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
                         .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.id)
+                            fetch("/web-page/graph/providers/" + ep.source.id)
                                 .then(response => response.json())
                                 .then(json => {
                                     console.log(json);
