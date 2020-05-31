@@ -798,8 +798,6 @@ function SDGGraph(data) {
         updateExceptionNodeLabel(oldOutDateVerNodeLabel, NODELABEL_OUTDATEDVER);
 
         function updateExceptionNodeLabel (nodeLabel, text) {
-            console.log(nodeLabel);
-            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag null-tag")
                 .attr("fill", "#dddddd")
