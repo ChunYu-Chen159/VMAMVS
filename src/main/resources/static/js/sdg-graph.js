@@ -785,8 +785,7 @@ function SDGGraph(data) {
         console.log(nodelabel);
 
         //***********************修改Service框框、下方資訊的地方--1
-        nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
-        let servicenodelabel = nodelabel.filter(d => d.labels.includes(LABEL_SERVICE));
+        let servicenodelabel = nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         updateContractTestFailNodeLabel(servicenodelabel, NODELABEL_CONTRACTTESTFAIL);
 
         //***********************************************************
@@ -850,80 +849,14 @@ function SDGGraph(data) {
             console.log(nodeLabel);
             console.log(text);
             nodeLabel.append("rect")
-                .attr("class", function (d) {
-                    data.links.filter( eps => (eps.type === REL_OWN) && (eps.source.id === d.id))
-                        .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.source.id)
-                                .then(response => response.json())
-                                .then(json => {
-                                    console.log(json);
-                                    let parentNode;
-                                    json.nodes.forEach(node => {
-                                        let parentNodeTemp = findParentById(node.id);
-                                        if (parentNode === parentNodeTemp)
-                                            return;
-                                        else
-                                            parentNode = parentNodeTemp;
-
-                                        fetch("/web-page/app/swagger/" + parentNode.appId)
-                                            .then(response => response.json())
-                                            .then(json2 => {
-                                                console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
-                                                for( let api in contractContent){
-                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                                    }else {
-                                                        return "tag contractTestFail-tag";
-                                                        break;
-                                                    }
-
-                                                }
-                                            });
-                                    });
-
-                                });
-                        });
-                })
+                .attr("class", "tag contractTestFail-tag")
                 .attr("fill", "#dddddd")
                 .attr("fill-opacity", 0.5)
                 .attr("rx", 8)
                 .attr("ry", 8);
 
             nodeLabel.append("text")
-                .attr("class", function(d) {
-                    data.links.filter( eps => (eps.type === REL_OWN) && (eps.source.id === d.id))
-                        .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.source.id)
-                                .then(response => response.json())
-                                .then(json => {
-                                    console.log(json);
-                                    let parentNode;
-                                    json.nodes.forEach(node => {
-                                        let parentNodeTemp = findParentById(node.id);
-                                        if (parentNode === parentNodeTemp)
-                                            return;
-                                        else
-                                            parentNode = parentNodeTemp;
-
-                                        fetch("/web-page/app/swagger/" + parentNode.appId)
-                                            .then(response => response.json())
-                                            .then(json2 => {
-                                                console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
-                                                for( let api in contractContent){
-                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                                    }else {
-                                                        return "tag contractTestFail-tag";
-                                                        break;
-                                                    }
-
-                                                }
-                                            });
-                                    });
-
-                                });
-                        });
-                })
+                .attr("class", "tag contractTestFail-tag")
                 .attr("dx", 0)
                 .attr("dy", function (d) {
                     let texts = $(this.parentNode).find("text.tag");
@@ -1028,7 +961,7 @@ function SDGGraph(data) {
         });
         console.log(nodelabelEnter);
         //***********************修改Service框框、下方資訊的地方--2
-        let servicenodelabelEnter = nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE));
+        let servicenodelabelEnter = nodelabelEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         addContractTestFailNodeLabel(servicenodelabelEnter, NODELABEL_CONTRACTTESTFAIL);
 
 
@@ -1096,82 +1029,14 @@ function SDGGraph(data) {
             console.log(nodeLabel);
             console.log(text);
             nodeLabel.append("rect")
-                .attr("class", function(d) {
-                    console.log(d);
-                    console.log(d.id);
-                    data.links.filter( eps => (eps.type === REL_OWN) && (eps.source.id === d.id))
-                        .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.source.id)
-                                .then(response => response.json())
-                                .then(json => {
-                                    console.log(json);
-                                    let parentNode;
-                                    json.nodes.forEach(node => {
-                                        let parentNodeTemp = findParentById(node.id);
-                                        if (parentNode === parentNodeTemp)
-                                            return;
-                                        else
-                                            parentNode = parentNodeTemp;
-
-                                        fetch("/web-page/app/swagger/" + parentNode.appId)
-                                            .then(response => response.json())
-                                            .then(json2 => {
-                                                console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
-                                                for( let api in contractContent){
-                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                                    }else {
-                                                        return "tag contractTestFail-tag";
-                                                        break;
-                                                    }
-
-                                                }
-                                            });
-                                    });
-
-                                });
-                        });
-                })
+                .attr("class", "tag contractTestFail-tag")
                 .attr("fill", "#dddddd")
                 .attr("fill-opacity", 0)
                 .attr("rx", 8)
                 .attr("ry", 8);
 
             nodeLabel.append("text")
-                .attr("class", function(d) {
-                    data.links.filter( eps => (eps.type === REL_OWN) && (eps.source.id === d.id))
-                        .forEach(ep => {
-                            fetch("/web-page/graph/providers/" + ep.source.id)
-                                .then(response => response.json())
-                                .then(json => {
-                                    console.log(json);
-                                    let parentNode;
-                                    json.nodes.forEach(node => {
-                                        let parentNodeTemp = findParentById(node.id);
-                                        if (parentNode === parentNodeTemp)
-                                            return;
-                                        else
-                                            parentNode = parentNodeTemp;
-
-                                        fetch("/web-page/app/swagger/" + parentNode.appId)
-                                            .then(response => response.json())
-                                            .then(json2 => {
-                                                console.log(json2);
-                                                let contractContent = json2["x-contract"][ep.source.appName.toLowerCase() + ".groovy"];
-                                                for( let api in contractContent){
-                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                                    }else {
-                                                        return "tag contractTestFail-tag";
-                                                        break;
-                                                    }
-
-                                                }
-                                            });
-                                    });
-
-                                });
-                        });
-                })
+                .attr("class", "tag contractTestFail-tag")
                 .attr("dx", 0)
                 .attr("dy", function (d) {
                     let texts = $(this.parentNode).find("text.tag");
