@@ -27,7 +27,7 @@ public interface GeneralRepository extends Neo4jRepository {
     List<String> getAllServiceAndPathWithHTTP_REQUEST();
 
 
-    @Query("MATCH (n:Service {appName:{appName}})-[:OWN]->(e:Endpoint) " +
+    @Query("MATCH (n:Service{appName:{appName}})-[:OWN]->(e:Endpoint) " +
             "OPTIONAL MATCH (e)-[:HTTP_REQUEST]->(e2:Endpoint) " +
             "OPTIONAL MATCH (e2)<-[:OWN]-(providerService:Service) " +
             "RETURN apoc.convert.toJson({services:[Service]})")
