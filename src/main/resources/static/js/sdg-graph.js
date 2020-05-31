@@ -395,9 +395,7 @@ function SDGGraph(data) {
         let link2;
 
         link2 = data.links.find(link => (link.target.id === id) && (link.type === REL_OWN));
-        console.log(link2);
         result = data.nodes.find(node => node.id === link2.source.id);
-        console.log(result);
         return result;
     }
 
@@ -859,6 +857,7 @@ function SDGGraph(data) {
                     fetch("/web-page/graph/providers/" + d.id)
                         .then(response => response.json())
                         .then(json => {
+                            console.log(json);
                             let parentNode;
                             json.nodes.forEach(node => {
                                 let parentNodeTemp = findParentById(node.id);
@@ -904,6 +903,7 @@ function SDGGraph(data) {
                                 fetch("/web-page/app/swagger/" + parentNode.appId)
                                     .then(response => response.json())
                                     .then(json2 => {
+                                        console.log(json2);
                                         let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                         for( let api in contractContent){
                                             if (contractContent[api]["testResult"]["status"] === "PASS"){
@@ -1093,6 +1093,7 @@ function SDGGraph(data) {
                     fetch("/web-page/graph/providers/" + d.id)
                         .then(response => response.json())
                         .then(json => {
+                            console.log(json);
                             let parentNode;
                             json.nodes.forEach(node => {
                                 let parentNodeTemp = findParentById(node.id);
@@ -1104,6 +1105,7 @@ function SDGGraph(data) {
                                 fetch("/web-page/app/swagger/" + parentNode.appId)
                                     .then(response => response.json())
                                     .then(json2 => {
+                                        console.log(json2);
                                         let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                                         for( let api in contractContent){
                                             if (contractContent[api]["testResult"]["status"] === "PASS"){
