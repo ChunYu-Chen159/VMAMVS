@@ -37,6 +37,7 @@ function SDGGraph(data) {
     const HIGHLIGHT_LEVEL_NORMAL = "highlight";
     const HIGHLIGHT_LEVEL_WARNING = "warning";
     const HIGHLIGHT_LEVEL_ERROR = "error";
+    const HIGHLIGHT_CONTRACTTESTING_WARNING = "contractWarning";
 
     const CONDITION_CONTRACTTEST_PASS = "PASS";
     const CONDITION_CONTRACTTEST_WARNING = "WARNING";
@@ -618,6 +619,9 @@ function SDGGraph(data) {
         ).classed(HIGHLIGHT_LEVEL_WARNING, true);
         node.filter(d => d.warning).classed(HIGHLIGHT_LEVEL_WARNING, true);
 
+        node.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING)
+            .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,true);
+
         node.filter(d => !d.labels.includes(LABEL_NULLSERVICE) && !d.labels.includes(LABEL_NULLENDPOINT))
             .classed(HIGHLIGHT_LEVEL_ERROR, false);
         node.filter(d => !d.error).classed(HIGHLIGHT_LEVEL_ERROR, false);
@@ -782,9 +786,7 @@ function SDGGraph(data) {
             }
         });
 
-        console.log(nodelabel);
-
-        //***********************修改Service框框、下方資訊的地方--1
+        //***********************修改服務框框下方資訊的地方--1
         let servicenodelabel = nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         updateContractTestFailNodeLabel(servicenodelabel, NODELABEL_CONTRACTTESTFAIL);
 
@@ -798,7 +800,7 @@ function SDGGraph(data) {
         function updateExceptionNodeLabel (nodeLabel, text) {
             nodeLabel.append("rect")
                 .attr("class", "tag null-tag")
-                .attr("fill", "#dddddd")
+                .attr("fill", "#00000000")
                 .attr("fill-opacity", 0.5)
                 .attr("rx", 8)
                 .attr("ry", 8);
@@ -846,8 +848,6 @@ function SDGGraph(data) {
         }
 
         function updateContractTestFailNodeLabel (nodeLabel, text) {
-            console.log(nodeLabel);
-            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag contractTestFail-tag")
                 .attr("fill", "#dddddd")
@@ -959,8 +959,8 @@ function SDGGraph(data) {
                 return 28;
             }
         });
-        console.log(nodelabelEnter);
-        //***********************修改Service框框、下方資訊的地方--2
+
+        //***********************修改服務框框下方資訊的地方--2
         let servicenodelabelEnter = nodelabelEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         addContractTestFailNodeLabel(servicenodelabelEnter, NODELABEL_CONTRACTTESTFAIL);
 
@@ -974,8 +974,6 @@ function SDGGraph(data) {
         addExceptionNodeLabel(outDateVerNodeLabel, NODELABEL_OUTDATEDVER);
 
         function addExceptionNodeLabel (nodeLabel, text) {
-            console.log(nodeLabel);
-            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag null-tag")
                 .attr("fill", "#dddddd")
@@ -1026,11 +1024,9 @@ function SDGGraph(data) {
         }
 
         function addContractTestFailNodeLabel (nodeLabel, text) {
-            console.log(nodeLabel);
-            console.log(text);
             nodeLabel.append("rect")
                 .attr("class", "tag contractTestFail-tag")
-                .attr("fill", "#dddddd")
+                .attr("fill", "#00000000")
                 .attr("fill-opacity", 0)
                 .attr("rx", 8)
                 .attr("ry", 8);
