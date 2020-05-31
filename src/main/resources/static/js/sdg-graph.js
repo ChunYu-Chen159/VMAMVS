@@ -789,8 +789,8 @@ function SDGGraph(data) {
         console.log(nodelabel);
 
         //***********************修改Service框框、下方資訊的地方--1
-        nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
-            .then(se => {
+        let servicenodelabel = nodelabel.filter(d => d.labels.includes(LABEL_SERVICE));
+        servicenodelabel.forEach(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
                     .then(json => {
@@ -995,8 +995,8 @@ function SDGGraph(data) {
         });
         console.log(nodelabelEnter);
         //***********************修改Service框框、下方資訊的地方--2
-        nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
-            .then(se => {
+        let servicenodelabelEnter = nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE));
+        servicenodelabelEnter.forEach(se => {
                 fetch("/web-page/graph/providers/" + se.id)
                     .then(response => response.json())
                     .then(json => {
