@@ -860,7 +860,7 @@ function SDGGraph(data) {
         function updateContractTestFailNodeLabel (nodeLabel, text) {
             nodeLabel.append("rect")
                 .attr("class", "tag contractTestFail-tag")
-                .attr("fill", "#dddddd")
+                .attr("fill", "#ffc107")
                 .attr("fill-opacity", 0.5)
                 .attr("rx", 8)
                 .attr("ry", 8);
@@ -878,7 +878,7 @@ function SDGGraph(data) {
                     }
                 })
                 .attr("fill-opacity", 1)
-                .style("fill", "#ffc107")
+                .style("fill", "#212529")
                 .text(text);
 
             nodeLabel.selectAll("rect.contractTestFail-tag")
@@ -1036,7 +1036,7 @@ function SDGGraph(data) {
         function addContractTestFailNodeLabel (nodeLabel, text) {
             nodeLabel.append("rect")
                 .attr("class", "tag contractTestFail-tag")
-                .attr("fill", "#00000000")
+                .attr("fill", "#ffc107")
                 .attr("fill-opacity", 0)
                 .attr("rx", 8)
                 .attr("ry", 8);
@@ -1054,7 +1054,7 @@ function SDGGraph(data) {
                     }
                 })
                 .attr("fill-opacity", 0)
-                .style("fill", "#ffc107")
+                .style("fill", "#212529")
                 .text(text);
 
             nodeLabel.selectAll("rect.contractTestFail-tag")
