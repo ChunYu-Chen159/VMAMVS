@@ -786,6 +786,7 @@ function SDGGraph(data) {
             }
         });
 
+        console.log(nodelabel);
 
         //***********************修改Service框框、下方資訊的地方--1
         nodelabel.filter(d => d.labels.includes(LABEL_SERVICE))
@@ -993,7 +994,7 @@ function SDGGraph(data) {
                 return 28;
             }
         });
-
+        console.log(nodelabelEnter);
         //***********************修改Service框框、下方資訊的地方--2
         nodelabelEnter.filter(d => d.labels.includes(LABEL_SERVICE))
             .forEach(se => {
