@@ -172,6 +172,21 @@ public class SpringRestTool {
         return restTemplate.getForObject(url + "/v2/api-docs", String.class);
     }
 
+
+    public Map<String, Object> getSwaggerFromRemoteApp2(String systemName, String appName, String version) {
+        MgpApplication mgpApplication = getAppFromEureka(systemName, appName, version);
+        String url = "http://" + mgpApplication.getInstances().get(0).getIpAddr() + ":" + mgpApplication.getInstances().get(0).getPort();
+        String swagger = restTemplate.getForObject(url + "/v2/api-docs", String.class);
+
+        Map<String, Object> swaggerMap = null;
+        try {
+            swaggerMap = mapper.readValue(swagger, new TypeReference<Map<String, Object>>(){});
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return swaggerMap;
+    }
+
     public Map<String, Object> getSwaggerFromRemoteApp(String serviceUrl) {
         String swagger = restTemplate.getForObject(serviceUrl + "/v2/api-docs", String.class);
         Map<String, Object> swaggerMap = null;
