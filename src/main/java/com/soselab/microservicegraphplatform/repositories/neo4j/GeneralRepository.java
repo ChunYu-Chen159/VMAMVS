@@ -35,7 +35,7 @@ public interface GeneralRepository extends Neo4jRepository {
             "MATCH (n)<-[:OWN]-(parent:Service) WHERE parent.appId = {appId} " +
             "MATCH (e)<-[:OWN]-(targetParent:Service) " +
             "WITH DISTINCT [{id:id(targetParent), appId:targetParent.appId, appName:targetParent.appName, number:targetParent.number, systemName:targetParent.systemName, version:targetParent.version}] AS nodes " +
-            "RETURN apoc.convert.toJson({[nodes]})")
+            "RETURN apoc.convert.toJson({nodes})")
     List<String> getAllHttpRequestServiceWithService(@Param("appId") String appId);
 
     @Query("MATCH (n) WHERE n:Service OR n:Endpoint OR n:Queue " +
