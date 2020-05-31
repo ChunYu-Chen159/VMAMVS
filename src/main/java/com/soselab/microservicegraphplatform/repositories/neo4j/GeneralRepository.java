@@ -32,7 +32,7 @@ public interface GeneralRepository extends Neo4jRepository {
             "OPTIONAL MATCH (e2)<-[:OWN]-(providerService:Service) " +
             "RETURN apoc.convert.toJson({services:[providerService]})")*/
     @Query("MATCH (n)-[:HTTP_REQUEST]->(e:Endpoint) " +
-            "OPTIONAL MATCH (n)<-[:OWN]-(parent:Service) " +
+            "OPTIONAL MATCH (n)<-[:OWN]-(parent:Service{appName:{appName}}) " +
             "OPTIONAL MATCH (e)<-[:OWN]-(targetParent:Service) " +
             "WITH [{id:id(targetParent), appId:targetParent.appId, appName:targetParent.appName, number:targetParent.number, systemName:targetParent.systemName, version:targetParent.version}] AS nodes " +
             "RETURN apoc.convert.toJson({services:[nodes]})")
