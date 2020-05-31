@@ -40,6 +40,7 @@ public class ContractService {
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
 
         for(Service s : ServicesInDB) {
+            System.out.println(s.getAppName());
             System.out.println(generalRepository.getAllHttpRequestServiceWithService(s.getAppName()));
 
             return generalRepository.getAllHttpRequestServiceWithService(s.getAppName());
