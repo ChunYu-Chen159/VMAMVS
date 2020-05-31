@@ -669,6 +669,10 @@ function SDGGraph(data) {
             d.labels.includes(LABEL_HEAVY_WEAK_UPPER_DEPENDENCY) ||
             d.labels.includes(LABEL_HEAVY_WEAK_LOWER_DEPENDENCY)
         ).classed(HIGHLIGHT_LEVEL_WARNING, true);
+
+        nodeEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING)
+            .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,true);
+
         nodeEnter.filter(d => d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT))
             .classed(HIGHLIGHT_LEVEL_ERROR, true);
 
