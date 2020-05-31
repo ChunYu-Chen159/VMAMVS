@@ -852,32 +852,37 @@ function SDGGraph(data) {
             console.log(text);
             nodeLabel.append("rect")
                 .attr("class", function (d) {
-                    fetch("/web-page/graph/providers/" + d.id)
-                        .then(response => response.json())
-                        .then(json => {
-                            console.log(json);
-                            let parentNode;
-                            json.nodes.forEach(node => {
-                                let parentNodeTemp = findParentById(node.id);
-                                if (parentNode === parentNodeTemp)
-                                    return;
-                                else
-                                    parentNode = parentNodeTemp;
+                    data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
+                        .forEach(ep => {
+                            fetch("/web-page/graph/providers/" + ep.id)
+                                .then(response => response.json())
+                                .then(json => {
+                                    console.log(json);
+                                    let parentNode;
+                                    json.nodes.forEach(node => {
+                                        let parentNodeTemp = findParentById(node.id);
+                                        if (parentNode === parentNodeTemp)
+                                            return;
+                                        else
+                                            parentNode = parentNodeTemp;
 
-                                fetch("/web-page/app/swagger/" + parentNode.appId)
-                                    .then(response => response.json())
-                                    .then(json2 => {
-                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
-                                        for( let api in contractContent){
-                                            if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                            }else {
-                                                return "tag contractTestFail-tag";
-                                                break;
-                                            }
+                                        fetch("/web-page/app/swagger/" + parentNode.appId)
+                                            .then(response => response.json())
+                                            .then(json2 => {
+                                                console.log(json2);
+                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                for( let api in contractContent){
+                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                                    }else {
+                                                        return "tag contractTestFail-tag";
+                                                        break;
+                                                    }
 
-                                        }
+                                                }
+                                            });
                                     });
-                            });
+
+                                });
                         });
                 })
                 .attr("fill", "#dddddd")
@@ -887,32 +892,37 @@ function SDGGraph(data) {
 
             nodeLabel.append("text")
                 .attr("class", function(d) {
-                    fetch("/web-page/graph/providers/" + d.id)
-                        .then(response => response.json())
-                        .then(json => {
-                            let parentNode;
-                            json.nodes.forEach(node => {
-                                let parentNodeTemp = findParentById(node.id);
-                                if (parentNode === parentNodeTemp)
-                                    return;
-                                else
-                                    parentNode = parentNodeTemp;
+                    data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
+                        .forEach(ep => {
+                            fetch("/web-page/graph/providers/" + ep.id)
+                                .then(response => response.json())
+                                .then(json => {
+                                    console.log(json);
+                                    let parentNode;
+                                    json.nodes.forEach(node => {
+                                        let parentNodeTemp = findParentById(node.id);
+                                        if (parentNode === parentNodeTemp)
+                                            return;
+                                        else
+                                            parentNode = parentNodeTemp;
 
-                                fetch("/web-page/app/swagger/" + parentNode.appId)
-                                    .then(response => response.json())
-                                    .then(json2 => {
-                                        console.log(json2);
-                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
-                                        for( let api in contractContent){
-                                            if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                            }else {
-                                                return "tag contractTestFail-tag";
-                                                break;
-                                            }
+                                        fetch("/web-page/app/swagger/" + parentNode.appId)
+                                            .then(response => response.json())
+                                            .then(json2 => {
+                                                console.log(json2);
+                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                for( let api in contractContent){
+                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                                    }else {
+                                                        return "tag contractTestFail-tag";
+                                                        break;
+                                                    }
 
-                                        }
+                                                }
+                                            });
                                     });
-                            });
+
+                                });
                         });
                 })
                 .attr("dx", 0)
@@ -1088,35 +1098,37 @@ function SDGGraph(data) {
             console.log(text);
             nodeLabel.append("rect")
                 .attr("class", function(d) {
-                    console.log(d);
-                    fetch("/web-page/graph/providers/" + d.id)
-                        .then(response => response.json())
-                        .then(json => {
-                            console.log(json);
-                            let parentNode;
-                            json.nodes.forEach(node => {
-                                let parentNodeTemp = findParentById(node.id);
-                                if (parentNode === parentNodeTemp)
-                                    return;
-                                else
-                                    parentNode = parentNodeTemp;
+                    data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
+                        .forEach(ep => {
+                            fetch("/web-page/graph/providers/" + ep.id)
+                                .then(response => response.json())
+                                .then(json => {
+                                    console.log(json);
+                                    let parentNode;
+                                    json.nodes.forEach(node => {
+                                        let parentNodeTemp = findParentById(node.id);
+                                        if (parentNode === parentNodeTemp)
+                                            return;
+                                        else
+                                            parentNode = parentNodeTemp;
 
-                                fetch("/web-page/app/swagger/" + parentNode.appId)
-                                    .then(response => response.json())
-                                    .then(json2 => {
-                                        console.log(json2);
-                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
-                                        for( let api in contractContent){
-                                            if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                            }else {
-                                                return "tag contractTestFail-tag";
-                                                break;
-                                            }
+                                        fetch("/web-page/app/swagger/" + parentNode.appId)
+                                            .then(response => response.json())
+                                            .then(json2 => {
+                                                console.log(json2);
+                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                for( let api in contractContent){
+                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                                    }else {
+                                                        return "tag contractTestFail-tag";
+                                                        break;
+                                                    }
 
-                                        }
+                                                }
+                                            });
                                     });
-                            });
 
+                                });
                         });
                 })
                 .attr("fill", "#dddddd")
@@ -1126,32 +1138,37 @@ function SDGGraph(data) {
 
             nodeLabel.append("text")
                 .attr("class", function(d) {
-                    fetch("/web-page/graph/providers/" + d.id)
-                        .then(response => response.json())
-                        .then(json => {
-                            let parentNode;
-                            json.nodes.forEach(node => {
-                                let parentNodeTemp = findParentById(node.id);
-                                if (parentNode === parentNodeTemp)
-                                    return;
-                                else
-                                    parentNode = parentNodeTemp;
+                    data.links.filter( eps => (eps.type === REL_OWN && eps.source === d.id))
+                        .forEach(ep => {
+                            fetch("/web-page/graph/providers/" + ep.id)
+                                .then(response => response.json())
+                                .then(json => {
+                                    console.log(json);
+                                    let parentNode;
+                                    json.nodes.forEach(node => {
+                                        let parentNodeTemp = findParentById(node.id);
+                                        if (parentNode === parentNodeTemp)
+                                            return;
+                                        else
+                                            parentNode = parentNodeTemp;
 
-                                fetch("/web-page/app/swagger/" + parentNode.appId)
-                                    .then(response => response.json())
-                                    .then(json2 => {
-                                        let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
-                                        for( let api in contractContent){
-                                            if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                            }else {
-                                                return "tag contractTestFail-tag";
-                                                break;
-                                            }
+                                        fetch("/web-page/app/swagger/" + parentNode.appId)
+                                            .then(response => response.json())
+                                            .then(json2 => {
+                                                console.log(json2);
+                                                let contractContent = json2["x-contract"][ep.appName.toLowerCase() + ".groovy"];
+                                                for( let api in contractContent){
+                                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
+                                                    }else {
+                                                        return "tag contractTestFail-tag";
+                                                        break;
+                                                    }
 
-                                        }
+                                                }
+                                            });
                                     });
-                            });
 
+                                });
                         });
                 })
                 .attr("dx", 0)
