@@ -79,7 +79,7 @@ public class RiskService {
             JSONObject jsonObj = new JSONObject(provider);
             JSONArray nodes = jsonObj.getJSONArray("nodes");
 
-            int totalNum = 0;
+            double totalNum = 0;
             for(int j = 0; j < nodes.length(); j++) {
                 totalNum += getNumofEndpoint((int)nodes.getJSONObject(j).get("id"));
             }
