@@ -796,11 +796,10 @@ function SDGGraph(data) {
             }
         });
 
-        //***********************修改服務框框下方資訊的地方--1
+
         let servicenodelabel = nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         updateContractTestFailNodeLabel(servicenodelabel, NODELABEL_CONTRACTTESTFAIL);
 
-        //***********************************************************
         let oldNullNodelabel = nodelabel.filter(d =>  d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT));
         updateExceptionNodeLabel(oldNullNodelabel, NODELABEL_NULL);
 
@@ -970,13 +969,9 @@ function SDGGraph(data) {
             }
         });
 
-        //***********************修改服務框框下方資訊的地方--2
         let servicenodelabelEnter = nodelabelEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         addContractTestFailNodeLabel(servicenodelabelEnter, NODELABEL_CONTRACTTESTFAIL);
 
-
-
-        //******************************************************************************************
         let nullNodelabel = nodelabelEnter.filter(d => d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT));
         addExceptionNodeLabel(nullNodelabel, NODELABEL_NULL);
 

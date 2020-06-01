@@ -3,6 +3,7 @@ package com.soselab.microservicegraphplatform.services;
 import com.soselab.microservicegraphplatform.bean.neo4j.Endpoint;
 import com.soselab.microservicegraphplatform.repositories.neo4j.GeneralRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.SleuthRepository;
+import com.sun.tools.javac.resources.version;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -136,6 +137,40 @@ public class SleuthService {
         }
         return result;
     }
+
+
+    public String searchZipkin(String appName, String version, int statusCode, long startTime, long endTime, int limit){
+        String result = "";
+        try {
+            URL url = new URL(Zipkin_V1_BASEPATH+"api/v1/traces?annotationQuery=http.version=" + version + "+and+" + "http.status_code=" + statusCode + "&limit=" + limit + "&startTs=" + startTime + "&endTs=" + endTime + "&serviceName="+appName.toLowerCase()+"&sortOrder=timestamp-desc");
+            URLConnection urlConnection = url.openConnection();
+
+
+            BufferedReader in = new BufferedReader( new InputStreamReader(urlConnection.getInputStream()) );
+            String current = "";
+            while((current = in.readLine()) != null)
+            {
+                result += current;
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    public int getTotalNum(String str)
+    {
+        JSONArray array = new JSONArray(str);
+
+
+        return 0;
+    }
+
 
 
 

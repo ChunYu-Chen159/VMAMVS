@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Configuration
 public class ContractService {
@@ -33,16 +32,16 @@ public class ContractService {
     @Autowired
     private ObjectMapper mapper;
 
+    private static final String CONTRACTTESTINGCONDITION_PASS = "PASS";
+    private static final String CONTRACTTESTINGCONDITION_WARNING = "WARNING";
+
 
     public void setAllServiceContractTestingCondition(String systemName){
-        List<String> allServiceAppName = generalRepository.getSystemAllServiceName();
-
-
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
 
         for(Service s : ServicesInDB) {
 
-            String condition = "PASS";
+            String condition = CONTRACTTESTINGCONDITION_PASS;
 
             List<String> providerService = generalRepository.getAllHttpRequestServiceWithService(s.getAppId());
 
@@ -68,8 +67,8 @@ public class ContractService {
                                 });
 
                                 if (status.equals("FAIL")) {
-                                    serviceRepository.setContractTestingConditionByAppId(s.getAppId(), "WARNING");
-                                    condition = "WARNING";
+                                    serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
+                                    condition = CONTRACTTESTINGCONDITION_WARNING;
                                 }
 
                             }
@@ -85,8 +84,8 @@ public class ContractService {
                 }
             }
 
-            if( condition.equals("PASS"))
-                serviceRepository.setContractTestingConditionByAppId(s.getAppId(), "PASS");
+            if( condition.equals(CONTRACTTESTINGCONDITION_PASS))
+                serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_PASS);
 
         }
     }

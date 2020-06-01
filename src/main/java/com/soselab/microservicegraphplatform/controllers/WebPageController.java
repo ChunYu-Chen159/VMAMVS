@@ -15,6 +15,7 @@ import com.soselab.microservicegraphplatform.repositories.neo4j.SettingRepositor
 import com.soselab.microservicegraphplatform.bean.mgp.AppMetrics;
 import com.soselab.microservicegraphplatform.bean.mgp.WebNotification;
 import com.soselab.microservicegraphplatform.repositories.neo4j.GeneralRepository;
+import com.sun.tools.javac.resources.version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,6 @@ public class WebPageController {
     @Autowired
     private ContractService contractService;
 
-
     @GetMapping("/system-names")
     public String getSystems() {
         List<String> sysNames = generalRepository.getAllSystemName();
@@ -98,6 +98,16 @@ public class WebPageController {
     @GetMapping("/sleuth/{appName}")
     public String getSleuthTrace(@PathVariable("appName") String appName) {
         return sleuthService.getTraceInfo(appName);
+    }
+
+    @GetMapping("/sleuth/searchZipkin/{appName}/{version}/{statusCode}/{startTime}/{endTime}/{limit}")
+    public String searchZipkin(@PathVariable("appName") String appName,
+                               @PathVariable("version") String version,
+                               @PathVariable("statusCode") int statusCode,
+                               @PathVariable("startTime") long startTime,
+                               @PathVariable("endTime") long endTime,
+                               @PathVariable("limit") int limit){
+        return sleuthService.searchZipkin(appName, version, statusCode, startTime, endTime, limit);
     }
 
 /*    @GetMapping("/contract/getAllServiceContractTestingCondition/{systemName}")
