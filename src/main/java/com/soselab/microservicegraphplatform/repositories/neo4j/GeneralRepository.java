@@ -120,7 +120,7 @@ public interface GeneralRepository extends Neo4jRepository {
             "WITH collect(DISTINCT ps) as ns " +
             "WITH [node in ns | node {id:id(node)}] as nodes " +
             "RETURN apoc.convert.toJson({nodes:nodes, links:[]})")
-    String getProviders(@Param("id") Long appId);
+    String getProviders(@Param("id") Long id);
 
     @Query("MATCH (n) WHERE ID(n) = {id}" +
             "OPTIONAL MATCH (n)<-[:HTTP_REQUEST]-(p1) " +
@@ -133,6 +133,6 @@ public interface GeneralRepository extends Neo4jRepository {
             "WITH collect(DISTINCT ps) as ns " +
             "WITH [node in ns | node {id:id(node)}] as nodes " +
             "RETURN apoc.convert.toJson({nodes:nodes, links:[]})")
-    String getConsumers(@Param("id") Long appId);
+    String getConsumers(@Param("id") Long id);
 
 }

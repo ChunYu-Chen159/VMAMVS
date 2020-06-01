@@ -118,7 +118,7 @@ public class WebPageController {
 
 
     @GetMapping("/graph/providers/{id}")
-    public String getProviders(@PathVariable("id") Long id) {
+    public String getProviders(@PathVariable("id") long id) {
         return generalRepository.getProviders(id);
     }
 
