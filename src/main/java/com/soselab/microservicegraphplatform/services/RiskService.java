@@ -75,13 +75,21 @@ public class RiskService {
         for(Service s : ServicesInDB) {
 
             String provider = generalRepository.getProviders(s.getId());
+            String consumer = generalRepository.getConsumers(s.getId());
 
             JSONObject jsonObj = new JSONObject(provider);
             JSONArray nodes = jsonObj.getJSONArray("nodes");
 
+            JSONObject jsonObj2 = new JSONObject(consumer);
+            JSONArray nodes2 = jsonObj2.getJSONArray("nodes");
+
             double totalNum = 0;
             for(int j = 0; j < nodes.length(); j++) {
-                totalNum += getNumofEndpoint((int)nodes.getJSONObject(j).get("id"));
+                totalNum += getNumofEndpoint_Provider((int)nodes.getJSONObject(j).get("id"));
+            }
+
+            for(int j = 0; j < nodes2.length(); j++) {
+                totalNum += getNumofEndpoint_Consumer((int)nodes.getJSONObject(j).get("id"));
             }
 
             System.out.println(s.getAppId() + " totalNum:");
@@ -117,7 +125,7 @@ public class RiskService {
     }
 
 
-    public double getNumofEndpoint(long id) {
+    public double getNumofEndpoint_Provider(long id) {
 
         String provider = generalRepository.getProviders(id);
         JSONObject jsonObj = new JSONObject(provider);
@@ -126,7 +134,26 @@ public class RiskService {
         if(nodes.length() > 0){
             double totalNum = nodes.length();
             for(int j = 0; j < nodes.length(); j++) {
-                totalNum += getNumofEndpoint((int)nodes.getJSONObject(j).get("id"));
+                totalNum += getNumofEndpoint_Provider((int)nodes.getJSONObject(j).get("id"));
+                System.out.println("aaaaaaaa:" + totalNum);
+            }
+
+            return totalNum;
+        }else{
+            return 0;
+        }
+    }
+
+    public double getNumofEndpoint_Consumer(long id) {
+
+        String provider = generalRepository.getProviders(id);
+        JSONObject jsonObj = new JSONObject(provider);
+        JSONArray nodes = jsonObj.getJSONArray("nodes");
+
+        if(nodes.length() > 0){
+            double totalNum = nodes.length();
+            for(int j = 0; j < nodes.length(); j++) {
+                totalNum += getNumofEndpoint_Consumer((int)nodes.getJSONObject(j).get("id"));
                 System.out.println("aaaaaaaa:" + totalNum);
             }
 
