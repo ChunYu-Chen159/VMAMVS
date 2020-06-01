@@ -147,6 +147,7 @@ public class RiskService {
             double min = (double)map.get(ServicesInDB.get(0).getAppId());
             double k;
 
+            // 找max , min
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
@@ -156,8 +157,10 @@ public class RiskService {
                     min = (double)value;
             }
 
+            // 計算係數k
             k = (b-a)/(max-min);
 
+            // 套入公式正規化
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
