@@ -84,6 +84,9 @@ public class RiskService {
                 totalNum += getNumofEndpoint((int)nodes.getJSONObject(j).get("id"));
             }
 
+            System.out.println(s.getAppId() + " totalNum:");
+            System.out.println(totalNum);
+
 
             endpointNumberMap.put(s.getAppId(), totalNum);
 
@@ -132,7 +135,7 @@ public class RiskService {
         }
     }
 
-    // 正規化
+    // 正規化[0.1, 1]
     public Map<String,Object> normalization(Map<String,Object> map, List<Service> ServicesInDB){
         double a = 0.1;
         double b = 1;
