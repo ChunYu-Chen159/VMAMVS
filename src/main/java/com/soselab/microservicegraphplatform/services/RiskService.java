@@ -18,7 +18,7 @@ public class RiskService {
 
 
         Long startTime = nowTime;
-        Long nextTime = startTime + (timeInterval * 24 * 60 * 60 * 1000L);
+        Long nextTime = startTime - (timeInterval * 24 * 60 * 60 * 1000L);
 
 
 
