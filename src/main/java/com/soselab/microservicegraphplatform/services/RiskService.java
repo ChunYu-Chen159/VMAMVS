@@ -65,7 +65,6 @@ public class RiskService {
             Object min = Collections.min(al);
             double average = ((int)max + (int)min) / 2.0;
 
-
             averageMap.put(s.getAppId(),average);
 
         }
@@ -92,14 +91,10 @@ public class RiskService {
                 totalNum += getNumofEndpoint_Consumer((int)nodes2.getJSONObject(j).get("id"));
             }
 
-            System.out.println(s.getAppId() + " totalNum:");
-            System.out.println(totalNum);
-
 
             endpointNumberMap.put(s.getAppId(), totalNum);
 
         }
-
 
         // 正規化[0.1, 1]
         Map<String,Object> likelihoodMap = new HashMap<>();
@@ -109,14 +104,8 @@ public class RiskService {
         Map<String,Object> impactMap = new HashMap<>();
         impactMap = normalization(endpointNumberMap, ServicesInDB);
 
-
         // 計算RiskValue，放到neo4j存
         for(Service s : ServicesInDB) {
-            System.out.println(s.getAppId());
-            System.out.println((double)likelihoodMap.get(s.getAppId()));
-            System.out.println((double)impactMap.get(s.getAppId()));
-            System.out.println((double)likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId()));
-
             double riskValue = (double)likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId());
             serviceRepository.setRiskValueByAppId(s.getAppId(), riskValue);
         }
@@ -135,7 +124,6 @@ public class RiskService {
             double totalNum = nodes.length();
             for(int j = 0; j < nodes.length(); j++) {
                 totalNum += getNumofEndpoint_Provider((int)nodes.getJSONObject(j).get("id"));
-                System.out.println("aaaaaaaa:" + totalNum);
             }
 
             return totalNum;
@@ -154,7 +142,6 @@ public class RiskService {
             double totalNum = nodes.length();
             for(int j = 0; j < nodes.length(); j++) {
                 totalNum += getNumofEndpoint_Consumer((int)nodes.getJSONObject(j).get("id"));
-                System.out.println("aaaaaaaa:" + totalNum);
             }
 
             return totalNum;
