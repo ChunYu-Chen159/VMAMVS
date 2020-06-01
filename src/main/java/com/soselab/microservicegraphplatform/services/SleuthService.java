@@ -160,8 +160,6 @@ public class SleuthService {
             e.printStackTrace();
         }
 
-        System.out.println(getTotalNum(result));
-
 
         return result;
     }
