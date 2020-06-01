@@ -58,6 +58,8 @@ public class GraphService {
     @Autowired
     private ContractService contractService;
     @Autowired
+    private RiskService riskService;
+    @Autowired
     private ObjectMapper mapper;
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -69,6 +71,7 @@ public class GraphService {
         List<String> systemNames = generalRepository.getAllSystemName();
         for (String systemName : systemNames) {
             contractService.setAllServiceContractTestingCondition(systemName);
+            riskService.setServiceRisk(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
         }
     }
@@ -79,6 +82,7 @@ public class GraphService {
         systemIsUpdatedMap.forEach((systemName, isUpdated) -> {
             if (isUpdated) {
                 contractService.setAllServiceContractTestingCondition(systemName);
+                riskService.setServiceRisk(systemName);
                 updateGraphJson(systemName);
             }
         });

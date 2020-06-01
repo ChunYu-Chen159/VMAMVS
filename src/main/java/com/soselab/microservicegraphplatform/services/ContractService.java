@@ -24,8 +24,6 @@ public class ContractService {
     @Autowired
     private GeneralRepository generalRepository;
     @Autowired
-    private ServiceRegistryRepository serviceRegistryRepository;
-    @Autowired
     private ServiceRepository serviceRepository;
     @Autowired
     private SpringRestTool springRestTool;
