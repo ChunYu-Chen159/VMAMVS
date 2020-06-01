@@ -117,14 +117,14 @@ public class RiskService {
     }
 
 
-    public int getNumofEndpoint(long id) {
+    public double getNumofEndpoint(long id) {
 
         String provider = generalRepository.getProviders(id);
         JSONObject jsonObj = new JSONObject(provider);
         JSONArray nodes = jsonObj.getJSONArray("nodes");
 
         if(nodes.length() > 0){
-            int totalNum = 0;
+            double totalNum = 0;
             for(int j = 0; j < nodes.length(); j++) {
                 totalNum += getNumofEndpoint((long)nodes.getJSONObject(j).get("id"));
             }
