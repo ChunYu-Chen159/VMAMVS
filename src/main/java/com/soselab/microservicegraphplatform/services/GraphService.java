@@ -71,7 +71,7 @@ public class GraphService {
         List<String> systemNames = generalRepository.getAllSystemName();
         for (String systemName : systemNames) {
             contractService.setAllServiceContractTestingCondition(systemName);
-            riskService.setServiceRisk(systemName);
+            //riskService.setServiceRisk(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
         }
     }
@@ -82,7 +82,7 @@ public class GraphService {
         systemIsUpdatedMap.forEach((systemName, isUpdated) -> {
             if (isUpdated) {
                 contractService.setAllServiceContractTestingCondition(systemName);
-                riskService.setServiceRisk(systemName);
+                //riskService.setServiceRisk(systemName);
                 updateGraphJson(systemName);
             }
         });
