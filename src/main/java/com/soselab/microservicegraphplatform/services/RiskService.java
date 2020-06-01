@@ -81,7 +81,7 @@ public class RiskService {
 
             double totalNum = 0;
             for(int j = 0; j < nodes.length(); j++) {
-                totalNum += getNumofEndpoint((int)nodes.getJSONObject(j).get("id"));
+                totalNum += getNumofEndpoint((long)nodes.getJSONObject(j).get("id"));
             }
 
             System.out.println(s.getAppId() + " totalNum:");
@@ -126,7 +126,7 @@ public class RiskService {
         if(nodes.length() > 0){
             int totalNum = 0;
             for(int j = 0; j < nodes.length(); j++) {
-                totalNum += getNumofEndpoint((int)nodes.getJSONObject(j).get("id"));
+                totalNum += getNumofEndpoint((long)nodes.getJSONObject(j).get("id"));
             }
 
             return totalNum;
