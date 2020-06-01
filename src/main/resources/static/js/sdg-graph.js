@@ -751,7 +751,7 @@ function SDGGraph(data) {
             .attr("alignment-baseline", "central")
             .style("font-size", 28)
             .style("fill", "#000000")
-            .text(d => d.id); //***Risk********************************************
+            .text(d => d.riskValue.toFixed(2)); //***Risk********************************************
 
         nodelabel.append("rect")
             .attr("class", "tag")
@@ -922,7 +922,7 @@ function SDGGraph(data) {
             .text(d => {
                 if (d.labels.includes(LABEL_SERVICE)) {
                     //return d.number; //*********************修改Risk的地方*************************************************
-                    return d.id;
+                    return d.riskValue.toFixed(2);
                 }
             });
 
