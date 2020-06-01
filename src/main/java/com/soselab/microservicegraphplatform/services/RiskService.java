@@ -101,6 +101,10 @@ public class RiskService {
 
         // 計算RiskValue，放到neo4j存
         for(Service s : ServicesInDB) {
+            System.out.println((double)likelihoodMap.get(s.getAppId()));
+            System.out.println((double)impactMap.get(s.getAppId()));
+            System.out.println((double)likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId()));
+
             double riskValue = (double)likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId());
             serviceRepository.setRiskValueByAppId(s.getAppId(), riskValue);
         }
