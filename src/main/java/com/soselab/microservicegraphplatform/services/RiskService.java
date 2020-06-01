@@ -15,14 +15,12 @@ public class RiskService {
 
     public void risk() {
         Long nowTime = System.currentTimeMillis();
+        Long lookback = timeInterval * 24 * 60 * 60 * 1000L;
 
 
         Long startTime = nowTime;
-        Long nextTime = startTime - (timeInterval * 24 * 60 * 60 * 1000L);
 
-
-
-        startTime = nextTime;
+        startTime -= lookback;
 
     }
 

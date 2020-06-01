@@ -100,14 +100,15 @@ public class WebPageController {
         return sleuthService.getTraceInfo(appName);
     }
 
-    @GetMapping("/sleuth/searchZipkin/{appName}/{version}/{statusCode}/{startTime}/{endTime}/{limit}")
+    // 查詢從endTime往回推lookback時間的資料
+    @GetMapping("/sleuth/searchZipkin/{appName}/{version}/{statusCode}/{lookback}/{endTime}/{limit}")
     public String searchZipkin(@PathVariable("appName") String appName,
                                @PathVariable("version") String version,
                                @PathVariable("statusCode") int statusCode,
-                               @PathVariable("startTime") long startTime,
+                               @PathVariable("lookback") long lookback,
                                @PathVariable("endTime") long endTime,
                                @PathVariable("limit") int limit){
-        return sleuthService.searchZipkin(appName, version, statusCode, startTime, endTime, limit);
+        return sleuthService.searchZipkin(appName, version, statusCode, lookback, endTime, limit);
     }
 
 /*    @GetMapping("/contract/getAllServiceContractTestingCondition/{systemName}")

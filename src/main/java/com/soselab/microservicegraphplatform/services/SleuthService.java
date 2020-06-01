@@ -139,16 +139,10 @@ public class SleuthService {
     }
 
 
-    public String searchZipkin(String appName, String version, int statusCode, long startTime, long endTime, int limit){
+    public String searchZipkin(String appName, String version, int statusCode, long lookback, long endTime, int limit){
         String result = "";
         try {
-
-            String urll = Zipkin_V1_BASEPATH+"api/v2/traces?annotationQuery=http.version%3D" + version + "%20and%20" + "http.status_code%3D" + statusCode + "&limit=" + limit + "&startTs=" + startTime + "&endTs=" + endTime + "&serviceName="+appName.toLowerCase()+"&sortOrder=timestamp-desc";
-            System.out.println(urll);
-            Long nowTime = System.currentTimeMillis();
-            System.out.println(nowTime);
-
-            URL url = new URL(urll);
+            URL url = new URL(Zipkin_V1_BASEPATH+"api/v2/traces?annotationQuery=http.version%3D" + version + "%20and%20" + "http.status_code%3D" + statusCode + "&limit=" + limit + "&lookback=" + lookback + "&endTs=" + endTime + "&serviceName="+appName.toLowerCase()+"&sortOrder=timestamp-desc");
             URLConnection urlConnection = url.openConnection();
 
 
@@ -165,6 +159,10 @@ public class SleuthService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println(getTotalNum(result));
+
+
         return result;
     }
 
@@ -173,8 +171,7 @@ public class SleuthService {
     {
         JSONArray array = new JSONArray(str);
 
-
-        return 0;
+        return array.length();
     }
 
 
