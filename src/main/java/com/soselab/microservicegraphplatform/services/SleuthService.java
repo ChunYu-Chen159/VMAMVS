@@ -142,7 +142,7 @@ public class SleuthService {
     public String searchZipkin(String appName, String version, int statusCode, long startTime, long endTime, int limit){
         String result = "";
         try {
-            URL url = new URL(Zipkin_V1_BASEPATH+"api/v1/traces?annotationQuery=http.version=" + version + "+and+" + "http.status_code=" + statusCode + "&limit=" + limit + "&startTs=" + startTime + "&endTs=" + endTime + "&serviceName="+appName.toLowerCase()+"&sortOrder=timestamp-desc");
+            URL url = new URL(Zipkin_V1_BASEPATH+"api/v1/traces?annotationQuery=http.version%3D" + version + "%20and%20" + "http.status_code%3D" + statusCode + "&limit=" + limit + "&startTs=" + startTime + "&endTs=" + endTime + "&serviceName="+appName.toLowerCase()+"&sortOrder=timestamp-desc");
             URLConnection urlConnection = url.openConnection();
 
 
