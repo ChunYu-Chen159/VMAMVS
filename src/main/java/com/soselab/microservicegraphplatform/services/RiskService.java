@@ -89,7 +89,7 @@ public class RiskService {
             }
 
             for(int j = 0; j < nodes2.length(); j++) {
-                totalNum += getNumofEndpoint_Consumer((int)nodes.getJSONObject(j).get("id"));
+                totalNum += getNumofEndpoint_Consumer((int)nodes2.getJSONObject(j).get("id"));
             }
 
             System.out.println(s.getAppId() + " totalNum:");
