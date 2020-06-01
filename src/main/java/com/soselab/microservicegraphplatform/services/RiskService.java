@@ -63,7 +63,7 @@ public class RiskService {
 
             Object max = Collections.max(al);
             Object min = Collections.min(al);
-            double average = ((float)max + (float)min) / 2;
+            double average = ((int)max + (int)min) / 2.0;
 
 
             averageMap.put(s.getAppId(),average);
