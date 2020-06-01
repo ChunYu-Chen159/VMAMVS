@@ -142,10 +142,10 @@ public class RiskService {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
-                if(max < (int)value)
-                    max = (int)value;
-                if(min > (int)value)
-                    min = (int)value;
+                if(max < (double)value)
+                    max = (double)value;
+                if(min > (double)value)
+                    min = (double)value;
             }
 
             k = (b-a)/(max-min);
