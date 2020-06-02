@@ -133,6 +133,10 @@ public class MonitorService {
                     notificationService.pushNotificationToSystem(systemName, notification);
                 }
             }
+            // Using Risk
+            if (setting.getEnableRiskValueAlert()) {
+
+            }
         }
     }
 

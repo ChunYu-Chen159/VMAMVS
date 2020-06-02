@@ -1820,7 +1820,7 @@ function SDGGraph(data) {
                 if (form.checkValidity() !== false) {
                     let data = {};
                     nodeSettingforms.find("input").each((index, input) => {
-                        if (input.type === "range" && input.id === "risk-value") {
+                        if (input.type === "range" && input.id === "risk-value-alert") {
                             data[input.name] = input.value * 1.0;
                         }else if (input.type === "range") {
                             data[input.name] = input.value * 0.01;
