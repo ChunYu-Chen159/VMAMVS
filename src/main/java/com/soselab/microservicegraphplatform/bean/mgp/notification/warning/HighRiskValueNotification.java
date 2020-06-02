@@ -12,7 +12,7 @@ public class HighRiskValueNotification extends WarningNotification {
     }
 
     public HighRiskValueNotification(String appName, String version, Double value, Double threshold) {
-        super("SPC high duration rate", createContent(appName, version, value, threshold), createHtmlContent(appName, version, value, threshold));
+        super("Risk Value", createContent(appName, version, value, threshold), createHtmlContent(appName, version, value, threshold));
         this.appName = appName;
         this.version = version;
     }

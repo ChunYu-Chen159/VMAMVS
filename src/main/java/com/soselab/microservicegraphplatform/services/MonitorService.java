@@ -135,6 +135,11 @@ public class MonitorService {
             }
             // Using Risk
             if (setting.getEnableRiskValueAlert()) {
+                System.out.println(service.getAppId());
+                System.out.println(serviceRepository.getRiskValueByAppId(service.getAppId()));
+                System.out.println(setting.getRiskValueAlert());
+
+
                 if (serviceRepository.getRiskValueByAppId(service.getAppId()) > setting.getRiskValueAlert())  {
                     WebNotification notification = new HighRiskValueNotification(service.getAppName(), service.getVersion(),
                             serviceRepository.getRiskValueByAppId(service.getAppId()), setting.getRiskValueAlert());
