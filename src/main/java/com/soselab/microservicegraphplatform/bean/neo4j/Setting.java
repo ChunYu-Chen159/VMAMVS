@@ -30,11 +30,19 @@ public class Setting {
     private Integer weakLowerDependencyCount;
 
     private Float riskValueAlert;
+    private Boolean enableRiskValueAlert;
 
     public Setting() {
     }
 
-    public Setting(Boolean enableRestFailureAlert, Boolean enableLogFailureAlert, Float failureStatusRate, Long failureErrorCount, Boolean enableSPCHighDurationRateAlert, Float thresholdSPCHighDurationRate, Boolean enableRestAverageDurationAlert, Boolean enableLogAverageDurationAlert, Integer thresholdAverageDuration, Boolean enableStrongDependencyAlert, Integer strongUpperDependencyCount, Integer strongLowerDependencyCount, Boolean enableWeakDependencyAlert, Integer weakUpperDependencyCount, Integer weakLowerDependencyCount, Float riskValueAlert) {
+    public Setting(Boolean enableRestFailureAlert, Boolean enableLogFailureAlert,
+                   Float failureStatusRate, Long failureErrorCount,
+                   Boolean enableSPCHighDurationRateAlert, Float thresholdSPCHighDurationRate,
+                   Boolean enableRestAverageDurationAlert, Boolean enableLogAverageDurationAlert,
+                   Integer thresholdAverageDuration, Boolean enableStrongDependencyAlert,
+                   Integer strongUpperDependencyCount, Integer strongLowerDependencyCount,
+                   Boolean enableWeakDependencyAlert, Integer weakUpperDependencyCount,
+                   Integer weakLowerDependencyCount, Float riskValueAlert, Boolean enableRiskValueAlert) {
         this.enableRestFailureAlert = enableRestFailureAlert;
         this.enableLogFailureAlert = enableLogFailureAlert;
         this.failureStatusRate = failureStatusRate;
@@ -51,6 +59,7 @@ public class Setting {
         this.weakUpperDependencyCount = weakUpperDependencyCount;
         this.weakLowerDependencyCount = weakLowerDependencyCount;
         this.riskValueAlert = riskValueAlert;
+        this.enableRiskValueAlert = enableRiskValueAlert;
     }
 
     public Setting(Setting setting) {
@@ -71,6 +80,7 @@ public class Setting {
             this.weakUpperDependencyCount = setting.weakUpperDependencyCount;
             this.weakLowerDependencyCount = setting.weakLowerDependencyCount;
             this.riskValueAlert = setting.riskValueAlert;
+            this.enableRiskValueAlert = setting.enableRiskValueAlert;
         }
     }
 
@@ -204,6 +214,14 @@ public class Setting {
 
     public void setRiskValueAlert(Float riskValueAlert) {
         this.riskValueAlert = riskValueAlert;
+    }
+
+    public Boolean getEnableRiskValueAlert() {
+        return enableRiskValueAlert;
+    }
+
+    public void setEnableRiskValueAlert(Boolean enableRiskValueAlert) {
+        this.enableRiskValueAlert = enableRiskValueAlert;
     }
 
     @Relationship(type = "MGP_CONFIG", direction = Relationship.INCOMING)

@@ -1322,7 +1322,8 @@ function SDGGraph(data) {
     let weakLowerDependencyCountInput = nodeSettingforms.find("#weak-lower-dependency-count");
     let enableWeakDependencyAlertInput = nodeSettingforms.find("#enable-weak-dependency-alert");
 
-    let riskValueInput = nodeSettingforms.find("#risk-value");
+    let riskValueAlertInput = nodeSettingforms.find("#risk-value-alert");
+    let enableRiskValueAlertInput = nodeSettingforms.find("#enable-risk-value-alert");
 
     $("#failure-status-rate").on("input", function () {
         $("#failure-status-rate-text").val(this.value + "%");
@@ -1332,8 +1333,8 @@ function SDGGraph(data) {
         $("#threshold-spc-high-duration-rate-text").val(this.value + "%");
     }).trigger("change");
 
-    $("#risk-value").on("input", function () {
-        $("#risk-value-text").val(this.value * 1.0);
+    $("#risk-value-alert").on("input", function () {
+        $("#risk-value-alert-text").val(this.value * 1.0);
     }).trigger("change");
 
     let stickNode = null;
@@ -1797,10 +1798,15 @@ function SDGGraph(data) {
                 } else {
                     enableWeakDependencyAlertInput.prop("checked", false);
                 }
-                if (!isNaN(json.riskValue)) {
-                    riskValueInput.val(json.riskValue).trigger("input");
+                if (!isNaN(json.riskValueAlert)) {
+                    riskValueAlertInput.val(json.riskValueAlert).trigger("input");
                 } else {
-                    riskValueInput.val(1.0).trigger("input");
+                    riskValueAlertInput.val(1.0).trigger("input");
+                }
+                if (json.enableRiskValueAlert) {
+                    enableRiskValueAlertInput.prop("checked", true);
+                } else {
+                    enableRiskValueAlertInput.prop("checked", false);
                 }
             }).catch(error => {
                 console.error("Error:", error)
