@@ -29,7 +29,7 @@ public class Setting {
     private Integer weakUpperDependencyCount;
     private Integer weakLowerDependencyCount;
 
-    private Float riskValueAlert;
+    private Double riskValueAlert;
     private Boolean enableRiskValueAlert;
 
     public Setting() {
@@ -42,7 +42,7 @@ public class Setting {
                    Integer thresholdAverageDuration, Boolean enableStrongDependencyAlert,
                    Integer strongUpperDependencyCount, Integer strongLowerDependencyCount,
                    Boolean enableWeakDependencyAlert, Integer weakUpperDependencyCount,
-                   Integer weakLowerDependencyCount, Float riskValueAlert, Boolean enableRiskValueAlert) {
+                   Integer weakLowerDependencyCount, Double riskValueAlert, Boolean enableRiskValueAlert) {
         this.enableRestFailureAlert = enableRestFailureAlert;
         this.enableLogFailureAlert = enableLogFailureAlert;
         this.failureStatusRate = failureStatusRate;
@@ -208,11 +208,11 @@ public class Setting {
         this.weakLowerDependencyCount = weakLowerDependencyCount;
     }
 
-    public Float getRiskValueAlert() {
+    public Double getRiskValueAlert() {
         return riskValueAlert;
     }
 
-    public void setRiskValueAlert(Float riskValueAlert) {
+    public void setRiskValueAlert(Double riskValueAlert) {
         this.riskValueAlert = riskValueAlert;
     }
 

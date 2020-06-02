@@ -113,4 +113,7 @@ public interface ServiceRepository extends Neo4jRepository<Service, Long> {
     @Query("MATCH (s:Service{appId:{appId}}) WITH s, s.riskValue = {riskValue} as result SET s.riskValue = {riskValue} RETURN result")
     void setRiskValueByAppId(@Param("appId") String appId, @Param("riskValue") double riskValue);
 
+    @Query("MATCH (s:Service{appId:{appId}}) WITH s.riskValue as result RETURN result")
+    double getRiskValueByAppId(@Param("appId") String appId);
+
 }
