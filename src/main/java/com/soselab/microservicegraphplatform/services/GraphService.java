@@ -83,7 +83,6 @@ public class GraphService {
             if (isUpdated) {
                 contractService.setAllServiceContractTestingCondition(systemName);
                 riskService.setServiceRisk(systemName);
-                monitorService.runScheduled(systemName);
                 updateGraphJson(systemName);
             }
         });

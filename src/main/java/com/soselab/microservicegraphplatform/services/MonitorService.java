@@ -178,10 +178,10 @@ public class MonitorService {
                     WebNotification notification = new HighRiskValueNotification(service.getAppName(), service.getVersion(),
                             serviceRepository.getRiskValueByAppId(service.getAppId()), setting.getRiskValueAlert());
                     notificationService.pushNotificationToSystem(systemName, notification);
-                    serviceRepository.setHighRiskConditionByAppId(service.getAppId(),true);
+                    serviceRepository.setHighRiskConditionByAppId(service.getAppId(),"TRUE");
                 }
                 else {
-                    serviceRepository.setHighRiskConditionByAppId(service.getAppId(),false);
+                    serviceRepository.setHighRiskConditionByAppId(service.getAppId(),"FALSE");
                 }
 
             }
