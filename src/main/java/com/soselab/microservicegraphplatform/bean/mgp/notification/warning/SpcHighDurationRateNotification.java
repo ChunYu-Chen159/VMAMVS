@@ -22,7 +22,7 @@ public class SpcHighDurationRateNotification extends WarningNotification {
                 "\" exceeded the threshold of \"SPC high duration rate\": current value = " +
                 value * 100 + "%, threshold = " + threshold * 100 + "%";
         MSABotSender msaBotSender = new MSABotSender();
-        msaBotSender.send(content,WebNotification.LEVEL_WARNING);
+        //msaBotSender.send(content,WebNotification.LEVEL_WARNING);
 
         return content;
     }

@@ -22,11 +22,6 @@ public class ServiceDownNotification extends WebNotification {
 
     private static String createContent(String appName, String version) {
         String content = "Service \"" + appName + " : " + version + "\" is down.";
-        MSABotSender msaBotSender = new MSABotSender();
-
-        //msaBotSender.send(content, WebNotification.LEVEL_WARNING);
-
-
         return content;
     }
 

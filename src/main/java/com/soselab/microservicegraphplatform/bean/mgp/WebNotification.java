@@ -2,6 +2,7 @@ package com.soselab.microservicegraphplatform.bean.mgp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.soselab.microservicegraphplatform.botmq.MSABotSender;
 
 import java.time.LocalDateTime;
 import java.util.Date;
