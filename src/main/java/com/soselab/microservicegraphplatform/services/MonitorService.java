@@ -179,11 +179,12 @@ public class MonitorService {
                             serviceRepository.getRiskValueByAppId(service.getAppId()), setting.getRiskValueAlert());
                     notificationService.pushNotificationToSystem(systemName, notification);
                     serviceRepository.setHighRiskConditionByAppId(service.getAppId(),"TRUE");
-                }
-                else {
+                }else {
                     serviceRepository.setHighRiskConditionByAppId(service.getAppId(),"FALSE");
                 }
 
+            }else {
+                serviceRepository.setHighRiskConditionByAppId(service.getAppId(),"FALSE");
             }
 
 
