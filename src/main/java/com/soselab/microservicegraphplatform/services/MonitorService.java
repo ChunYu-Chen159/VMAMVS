@@ -38,8 +38,17 @@ public class MonitorService {
     private WebPageController webPageController;
     @Autowired
     private WebNotificationService notificationService;
+    @Autowired
+    private SleuthService sleuthService;
+
     private Map<String, SpcData> failureStatusRateSPCMap = new HashMap<>();
     private Map<String, SpcData> averageDurationSPCMap = new HashMap<>();
+
+
+    private final int STATUSCODE500 = 500;
+    private final int STATUSCODE502 = 502;
+    private final int STATUSCODE503 = 503;
+    private final int STATUSCODE504 = 504;
 
     @Scheduled(cron = "0 0 3 1/1 * ?") // 週期執行
     private void everyDayScheduled() {
@@ -57,6 +66,29 @@ public class MonitorService {
         checkUserAlert(systemName, services);
         checkSPCAlert(systemName);
     }
+
+    // 抓錯誤
+    public void checkErrorFromSleuth(String systemName){
+        List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
+        Long nowTime = System.currentTimeMillis();
+        // 1天
+        Long lookback = 1 * 24 * 60 * 60 * 1000L;
+        int limit = 10000;
+
+        for(Service s : ServicesInDB) {
+            Long endTime = nowTime;
+            String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+            String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+            String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+            String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+
+            // 要分析：
+            // 錯誤訊息
+            // 路徑
+            // 存在系統上 ， 看WebNotificationService
+        }
+    }
+
 
     // 確認服務有沒有出現異常
     public void checkUserAlert(String systemName, List<Service> services) {
@@ -144,6 +176,10 @@ public class MonitorService {
                     WebNotification notification = new HighRiskValueNotification(service.getAppName(), service.getVersion(),
                             serviceRepository.getRiskValueByAppId(service.getAppId()), setting.getRiskValueAlert());
                     notificationService.pushNotificationToSystem(systemName, notification);
+                    serviceRepository.setHighRiskConditionByAppId(service.getAppId(),true);
+                }
+                else {
+                    serviceRepository.setHighRiskConditionByAppId(service.getAppId(),false);
                 }
 
             }

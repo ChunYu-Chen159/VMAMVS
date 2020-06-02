@@ -38,9 +38,13 @@ function SDGGraph(data) {
     const HIGHLIGHT_LEVEL_WARNING = "warning";
     const HIGHLIGHT_LEVEL_ERROR = "error";
     const HIGHLIGHT_CONTRACTTESTING_WARNING = "contractWarning";
+    const HIGHLIGHT_HIGHRISK_TRUE = "highRiskTrue";
 
     const CONDITION_CONTRACTTEST_PASS = "PASS";
     const CONDITION_CONTRACTTEST_WARNING = "WARNING";
+
+    const CONDITION_HIGHRISK_TRUE = "true";
+    const CONDITION_HIGHRISK_FALSE = "false";
 
     const HIGHLIGHT_DEBUG_TEST_LEVEL_FAIL = "FAIL";
 
@@ -624,6 +628,11 @@ function SDGGraph(data) {
         node.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_PASS)
             .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,false);
 
+        node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TURE)
+            .classed(HIGHLIGHT_HIGHRISK_TRUE,true);
+        node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_FALSE)
+            .classed(HIGHLIGHT_HIGHRISK_TRUE,false);
+
 
         node.filter(d => !d.labels.includes(LABEL_NULLSERVICE) && !d.labels.includes(LABEL_NULLENDPOINT))
             .classed(HIGHLIGHT_LEVEL_ERROR, false);
@@ -797,8 +806,11 @@ function SDGGraph(data) {
         });
 
 
-        let servicenodelabel = nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
-        updateContractTestFailNodeLabel(servicenodelabel, NODELABEL_CONTRACTTESTFAIL);
+        let contractTestingNodelabel = nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
+        updateContractTestFailNodeLabel(contractTestingNodelabel, NODELABEL_CONTRACTTESTFAIL);
+
+        let highRiskNodelabel = nodelabel.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE);
+        updateHighRiskNodeLabel(highRiskNodelabel, NODELABEL_HIGHRISK);
 
         let oldNullNodelabel = nodelabel.filter(d =>  d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT));
         updateExceptionNodeLabel(oldNullNodelabel, NODELABEL_NULL);
@@ -906,6 +918,56 @@ function SDGGraph(data) {
                 });
         }
 
+        function updateHighRiskNodeLabel (nodeLabel, text) {
+            nodeLabel.append("rect")
+                .attr("class", "tag highRisk-tag")
+                .attr("fill", "#ffc107")
+                .attr("fill-opacity", 0.5)
+                .attr("rx", 8)
+                .attr("ry", 8);
+
+            nodeLabel.append("text")
+                .attr("class", "tag highRisk-tag")
+                .attr("dx", 0)
+                .attr("dy", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position = texts.length - 1;
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 53 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 39 + position * 20;
+                    }
+                })
+                .attr("fill-opacity", 1)
+                .style("fill", "#212529")
+                .text(text);
+
+            nodeLabel.selectAll("rect.highRisk-tag")
+                .attr("width", function() {
+                    let text = d3.select(this.parentNode).select("text.highRisk-tag").node();
+                    return (text.getBBox().width + 8);
+                })
+                .attr("height", "16px")
+                .attr("x", function() {
+                    let text = d3.select(this.parentNode).select("text.highRisk-tag").node();
+                    return (text.getBBox().width + 8) / -2;
+                })
+                .attr("y", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position;
+                    for (position = 0; position < texts.length; position++) {
+                        if (texts[position].textContent === text) {
+                            break;
+                        }
+                    }
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 40 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 27 + position * 20;
+                    }
+                });
+        }
+
         // ENTER new nodelabels
         let nodelabelEnter = nodelabel.enter().append("g");
 
@@ -969,8 +1031,11 @@ function SDGGraph(data) {
             }
         });
 
-        let servicenodelabelEnter = nodelabelEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
-        addContractTestFailNodeLabel(servicenodelabelEnter, NODELABEL_CONTRACTTESTFAIL);
+        let contractTestingNodelabelEnter = nodelabelEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
+        addContractTestFailNodeLabel(contractTestingNodelabelEnter, NODELABEL_CONTRACTTESTFAIL);
+
+        let highRiskNodelabelEnter = nodelabelEnter.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE);
+        addHighRiskNodeLabel(highRiskNodelabelEnter, NODELABEL_HIGHRISK);
 
         let nullNodelabel = nodelabelEnter.filter(d => d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT));
         addExceptionNodeLabel(nullNodelabel, NODELABEL_NULL);
@@ -1060,6 +1125,56 @@ function SDGGraph(data) {
                 .attr("height", "16px")
                 .attr("x", function() {
                     let text = d3.select(this.parentNode).select("text.contractTestFail-tag").node();
+                    return (text.getBBox().width + 8) / -2;
+                })
+                .attr("y", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position;
+                    for (position = 0; position < texts.length; position++) {
+                        if (texts[position].textContent === text) {
+                            break;
+                        }
+                    }
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 40 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 27 + position * 20;
+                    }
+                });
+        }
+
+        function addHighRiskNodeLabel (nodeLabel, text) {
+            nodeLabel.append("rect")
+                .attr("class", "tag highRisk-tag")
+                .attr("fill", "#ffc107")
+                .attr("fill-opacity", 0)
+                .attr("rx", 8)
+                .attr("ry", 8);
+
+            nodeLabel.append("text")
+                .attr("class", "tag highRisk-tag")
+                .attr("dx", 0)
+                .attr("dy", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position = texts.length - 1;
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 53 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 39 + position * 20;
+                    }
+                })
+                .attr("fill-opacity", 0)
+                .style("fill", "#212529")
+                .text(text);
+
+            nodeLabel.selectAll("rect.highRisk-tag")
+                .attr("width", function() {
+                    let text = d3.select(this.parentNode).select("text.highRisk-tag").node();
+                    return (text.getBBox().width + 8);
+                })
+                .attr("height", "16px")
+                .attr("x", function() {
+                    let text = d3.select(this.parentNode).select("text.highRisk-tag").node();
                     return (text.getBBox().width + 8) / -2;
                 })
                 .attr("y", function (d) {
