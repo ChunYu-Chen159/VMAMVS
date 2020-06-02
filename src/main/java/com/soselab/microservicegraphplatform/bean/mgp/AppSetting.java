@@ -8,8 +8,8 @@ public class AppSetting extends Setting {
     public AppSetting() {
     }
 
-    public AppSetting(Boolean enableRestFailureAlert, Boolean enableLogFailureAlert, Float failureStatusRate, Long failureErrorCount, Boolean enableSPCHighDurationRateAlert, Float thresholdSPCHighDurationRate, Boolean enableRestAverageDurationAlert, Boolean enableLogAverageDurationAlert, Integer thresholdAverageDuration, Boolean enableStrongDependencyAlert, Integer strongUpperDependencyCount, Integer strongLowerDependencyCount, Boolean enableWeakDependencyAlert, Integer weakUpperDependencyCount, Integer weakLowerDependencyCount) {
-        super(enableRestFailureAlert, enableLogFailureAlert, failureStatusRate, failureErrorCount, enableSPCHighDurationRateAlert, thresholdSPCHighDurationRate, enableRestAverageDurationAlert, enableLogAverageDurationAlert, thresholdAverageDuration, enableStrongDependencyAlert, strongUpperDependencyCount, strongLowerDependencyCount, enableWeakDependencyAlert, weakUpperDependencyCount, weakLowerDependencyCount);
+    public AppSetting(Boolean enableRestFailureAlert, Boolean enableLogFailureAlert, Float failureStatusRate, Long failureErrorCount, Boolean enableSPCHighDurationRateAlert, Float thresholdSPCHighDurationRate, Boolean enableRestAverageDurationAlert, Boolean enableLogAverageDurationAlert, Integer thresholdAverageDuration, Boolean enableStrongDependencyAlert, Integer strongUpperDependencyCount, Integer strongLowerDependencyCount, Boolean enableWeakDependencyAlert, Integer weakUpperDependencyCount, Integer weakLowerDependencyCount, Float riskValueAlert) {
+        super(enableRestFailureAlert, enableLogFailureAlert, failureStatusRate, failureErrorCount, enableSPCHighDurationRateAlert, thresholdSPCHighDurationRate, enableRestAverageDurationAlert, enableLogAverageDurationAlert, thresholdAverageDuration, enableStrongDependencyAlert, strongUpperDependencyCount, strongLowerDependencyCount, enableWeakDependencyAlert, weakUpperDependencyCount, weakLowerDependencyCount, riskValueAlert);
     }
 
     public AppSetting(Setting setting) {

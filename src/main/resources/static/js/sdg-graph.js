@@ -1814,7 +1814,9 @@ function SDGGraph(data) {
                 if (form.checkValidity() !== false) {
                     let data = {};
                     nodeSettingforms.find("input").each((index, input) => {
-                        if (input.type === "range") {
+                        if (input.type === "range" && input.id === "risk-value") {
+                            data[input.name] = input.value * 1.0;
+                        }else if (input.type === "range") {
                             data[input.name] = input.value * 0.01;
                         } else if (input.type === "checkbox") {
                             data[input.name] = input.checked;
