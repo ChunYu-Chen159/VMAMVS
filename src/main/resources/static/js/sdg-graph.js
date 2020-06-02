@@ -628,7 +628,7 @@ function SDGGraph(data) {
         node.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_PASS)
             .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,false);
 
-        node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TURE)
+        node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE)
             .classed(HIGHLIGHT_HIGHRISK_TRUE,true);
         node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_FALSE)
             .classed(HIGHLIGHT_HIGHRISK_TRUE,false);
