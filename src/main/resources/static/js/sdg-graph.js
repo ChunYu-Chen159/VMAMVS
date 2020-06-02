@@ -1322,12 +1322,18 @@ function SDGGraph(data) {
     let weakLowerDependencyCountInput = nodeSettingforms.find("#weak-lower-dependency-count");
     let enableWeakDependencyAlertInput = nodeSettingforms.find("#enable-weak-dependency-alert");
 
+    let riskValueAlertInput = nodeSettingforms.find("#risk-value");
+
     $("#failure-status-rate").on("input", function () {
         $("#failure-status-rate-text").val(this.value + "%");
     }).trigger("change");
 
     $("#threshold-spc-high-duration-rate").on("input", function () {
         $("#threshold-spc-high-duration-rate-text").val(this.value + "%");
+    }).trigger("change");
+
+    $("#risk-value").on("input", function () {
+        $("#risk-value-text").val(this.value);
     }).trigger("change");
 
     let stickNode = null;
