@@ -134,14 +134,17 @@ public class MonitorService {
                 }
             }
             // Using Risk
+            /*
             if (setting.getEnableRiskValueAlert()) {
-                if (setting.getRiskValueAlert() < serviceRepository.getRiskValueByAppId(service.getAppId()))  {
+                if (serviceRepository.getRiskValueByAppId(service.getAppId()) > setting.getRiskValueAlert())  {
                     WebNotification notification = new HighRiskValueNotification(service.getAppName(), service.getVersion(),
                             serviceRepository.getRiskValueByAppId(service.getAppId()), setting.getRiskValueAlert());
                     notificationService.pushNotificationToSystem(systemName, notification);
                 }
 
             }
+            */
+
         }
     }
 
