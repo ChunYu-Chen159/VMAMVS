@@ -1799,7 +1799,7 @@ function SDGGraph(data) {
                     enableWeakDependencyAlertInput.prop("checked", false);
                 }
                 if (!isNaN(json.riskValueAlert)) {
-                    riskValueAlertInput.val(json.riskValueAlert).trigger("input");
+                    riskValueAlertInput.val(json.riskValueAlert*1.0).trigger("input");
                 } else {
                     riskValueAlertInput.val(1.0).trigger("input");
                 }
