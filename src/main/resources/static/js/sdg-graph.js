@@ -1322,7 +1322,7 @@ function SDGGraph(data) {
     let weakLowerDependencyCountInput = nodeSettingforms.find("#weak-lower-dependency-count");
     let enableWeakDependencyAlertInput = nodeSettingforms.find("#enable-weak-dependency-alert");
 
-    let riskValueAlertInput = nodeSettingforms.find("#risk-value");
+    let riskValueInput = nodeSettingforms.find("#risk-value");
 
     $("#failure-status-rate").on("input", function () {
         $("#failure-status-rate-text").val(this.value + "%");
@@ -1333,7 +1333,7 @@ function SDGGraph(data) {
     }).trigger("change");
 
     $("#risk-value").on("input", function () {
-        $("#risk-value-text").val(this.value);
+        $("#risk-value-text").val(this.value * 1.0);
     }).trigger("change");
 
     let stickNode = null;
@@ -1796,6 +1796,11 @@ function SDGGraph(data) {
                     enableWeakDependencyAlertInput.prop("checked", true);
                 } else {
                     enableWeakDependencyAlertInput.prop("checked", false);
+                }
+                if (!isNaN(json.riskValue)) {
+                    riskValueInput.val(json.riskValue).trigger("input");
+                } else {
+                    riskValueInput.val(1.0).trigger("input");
                 }
             }).catch(error => {
                 console.error("Error:", error)
