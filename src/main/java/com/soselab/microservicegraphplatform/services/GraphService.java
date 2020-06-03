@@ -73,7 +73,10 @@ public class GraphService {
             contractService.setAllServiceContractTestingCondition(systemName);
             riskService.setServiceRisk(systemName);
             monitorService.runScheduled(systemName);
-            graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
+            if(graphJson.get(systemName).isEmpty())
+                graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
+            else
+                graphJson.replace(systemName, generalRepository.getSystemGraphJson(systemName));
         }
     }
 
