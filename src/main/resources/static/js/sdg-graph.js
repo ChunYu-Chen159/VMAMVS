@@ -1982,7 +1982,7 @@ function SDGGraph(data) {
 
                 clearHighlight();
                 extraMessage.removeClass("show");
-                fetch("/web-page/graph/getGraphJson/" + d.systemName)
+                await fetch("/web-page/graph/getGraphJson/" + d.systemName)
                     .then(response => response.json())
                     .then(graphJson => {
                         graphData = graphJson;
@@ -2010,9 +2010,16 @@ function SDGGraph(data) {
         } else {
             clearHighlight();
             extraMessage.removeClass("show");
-            graphData = data;
+            fetch("/web-page/graph/getGraphJson/" + d.systemName)
+                .then(response => response.json())
+                .then(graphJson => {
+                    graphData = graphJson;
+                    update(emptyData);
+                    update(graphData);
+                });
+/*            graphData = data;
             update(emptyData);
-            update(graphData);
+            update(graphData);*/
         }
     });
 
