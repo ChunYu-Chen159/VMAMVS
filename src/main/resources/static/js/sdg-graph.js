@@ -1981,7 +1981,7 @@ function SDGGraph(data) {
                 form.classList.add('was-validated');
             });
 
-            update(data);
+            update(graphData);
 
         });
 
