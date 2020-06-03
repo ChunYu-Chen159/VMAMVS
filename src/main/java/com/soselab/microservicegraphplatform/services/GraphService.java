@@ -81,11 +81,12 @@ public class GraphService {
     public void run() {
         Map<String, Boolean> systemIsUpdatedMap = updateGraphDB();
         systemIsUpdatedMap.forEach((systemName, isUpdated) -> {
-            if (isUpdated) {
+            if (isUpdated) { //有服務上線
                 contractService.setAllServiceContractTestingCondition(systemName);
                 riskService.setServiceRisk(systemName);
-                updateGraphJson(systemName);
+                //updateGraphJson(systemName);
             }
+            updateGraphJson(systemName);
             monitorService.runScheduled(systemName);
         });
     }
