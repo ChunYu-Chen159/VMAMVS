@@ -1981,9 +1981,7 @@ function SDGGraph(data) {
                 form.classList.add('was-validated');
             });
 
-            let oldElement = document.querySelector("#graph");
-            let cloneElement = oldElement.cloneNode(true);
-            oldElement.replaceChild(cloneElement, oldElement);
+            update(data);
 
         });
 
