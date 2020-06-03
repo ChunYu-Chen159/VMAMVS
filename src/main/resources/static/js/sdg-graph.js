@@ -1977,18 +1977,20 @@ function SDGGraph(data) {
                             toast.toast('show');
                             console.log("Success", response);
                         });
+
+
+                    clearHighlight();
+                    extraMessage.removeClass("show");
+                    fetch("/web-page/graph/getGraphJson/" + d.systemName)
+                        .then(response => response.json())
+                        .then(graphJson => {
+                            graphData = graphJson;
+                            update(emptyData);
+                            update(graphData);
+                        });
                 }
                 form.classList.add('was-validated');
 
-                clearHighlight();
-                extraMessage.removeClass("show");
-                await fetch("/web-page/graph/getGraphJson/" + d.systemName)
-                    .then(response => response.json())
-                    .then(graphJson => {
-                        graphData = graphJson;
-                        update(emptyData);
-                        update(graphData);
-                    });
             });
 
         });
