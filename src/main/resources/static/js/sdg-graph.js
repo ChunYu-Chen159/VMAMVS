@@ -1979,6 +1979,9 @@ function SDGGraph(data) {
                         });
                 }
                 form.classList.add('was-validated');
+
+                update(emptyData);
+                update(graphData);
             });
 
         });
