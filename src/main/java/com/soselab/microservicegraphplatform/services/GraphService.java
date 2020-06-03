@@ -72,6 +72,7 @@ public class GraphService {
         for (String systemName : systemNames) {
             contractService.setAllServiceContractTestingCondition(systemName);
             riskService.setServiceRisk(systemName);
+            monitorService.runScheduled(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
         }
     }
@@ -83,6 +84,7 @@ public class GraphService {
             if (isUpdated) {
                 contractService.setAllServiceContractTestingCondition(systemName);
                 riskService.setServiceRisk(systemName);
+                monitorService.runScheduled(systemName);
                 updateGraphJson(systemName);
             }
         });
