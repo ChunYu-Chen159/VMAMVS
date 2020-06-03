@@ -1934,7 +1934,7 @@ function SDGGraph(data) {
 
         // Loop over them and prevent submission
         let validation = Array.prototype.filter.call(nodeSettingforms, function(form) {
-            $(form).submit(function (event) {
+            $(form).submit(async function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 if (form.checkValidity() !== false) {
@@ -1950,7 +1950,7 @@ function SDGGraph(data) {
                             data[input.name] = input.value;
                         }
                     });
-                    fetch("/web-page/app/setting/" + d.appId, {
+                    await fetch("/web-page/app/setting/" + d.appId, {
                         method: "post",
                         body: JSON.stringify(data),
                         headers: new Headers({
