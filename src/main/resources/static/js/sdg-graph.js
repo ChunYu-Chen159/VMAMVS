@@ -1982,7 +1982,7 @@ function SDGGraph(data) {
 
                 clearHighlight();
                 extraMessage.removeClass("show");
-                fetch("/web-page/topic/graph/" + systemName.value)
+                fetch("/web-page/graph/getGraphJson/" + d.systemName)
                     .then(response => response.json())
                     .then(graphJson => {
                         graphData = graphJson;

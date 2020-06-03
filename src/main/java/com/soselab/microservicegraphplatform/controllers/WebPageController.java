@@ -190,6 +190,11 @@ public class WebPageController {
         }
     }
 
+    @GetMapping("/graph/getGraphJson/{systemName}")
+    public String getGraphJson(@PathVariable("systemName") String systemName)  {
+        return graphService.getGraphJson(systemName);
+    }
+
     @MessageMapping("/graph/{systemName}")
     @SendTo("/topic/graph/{systemName}")
     public String getGraph(@DestinationVariable String systemName) throws Exception {
