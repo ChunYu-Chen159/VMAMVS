@@ -72,7 +72,7 @@ public class GraphService {
         for (String systemName : systemNames) {
             contractService.setAllServiceContractTestingCondition(systemName);
             riskService.setServiceRisk(systemName);
-            monitorService.runScheduled(systemName);
+            //monitorService.runScheduled(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
         }
     }
@@ -92,6 +92,7 @@ public class GraphService {
 
     // 視覺化時要把NEO4j的資料提取成JSON, 此function更改那個json
     private void updateGraphJson(String systemName) {
+        graphJson.remove(systemName);
         graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName)); // 從neo4j拿
 //        graphJson.replace(systemName, generalRepository.getSystemGraphJson(systemName)); // 從neo4j拿
         webPageController.sendGraph(systemName, graphJson.get(systemName)); // push 到VMAMVS前端
