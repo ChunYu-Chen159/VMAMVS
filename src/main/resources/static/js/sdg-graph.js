@@ -1983,7 +1983,7 @@ function SDGGraph(data) {
 
             let oldElement = document.querySelector("#graph");
             let cloneElement = oldElement.cloneNode(true);
-            oldElement.parentNode.replaceChild(cloneElement, oldElement);
+            oldElement.replaceChild(cloneElement, oldElement);
 
         });
 
