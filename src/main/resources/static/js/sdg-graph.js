@@ -1982,16 +1982,18 @@ function SDGGraph(data) {
                         });
 
 
-                    await delay(3000);
-                    clearHighlight();
-                    extraMessage.removeClass("show");
-                    fetch("/web-page/graph/getGraphJson/" + d.systemName)
-                        .then(response => response.json())
-                        .then(graphJson => {
-                            graphData = graphJson;
-                            update(emptyData);
-                            update(graphData);
-                        });
+                    setTimeout(function() {
+                        clearHighlight();
+                        extraMessage.removeClass("show");
+                        fetch("/web-page/graph/getGraphJson/" + d.systemName)
+                            .then(response => response.json())
+                            .then(graphJson => {
+                                graphData = graphJson;
+                                update(emptyData);
+                                update(graphData);
+                            });
+                    }, 3000);
+
 
 
                 }
