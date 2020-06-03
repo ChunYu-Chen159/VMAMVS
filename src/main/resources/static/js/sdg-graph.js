@@ -2010,7 +2010,7 @@ function SDGGraph(data) {
         } else {
             clearHighlight();
             extraMessage.removeClass("show");
-            fetch("/web-page/graph/getGraphJson/" + d.systemName)
+            fetch("/web-page/graph/getGraphJson/" + data.nodes.systemName)
                 .then(response => response.json())
                 .then(graphJson => {
                     graphData = graphJson;
