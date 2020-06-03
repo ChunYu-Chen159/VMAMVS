@@ -116,8 +116,8 @@ public interface ServiceRepository extends Neo4jRepository<Service, Long> {
     @Query("MATCH (s:Service{appId:{appId}}) WITH s.riskValue as result RETURN result")
     double getRiskValueByAppId(@Param("appId") String appId);
 
-    //@Query("MATCH (s:Service{appId:{appId}}) WITH s, s.highRiskCondition = {highRiskCondition} as result SET s.highRiskCondition = {highRiskCondition} RETURN result")
-    @Query("MATCH (s:Setting)<-[r:MGP_CONFIG]-(n:Service {{appId:{appId}}) WITH n, n.highRiskCondition = {highRiskCondition} as result SET n.highRiskCondition = {highRiskCondition} RETURN result")
+    @Query("MATCH (s:Service{appId:{appId}}) WITH s, s.highRiskCondition = {highRiskCondition} as result SET s.highRiskCondition = {highRiskCondition} RETURN result")
+    //@Query("MATCH (s:Setting)<-[r:MGP_CONFIG]-(n:Service {{appId:{appId}}) WITH n, n.highRiskCondition = {highRiskCondition} as result SET n.highRiskCondition = {highRiskCondition} RETURN result")
     void setHighRiskConditionByAppId(@Param("appId") String appId, @Param("highRiskCondition") String highRiskCondition);
 
 }
