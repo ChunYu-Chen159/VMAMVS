@@ -1982,9 +1982,13 @@ function SDGGraph(data) {
 
                 clearHighlight();
                 extraMessage.removeClass("show");
-                graphData = data;
-                update(emptyData);
-                update(graphData);
+                fetch("/web-page/topic/graph/" + systemName.value)
+                    .then(response => response.json())
+                    .then(graphJson => {
+                        graphData = graphJson;
+                        update(emptyData);
+                        update(graphData);
+                    });
             });
 
         });
