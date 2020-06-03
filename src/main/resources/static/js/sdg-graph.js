@@ -1980,6 +1980,9 @@ function SDGGraph(data) {
                 }
                 form.classList.add('was-validated');
 
+                clearHighlight();
+                extraMessage.removeClass("show");
+                graphData = data;
                 update(emptyData);
                 update(graphData);
             });
