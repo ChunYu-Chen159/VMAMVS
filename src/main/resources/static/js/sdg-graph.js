@@ -1976,18 +1976,20 @@ function SDGGraph(data) {
                             toast.find(".toast-body").empty().append("The setting for <strong>" + d.appName + ":" + d.version + "</strong> has been successfully updated.");
                             toast.toast('show');
                             console.log("Success", response);
+                        }).then(response2 => {
+                            clearHighlight();
+                            extraMessage.removeClass("show");
+                            fetch("/web-page/graph/getGraphJson/" + d.systemName)
+                                .then(response => response.json())
+                                .then(graphJson => {
+                                    graphData = graphJson;
+                                    update(emptyData);
+                                    update(graphData);
+                                });
                         });
 
 
-                    clearHighlight();
-                    extraMessage.removeClass("show");
-                    fetch("/web-page/graph/getGraphJson/" + d.systemName)
-                        .then(response => response.json())
-                        .then(graphJson => {
-                            graphData = graphJson;
-                            update(emptyData);
-                            update(graphData);
-                        });
+
                 }
                 form.classList.add('was-validated');
 
