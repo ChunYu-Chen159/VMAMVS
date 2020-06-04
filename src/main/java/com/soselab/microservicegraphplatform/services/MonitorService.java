@@ -197,7 +197,7 @@ public class MonitorService {
                     String appId = systemName.toUpperCase() + ":" + appName + ":" + version;
                     int serviceId = serviceRepository.findServiceIdByAppId(appId);
 
-                    String endpointPath = array500_everyError.getJSONObject(j).getString("name").replaceFirst("http:","");
+                    String endpointPath = "/" + array500_everyError.getJSONObject(j).getJSONObject("tags").getString("mvc.controller.method");
 
                     System.out.println("appId: " + appId);
                     System.out.println("endpointPath: " + endpointPath);
