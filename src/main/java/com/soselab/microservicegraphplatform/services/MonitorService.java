@@ -166,6 +166,21 @@ public class MonitorService {
             String errorMessage = "";
             String errorAppName = "";
 
+            boolean check400 = false;
+
+            for(int j = 0; j < array500_everyError.length(); j++) {
+                if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
+                    JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
+                    if (!jsonObject.has("http.appName") || !jsonObject.has("http.version")) {
+                        check400 = true;
+                        break;
+                    }
+                }
+            }
+
+            if(check400)
+                break;
+
 
             // 每個Service, Endpoint, OwnLink (httpRequest關係還未加入)
             for(int j = 0; j < array500_everyError.length(); j++){
@@ -175,7 +190,8 @@ public class MonitorService {
                     System.out.println("11111111111111111111111111:" + array500_everyError.getJSONObject(j).getJSONObject("tags"));
                     JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
 
-
+                    if(!jsonObject.has("http.appName") || !jsonObject.has("http.version"))
+                        break;
                     String appName = jsonObject.getString("http.appName").toUpperCase();
                     String version = jsonObject.getString("http.version").toUpperCase();
                     String appId = systemName.toUpperCase() + ":" + appName + ":" + version;
@@ -254,6 +270,7 @@ public class MonitorService {
             monitorError.setEs(es);
             monitorError.setEe(ee);
             monitorError.setEl(el);
+
 
             monitorErrorList.add(monitorError);
 
