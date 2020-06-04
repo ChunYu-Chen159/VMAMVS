@@ -1713,26 +1713,28 @@ function SDGGraph(data) {
                                 for( let groovy in contractContent){
                                     console.log("groovy: " + groovy);
                                     let consumerService = groovy.replace(".groovy","");
-                                    monitorErrorGroup.append("<h5 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h5>");
+                                    monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
+                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error500\" class=\"card-monitorError\">" + "-Error500" + "</h4>");
+                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error502\" class=\"card-monitorError\">" + "-Error502" + "</h4>");
+                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error503\" class=\"card-monitorError\">" + "-Error503" + "</h4>");
+                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error504\" class=\"card-monitorError\">" + "-Error504" + "</h4>");
                                 }
 
-                                //let consumerService = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
-                            })
-
-                        json.forEach(error => {
-                            let errorAppName = error["errorAppName"];
-                            let errorAppVersion = error["errorAppVersion"];
-                            let timestamp = error["timestamp"];
-                            let statusCode = error["statusCode"];
-                            let errorMessage = error["errorMessage"];
-                            let errorPath = error["errorPath"];
-
-
+                                for( let error in json){
+                                    console.log("error: " + error);
+                                    console.log("json[error]: " + json[error]);
+                                    let errorAppName = error["errorAppName"];
+                                    let errorAppVersion = error["errorAppVersion"];
+                                    let consumerName = "";
+                                    let timestamp = error["timestamp"];
+                                    let statusCode = error["statusCode"];
+                                    let errorMessage = error["errorMessage"];
+                                    let errorPath = error["errorPath"];
 
 
-                            /**************************************
-                            let highlightJson = "";
-                            highlightJson += "{";
+                                    /**************************************
+                                     let highlightJson = "";
+                                     highlightJson += "{";
 
                             // 要highlight的nodes
                             highlightJson += "\"nodes\":[";
@@ -1761,11 +1763,14 @@ function SDGGraph(data) {
                             highlightJson += "]";
                             highlightJson += "}";
 
-                            let highlighttoJson = JSON.parse(highlightJson);
-                            console.log(highlighttoJson);
-                            highlight(highlighttoJson);
-*************************************************/
-                        })
+                                     let highlighttoJson = JSON.parse(highlightJson);
+                                     console.log(highlighttoJson);
+                                     highlight(highlighttoJson);
+                                     *************************************************/
+                                }
+
+                                //let consumerService = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
+                            })
 
                     })
             }
