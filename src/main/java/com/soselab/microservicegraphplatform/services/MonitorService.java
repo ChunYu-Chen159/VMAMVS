@@ -222,35 +222,37 @@ public class MonitorService {
             // httpRequestLink
             for(int j = 0; j < array500_everyError.length(); j++){
                 if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
-                    if(array500_everyError.getJSONObject(j).getBoolean("shared")){
-                        String serverId = array500_everyError.getJSONObject(j).getString("id");
-                        JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("localEndpoint");
-                        String serverName = jsonObject.getString("serviceName");
-                        int endpointId = 0;
-                        for(ErrorEndpoint e : ee){
-                            if(e.getParentAppName().equals(serverName.toUpperCase())){
-                                endpointId = e.getId();
-                            }
-                        }
-
-                        for(int k = 0; k < array500_everyError.length(); k++){
-                            if(array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")){
-                                String clientId = array500_everyError.getJSONObject(k).getString("id");
-                                if(serverId.equals(clientId)) {
-                                    JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("localEndpoint");
-
-                                    String clientName = jsonObject2.getString("serviceName");
-
-                                    for (ErrorEndpoint e : ee) {
-                                        if (e.getParentAppName().equals(clientName.toUpperCase())) {
-                                            int endpointId2 = e.getId();
-                                            int linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithHttpRequest(systemName.toUpperCase(), endpointId2, endpointId);
-                                            el.add(new ErrorLink(linkId, endpointId2, "HTTP_REQUEST", endpointId));
-                                        }
-                                    }
+                    if(array500_everyError.getJSONObject(j).has("shared")) {
+                        if (array500_everyError.getJSONObject(j).getBoolean("shared")) {
+                            String serverId = array500_everyError.getJSONObject(j).getString("id");
+                            JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("localEndpoint");
+                            String serverName = jsonObject.getString("serviceName");
+                            int endpointId = 0;
+                            for (ErrorEndpoint e : ee) {
+                                if (e.getParentAppName().equals(serverName.toUpperCase())) {
+                                    endpointId = e.getId();
                                 }
                             }
 
+                            for (int k = 0; k < array500_everyError.length(); k++) {
+                                if (array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")) {
+                                    String clientId = array500_everyError.getJSONObject(k).getString("id");
+                                    if (serverId.equals(clientId)) {
+                                        JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("localEndpoint");
+
+                                        String clientName = jsonObject2.getString("serviceName");
+
+                                        for (ErrorEndpoint e : ee) {
+                                            if (e.getParentAppName().equals(clientName.toUpperCase())) {
+                                                int endpointId2 = e.getId();
+                                                int linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithHttpRequest(systemName.toUpperCase(), endpointId2, endpointId);
+                                                el.add(new ErrorLink(linkId, endpointId2, "HTTP_REQUEST", endpointId));
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                     }
                 }
