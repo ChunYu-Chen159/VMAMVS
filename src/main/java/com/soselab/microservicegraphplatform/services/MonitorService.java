@@ -165,6 +165,7 @@ public class MonitorService {
             String statusCode = "";
             String errorMessage = "";
             String errorAppName = "";
+            String errorAppVersion = "";
             String errorPath = "";
 
             boolean check400 = false;
@@ -273,7 +274,7 @@ public class MonitorService {
                 }
             }
 
-            // errorAppName, errorMessage, statusCode, timestamp, errorPath
+            // errorAppName, errorAppVersion, errorMessage, statusCode, timestamp, errorPath
             for(int j = 0; j < array500_everyError.length(); j++){
                 if(array500_everyError.getJSONObject(j).has("shared")) {
                     if (array500_everyError.getJSONObject(j).getBoolean("shared")) {
@@ -281,6 +282,7 @@ public class MonitorService {
                         String serverId = array500_everyError.getJSONObject(j).getString("id");
                         if (jsonObject.has("error")) {
                             errorAppName = jsonObject.getString("http.appName");
+                            errorAppVersion = jsonObject.getString("http.version");
                             errorMessage = jsonObject.getString("error");
                             statusCode = jsonObject.getString("http.status_code");
                             timestamp = array500_everyError.getJSONObject(j).getLong("timestamp");

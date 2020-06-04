@@ -7,6 +7,7 @@ public class MonitorError {
 
     // timestamp使用 https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/319101/
     private String errorAppName;
+    private String errorAppVersion;
     private long timestamp;
     private String statusCode;
     private String errorMessage;
@@ -22,6 +23,14 @@ public class MonitorError {
 
     public void setErrorAppName(String errorAppName) {
         this.errorAppName = errorAppName;
+    }
+
+    public String getErrorAppVersion() {
+        return errorAppVersion;
+    }
+
+    public void setErrorAppVersion(String errorAppVersion) {
+        this.errorAppVersion = errorAppVersion;
     }
 
     public long getTimestamp() {
