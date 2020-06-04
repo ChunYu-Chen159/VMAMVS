@@ -286,14 +286,14 @@ public class MonitorService {
                             errorMessage = jsonObject.getString("error");
                             statusCode = jsonObject.getString("http.status_code");
                             timestamp = array500_everyError.getJSONObject(j).getLong("timestamp");
-                        }
 
-                        for (int k = 0; k < array500_everyError.length(); k++) {
-                            if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
-                                String clientId = array500_everyError.getJSONObject(k).getString("id");
-                                if (serverId.equals(clientId)) {
-                                    JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
-                                    errorPath = jsonObject2.getString("http.path");
+                            for (int k = 0; k < array500_everyError.length(); k++) {
+                                if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
+                                    String clientId = array500_everyError.getJSONObject(k).getString("id");
+                                    if (serverId.equals(clientId)) {
+                                        JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
+                                        errorPath = jsonObject2.getString("http.path");
+                                    }
                                 }
                             }
                         }
