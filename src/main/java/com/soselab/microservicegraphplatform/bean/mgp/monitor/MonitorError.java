@@ -10,10 +10,11 @@ public class MonitorError {
     private long timestamp;
     private String statusCode;
     private String errorMessage;
+    private String errorPath;
 
-    private ArrayList<ErrorService> es;
-    private ArrayList<ErrorEndpoint> ee;
-    private ArrayList<ErrorLink> el;
+    private ArrayList<ErrorService> errorServices;
+    private ArrayList<ErrorEndpoint> errorEndpoints;
+    private ArrayList<ErrorLink> errorLinks;
 
     public String getErrorAppName() {
         return errorAppName;
@@ -47,27 +48,35 @@ public class MonitorError {
         this.errorMessage = errorMessage;
     }
 
-    public ArrayList<ErrorService> getEs() {
-        return es;
+    public ArrayList<ErrorService> getErrorServices() {
+        return errorServices;
     }
 
-    public void setEs(ArrayList<ErrorService> es) {
-        this.es = es;
+    public void setErrorServices(ArrayList<ErrorService> errorServices) {
+        this.errorServices = errorServices;
     }
 
-    public ArrayList<ErrorEndpoint> getEe() {
-        return ee;
+    public ArrayList<ErrorEndpoint> getErrorEndpoints() {
+        return errorEndpoints;
     }
 
-    public void setEe(ArrayList<ErrorEndpoint> ee) {
-        this.ee = ee;
+    public void setErrorEndpoints(ArrayList<ErrorEndpoint> errorEndpoints) {
+        this.errorEndpoints = errorEndpoints;
     }
 
-    public ArrayList<ErrorLink> getEl() {
-        return el;
+    public ArrayList<ErrorLink> getErrorLinks() {
+        return errorLinks;
     }
 
-    public void setEl(ArrayList<ErrorLink> el) {
-        this.el = el;
+    public void setErrorLinks(ArrayList<ErrorLink> errorLinks) {
+        this.errorLinks = errorLinks;
+    }
+
+    public String getErrorPath() {
+        return errorPath;
+    }
+
+    public void setErrorPath(String errorPath) {
+        this.errorPath = errorPath;
     }
 }

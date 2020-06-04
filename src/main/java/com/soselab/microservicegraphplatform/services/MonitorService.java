@@ -165,6 +165,7 @@ public class MonitorService {
             String statusCode = "";
             String errorMessage = "";
             String errorAppName = "";
+            String errorPath = "";
 
             boolean check400 = false;
 
@@ -272,16 +273,27 @@ public class MonitorService {
                 }
             }
 
-            // errorAppName, errorMessage, statusCode, timestamp
+            // errorAppName, errorMessage, statusCode, timestamp, errorPath
             for(int j = 0; j < array500_everyError.length(); j++){
                 if(array500_everyError.getJSONObject(j).has("shared")) {
                     if (array500_everyError.getJSONObject(j).getBoolean("shared")) {
                         JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
+                        String serverId = array500_everyError.getJSONObject(j).getString("id");
                         if (jsonObject.has("error")) {
                             errorAppName = jsonObject.getString("http.appName");
                             errorMessage = jsonObject.getString("error");
                             statusCode = jsonObject.getString("http.status_code");
                             timestamp = array500_everyError.getJSONObject(j).getLong("timestamp");
+                        }
+
+                        for (int k = 0; k < array500_everyError.length(); k++) {
+                            if (array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")) {
+                                String clientId = array500_everyError.getJSONObject(k).getString("id");
+                                if (serverId.equals(clientId)) {
+                                    JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
+                                    errorPath = jsonObject2.getString("http.path");
+                                }
+                            }
                         }
                     }
                 }
@@ -291,9 +303,10 @@ public class MonitorService {
             monitorError.setErrorMessage(errorMessage);
             monitorError.setStatusCode(statusCode);
             monitorError.setTimestamp(timestamp);
-            monitorError.setEs(es);
-            monitorError.setEe(ee);
-            monitorError.setEl(el);
+            monitorError.setErrorPath(errorPath);
+            monitorError.setErrorServices(es);
+            monitorError.setErrorEndpoints(ee);
+            monitorError.setErrorLinks(el);
 
 
             monitorErrorList.add(monitorError);
