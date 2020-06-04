@@ -1704,7 +1704,7 @@ function SDGGraph(data) {
                     .then(json => {
                         console.log("monitor/getErrors/" + d.systemName);
 
-                        monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
+                        //monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
 
                         fetch("/web-page/app/swagger/" + d.appId)
                             .then(response2 => response2.json())
