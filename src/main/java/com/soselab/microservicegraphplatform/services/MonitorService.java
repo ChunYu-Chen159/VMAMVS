@@ -172,6 +172,7 @@ public class MonitorService {
 
 
                 if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
+                    System.out.println("11111111111111111111111111:" + array500_everyError.getJSONObject(j).getString("tags"));
                     JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).getString("tags"));
 
 
