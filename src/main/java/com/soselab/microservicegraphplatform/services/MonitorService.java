@@ -196,8 +196,22 @@ public class MonitorService {
                     String version = jsonObject.getString("http.version").toUpperCase();
                     String appId = systemName.toUpperCase() + ":" + appName + ":" + version;
                     int serviceId = serviceRepository.findServiceIdByAppId(appId);
+                    String endpointPath = "";
 
-                    String endpointPath = "/" + array500_everyError.getJSONObject(j).getJSONObject("tags").getString("mvc.controller.method");
+                    if(array500_everyError.getJSONObject(j).getJSONObject("tags").has("http.path")) {
+                        endpointPath = "/" + array500_everyError.getJSONObject(j).getJSONObject("tags").getString("mvc.controller.method");
+                    }else{
+                        String serverId = array500_everyError.getJSONObject(j).getString("id");
+                        for(int k = 0; k < array500_everyError.length(); k++){
+                            if (array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")) {
+                                String clientId = array500_everyError.getJSONObject(k).getString("id");
+                                if (serverId.equals(clientId)) {
+                                    JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
+                                    endpointPath = jsonObject2.getString("http.path");
+                                }
+                            }
+                        }
+                    }
 
                     System.out.println("appId: " + appId);
                     System.out.println("endpointPath: " + endpointPath);
@@ -263,7 +277,7 @@ public class MonitorService {
                 if(array500_everyError.getJSONObject(j).has("shared")) {
                     if (array500_everyError.getJSONObject(j).getBoolean("shared")) {
                         JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
-                        if (!jsonObject.has("error")) {
+                        if (jsonObject.has("error")) {
                             errorAppName = jsonObject.getString("http.appName");
                             errorMessage = jsonObject.getString("error");
                             statusCode = jsonObject.getString("http.status_code");
