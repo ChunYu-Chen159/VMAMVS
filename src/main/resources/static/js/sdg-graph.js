@@ -1730,14 +1730,22 @@ function SDGGraph(data) {
                                     let errorPath = json[error]["errorPath"];
                                     console.log("statusCode: " + statusCode);
 
-                                    if(statusCode === "500")
-                                        $('#' + consumerName + '-error500').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    else if(statusCode === "502")
-                                        $('#' + consumerName + '-error502').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    else if(statusCode === "503")
-                                        $('#' + consumerName + '-error503').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    else if(statusCode === "504")
-                                        $('#' + consumerName + '-error504').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    if(statusCode === "500") {
+                                        let iddd = "#" + consumerName + "-error500";
+                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    }
+                                    else if(statusCode === "502") {
+                                        let iddd = "#" + consumerName + "-error502";
+                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    }
+                                    else if(statusCode === "503") {
+                                        let iddd = "#" + consumerName + "-error503";
+                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    }
+                                    else if(statusCode === "504") {
+                                        let iddd = "#" + consumerName + "-error504";
+                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    }
 
 
                                     $('#error-' + errorAppName + "-" + error).on("click", function () {
