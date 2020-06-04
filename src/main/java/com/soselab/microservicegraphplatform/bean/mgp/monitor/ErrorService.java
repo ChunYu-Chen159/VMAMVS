@@ -16,6 +16,21 @@ public class ErrorService {
     }
 
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
     public long getId() {
         return id;
     }

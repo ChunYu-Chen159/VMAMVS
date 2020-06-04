@@ -13,6 +13,22 @@ public class ErrorEndpoint {
         this.path = path;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setParentAppId(String parentAppId) {
+        this.parentAppId = parentAppId;
+    }
+
+    public void setParentAppName(String parentAppName) {
+        this.parentAppName = parentAppName;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public long getId() {
         return id;
     }

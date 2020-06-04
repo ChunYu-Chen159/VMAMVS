@@ -13,4 +13,36 @@ public class ErrorLink {
         this.realationship = realationship;
         this.BId = BId;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getAId() {
+        return AId;
+    }
+
+    public void setAId(long AId) {
+        this.AId = AId;
+    }
+
+    public String getRealationship() {
+        return realationship;
+    }
+
+    public void setRealationship(String realationship) {
+        this.realationship = realationship;
+    }
+
+    public long getBId() {
+        return BId;
+    }
+
+    public void setBId(long BId) {
+        this.BId = BId;
+    }
 }
