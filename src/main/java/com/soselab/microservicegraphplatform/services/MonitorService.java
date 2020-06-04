@@ -78,8 +78,16 @@ public class MonitorService {
         checkSPCAlert(systemName);
     }
 
+    @Scheduled(fixedDelay = 3600000) //每小時執行
+    public void hourScheduled(){
+        List<String> systemNames = generalRepository.getAllSystemName();
+        for (String systemName : systemNames) {
+            checkErrorFromSleuth(systemName);
+        }
+        logger.info("Hourly scheduled executed");
+    }
+
     // 抓錯誤
-    //@Scheduled(fixedDelay = 3600000) //每小時執行
     public void checkErrorFromSleuth(String systemName){
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
         Long nowTime = System.currentTimeMillis();
