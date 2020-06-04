@@ -32,6 +32,9 @@ public interface EndpointRepository extends Neo4jRepository<Endpoint, Long> {
     @Query("MATCH (:Service {appId:{appId}})-[:OWN]->(e:Endpoint) RETURN e")
     List<Endpoint> findByAppId(@Param("appId") String appId);
 
+    @Query("MATCH (s:Service {appId:{appId}})-[:OWN]->(e:Endpoint {path:{endpointPath}}) RETURN ID(e)")
+    int findIdByAppIdAndEnpointPath(@Param("appId") String appId, @Param("endpointPath") String endpointPath);
+
     @Query("MATCH (sm:Service)-[:REGISTER]->(:ServiceRegistry)<-[:REGISTER]-(tm:Service)-[:OWN]->(te:Endpoint) " +
             "WHERE sm.appId = {smId} AND tm.appName = {tmName} AND te.endpointId = {teId} RETURN te")
     List<Endpoint> findTargetEndpointNotSpecVer(@Param("smId") String sourceAppId, @Param("tmName") String targetAppName,

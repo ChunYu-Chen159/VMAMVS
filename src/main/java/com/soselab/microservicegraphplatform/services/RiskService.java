@@ -30,8 +30,8 @@ public class RiskService {
 
 
     public void setServiceRisk(String systemName) {
-        Long nowTime = System.currentTimeMillis();
-        Long lookback = timeInterval * 24 * 60 * 60 * 1000L;
+        long nowTime = System.currentTimeMillis();
+        long lookback = timeInterval * 24 * 60 * 60 * 1000L;
         int limit = 10000;
 
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.SpcData;
 import com.soselab.microservicegraphplatform.services.*;
 import com.soselab.microservicegraphplatform.bean.mgp.AppSetting;
@@ -242,6 +243,11 @@ public class WebPageController {
 
     public void sendNotification(String systemName, WebNotification notification) {
         messagingTemplate.convertAndSend("/topic/notification/" + systemName, notification);
+    }
+
+    @GetMapping("/monitor/error/{systemName}")
+    public List<MonitorError> getErrorsOfSystem(@PathVariable("systemName") String systemName) {
+        return monitorService.getErrorsOfSystem(systemName);
     }
 //
 ////    @RequestMapping(value = "/getImage/{systemName}",produces = MediaType.IMAGE_PNG_VALUE)

@@ -3,15 +3,20 @@ package com.soselab.microservicegraphplatform.services;
 import com.soselab.microservicegraphplatform.bean.elasticsearch.MgpLog;
 import com.soselab.microservicegraphplatform.bean.mgp.AppMetrics;
 import com.soselab.microservicegraphplatform.bean.mgp.WebNotification;
-import com.soselab.microservicegraphplatform.bean.mgp.monitor.SpcData;
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.*;
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 import com.soselab.microservicegraphplatform.bean.mgp.notification.warning.*;
 import com.soselab.microservicegraphplatform.bean.neo4j.Service;
 import com.soselab.microservicegraphplatform.bean.neo4j.Setting;
 import com.soselab.microservicegraphplatform.controllers.WebPageController;
+import com.soselab.microservicegraphplatform.repositories.neo4j.EndpointRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.GeneralRepository;
+import com.soselab.microservicegraphplatform.repositories.neo4j.LinkRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.ServiceRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,10 @@ public class MonitorService {
     @Autowired
     private ServiceRepository serviceRepository;
     @Autowired
+    private EndpointRepository endpointRepository;
+    @Autowired
+    private LinkRepository linkRepository;
+    @Autowired
     private LogAnalyzer logAnalyzer;
     @Autowired
     private RestInfoAnalyzer restInfoAnalyzer;
@@ -49,6 +58,8 @@ public class MonitorService {
     private final int STATUSCODE502 = 502;
     private final int STATUSCODE503 = 503;
     private final int STATUSCODE504 = 504;
+
+    private Map<String, List<MonitorError>> allMonitorErrorList = new HashMap<>();
 
     @Scheduled(cron = "0 0 3 1/1 * ?") // 週期執行
     private void everyDayScheduled() {
@@ -72,8 +83,11 @@ public class MonitorService {
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
         Long nowTime = System.currentTimeMillis();
         // 1天
-        Long lookback = 1 * 24 * 60 * 60 * 1000L;
+//        Long lookback = 1 * 24 * 60 * 60 * 1000L;
+        // 1小時
+        Long lookback = 1 * 60 * 60 * 1000L;
         int limit = 10000;
+
 
         for(Service s : ServicesInDB) {
             Long endTime = nowTime;
@@ -82,6 +96,43 @@ public class MonitorService {
             String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
             String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
 
+
+            JSONArray array500 = new JSONArray(jsonContent_500);
+            JSONArray array502 = new JSONArray(jsonContent_502);
+            JSONArray array503 = new JSONArray(jsonContent_503);
+            JSONArray array504 = new JSONArray(jsonContent_504);
+
+
+            List<MonitorError> monitorErrorList500 = analyzeError(array500, systemName);
+            List<MonitorError> monitorErrorList502 = analyzeError(array502, systemName);
+            List<MonitorError> monitorErrorList503 = analyzeError(array503, systemName);
+            List<MonitorError> monitorErrorList504 = analyzeError(array504, systemName);
+
+            allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList500),
+                    (oldList, newList) -> pushMonitorError(oldList, monitorErrorList500));
+            allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList502),
+                    (oldList, newList) -> pushMonitorError(oldList, monitorErrorList502));
+            allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList503),
+                    (oldList, newList) -> pushMonitorError(oldList, monitorErrorList503));
+            allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList504),
+                    (oldList, newList) -> pushMonitorError(oldList, monitorErrorList504));
+
+
+
+
+
+
+
+
+/*            private long timestamp;
+            private int statusCode;
+            private String errorMessage;
+
+            private ArrayList<ErrorService> es;
+            private ArrayList<ErrorEndpoint> ee;
+            private ArrayList<ErrorLink> el;*/
+
+
             // 要分析：
             // 錯誤訊息
             // 路徑
@@ -89,6 +140,131 @@ public class MonitorService {
 
             // 對應ContractTesting
         }
+    }
+
+    public List<MonitorError> analyzeError(JSONArray array, String systemName) {
+
+        List<MonitorError> monitorErrorList = new ArrayList<>();
+
+        for(int i = 0; i < array.length(); i++) { // 每個error
+            JSONArray array500_everyError = array.getJSONArray(i);
+            MonitorError monitorError = new MonitorError();
+            ArrayList<ErrorService> es = new ArrayList<>();
+            ArrayList<ErrorEndpoint> ee = new ArrayList<>();
+            ArrayList<ErrorLink> el = new ArrayList<>();
+            long timestamp = 0;
+            String statusCode = "";
+            String errorMessage = "";
+            String errorAppName = "";
+
+
+            // 每個Service, Endpoint, OwnLink (httpRequest關係還未加入)
+            for(int j = 0; j < array500_everyError.length(); j++){
+
+
+                if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
+                    JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).get("tags"));
+
+
+                    String appName = jsonObject.getString("http.appName").toUpperCase();
+                    String version = jsonObject.getString("http.version").toUpperCase();
+                    String appId = systemName.toUpperCase() + ":" + appName + ":" + version;
+                    int serviceId = serviceRepository.findServiceIdByAppId(appId);
+
+                    String endpointPath = array500_everyError.getJSONObject(j).getString("name").replaceFirst("http:","");
+                    int endpointId = endpointRepository.findIdByAppIdAndEnpointPath(appId,endpointPath);
+
+                    int linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithOwn(systemName.toUpperCase(), serviceId, endpointId);
+
+/*                            ErrorService errorService = new ErrorService(serviceId, appName, version, appId);
+                            ErrorEndpoint errorEndpoint = new ErrorEndpoint(endpointId, appId, endpointPath);
+                            ErrorLink errorLink = new ErrorLink(linkId, serviceId, "OWN", endpointId);*/
+
+                    es.add(new ErrorService(serviceId, appName, version, appId));
+                    ee.add(new ErrorEndpoint(endpointId, appId, appName, endpointPath));
+                    el.add(new ErrorLink(linkId, serviceId, "OWN", endpointId));
+
+                }
+            }
+
+            // httpRequestLink
+            for(int j = 0; j < array500_everyError.length(); j++){
+                if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
+                    if(array500_everyError.getJSONObject(j).getBoolean("shared")){
+                        String serverId = array500_everyError.getJSONObject(j).getString("id");
+                        JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).get("localEndpoint"));
+                        String serverName = jsonObject.getString("serviceName");
+                        int endpointId = 0;
+                        for(ErrorEndpoint e : ee){
+                            if(e.getParentAppName().equals(serverName.toUpperCase())){
+                                endpointId = e.getId();
+                            }
+                        }
+
+                        for(int k = 0; k < array500_everyError.length(); k++){
+                            if(array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")){
+                                String clientId = array500_everyError.getJSONObject(k).getString("id");
+                                if(serverId.equals(clientId)) {
+                                    JSONObject jsonObject2 = new JSONObject(array500_everyError.getJSONObject(k).get("localEndpoint"));
+
+                                    String clientName = jsonObject2.getString("serviceName");
+
+                                    for (ErrorEndpoint e : ee) {
+                                        if (e.getParentAppName().equals(clientName.toUpperCase())) {
+                                            int endpointId2 = e.getId();
+                                            int linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithHttpRequest(systemName.toUpperCase(), endpointId2, endpointId);
+                                            el.add(new ErrorLink(linkId, endpointId2, "HTTP_REQUEST", endpointId));
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            // errorAppName, errorMessage, statusCode, timestamp
+            for(int j = 0; j < array500_everyError.length(); j++){
+                if(array500_everyError.getJSONObject(j).getBoolean("shared")){
+                    JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).get("tags"));
+                    if(!jsonObject.has("error")){
+                        errorAppName = jsonObject.getString("http.appName");
+                        errorMessage = jsonObject.getString("error");
+                        statusCode = jsonObject.getString("http.status_code");
+                        timestamp = array500_everyError.getJSONObject(j).getLong("timestamp");
+                    }
+                }
+            }
+
+            monitorError.setErrorAppName(errorAppName);
+            monitorError.setErrorMessage(errorMessage);
+            monitorError.setStatusCode(statusCode);
+            monitorError.setTimestamp(timestamp);
+            monitorError.setEs(es);
+            monitorError.setEe(ee);
+            monitorError.setEl(el);
+
+            monitorErrorList.add(monitorError);
+
+
+        }
+
+
+        return monitorErrorList;
+    }
+
+    private List<MonitorError> pushMonitorError(List<MonitorError> monitorErrors, List<MonitorError> monitorErrors2) {
+        if (monitorErrors.size() == 100) {
+            monitorErrors.remove(99);
+        } else {
+            monitorErrors.addAll(0, monitorErrors2);
+        }
+        return monitorErrors;
+    }
+
+    public List<MonitorError> getErrorsOfSystem(String systemName) {
+        return allMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
     }
 
 

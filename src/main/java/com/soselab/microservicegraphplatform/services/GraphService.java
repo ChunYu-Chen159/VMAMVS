@@ -72,6 +72,7 @@ public class GraphService {
         for (String systemName : systemNames) {
             contractService.setAllServiceContractTestingCondition(systemName);
             riskService.setServiceRisk(systemName);
+            monitorService.checkErrorFromSleuth(systemName);
             //monitorService.runScheduled(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
         }
