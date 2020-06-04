@@ -1982,6 +1982,7 @@ function SDGGraph(data) {
                         });
 
 
+                    // 才不會出現設定存進去neo4j，但是前端抓出來還是舊的 (！！>可能<！！是存的時候就fetch新資料了)
                     setTimeout(function() {
                         clearHighlight();
                         extraMessage.removeClass("show");
@@ -1992,7 +1993,7 @@ function SDGGraph(data) {
                                 update(emptyData);
                                 update(graphData);
                             });
-                    }, 4000);
+                    }, 5000);
 
 
 
