@@ -105,16 +105,16 @@ function SDGGraph(data) {
 
     d3.select("#reduce_SVG").on("click", function(d){
         zoom.scaleBy(svg, 0.9); // 執行該方法會觸發zoom事件
-/*        let tran = d3.zoomTransform(svg.node());
+        /*        let tran = d3.zoomTransform(svg.node());
 
-        console.log(tran);*/
+                console.log(tran);*/
     });
 
     d3.select("#increase_SVG").on("click", function(d){
         zoom.scaleBy(svg, 1.1); // 執行該方法會觸發zoom事件
-/*        let tran = d3.zoomTransform(svg.node());
+        /*        let tran = d3.zoomTransform(svg.node());
 
-        console.log(tran);*/
+                console.log(tran);*/
     });
 
     d3.select("#reset_SVG").on("click", function(d){
@@ -164,14 +164,14 @@ function SDGGraph(data) {
 
         collapseData.nodes.filter(node => node.labels.includes(LABEL_SERVICE))
             .forEach(service => {
-            collapseData.links.filter(link => (link.source === service.id) && (link.type === REL_OWN))
-                .forEach(own => {
-                    collapseData.links.filter(link => link.source === own.target)
-                        .forEach(link => link.source = service.id);
-                    collapseData.links.filter(link => (link.target === own.target) && (link.type !== REL_OWN))
-                        .forEach(link => link.target = service.id);
+                collapseData.links.filter(link => (link.source === service.id) && (link.type === REL_OWN))
+                    .forEach(own => {
+                        collapseData.links.filter(link => link.source === own.target)
+                            .forEach(link => link.source = service.id);
+                        collapseData.links.filter(link => (link.target === own.target) && (link.type !== REL_OWN))
+                            .forEach(link => link.target = service.id);
+                    });
             });
-        });
 
         collapseData.nodes = collapseData.nodes.filter(node => !node.labels.includes(LABEL_ENDPOINT));
         collapseData.links = collapseData.links.filter(link => link.type !== REL_OWN);
@@ -645,14 +645,14 @@ function SDGGraph(data) {
         node.filter(d => d.highlight).classed(HIGHLIGHT_LEVEL_NORMAL, true);
 
         node.attr("fill", d => {
-                if (d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT)) {
-                    return COLOR_NULL;
-                } else if (d.labels.includes(LABEL_QUEUE)) {
-                    return COLOR_QUEUE;
-                } else {
-                    return color(d.appName);
-                }
-            });
+            if (d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT)) {
+                return COLOR_NULL;
+            } else if (d.labels.includes(LABEL_QUEUE)) {
+                return COLOR_QUEUE;
+            } else {
+                return color(d.appName);
+            }
+        });
 
         // ENTER new nodes
         let nodeEnter = node.enter().append("path")
@@ -669,9 +669,9 @@ function SDGGraph(data) {
             .attr("stroke-opacity", 1)
             .attr("fill-opacity", 1);
 
-/*        nodeEnter.transition()
-            .attr("stroke-opacity", 1)
-            .attr("fill-opacity", 1);*/
+        /*        nodeEnter.transition()
+                    .attr("stroke-opacity", 1)
+                    .attr("fill-opacity", 1);*/
 
         // Highlight
         nodeEnter.filter(d =>
@@ -1719,57 +1719,77 @@ function SDGGraph(data) {
                                     monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error503\" class=\"card-monitorError\">" + "-Error503" + "</h4>");
                                     monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error504\" class=\"card-monitorError\">" + "-Error504" + "</h4>");
                                 }
-
                                 for( let error in json){
                                     console.log("error: " + error);
-                                    console.log("json[error]: " + json[error]);
-                                    let errorAppName = error["errorAppName"];
-                                    let errorAppVersion = error["errorAppVersion"];
-                                    let consumerName = "";
-                                    let timestamp = error["timestamp"];
-                                    let statusCode = error["statusCode"];
-                                    let errorMessage = error["errorMessage"];
-                                    let errorPath = error["errorPath"];
+                                    let errorAppName = json[error]["errorAppName"];
+                                    let errorAppVersion = json[error]["errorAppVersion"];
+                                    let consumerName = json[error]["consumerName"];
+                                    let timestamp = json[error]["timestamp"];
+                                    let statusCode = json[error]["statusCode"];
+                                    let errorMessage = json[error]["errorMessage"];
+                                    let errorPath = json[error]["errorPath"];
+
+                                    if(statusCode === 500)
+                                        $('#' + consumerName + '-error500').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    else if(statusCode === 502)
+                                        $('#' + consumerName + '-error502').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    else if(statusCode === 503)
+                                        $('#' + consumerName + '-error503').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                    else if(statusCode === 504)
+                                        $('#' + consumerName + '-error504').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
 
 
-                                    /**************************************
-                                     let highlightJson = "";
-                                     highlightJson += "{";
+                                    $('#error-' + errorAppName + "-" + error).on("click", function () {
+                                        if (!$(this).hasClass("active")) {
+                                            $(this).parent().find(".active").removeClass("active");
+                                            monitorErrorMessage.removeClass("show");
+                                            $(this).addClass("active");
+                                            monitorErrorMessage.addClass("show");
 
-                            // 要highlight的nodes
-                            highlightJson += "\"nodes\":[";
+                                            monitorErrorMessageJson.jsonViewer(json[error], {collapsed: true, withQuotes: false});
 
-                            error["errorServices"].forEach(errorService => {
-                                highlightJson += "{\"id\":" + errorService.id + "}";
-                                highlightJson += ",";
-                            })
-                            error["errorEndpoints"].forEach(errorEndpoint => {
-                                highlightJson += "{\"id\":" + errorEndpoint.id + "}";
-                                highlightJson += ",";
-                            })
+                                            let highlightJson = "";
+                                            highlightJson += "{";
 
-                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                            highlightJson += "]";
-                            highlightJson += ",";
+                                            // 要highlight的nodes
+                                            highlightJson += "\"nodes\":[";
 
-                            // 要highlight的links
-                            highlightJson += "\"links\":[";
-                            error["errorLinks"].forEach(errorLink => {
-                                highlightJson += "{\"id\":" + errorLink.id + "}";
-                                highlightJson += ",";
-                            })
+                                            for(let errorService in json[error]["errorServices"]){
+                                                highlightJson += "{\"id\":" + json[error][errorService]["id"] + "}";
+                                                highlightJson += ",";
+                                            }
+                                            for(let errorEndpoint in json[error]["errorEndpoints"]){
+                                                highlightJson += "{\"id\":" + json[error][errorEndpoint]["id"] + "}";
+                                                highlightJson += ",";
+                                            }
 
-                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                            highlightJson += "]";
-                            highlightJson += "}";
+                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                            highlightJson += "]";
+                                            highlightJson += ",";
 
-                                     let highlighttoJson = JSON.parse(highlightJson);
-                                     console.log(highlighttoJson);
-                                     highlight(highlighttoJson);
-                                     *************************************************/
+                                            // 要highlight的links
+                                            highlightJson += "\"links\":[";
+                                            for(let errorLink in json[error]["errorLinks"]){
+                                                highlightJson += "{\"id\":" + json[error][errorLink]["id"] + "}";
+                                                highlightJson += ",";
+                                            }
+
+                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                            highlightJson += "]";
+                                            highlightJson += "}";
+
+                                            let highlighttoJson = JSON.parse(highlightJson);
+                                            console.log(highlighttoJson);
+                                            highlight(highlighttoJson);
+                                        } else {
+                                            $(this).removeClass("active");
+                                            clearHighlight();
+                                            monitorErrorMessage.removeClass("show");
+                                        }
+                                    });
+
+
                                 }
-
-                                //let consumerService = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                             })
 
                     })
@@ -1811,105 +1831,105 @@ function SDGGraph(data) {
 
 
                                     $('#contract-' + api.substring(1).replace("/","-")).on("click", function () {
-                                            if (!$(this).hasClass("active")) {
-                                                $(this).parent().find(".active").removeClass("active");
-                                                extraMessage.removeClass("show");
-                                                $(this).addClass("active");
-                                                extraMessage.addClass("show");
+                                        if (!$(this).hasClass("active")) {
+                                            $(this).parent().find(".active").removeClass("active");
+                                            extraMessage.removeClass("show");
+                                            $(this).addClass("active");
+                                            extraMessage.addClass("show");
 
-                                                messageJson.jsonViewer(contractContent[api], {collapsed: false, withQuotes: false});
+                                            messageJson.jsonViewer(contractContent[api], {collapsed: false, withQuotes: false});
 
-                                                // 要highlight的nodes, links
-                                                let highlightJson = "";
-                                                highlightJson += "{";
+                                            // 要highlight的nodes, links
+                                            let highlightJson = "";
+                                            highlightJson += "{";
 
-                                                // 要highlight的nodes
-                                                highlightJson += "\"nodes\":[";
+                                            // 要highlight的nodes
+                                            highlightJson += "\"nodes\":[";
 
-                                                // node: provider endpoint
-                                                let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
-                                                highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
-                                                highlightJson += ",";
+                                            // node: provider endpoint
+                                            let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
+                                            highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
+                                            highlightJson += ",";
 
-                                                // node: provider parent
-                                                let pp = findParentById(node_provider_endpoint.id);
-                                                highlightJson += "{\"id\":" + pp.id + "}";
-                                                highlightJson += ",";
+                                            // node: provider parent
+                                            let pp = findParentById(node_provider_endpoint.id);
+                                            highlightJson += "{\"id\":" + pp.id + "}";
+                                            highlightJson += ",";
 
-                                                // node: consumer parent
-                                                highlightJson += "{\"id\":" + d.id + "}";
-                                                highlightJson += ",";
+                                            // node: consumer parent
+                                            highlightJson += "{\"id\":" + d.id + "}";
+                                            highlightJson += ",";
 
-                                                // nodes: consumer endpoint (可能不只一個)
-                                                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
-                                                    .forEach(nce2 => {
-                                                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
-                                                        if (dlff !== null && dlff !== undefined){
-                                                            dlff.forEach(dlfff => {
-                                                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                                                highlightJson += "{\"id\":" + dnfTemp.id + "}";
-                                                                highlightJson += ",";
-                                                            });
-                                                        }
-                                                    });
-                                                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                            // nodes: consumer endpoint (可能不只一個)
+                                            data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
+                                                .forEach(nce2 => {
+                                                    let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                                                    if (dlff !== null && dlff !== undefined){
+                                                        dlff.forEach(dlfff => {
+                                                            let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                                            highlightJson += "{\"id\":" + dnfTemp.id + "}";
+                                                            highlightJson += ",";
+                                                        });
+                                                    }
+                                                });
+                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
 
-                                                highlightJson += "]";
-                                                highlightJson += ",";
+                                            highlightJson += "]";
+                                            highlightJson += ",";
 
-                                                // 要highlight的links
-                                                highlightJson += "\"links\":[";
+                                            // 要highlight的links
+                                            highlightJson += "\"links\":[";
 
-                                                // link: consumer parent -OWN- consumer endpoint
-                                                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
-                                                    .forEach(nce2 => {
-                                                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
-                                                        if (dlff !== null && dlff !== undefined){
-                                                            dlff.forEach(dlfff => {
-                                                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                                                highlightJson += "{\"source\":" + d.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
-                                                                highlightJson += ",";
-                                                            });
-                                                        }else {
-                                                            return;
-                                                        }
-
-
-                                                    });
-
-                                                // link: consumer endpoint -HTTPREQUEST-> provider endpoint
-                                                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
-                                                    .forEach(nce2 => {
-                                                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
-                                                        if (dlff !== null && dlff !== undefined){
-                                                            dlff.forEach(dlfff => {
-                                                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + node_provider_endpoint.id + "}";
-                                                                highlightJson += ",";
-                                                            });
-                                                        }else {
-                                                            return;
-                                                        }
+                                            // link: consumer parent -OWN- consumer endpoint
+                                            data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
+                                                .forEach(nce2 => {
+                                                    let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                                                    if (dlff !== null && dlff !== undefined){
+                                                        dlff.forEach(dlfff => {
+                                                            let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                                            highlightJson += "{\"source\":" + d.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
+                                                            highlightJson += ",";
+                                                        });
+                                                    }else {
+                                                        return;
+                                                    }
 
 
-                                                    });
+                                                });
 
-                                                // link: provider parent -OWN- provider endpoint
-                                                highlightJson += "{\"source\":" + pp.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + node_provider_endpoint.id + "}";
+                                            // link: consumer endpoint -HTTPREQUEST-> provider endpoint
+                                            data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
+                                                .forEach(nce2 => {
+                                                    let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                                                    if (dlff !== null && dlff !== undefined){
+                                                        dlff.forEach(dlfff => {
+                                                            let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                                            highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + node_provider_endpoint.id + "}";
+                                                            highlightJson += ",";
+                                                        });
+                                                    }else {
+                                                        return;
+                                                    }
 
-                                                highlightJson += "]";
-                                                highlightJson += "}";
 
-                                                let highlighttoJson = JSON.parse(highlightJson);
-                                                console.log(highlighttoJson);
-                                                highlight(highlighttoJson);
+                                                });
 
-                                            } else {
-                                                $(this).removeClass("active");
-                                                clearHighlight();
-                                                extraMessage.removeClass("show");
-                                            }
-                                        });
+                                            // link: provider parent -OWN- provider endpoint
+                                            highlightJson += "{\"source\":" + pp.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + node_provider_endpoint.id + "}";
+
+                                            highlightJson += "]";
+                                            highlightJson += "}";
+
+                                            let highlighttoJson = JSON.parse(highlightJson);
+                                            console.log(highlighttoJson);
+                                            highlight(highlighttoJson);
+
+                                        } else {
+                                            $(this).removeClass("active");
+                                            clearHighlight();
+                                            extraMessage.removeClass("show");
+                                        }
+                                    });
 
                                 }
                             });
@@ -2014,8 +2034,8 @@ function SDGGraph(data) {
                     enableRiskValueAlertInput.prop("checked", false);
                 }
             }).catch(error => {
-                console.error("Error:", error)
-            });
+            console.error("Error:", error)
+        });
 
         // Loop over them and prevent submission
         let validation = Array.prototype.filter.call(nodeSettingforms, function(form) {
@@ -2111,9 +2131,9 @@ function SDGGraph(data) {
                     update(graphData);
                 });
 
-/*            graphData = data;
-            update(emptyData);
-            update(graphData);*/
+            /*            graphData = data;
+                        update(emptyData);
+                        update(graphData);*/
         }
     });
 
