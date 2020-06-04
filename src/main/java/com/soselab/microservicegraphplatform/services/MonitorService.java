@@ -260,13 +260,15 @@ public class MonitorService {
 
             // errorAppName, errorMessage, statusCode, timestamp
             for(int j = 0; j < array500_everyError.length(); j++){
-                if(array500_everyError.getJSONObject(j).getBoolean("shared")){
-                    JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
-                    if(!jsonObject.has("error")){
-                        errorAppName = jsonObject.getString("http.appName");
-                        errorMessage = jsonObject.getString("error");
-                        statusCode = jsonObject.getString("http.status_code");
-                        timestamp = array500_everyError.getJSONObject(j).getLong("timestamp");
+                if(array500_everyError.getJSONObject(j).has("shared")) {
+                    if (array500_everyError.getJSONObject(j).getBoolean("shared")) {
+                        JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
+                        if (!jsonObject.has("error")) {
+                            errorAppName = jsonObject.getString("http.appName");
+                            errorMessage = jsonObject.getString("error");
+                            statusCode = jsonObject.getString("http.status_code");
+                            timestamp = array500_everyError.getJSONObject(j).getLong("timestamp");
+                        }
                     }
                 }
             }
