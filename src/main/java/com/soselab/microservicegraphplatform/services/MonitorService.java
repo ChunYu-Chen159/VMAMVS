@@ -79,6 +79,7 @@ public class MonitorService {
     }
 
     // 抓錯誤
+    @Scheduled(fixedDelay = 3600000) //每小時執行
     public void checkErrorFromSleuth(String systemName){
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
         Long nowTime = System.currentTimeMillis();
@@ -108,13 +109,9 @@ public class MonitorService {
             JSONArray array503 = new JSONArray(jsonContent_503);
             JSONArray array504 = new JSONArray(jsonContent_504);
 
-            System.out.println("500: ");
             List<MonitorError> monitorErrorList500 = analyzeError(array500, systemName);
-            System.out.println("502: ");
             List<MonitorError> monitorErrorList502 = analyzeError(array502, systemName);
-            System.out.println("503: ");
             List<MonitorError> monitorErrorList503 = analyzeError(array503, systemName);
-            System.out.println("504: ");
             List<MonitorError> monitorErrorList504 = analyzeError(array504, systemName);
 
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList500),
@@ -189,7 +186,6 @@ public class MonitorService {
 
 
                 if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
-                    System.out.println("11111111111111111111111111:" + array500_everyError.getJSONObject(j).getJSONObject("tags"));
                     JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
 
                     if(!jsonObject.has("http.appName") || !jsonObject.has("http.version"))
@@ -215,18 +211,10 @@ public class MonitorService {
                         }
                     }
 
-                    System.out.println("appId: " + appId);
-                    System.out.println("endpointPath: " + endpointPath);
-
                     long endpointId = endpointRepository.findIdByAppIdAndEnpointPath(appId,endpointPath);
 
-                    System.out.println("serviceId: " + serviceId);
-                    System.out.println("endpointId: " + endpointId);
                     long linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithOwn(systemName.toUpperCase(), serviceId, endpointId);
 
-/*                            ErrorService errorService = new ErrorService(serviceId, appName, version, appId);
-                            ErrorEndpoint errorEndpoint = new ErrorEndpoint(endpointId, appId, endpointPath);
-                            ErrorLink errorLink = new ErrorLink(linkId, serviceId, "OWN", endpointId);*/
 
                     es.add(new ErrorService(serviceId, appName, version, appId));
                     ee.add(new ErrorEndpoint(endpointId, appId, appName, endpointPath));
