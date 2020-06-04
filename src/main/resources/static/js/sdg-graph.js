@@ -1728,14 +1728,15 @@ function SDGGraph(data) {
                                     let statusCode = json[error]["statusCode"];
                                     let errorMessage = json[error]["errorMessage"];
                                     let errorPath = json[error]["errorPath"];
+                                    console.log("statusCode: " + statusCode);
 
-                                    if(statusCode === 500)
+                                    if(statusCode === "500")
                                         $('#' + consumerName + '-error500').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    else if(statusCode === 502)
+                                    else if(statusCode === "502")
                                         $('#' + consumerName + '-error502').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    else if(statusCode === 503)
+                                    else if(statusCode === "503")
                                         $('#' + consumerName + '-error503').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    else if(statusCode === 504)
+                                    else if(statusCode === "504")
                                         $('#' + consumerName + '-error504').append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
 
 
