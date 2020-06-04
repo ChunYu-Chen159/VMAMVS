@@ -1731,20 +1731,21 @@ function SDGGraph(data) {
                                     console.log("statusCode: " + statusCode);
 
                                     if(statusCode === "500") {
-                                        let iddd = "#" + consumerName + "-error500";
-                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                        let iddd = consumerName + "-error500";
+                                        console.log("iddd: " + iddd);
+                                        document.getElementById(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
                                     else if(statusCode === "502") {
-                                        let iddd = "#" + consumerName + "-error502";
-                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                        let iddd = consumerName + "-error502";
+                                        document.getElementById(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
                                     else if(statusCode === "503") {
-                                        let iddd = "#" + consumerName + "-error503";
-                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                        let iddd = consumerName + "-error503";
+                                        document.getElementById(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
                                     else if(statusCode === "504") {
-                                        let iddd = "#" + consumerName + "-error504";
-                                        $(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
+                                        let iddd = consumerName + "-error504";
+                                        document.getElementById(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
 
 
