@@ -31,7 +31,7 @@
 			top: 50%!important;
 		}
 
-		.card-contract {
+		.card-contract, .card-monitorError {
 			margin-top: 0.75rem;
 		}
 
@@ -74,6 +74,24 @@
 
 		#extraMessage.hide {
 			display: none;
+		}
+
+		#monitorError {
+			display: none;
+		}
+
+		#monitorError.show {
+			display: block;
+			border-top: 1px solid rgba(0,0,0,.125);
+		}
+
+		#monitorErrorMessage {
+			display: none;
+		}
+
+		#monitorErrorMessage.show {
+			display: block;
+			border-top: 1px solid rgba(0,0,0,.125);
 		}
 
 		.tab-content {
@@ -493,9 +511,19 @@
                             <h6 class="card-subtitle">Metrics (Elasticsearch)</h6>
                             <pre id="metrics-elasticsearch-json"></pre>
 						</div>
-<!--						<div id="extraMessage" class="card-body">
-							<pre id="message-json"></pre>
-						</div>-->
+
+						<div id="monitorError" class="card-body">
+							<h5 class="card-title">Monitor Error</h5>
+							<div class="list-group" id="graph-MonitorErrorList" role="tablist">
+								<!--????????-->
+							</div>
+						</div>
+
+						<div id="monitorErrorMessage" class="card-body">
+							<pre id="monitorErrorMessage-json"></pre>
+						</div>
+
+
 					</div>
 					<div id="node-contract" class="tab-pane fade" role="tabpanel" aria-labelledby="contract-tab">
 						<div class="card-body">

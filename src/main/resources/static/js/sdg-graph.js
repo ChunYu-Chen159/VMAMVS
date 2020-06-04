@@ -1420,6 +1420,11 @@ function SDGGraph(data) {
     let contractGroup = $('#graph-contractList');
     let serviceCondition = $('#serviceCondition');
 
+    let monitorErrorGroup = $('#graph-MonitorErrorList');
+
+    let monitorErrorMessage = $('#monitorErrorMessage');
+    let monitorErrorMessageJson = $('#monitorErrorMessage-json');
+
 
     let nodeSettingforms = $("#node-setting-form");
 
@@ -1487,6 +1492,7 @@ function SDGGraph(data) {
         // init
         clearHighlight();
         extraMessage.removeClass("show");
+        monitorErrorMessage.removeClass("show");
         cardHeaderTitle.empty();
 
         nodeInfoBody.empty();
@@ -1524,6 +1530,7 @@ function SDGGraph(data) {
             clearHighlight();
             cardDiv.removeClass("show");
             extraMessage.removeClass("show");
+            monitorErrorMessage.removeClass("show")
 
             // Release stick node.
             if (!event) simulation.alphaTarget(0.3).restart();
@@ -1689,6 +1696,66 @@ function SDGGraph(data) {
                 .then(json => {
                     metricsElasticsearchJson.jsonViewer(json, {collapsed: true, withQuotes: false});
                 });
+
+            if (d.labels.includes(LABEL_ENDPOINT)) {
+            } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
+                fetch("/web-page/monitor/getErrors/" + d.systemName)
+                    .then(response => response.json())
+                    .then(json => {
+                        console.log("monitor/getErrors/" + d.systemName);
+
+                        monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
+
+                        json.forEach(error => {
+                            let errorAppName = error["errorAppName"];
+                            let errorAppVersion = error["errorAppVersion"];
+                            let timestamp = error["timestamp"];
+                            let statusCode = error["statusCode"];
+                            let errorMessage = error["errorMessage"];
+                            let errorPath = error["errorPath"];
+
+
+
+
+                            /**************************************
+                            let highlightJson = "";
+                            highlightJson += "{";
+
+                            // 要highlight的nodes
+                            highlightJson += "\"nodes\":[";
+
+                            error["errorServices"].forEach(errorService => {
+                                highlightJson += "{\"id\":" + errorService.id + "}";
+                                highlightJson += ",";
+                            })
+                            error["errorEndpoints"].forEach(errorEndpoint => {
+                                highlightJson += "{\"id\":" + errorEndpoint.id + "}";
+                                highlightJson += ",";
+                            })
+
+                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                            highlightJson += "]";
+                            highlightJson += ",";
+
+                            // 要highlight的links
+                            highlightJson += "\"links\":[";
+                            error["errorLinks"].forEach(errorLink => {
+                                highlightJson += "{\"id\":" + errorLink.id + "}";
+                                highlightJson += ",";
+                            })
+
+                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                            highlightJson += "]";
+                            highlightJson += "}";
+
+                            let highlighttoJson = JSON.parse(highlightJson);
+                            console.log(highlighttoJson);
+                            highlight(highlighttoJson);
+*************************************************/
+                        })
+
+                    })
+            }
         }
 
         // Contract Tab
