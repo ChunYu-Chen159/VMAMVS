@@ -1989,7 +1989,7 @@ function SDGGraph(data) {
                                         update(emptyData);
                                         update(graphData);
                                     });
-                            }, 2000);
+                            }, 5000);
                         });
 
 
