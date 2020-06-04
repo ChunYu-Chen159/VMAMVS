@@ -302,6 +302,7 @@ public class MonitorService {
             }
 
             monitorError.setErrorAppName(errorAppName);
+            monitorError.setErrorAppVersion(errorAppVersion);
             monitorError.setErrorMessage(errorMessage);
             monitorError.setStatusCode(statusCode);
             monitorError.setTimestamp(timestamp);
