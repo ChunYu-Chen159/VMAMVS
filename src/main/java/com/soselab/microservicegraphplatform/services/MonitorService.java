@@ -198,8 +198,14 @@ public class MonitorService {
                     int serviceId = serviceRepository.findServiceIdByAppId(appId);
 
                     String endpointPath = array500_everyError.getJSONObject(j).getString("name").replaceFirst("http:","");
+
+                    System.out.println("appId: " + appId);
+                    System.out.println("endpointPath: " + endpointPath);
+
                     int endpointId = endpointRepository.findIdByAppIdAndEnpointPath(appId,endpointPath);
 
+                    System.out.println("serviceId: " + serviceId);
+                    System.out.println("endpointId: " + endpointId);
                     int linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithOwn(systemName.toUpperCase(), serviceId, endpointId);
 
 /*                            ErrorService errorService = new ErrorService(serviceId, appName, version, appId);
