@@ -13,11 +13,11 @@ public interface LinkRepository extends Neo4jRepository<Service, Long> {
     @Query("MATCH (n {systemName:{systemName}}) WHERE ID(n) = {Aid} " +
             "MATCH (n:Service)-[r:OWN]->(p:Endpoint) WHERE ID(p) = {Bid} " +
             "RETURN ID(r)")
-    int findLinkIdBySystemNameAndAidAndBidWithOwn(@Param("systemName") String systemName, @Param("Aid") int AId, @Param("Bid") int BId);
+    long findLinkIdBySystemNameAndAidAndBidWithOwn(@Param("systemName") String systemName, @Param("Aid") long AId, @Param("Bid") long BId);
 
 
     @Query("MATCH (n {systemName:{systemName}}) WHERE ID(n) = {Aid} " +
             "MATCH (n:Endpoint)-[r:HTTP_REQUEST]->(p:Endpoint) WHERE ID(p) = {Bid} " +
             "RETURN ID(r)")
-    int findLinkIdBySystemNameAndAidAndBidWithHttpRequest(@Param("systemName") String systemName, @Param("Aid") int AId, @Param("Bid") int BId);
+    long findLinkIdBySystemNameAndAidAndBidWithHttpRequest(@Param("systemName") String systemName, @Param("Aid") long AId, @Param("Bid") long BId);
 }

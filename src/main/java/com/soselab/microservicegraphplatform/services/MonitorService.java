@@ -195,7 +195,7 @@ public class MonitorService {
                     String appName = jsonObject.getString("http.appName").toUpperCase();
                     String version = jsonObject.getString("http.version").toUpperCase();
                     String appId = systemName.toUpperCase() + ":" + appName + ":" + version;
-                    int serviceId = serviceRepository.findServiceIdByAppId(appId);
+                    long serviceId = serviceRepository.findServiceIdByAppId(appId);
                     String endpointPath = "";
 
                     if(array500_everyError.getJSONObject(j).getJSONObject("tags").has("http.path")) {
@@ -216,11 +216,11 @@ public class MonitorService {
                     System.out.println("appId: " + appId);
                     System.out.println("endpointPath: " + endpointPath);
 
-                    int endpointId = endpointRepository.findIdByAppIdAndEnpointPath(appId,endpointPath);
+                    long endpointId = endpointRepository.findIdByAppIdAndEnpointPath(appId,endpointPath);
 
                     System.out.println("serviceId: " + serviceId);
                     System.out.println("endpointId: " + endpointId);
-                    int linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithOwn(systemName.toUpperCase(), serviceId, endpointId);
+                    long linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithOwn(systemName.toUpperCase(), serviceId, endpointId);
 
 /*                            ErrorService errorService = new ErrorService(serviceId, appName, version, appId);
                             ErrorEndpoint errorEndpoint = new ErrorEndpoint(endpointId, appId, endpointPath);
@@ -241,7 +241,7 @@ public class MonitorService {
                             String serverId = array500_everyError.getJSONObject(j).getString("id");
                             JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("localEndpoint");
                             String serverName = jsonObject.getString("serviceName");
-                            int endpointId = 0;
+                            long endpointId = 0;
                             for (ErrorEndpoint e : ee) {
                                 if (e.getParentAppName().equals(serverName.toUpperCase())) {
                                     endpointId = e.getId();
@@ -258,8 +258,8 @@ public class MonitorService {
 
                                         for (ErrorEndpoint e : ee) {
                                             if (e.getParentAppName().equals(clientName.toUpperCase())) {
-                                                int endpointId2 = e.getId();
-                                                int linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithHttpRequest(systemName.toUpperCase(), endpointId2, endpointId);
+                                                long endpointId2 = e.getId();
+                                                long linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithHttpRequest(systemName.toUpperCase(), endpointId2, endpointId);
                                                 el.add(new ErrorLink(linkId, endpointId2, "HTTP_REQUEST", endpointId));
                                             }
                                         }
