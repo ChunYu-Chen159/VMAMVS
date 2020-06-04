@@ -97,9 +97,19 @@ public class MonitorService {
             String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
 
 
+            System.out.println("jsonContent_500: " + jsonContent_500);
+            System.out.println("jsonContent_502: " + jsonContent_502);
+            System.out.println("jsonContent_503: " + jsonContent_503);
+            System.out.println("jsonContent_504: " + jsonContent_504);
+
+
+            System.out.println("500: ");
             JSONArray array500 = new JSONArray(jsonContent_500);
+            System.out.println("502: ");
             JSONArray array502 = new JSONArray(jsonContent_502);
+            System.out.println("503: ");
             JSONArray array503 = new JSONArray(jsonContent_503);
+            System.out.println("504: ");
             JSONArray array504 = new JSONArray(jsonContent_504);
 
 
@@ -163,7 +173,7 @@ public class MonitorService {
 
 
                 if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
-                    JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).get("tags").toString());
+                    JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).getString("tags"));
 
 
                     String appName = jsonObject.getString("http.appName").toUpperCase();
