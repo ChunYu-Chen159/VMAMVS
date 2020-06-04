@@ -245,9 +245,14 @@ public class WebPageController {
         messagingTemplate.convertAndSend("/topic/notification/" + systemName, notification);
     }
 
-    @GetMapping("/monitor/error/{systemName}")
+    @GetMapping("/monitor/getErrors/{systemName}")
     public List<MonitorError> getErrorsOfSystem(@PathVariable("systemName") String systemName) {
         return monitorService.getErrorsOfSystem(systemName);
+    }
+
+    @GetMapping("/monitor/runMonitorErrors/{systemName}")
+    public void runMonitorErrorsOfSystem(@PathVariable("systemName") String systemName) {
+        monitorService.checkErrorFromSleuth(systemName);
     }
 //
 ////    @RequestMapping(value = "/getImage/{systemName}",produces = MediaType.IMAGE_PNG_VALUE)
