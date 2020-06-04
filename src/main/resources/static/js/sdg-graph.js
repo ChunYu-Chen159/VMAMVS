@@ -1706,6 +1706,19 @@ function SDGGraph(data) {
 
                         monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
 
+                        fetch("/web-page/app/swagger/" + d.appId)
+                            .then(response2 => response2.json())
+                            .then(json2 => {
+                                json2["x-contract"].forEach(consumerService => {
+                                    console.log("consumerService: " + consumerService);
+                                    consumerService = consumerService.replace(".groovy","");
+                                    monitorErrorGroup.append("<h5 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h5>");
+
+
+                                })
+                                //let consumerService = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
+                            })
+
                         json.forEach(error => {
                             let errorAppName = error["errorAppName"];
                             let errorAppVersion = error["errorAppVersion"];
