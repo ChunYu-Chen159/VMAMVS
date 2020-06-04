@@ -199,11 +199,11 @@ public class MonitorService {
                     String endpointPath = "";
 
                     if(array500_everyError.getJSONObject(j).getJSONObject("tags").has("http.path")) {
-                        endpointPath = "/" + array500_everyError.getJSONObject(j).getJSONObject("tags").getString("mvc.controller.method");
+                        endpointPath = array500_everyError.getJSONObject(j).getJSONObject("tags").getString("http.path");
                     }else{
                         String serverId = array500_everyError.getJSONObject(j).getString("id");
                         for(int k = 0; k < array500_everyError.length(); k++){
-                            if (array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")) {
+                            if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
                                 String clientId = array500_everyError.getJSONObject(k).getString("id");
                                 if (serverId.equals(clientId)) {
                                     JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
@@ -309,6 +309,12 @@ public class MonitorService {
         if (monitorErrors.size() == 100) {
             monitorErrors.remove(99);
         } else {
+            List<MonitorError> temp = new ArrayList(monitorErrors);
+            // 存共同有的數據
+            temp.retainAll(monitorErrors2);
+            // 去除共同有的數據
+            monitorErrors2.removeAll(temp);
+            // 剩下沒有重複的加回去
             monitorErrors.addAll(0, monitorErrors2);
         }
         return monitorErrors;
