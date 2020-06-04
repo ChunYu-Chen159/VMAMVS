@@ -103,19 +103,18 @@ public class MonitorService {
             System.out.println("jsonContent_504: " + jsonContent_504);
 
 
-            System.out.println("500: ");
             JSONArray array500 = new JSONArray(jsonContent_500);
-            System.out.println("502: ");
             JSONArray array502 = new JSONArray(jsonContent_502);
-            System.out.println("503: ");
             JSONArray array503 = new JSONArray(jsonContent_503);
-            System.out.println("504: ");
             JSONArray array504 = new JSONArray(jsonContent_504);
 
-
+            System.out.println("500: ");
             List<MonitorError> monitorErrorList500 = analyzeError(array500, systemName);
+            System.out.println("502: ");
             List<MonitorError> monitorErrorList502 = analyzeError(array502, systemName);
+            System.out.println("503: ");
             List<MonitorError> monitorErrorList503 = analyzeError(array503, systemName);
+            System.out.println("504: ");
             List<MonitorError> monitorErrorList504 = analyzeError(array504, systemName);
 
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList500),
