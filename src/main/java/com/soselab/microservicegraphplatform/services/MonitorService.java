@@ -250,7 +250,7 @@ public class MonitorService {
                             }
 
                             for (int k = 0; k < array500_everyError.length(); k++) {
-                                if (array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")) {
+                                if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
                                     String clientId = array500_everyError.getJSONObject(k).getString("id");
                                     if (serverId.equals(clientId)) {
                                         JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("localEndpoint");
@@ -287,7 +287,7 @@ public class MonitorService {
                         }
 
                         for (int k = 0; k < array500_everyError.length(); k++) {
-                            if (array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")) {
+                            if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
                                 String clientId = array500_everyError.getJSONObject(k).getString("id");
                                 if (serverId.equals(clientId)) {
                                     JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
