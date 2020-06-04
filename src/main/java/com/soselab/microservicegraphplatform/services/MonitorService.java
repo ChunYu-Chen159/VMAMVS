@@ -172,8 +172,8 @@ public class MonitorService {
 
 
                 if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
-                    System.out.println("11111111111111111111111111:" + array500_everyError.getJSONObject(j).getString("tags"));
-                    JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).getString("tags"));
+                    System.out.println("11111111111111111111111111:" + array500_everyError.getJSONObject(j).getJSONObject("tags"));
+                    JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
 
 
                     String appName = jsonObject.getString("http.appName").toUpperCase();
@@ -202,7 +202,7 @@ public class MonitorService {
                 if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
                     if(array500_everyError.getJSONObject(j).getBoolean("shared")){
                         String serverId = array500_everyError.getJSONObject(j).getString("id");
-                        JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).get("localEndpoint").toString());
+                        JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("localEndpoint");
                         String serverName = jsonObject.getString("serviceName");
                         int endpointId = 0;
                         for(ErrorEndpoint e : ee){
@@ -215,7 +215,7 @@ public class MonitorService {
                             if(array500_everyError.getJSONObject(j).getString("kind").equals("CLIENT")){
                                 String clientId = array500_everyError.getJSONObject(k).getString("id");
                                 if(serverId.equals(clientId)) {
-                                    JSONObject jsonObject2 = new JSONObject(array500_everyError.getJSONObject(k).get("localEndpoint").toString());
+                                    JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("localEndpoint");
 
                                     String clientName = jsonObject2.getString("serviceName");
 
@@ -237,7 +237,7 @@ public class MonitorService {
             // errorAppName, errorMessage, statusCode, timestamp
             for(int j = 0; j < array500_everyError.length(); j++){
                 if(array500_everyError.getJSONObject(j).getBoolean("shared")){
-                    JSONObject jsonObject = new JSONObject(array500_everyError.getJSONObject(j).get("tags").toString());
+                    JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
                     if(!jsonObject.has("error")){
                         errorAppName = jsonObject.getString("http.appName");
                         errorMessage = jsonObject.getString("error");
