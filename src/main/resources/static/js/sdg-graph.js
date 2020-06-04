@@ -1978,22 +1978,19 @@ function SDGGraph(data) {
                             console.log("Success", response);
                         })
                         .then(response2 => {
-
+                            // reload
+                            setTimeout(function() {
+                                clearHighlight();
+                                extraMessage.removeClass("show");
+                                fetch("/web-page/graph/getGraphJson/" + d.systemName)
+                                    .then(response => response.json())
+                                    .then(graphJson => {
+                                        graphData = graphJson;
+                                        update(emptyData);
+                                        update(graphData);
+                                    });
+                            }, 5000);
                         });
-
-
-                    // 才不會出現設定存進去neo4j，但是前端抓出來還是舊的 (！！>可能<！！是存的時候就fetch新資料了)
-                    setTimeout(function() {
-                        clearHighlight();
-                        extraMessage.removeClass("show");
-                        fetch("/web-page/graph/getGraphJson/" + d.systemName)
-                            .then(response => response.json())
-                            .then(graphJson => {
-                                graphData = graphJson;
-                                update(emptyData);
-                                update(graphData);
-                            });
-                    }, 5000);
 
 
 
