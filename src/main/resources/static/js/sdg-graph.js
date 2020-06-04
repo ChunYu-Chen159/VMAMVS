@@ -1748,8 +1748,8 @@ function SDGGraph(data) {
                                         document.getElementById(iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
 
-
-                                    $('#error-' + errorAppName + "-" + error).on("click", function () {
+                                    let iddd = "error-" + errorAppName + "-" + error;
+                                    document.getElementById(iddd).onclick = function(){
                                         if (!$(this).hasClass("active")) {
                                             $(this).parent().find(".active").removeClass("active");
                                             monitorErrorMessage.removeClass("show");
@@ -1796,7 +1796,8 @@ function SDGGraph(data) {
                                             clearHighlight();
                                             monitorErrorMessage.removeClass("show");
                                         }
-                                    });
+                                    }
+
 
 
                                 }
