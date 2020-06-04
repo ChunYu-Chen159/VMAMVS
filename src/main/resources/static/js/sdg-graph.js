@@ -1709,13 +1709,13 @@ function SDGGraph(data) {
                         fetch("/web-page/app/swagger/" + d.appId)
                             .then(response2 => response2.json())
                             .then(json2 => {
-                                json2["x-contract"].forEach(consumerService => {
-                                    console.log("consumerService: " + consumerService);
-                                    consumerService = consumerService.replace(".groovy","");
+                                let contractContent = json2["x-contract"]
+                                for( let groovy in contractContent){
+                                    console.log("groovy: " + groovy);
+                                    let consumerService = groovy.replace(".groovy","");
                                     monitorErrorGroup.append("<h5 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h5>");
+                                }
 
-
-                                })
                                 //let consumerService = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
                             })
 
