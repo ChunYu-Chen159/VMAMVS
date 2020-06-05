@@ -1752,11 +1752,11 @@ function SDGGraph(data) {
                                             highlightJson += "\"nodes\":[";
 
                                             for(let errorService in json[error]["errorServices"]){
-                                                highlightJson += "{\"id\":" + json[error][errorService]["id"] + "}";
+                                                highlightJson += "{\"id\":" + json[error]["errorServices"][errorService]["id"] + "}";
                                                 highlightJson += ",";
                                             }
                                             for(let errorEndpoint in json[error]["errorEndpoints"]){
-                                                highlightJson += "{\"id\":" + json[error][errorEndpoint]["id"] + "}";
+                                                highlightJson += "{\"id\":" + json[error]["errorEndpoints"][errorEndpoint]["id"] + "}";
                                                 highlightJson += ",";
                                             }
 
@@ -1767,7 +1767,7 @@ function SDGGraph(data) {
                                             // 要highlight的links
                                             highlightJson += "\"links\":[";
                                             for(let errorLink in json[error]["errorLinks"]){
-                                                highlightJson += "{\"id\":" + json[error][errorLink]["id"] + "}";
+                                                highlightJson += "{\"id\":" + json[error]["errorLinks"][errorLink]["id"] + "}";
                                                 highlightJson += ",";
                                             }
 
