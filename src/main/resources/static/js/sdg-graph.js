@@ -2125,7 +2125,7 @@ function SDGGraph(data) {
 function addClick(index, jsonString){
 
     console.log("555555555555555555555555555：" + index);
-    let jsonTemp = JSON.parse(jsonString);
+    let jsonTemp = JSON.parse("[" + jsonString + "]");
 
     if (!$(this).hasClass("active")) {
         $(this).parent().find(".active").removeClass("active");
