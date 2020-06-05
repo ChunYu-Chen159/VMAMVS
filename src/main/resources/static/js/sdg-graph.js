@@ -2124,7 +2124,7 @@ function SDGGraph(data) {
 
 function addClick(index, jsonTemp){
 
-    console.log("555555555555555555555555555：" + everyError);
+    console.log("555555555555555555555555555：" + index);
 
     if (!$(this).hasClass("active")) {
         $(this).parent().find(".active").removeClass("active");
