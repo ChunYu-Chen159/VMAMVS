@@ -1752,9 +1752,9 @@ function SDGGraph(data) {
                                 let iddd2 = "error-" + errrrr;
                                 console.log("iddd: " + iddd);
                                 // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(" + errrrr + "," + JSON.stringify(json[everyError]) + ")'>" + "error-" + errrrr + "</button>";
-                                document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
+                                document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClickfunction(" + errrrr + "," + JSON.stringify(json[everyError]) + "," + iddd2 + ")'>" + "error-" + errrrr + "</button>";
                                 //let jsonString = JSON.stringify(json[everyError]);
-                                document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
+                                //document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
 /*                                $('#' + 'error-' + errrrr).click(function(){
                                     console.log("everyError：" + everyError);
                                     console.log("jsonErr:" + jsonErr);
