@@ -1722,28 +1722,17 @@ function SDGGraph(data) {
                                     monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
                                 }
 
-
-                                for (var i=0;i<2 ;i++){
-                                    (function(){
-                                        var bt=document.getElementById('bt'+i);
-                                        var temp=i;
-                                        bt.onclick=function(e){
-                                            console.log(temp);
-                                        }
-                                    })
-                                    ();
-                                }
-
                                 for( let error in json){
                                     (function(){
-                                        console.log("error: " + error);
-                                        let errorAppName = json[error]["errorAppName"];
-                                        let errorAppVersion = json[error]["errorAppVersion"];
-                                        let consumerAppName = json[error]["consumerAppName"];
-                                        let timestamp = json[error]["timestamp"];
-                                        let statusCode = json[error]["statusCode"];
-                                        let errorMessage = json[error]["errorMessage"];
-                                        let errorPath = json[error]["errorPath"];
+                                        let err = error;
+                                        console.log("err: " + err);
+                                        let errorAppName = json[err]["errorAppName"];
+                                        let errorAppVersion = json[err]["errorAppVersion"];
+                                        let consumerAppName = json[err]["consumerAppName"];
+                                        let timestamp = json[err]["timestamp"];
+                                        let statusCode = json[err]["statusCode"];
+                                        let errorMessage = json[err]["errorMessage"];
+                                        let errorPath = json[err]["errorPath"];
                                         console.log("statusCode: " + statusCode);
 
 
@@ -1752,14 +1741,14 @@ function SDGGraph(data) {
                                         console.log("iddd: " + iddd);
                                         document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + error + "</button>";
 
-                                        $('#error-' + error).on("click", function () {
+                                        $('#error-' + err).on("click", function () {
                                             if (!$(this).hasClass("active")) {
                                                 $(this).parent().find(".active").removeClass("active");
                                                 monitorErrorMessage.removeClass("show");
                                                 $(this).addClass("active");
                                                 monitorErrorMessage.addClass("show");
 
-                                                monitorErrorMessageJson.jsonViewer(json[error], {collapsed: true, withQuotes: false});
+                                                monitorErrorMessageJson.jsonViewer(json[err], {collapsed: true, withQuotes: false});
 
                                                 let highlightJson = "";
                                                 highlightJson += "{";
@@ -1767,12 +1756,12 @@ function SDGGraph(data) {
                                                 // 要highlight的nodes
                                                 highlightJson += "\"nodes\":[";
 
-                                                for(let errorService in json[error]["errorServices"]){
-                                                    highlightJson += "{\"id\":" + json[error]["errorServices"][errorService]["id"] + "}";
+                                                for(let errorService in json[err]["errorServices"]){
+                                                    highlightJson += "{\"id\":" + json[err]["errorServices"][errorService]["id"] + "}";
                                                     highlightJson += ",";
                                                 }
-                                                for(let errorEndpoint in json[error]["errorEndpoints"]){
-                                                    highlightJson += "{\"id\":" + json[error]["errorEndpoints"][errorEndpoint]["id"] + "}";
+                                                for(let errorEndpoint in json[err]["errorEndpoints"]){
+                                                    highlightJson += "{\"id\":" + json[err]["errorEndpoints"][errorEndpoint]["id"] + "}";
                                                     highlightJson += ",";
                                                 }
 
@@ -1782,8 +1771,8 @@ function SDGGraph(data) {
 
                                                 // 要highlight的links
                                                 highlightJson += "\"links\":[";
-                                                for(let errorLink in json[error]["errorLinks"]){
-                                                    highlightJson += "{\"source\":" + json[error]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[error]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[error]["errorLinks"][errorLink]["bid"] + "}";
+                                                for(let errorLink in json[err]["errorLinks"]){
+                                                    highlightJson += "{\"source\":" + json[err]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[err]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[err]["errorLinks"][errorLink]["bid"] + "}";
                                                     highlightJson += ",";
                                                 }
 
