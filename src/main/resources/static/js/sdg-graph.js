@@ -1754,15 +1754,15 @@ function SDGGraph(data) {
                                 // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(" + errrrr + "," + JSON.stringify(json[everyError]) + ")'>" + "error-" + errrrr + "</button>";
                                 document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
                                 //let jsonString = JSON.stringify(json[everyError]);
-                                // document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]));
-                                $('#' + 'error-' + errrrr).click(function(){
+                                document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
+/*                                $('#' + 'error-' + errrrr).click(function(){
                                     console.log("everyError：" + everyError);
                                     console.log("jsonErr:" + jsonErr);
                                     let jsonTemp = jsonErr;
                                     let id3 = "error-" + errrrr;
 
-                                    /*            let monitorErrorMessage = $('#monitorErrorMessage');
-                                                let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
+                                    /!*            let monitorErrorMessage = $('#monitorErrorMessage');
+                                                let monitorErrorMessageJson = $('#monitorErrorMessage-json');*!/
 
                                     if (!$('#' + id3).hasClass("active")) {
                                         $('#' + id3).parent().find(".active").removeClass("active");
@@ -1809,7 +1809,7 @@ function SDGGraph(data) {
                                         clearHighlight();
                                         monitorErrorMessage.removeClass("show");
                                     }
-                                });
+                                });*/
                             }
 
                         })
@@ -1817,7 +1817,7 @@ function SDGGraph(data) {
         }
 
 
-        let addClickfunction = function addClick(index, jsonTemp){
+        let addClickfunction = function addClick(index, jsonTemp, idTemp){
 
             console.log("index：" + index);
             console.log("jsonTemp:" + jsonTemp);
@@ -1826,10 +1826,10 @@ function SDGGraph(data) {
 /*            let monitorErrorMessage = $('#monitorErrorMessage');
             let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
 
-            if (!$(this).hasClass("active")) {
-                $(this).parent().find(".active").removeClass("active");
+            if (!$('#' + idTemp).hasClass("active")) {
+                $('#' + idTemp).parent().find(".active").removeClass("active");
                 monitorErrorMessage.removeClass("show");
-                $(this).addClass("active");
+                $('#' + idTemp).addClass("active");
                 monitorErrorMessage.addClass("show");
 
                 monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
@@ -1867,7 +1867,7 @@ function SDGGraph(data) {
                 let highlighttoJson = JSON.parse(highlightJson);
                 highlight(highlighttoJson);
             } else {
-                $(this).removeClass("active");
+                $('#' + idTemp).removeClass("active");
                 clearHighlight();
                 monitorErrorMessage.removeClass("show");
             }
