@@ -1723,10 +1723,8 @@ function SDGGraph(data) {
                                 }
 
                                 for( let everyError in json){
-                                    console.log("json： " + json)
                                     let jsonErr = json[everyError];
                                     let errrrr = everyError;
-                                    console.log("err: " + everyError);
                                     let errorAppName = json[everyError]["errorAppName"];
                                     let errorAppVersion = json[everyError]["errorAppVersion"];
                                     let consumerAppName = json[everyError]["consumerAppName"];
@@ -1740,61 +1738,11 @@ function SDGGraph(data) {
                                     let iddd = consumerAppName + "-error" + statusCode;
                                     let iddd2 = "error-" + errrrr;
                                     console.log("iddd: " + iddd);
-                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
+                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick=''>" + "error-" + errrrr + "</button>";
 
                                     console.log("４４４４４４４４４４４４４４４４４４４：" + everyError);
 
-                                    $('#error-' + everyError).on("click", function (){
-
-                                        console.log("555555555555555555555555555：" + everyError);
-
-                                        if (!$(this).hasClass("active")) {
-                                            $(this).parent().find(".active").removeClass("active");
-                                            monitorErrorMessage.removeClass("show");
-                                            $(this).addClass("active");
-                                            monitorErrorMessage.addClass("show");
-
-                                            monitorErrorMessageJson.jsonViewer(json[everyError], {collapsed: true, withQuotes: false});
-
-                                            let highlightJson = "";
-                                            highlightJson += "{";
-
-                                            // 要highlight的nodes
-                                            highlightJson += "\"nodes\":[";
-
-                                            for(let errorService in json[everyError]["errorServices"]){
-                                                highlightJson += "{\"id\":" + json[everyError]["errorServices"][errorService]["id"] + "}";
-                                                highlightJson += ",";
-                                            }
-                                            for(let errorEndpoint in json[everyError]["errorEndpoints"]){
-                                                highlightJson += "{\"id\":" + json[everyError]["errorEndpoints"][errorEndpoint]["id"] + "}";
-                                                highlightJson += ",";
-                                            }
-
-                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                            highlightJson += "]";
-                                            highlightJson += ",";
-
-                                            // 要highlight的links
-                                            highlightJson += "\"links\":[";
-                                            for(let errorLink in json[everyError]["errorLinks"]){
-                                                highlightJson += "{\"source\":" + json[everyError]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[everyError]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[everyError]["errorLinks"][errorLink]["bid"] + "}";
-                                                highlightJson += ",";
-                                            }
-
-                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                            highlightJson += "]";
-                                            highlightJson += "}";
-
-                                            let highlighttoJson = JSON.parse(highlightJson);
-                                            console.log(highlighttoJson);
-                                            highlight(highlighttoJson);
-                                        } else {
-                                            $(this).removeClass("active");
-                                            clearHighlight();
-                                            monitorErrorMessage.removeClass("show");
-                                        }
-                                    });
+                                    $('#error-' + everyError).on("click", );
 
                                 }
 
@@ -1803,6 +1751,59 @@ function SDGGraph(data) {
 
                     })
             }
+        }
+
+        function addClick(index, jsonTemp){
+
+            console.log("555555555555555555555555555：" + everyError);
+
+            if (!$(this).hasClass("active")) {
+                $(this).parent().find(".active").removeClass("active");
+                monitorErrorMessage.removeClass("show");
+                $(this).addClass("active");
+                monitorErrorMessage.addClass("show");
+
+                monitorErrorMessageJson.jsonViewer(jsonTemp[index], {collapsed: true, withQuotes: false});
+
+                let highlightJson = "";
+                highlightJson += "{";
+
+                // 要highlight的nodes
+                highlightJson += "\"nodes\":[";
+
+                for(let errorService in jsonTemp[index]["errorServices"]){
+                    highlightJson += "{\"id\":" + jsonTemp[index]["errorServices"][errorService]["id"] + "}";
+                    highlightJson += ",";
+                }
+                for(let errorEndpoint in jsonTemp[index]["errorEndpoints"]){
+                    highlightJson += "{\"id\":" + jsonTemp[index]["errorEndpoints"][errorEndpoint]["id"] + "}";
+                    highlightJson += ",";
+                }
+
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+                highlightJson += ",";
+
+                // 要highlight的links
+                highlightJson += "\"links\":[";
+                for(let errorLink in jsonTemp[index]["errorLinks"]){
+                    highlightJson += "{\"source\":" + jsonTemp[index]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp[index]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp[index]["errorLinks"][errorLink]["bid"] + "}";
+                    highlightJson += ",";
+                }
+
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+                highlightJson += "}";
+
+                let highlighttoJson = JSON.parse(highlightJson);
+                console.log(highlighttoJson);
+                highlight(highlighttoJson);
+            } else {
+                $(this).removeClass("active");
+                clearHighlight();
+                monitorErrorMessage.removeClass("show");
+            }
+
         }
 
         // Contract Tab
