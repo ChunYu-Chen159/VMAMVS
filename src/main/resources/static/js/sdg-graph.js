@@ -2124,7 +2124,8 @@ function SDGGraph(data) {
 
 function addClick(index, jsonString){
 
-    console.log("555555555555555555555555555：" + index);
+    console.log("index：" + index);
+    console.log("jsonString:" + jsonString);
     let jsonTemp = JSON.parse("[" + jsonString + "]");
 
     if (!$(this).hasClass("active")) {
@@ -2166,7 +2167,6 @@ function addClick(index, jsonString){
         highlightJson += "}";
 
         let highlighttoJson = JSON.parse(highlightJson);
-        console.log(highlighttoJson);
         highlight(highlighttoJson);
     } else {
         $(this).removeClass("active");
