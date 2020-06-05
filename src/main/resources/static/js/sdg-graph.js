@@ -1749,7 +1749,7 @@ function SDGGraph(data) {
                                     let iddd = consumerAppName + "-error" + statusCode;
                                     let iddd2 = "error-" + everyError;
                                     console.log("iddd: " + iddd);
-                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(" + errrrr + "," + json + ")'>" + "error-" + errrrr + "</button>";
+                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(" + errrrr + "," + json[everyError] + ")'>" + "error-" + errrrr + "</button>";
 
 
 
@@ -2132,7 +2132,7 @@ function addClick(index, jsonTemp){
         $(this).addClass("active");
         monitorErrorMessage.addClass("show");
 
-        monitorErrorMessageJson.jsonViewer(jsonTemp[index], {collapsed: true, withQuotes: false});
+        monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
 
         let highlightJson = "";
         highlightJson += "{";
@@ -2140,12 +2140,12 @@ function addClick(index, jsonTemp){
         // 要highlight的nodes
         highlightJson += "\"nodes\":[";
 
-        for(let errorService in jsonTemp[index]["errorServices"]){
-            highlightJson += "{\"id\":" + jsonTemp[index]["errorServices"][errorService]["id"] + "}";
+        for(let errorService in jsonTemp["errorServices"]){
+            highlightJson += "{\"id\":" + jsonTemp["errorServices"][errorService]["id"] + "}";
             highlightJson += ",";
         }
-        for(let errorEndpoint in jsonTemp[index]["errorEndpoints"]){
-            highlightJson += "{\"id\":" + jsonTemp[index]["errorEndpoints"][errorEndpoint]["id"] + "}";
+        for(let errorEndpoint in jsonTemp["errorEndpoints"]){
+            highlightJson += "{\"id\":" + jsonTemp["errorEndpoints"][errorEndpoint]["id"] + "}";
             highlightJson += ",";
         }
 
@@ -2155,8 +2155,8 @@ function addClick(index, jsonTemp){
 
         // 要highlight的links
         highlightJson += "\"links\":[";
-        for(let errorLink in jsonTemp[index]["errorLinks"]){
-            highlightJson += "{\"source\":" + jsonTemp[index]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp[index]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp[index]["errorLinks"][errorLink]["bid"] + "}";
+        for(let errorLink in jsonTemp["errorLinks"]){
+            highlightJson += "{\"source\":" + jsonTemp["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp["errorLinks"][errorLink]["bid"] + "}";
             highlightJson += ",";
         }
 
