@@ -1749,7 +1749,7 @@ function SDGGraph(data) {
                                     let iddd = consumerAppName + "-error" + statusCode;
                                     let iddd2 = "error-" + everyError;
                                     console.log("iddd: " + iddd);
-                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(" + errrrr + "," + JSON.stringify(json[everyError]) + ")'>" + "error-" + errrrr + "</button>";
+                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='this.addClick(" + errrrr + "," + JSON.stringify(json[everyError]) + ")'>" + "error-" + errrrr + "</button>";
 
 
 
