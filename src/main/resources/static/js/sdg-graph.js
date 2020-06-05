@@ -1725,7 +1725,7 @@ function SDGGraph(data) {
                                 for( let everyError in json){
                                     let jsonErr = json[everyError];
                                     let errrrr = everyError;
-                                    console.log("err: " + err);
+                                    console.log("err: " + everyError);
                                     let errorAppName = json[everyError]["errorAppName"];
                                     let errorAppVersion = json[everyError]["errorAppVersion"];
                                     let consumerAppName = json[everyError]["consumerAppName"];
@@ -1756,7 +1756,7 @@ function SDGGraph(data) {
                                     $(this).addClass("active");
                                     monitorErrorMessage.addClass("show");
 
-                                    monitorErrorMessageJson.jsonViewer(json[err], {collapsed: true, withQuotes: false});
+                                    monitorErrorMessageJson.jsonViewer(json[errParameter], {collapsed: true, withQuotes: false});
 
                                     let highlightJson = "";
                                     highlightJson += "{";
