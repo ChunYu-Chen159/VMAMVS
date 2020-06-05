@@ -1755,18 +1755,19 @@ function SDGGraph(data) {
                                 document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
                                 //let jsonString = JSON.stringify(json[everyError]);
                                 // document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]));
-                                $('#' + iddd2).click(function(){
+                                $('#' + 'error-' + everyError).click(function(){
                                     console.log("everyError：" + everyError);
                                     console.log("jsonErr:" + jsonErr);
                                     let jsonTemp = jsonErr;
+                                    let id3 = "error-" + everyError;
 
                                     /*            let monitorErrorMessage = $('#monitorErrorMessage');
                                                 let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
 
-                                    if (!$('#' + iddd2).hasClass("active")) {
-                                        $('#' + iddd2).parent().find(".active").removeClass("active");
+                                    if (!$('#' + id3).hasClass("active")) {
+                                        $('#' + id3).parent().find(".active").removeClass("active");
                                         monitorErrorMessage.removeClass("show");
-                                        $('#' + iddd2).addClass("active");
+                                        $('#' + id3).addClass("active");
                                         monitorErrorMessage.addClass("show");
 
                                         monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
@@ -1804,7 +1805,7 @@ function SDGGraph(data) {
                                         let highlighttoJson = JSON.parse(highlightJson);
                                         highlight(highlighttoJson);
                                     } else {
-                                        $('#' + iddd2).removeClass("active");
+                                        $('#' + id3).removeClass("active");
                                         clearHighlight();
                                         monitorErrorMessage.removeClass("show");
                                     }
