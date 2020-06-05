@@ -333,6 +333,10 @@ public class MonitorService {
             // 加回去
             monitorErrors.addAll(0, monitorErrors2);
         }
+
+        for(MonitorError monitorError : monitorErrors)
+            monitorError.setIndex(monitorErrors.indexOf(monitorError));
+
         return monitorErrors;
     }
 

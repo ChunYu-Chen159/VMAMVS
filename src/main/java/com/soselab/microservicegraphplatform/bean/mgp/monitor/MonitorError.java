@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class MonitorError {
 
     // timestamp使用 https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/319101/
+    private long index;
     private String errorAppName;
     private String errorAppVersion;
     private String consumerAppName;
@@ -17,6 +18,14 @@ public class MonitorError {
     private ArrayList<ErrorService> errorServices;
     private ArrayList<ErrorEndpoint> errorEndpoints;
     private ArrayList<ErrorLink> errorLinks;
+
+    public long getIndex() {
+        return index;
+    }
+
+    public void setIndex(long index) {
+        this.index = index;
+    }
 
     public String getErrorAppName() {
         return errorAppName;
