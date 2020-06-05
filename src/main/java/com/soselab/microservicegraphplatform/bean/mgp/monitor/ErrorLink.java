@@ -3,14 +3,14 @@ package com.soselab.microservicegraphplatform.bean.mgp.monitor;
 public class ErrorLink {
     private long id;
     private long AId;
-    private String realationship;
+    private String relationship;
     private long BId;
 
 
-    public ErrorLink(long id, long AId, String realationship, long BId) {
+    public ErrorLink(long id, long AId, String relationship, long BId) {
         this.id = id;
         this.AId = AId;
-        this.realationship = realationship;
+        this.relationship = relationship;
         this.BId = BId;
     }
 
@@ -30,12 +30,12 @@ public class ErrorLink {
         this.AId = AId;
     }
 
-    public String getRealationship() {
-        return realationship;
+    public String getRelationship() {
+        return relationship;
     }
 
-    public void setRealationship(String realationship) {
-        this.realationship = realationship;
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
     }
 
     public long getBId() {
