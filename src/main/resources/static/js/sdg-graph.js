@@ -1723,6 +1723,7 @@ function SDGGraph(data) {
                                 }
 
                                 for( let everyError in json){
+                                    console.log("json： " + json)
                                     let jsonErr = json[everyError];
                                     let errrrr = everyError;
                                     console.log("err: " + everyError);
