@@ -1698,69 +1698,125 @@ function SDGGraph(data) {
                 .then(json => {
                     metricsElasticsearchJson.jsonViewer(json, {collapsed: true, withQuotes: false});
                 });
-
-            if (d.labels.includes(LABEL_ENDPOINT)) {
-            } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
-                fetch("/web-page/monitor/getErrors/" + d.systemName)
-                    .then(response => response.json())
-                    .then(json => {
-                        console.log("monitor/getErrors/" + d.systemName);
-
-                        //monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
-
-                        fetch("/web-page/app/swagger/" + d.appId)
-                            .then(response2 => response2.json())
-                            .then(json2 => {
-                                let contractContent = json2["x-contract"]
-                                for( let groovy in contractContent){
-                                    console.log("groovy: " + groovy);
-                                    let consumerService = groovy.replace(".groovy","");
-                                    monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
-                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error500\"><h4 class=\"card-monitorError\">" + "Error Detect (500)" + "</h4></div>");
-                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error502\"><h4 class=\"card-monitorError\">" + "Error Detect (502)" + "</h4></div>");
-                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error503\"><h4 class=\"card-monitorError\">" + "Error Detect (503)" + "</h4></div>");
-                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
-                                }
-
-                                for( let everyError in json){
-                                    let jsonErr = json[everyError];
-                                    let errrrr = everyError;
-                                    let errorAppName = json[everyError]["errorAppName"];
-                                    let errorAppVersion = json[everyError]["errorAppVersion"];
-                                    let consumerAppName = json[everyError]["consumerAppName"];
-                                    let timestamp = json[everyError]["timestamp"];
-                                    let statusCode = json[everyError]["statusCode"];
-                                    let errorMessage = json[everyError]["errorMessage"];
-                                    let errorPath = json[everyError]["errorPath"];
+        }
 
 
-                                    console.log("json: " + json);
-                                    console.log("everyError: " + everyError);
-                                    console.log("json[everyError]: " + json[everyError]);
-                                    console.log("errorAppName: " + errorAppName);
-                                    console.log("errorAppVersion: " + errorAppVersion);
-                                    console.log("consumerAppName: " + consumerAppName);
-                                    console.log("timestamp: " + timestamp);
-                                    console.log("statusCode: " + statusCode);
-                                    console.log("errorMessage: " + errorMessage);
-                                    console.log("errorPath: " + errorPath);
+        if (d.labels.includes(LABEL_ENDPOINT)) {
+        } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
+            fetch("/web-page/monitor/getErrors/" + d.systemName)
+                .then(response => response.json())
+                .then(json => {
+                    console.log("monitor/getErrors/" + d.systemName);
+
+                    //monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
+
+                    fetch("/web-page/app/swagger/" + d.appId)
+                        .then(response2 => response2.json())
+                        .then(json2 => {
+                            let contractContent = json2["x-contract"];
+                            for( let groovy in contractContent){
+                                console.log("groovy: " + groovy);
+                                let consumerService = groovy.replace(".groovy","");
+                                monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error500\"><h4 class=\"card-monitorError\">" + "Error Detect (500)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error502\"><h4 class=\"card-monitorError\">" + "Error Detect (502)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error503\"><h4 class=\"card-monitorError\">" + "Error Detect (503)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
+                            }
+
+                            for( let everyError in json){
+                                let jsonErr = json[everyError];
+                                let errrrr = everyError;
+                                let errorAppName = json[everyError]["errorAppName"];
+                                let errorAppVersion = json[everyError]["errorAppVersion"];
+                                let consumerAppName = json[everyError]["consumerAppName"];
+                                let timestamp = json[everyError]["timestamp"];
+                                let statusCode = json[everyError]["statusCode"];
+                                let errorMessage = json[everyError]["errorMessage"];
+                                let errorPath = json[everyError]["errorPath"];
 
 
-                                    let iddd = consumerAppName + "-error" + statusCode;
-                                    let iddd2 = "error-" + everyError;
-                                    console.log("iddd: " + iddd);
-                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='this.addClick(" + errrrr + "," + JSON.stringify(json[everyError]) + ")'>" + "error-" + errrrr + "</button>";
+                                console.log("json: " + json);
+                                console.log("everyError: " + everyError);
+                                console.log("json[everyError]: " + json[everyError]);
+                                console.log("errorAppName: " + errorAppName);
+                                console.log("errorAppVersion: " + errorAppVersion);
+                                console.log("consumerAppName: " + consumerAppName);
+                                console.log("timestamp: " + timestamp);
+                                console.log("statusCode: " + statusCode);
+                                console.log("errorMessage: " + errorMessage);
+                                console.log("errorPath: " + errorPath);
 
 
+                                let iddd = consumerAppName + "-error" + statusCode;
+                                let iddd2 = "error-" + everyError;
+                                console.log("iddd: " + iddd);
+                                // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(" + errrrr + "," + JSON.stringify(json[everyError]) + ")'>" + "error-" + errrrr + "</button>";
+                                document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
+                                //let jsonString = JSON.stringify(json[everyError]);
+                                document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]));
+                            }
+
+                        })
+                })
+        }
 
 
-                                }
+        let addClickfunction = function addClick(index, jsonTemp){
 
-                            })
+            console.log("index：" + index);
+            console.log("jsonTemp:" + jsonTemp);
+            //let jsonTemp = JSON.parse("[" + jsonString + "]");
 
+/*            let monitorErrorMessage = $('#monitorErrorMessage');
+            let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
 
-                    })
+            if (!$(this).hasClass("active")) {
+                $(this).parent().find(".active").removeClass("active");
+                monitorErrorMessage.removeClass("show");
+                $(this).addClass("active");
+                monitorErrorMessage.addClass("show");
+
+                monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
+
+                let highlightJson = "";
+                highlightJson += "{";
+
+                // 要highlight的nodes
+                highlightJson += "\"nodes\":[";
+
+                for(let errorService in jsonTemp["errorServices"]){
+                    highlightJson += "{\"id\":" + jsonTemp["errorServices"][errorService]["id"] + "}";
+                    highlightJson += ",";
+                }
+                for(let errorEndpoint in jsonTemp["errorEndpoints"]){
+                    highlightJson += "{\"id\":" + jsonTemp["errorEndpoints"][errorEndpoint]["id"] + "}";
+                    highlightJson += ",";
+                }
+
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+                highlightJson += ",";
+
+                // 要highlight的links
+                highlightJson += "\"links\":[";
+                for(let errorLink in jsonTemp["errorLinks"]){
+                    highlightJson += "{\"source\":" + jsonTemp["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp["errorLinks"][errorLink]["bid"] + "}";
+                    highlightJson += ",";
+                }
+
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+                highlightJson += "}";
+
+                let highlighttoJson = JSON.parse(highlightJson);
+                highlight(highlighttoJson);
+            } else {
+                $(this).removeClass("active");
+                clearHighlight();
+                monitorErrorMessage.removeClass("show");
             }
+
         }
 
 
@@ -1905,6 +1961,7 @@ function SDGGraph(data) {
                     });
                 });
         }
+
 
 
         // Alert
@@ -2107,63 +2164,6 @@ function SDGGraph(data) {
         }
     });
 
-
-    function addClick(index, jsonTemp){
-
-        console.log("index：" + index);
-        console.log("jsonTemp:" + jsonTemp);
-        //let jsonTemp = JSON.parse("[" + jsonString + "]");
-
-        /*let monitorErrorMessage = $('#monitorErrorMessage');
-        let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
-
-        if (!$(this).hasClass("active")) {
-            $(this).parent().find(".active").removeClass("active");
-            monitorErrorMessage.removeClass("show");
-            $(this).addClass("active");
-            monitorErrorMessage.addClass("show");
-
-            monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
-
-            let highlightJson = "";
-            highlightJson += "{";
-
-            // 要highlight的nodes
-            highlightJson += "\"nodes\":[";
-
-            for(let errorService in jsonTemp["errorServices"]){
-                highlightJson += "{\"id\":" + jsonTemp["errorServices"][errorService]["id"] + "}";
-                highlightJson += ",";
-            }
-            for(let errorEndpoint in jsonTemp["errorEndpoints"]){
-                highlightJson += "{\"id\":" + jsonTemp["errorEndpoints"][errorEndpoint]["id"] + "}";
-                highlightJson += ",";
-            }
-
-            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-            highlightJson += "]";
-            highlightJson += ",";
-
-            // 要highlight的links
-            highlightJson += "\"links\":[";
-            for(let errorLink in jsonTemp["errorLinks"]){
-                highlightJson += "{\"source\":" + jsonTemp["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp["errorLinks"][errorLink]["bid"] + "}";
-                highlightJson += ",";
-            }
-
-            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-            highlightJson += "]";
-            highlightJson += "}";
-
-            let highlighttoJson = JSON.parse(highlightJson);
-            highlight(highlighttoJson);
-        } else {
-            $(this).removeClass("active");
-            clearHighlight();
-            monitorErrorMessage.removeClass("show");
-        }
-
-    }
 
     this.clickNodeByNameAndVersion = function(appName, version) {
         node.filter(d => d.appName === appName && d.version === version).dispatch("click");
