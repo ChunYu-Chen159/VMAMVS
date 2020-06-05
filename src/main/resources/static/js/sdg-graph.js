@@ -1749,7 +1749,7 @@ function SDGGraph(data) {
 
 
                         function clickk(errParameter) {
-                            $('#error-' + errParameter).on("click", function (){
+                            $('#error-' + errParameter.replace("/","-")).on("click", function (){
                                 if (!$(this).hasClass("active")) {
                                     $(this).parent().find(".active").removeClass("active");
                                     monitorErrorMessage.removeClass("show");
