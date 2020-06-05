@@ -1734,11 +1734,11 @@ function SDGGraph(data) {
 
 
                                     let iddd = consumerAppName + "-error" + statusCode;
-                                    let iddd2 = "error-" + errorAppName + "-" + error;
+                                    let iddd2 = "error-" + error;
                                     console.log("iddd: " + iddd);
                                     document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + error + "</button>";
 
-                                    $('#error-' + "payment-" + error).on("click", function () {
+                                    $('#error-' + error).on("click", function () {
                                         if (!$(this).hasClass("active")) {
                                             $(this).parent().find(".active").removeClass("active");
                                             monitorErrorMessage.removeClass("show");
