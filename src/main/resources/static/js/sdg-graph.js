@@ -1736,9 +1736,6 @@ function SDGGraph(data) {
                                     console.log("iddd: " + iddd);
                                     document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + error + "</button>";
 
-                                    "<h5 class=\"card-contract\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>"
-
-
                                     document.getElementById(iddd2).onclick = function(){
                                         if (!$(this).hasClass("active")) {
                                             $(this).parent().find(".active").removeClass("active");
