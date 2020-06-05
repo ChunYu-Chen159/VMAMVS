@@ -1759,10 +1759,11 @@ function SDGGraph(data) {
                                 //let jsonString = JSON.stringify(json[everyError]);
                                 //document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
                                 $('#' + 'error-' + index).click(function(){
+                                    console.log("index：" + index);
                                     console.log("everyError：" + everyError);
                                     console.log("jsonErr:" + jsonErr);
                                     let jsonTemp = jsonErr;
-                                    let id3 = "error-" + errrrr;
+                                    let id3 = "error-" + index;
 
                                     /*            let monitorErrorMessage = $('#monitorErrorMessage');
                                                 let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
