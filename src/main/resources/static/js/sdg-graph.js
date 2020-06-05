@@ -1730,26 +1730,15 @@ function SDGGraph(data) {
                                     let errorPath = json[error]["errorPath"];
                                     console.log("statusCode: " + statusCode);
 
-                                    if(statusCode === "500") {
-                                        let iddd = consumerAppName + "-error500";
-                                        console.log("iddd: " + iddd);
-                                        document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    }
-                                    else if(statusCode === "502") {
-                                        let iddd = consumerAppName + "-error502";
-                                        document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    }
-                                    else if(statusCode === "503") {
-                                        let iddd = consumerAppName + "-error503";
-                                        document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    }
-                                    else if(statusCode === "504") {
-                                        let iddd = consumerAppName + "-error504";
-                                        document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
-                                    }
 
-                                    let iddd = "error-" + errorAppName + "-" + error;
-                                    document.getElementById(iddd).onclick = function(){
+                                    let iddd = consumerAppName + "-error" + statusCode;
+                                    let iddd2 = "error-" + errorAppName + "-" + error;
+                                    console.log("iddd: " + iddd);
+                                    document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\" + iddd2 + \">" + "error-" + error + "</button>");
+
+
+
+                                    document.getElementById(iddd2).onclick = function(){
                                         if (!$(this).hasClass("active")) {
                                             $(this).parent().find(".active").removeClass("active");
                                             monitorErrorMessage.removeClass("show");
