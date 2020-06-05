@@ -1764,13 +1764,13 @@ function SDGGraph(data) {
 
                     for (let error2 in json) {
 
-                        $('#' + 'error-' + error2).click(function(){
+                        $('#' + 'error-' + json[error2]["index"]).click(function(){
 
 
 
                             console.log("json[error2][\"index\"]：" + json[error2]["index"]);
                             let jsonTemp = json[error2];
-                            let id3 = "error-" + error2;
+                            let id3 = "error-" + json[error2]["index"];
 
                             /*            let monitorErrorMessage = $('#monitorErrorMessage');
                                         let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
