@@ -1724,7 +1724,8 @@ function SDGGraph(data) {
                                 monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
                             }
 
-                            for( let everyError in json){
+                            let everyError;
+                            for( everyError in json){
                                 let index = json[everyError]["index"];
                                 let jsonErr = json[everyError];
                                 let errrrr = everyError;
