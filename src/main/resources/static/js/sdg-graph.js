@@ -1735,7 +1735,7 @@ function SDGGraph(data) {
                                     let iddd = consumerAppName + "-error" + statusCode;
                                     let iddd2 = "error-" + timestamp;
 
-                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + timestamp + "</button>";
+                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + "error-" + timestamp + "\">" + "error-" + timestamp + "</button>";
 
                                     $('#error-' + timestamp).on("click", function () {
                                         if (!$(this).hasClass("active")) {
