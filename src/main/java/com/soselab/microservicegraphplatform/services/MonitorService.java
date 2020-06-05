@@ -330,7 +330,7 @@ public class MonitorService {
             temp.retainAll(monitorErrors2);
             // 去除共同有的數據
             monitorErrors2.removeAll(temp);
-            // 剩下沒有重複的加回去
+            // 加回去
             monitorErrors.addAll(0, monitorErrors2);
         }
         return monitorErrors;
