@@ -1723,7 +1723,7 @@ function SDGGraph(data) {
                                     console.log("error: " + error);
                                     let errorAppName = json[error]["errorAppName"];
                                     let errorAppVersion = json[error]["errorAppVersion"];
-                                    let consumerName = json[error]["consumerName"];
+                                    let consumerAppName = json[error]["consumerAppName"];
                                     let timestamp = json[error]["timestamp"];
                                     let statusCode = json[error]["statusCode"];
                                     let errorMessage = json[error]["errorMessage"];
@@ -1731,20 +1731,20 @@ function SDGGraph(data) {
                                     console.log("statusCode: " + statusCode);
 
                                     if(statusCode === "500") {
-                                        let iddd = consumerName + "-error500";
+                                        let iddd = consumerAppName + "-error500";
                                         console.log("iddd: " + iddd);
                                         document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
                                     else if(statusCode === "502") {
-                                        let iddd = consumerName + "-error502";
+                                        let iddd = consumerAppName + "-error502";
                                         document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
                                     else if(statusCode === "503") {
-                                        let iddd = consumerName + "-error503";
+                                        let iddd = consumerAppName + "-error503";
                                         document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
                                     else if(statusCode === "504") {
-                                        let iddd = consumerName + "-error504";
+                                        let iddd = consumerAppName + "-error504";
                                         document.getElementById(iddd).appendChild("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"error-" + errorAppName + "-" + error + "\">" + "error-" + error + "</button>");
                                     }
 
