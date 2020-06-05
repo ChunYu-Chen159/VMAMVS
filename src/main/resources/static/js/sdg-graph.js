@@ -1763,10 +1763,10 @@ function SDGGraph(data) {
                                     /*            let monitorErrorMessage = $('#monitorErrorMessage');
                                                 let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
 
-                                    if (!$(this).hasClass("active")) {
-                                        $(this).parent().find(".active").removeClass("active");
+                                    if (!$('#' + iddd2).hasClass("active")) {
+                                        $('#' + iddd2).parent().find(".active").removeClass("active");
                                         monitorErrorMessage.removeClass("show");
-                                        $(this).addClass("active");
+                                        $('#' + iddd2).addClass("active");
                                         monitorErrorMessage.addClass("show");
 
                                         monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
@@ -1804,7 +1804,7 @@ function SDGGraph(data) {
                                         let highlighttoJson = JSON.parse(highlightJson);
                                         highlight(highlighttoJson);
                                     } else {
-                                        $(this).removeClass("active");
+                                        $('#' + iddd2).removeClass("active");
                                         clearHighlight();
                                         monitorErrorMessage.removeClass("show");
                                     }
