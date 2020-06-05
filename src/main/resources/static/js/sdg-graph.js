@@ -1732,17 +1732,27 @@ function SDGGraph(data) {
                                     let statusCode = json[everyError]["statusCode"];
                                     let errorMessage = json[everyError]["errorMessage"];
                                     let errorPath = json[everyError]["errorPath"];
+
+
+                                    console.log("json: " + json);
+                                    console.log("everyError: " + everyError);
+                                    console.log("json[everyError]: " + json[everyError]);
+                                    console.log("errorAppName: " + errorAppName);
+                                    console.log("errorAppVersion: " + errorAppVersion);
+                                    console.log("consumerAppName: " + consumerAppName);
+                                    console.log("timestamp: " + timestamp);
                                     console.log("statusCode: " + statusCode);
+                                    console.log("errorMessage: " + errorMessage);
+                                    console.log("errorPath: " + errorPath);
 
 
                                     let iddd = consumerAppName + "-error" + statusCode;
-                                    let iddd2 = "error-" + errrrr;
+                                    let iddd2 = "error-" + everyError;
                                     console.log("iddd: " + iddd);
-                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick=''>" + "error-" + errrrr + "</button>";
+                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(everyError,json)'>" + "error-" + errrrr + "</button>";
 
-                                    console.log("４４４４４４４４４４４４４４４４４４４：" + everyError);
 
-                                    $('#error-' + everyError).on("click", );
+
 
                                 }
 
