@@ -1737,6 +1737,10 @@ function SDGGraph(data) {
 
                                     document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + "error-" + timestamp + "\">" + "error-" + timestamp + "</button>";
 
+                                    console.log("iddd: " + iddd);
+                                    console.log("iddd2: " + iddd2);
+                                    console.log("errorTimestamp: error-" + timestamp);
+
                                     $('#error-' + timestamp).on("click", function () {
                                         if (!$(this).hasClass("active")) {
                                             $(this).parent().find(".active").removeClass("active");
