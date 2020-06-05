@@ -1741,6 +1741,8 @@ function SDGGraph(data) {
                                     console.log("iddd: " + iddd);
                                     document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
 
+                                    console.log("４４４４４４４４４４４４４４４４４４４：" + everyError);
+
                                     $('#error-' + everyError).on("click", function (){
 
                                         console.log("555555555555555555555555555：" + everyError);
