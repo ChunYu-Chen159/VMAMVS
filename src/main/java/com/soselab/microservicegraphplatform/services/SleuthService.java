@@ -160,7 +160,7 @@ public class SleuthService {
             e.printStackTrace();
         }
 
-        if("".equals(result))
+        if("".equals(result) || result.isEmpty())
             return "[]";
 
         return result;
