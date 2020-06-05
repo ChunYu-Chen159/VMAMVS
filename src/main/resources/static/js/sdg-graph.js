@@ -1722,34 +1722,34 @@ function SDGGraph(data) {
                                     monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
                                 }
 
-                                for( let error in json){
-                                    let jsonErr = json[error];
-                                    let err = error;
+                                for( let everyError in json){
+                                    let jsonErr = json[everyError];
+                                    let errrrr = everyError;
                                     console.log("err: " + err);
-                                    let errorAppName = jsonErr["errorAppName"];
-                                    let errorAppVersion = jsonErr["errorAppVersion"];
-                                    let consumerAppName = jsonErr["consumerAppName"];
-                                    let timestamp = jsonErr["timestamp"];
-                                    let statusCode = jsonErr["statusCode"];
-                                    let errorMessage = jsonErr["errorMessage"];
-                                    let errorPath = jsonErr["errorPath"];
+                                    let errorAppName = json[everyError]["errorAppName"];
+                                    let errorAppVersion = json[everyError]["errorAppVersion"];
+                                    let consumerAppName = json[everyError]["consumerAppName"];
+                                    let timestamp = json[everyError]["timestamp"];
+                                    let statusCode = json[everyError]["statusCode"];
+                                    let errorMessage = json[everyError]["errorMessage"];
+                                    let errorPath = json[everyError]["errorPath"];
                                     console.log("statusCode: " + statusCode);
 
 
                                     let iddd = consumerAppName + "-error" + statusCode;
-                                    let iddd2 = "error-" + err;
+                                    let iddd2 = "error-" + errrrr;
                                     console.log("iddd: " + iddd);
-                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + err + "</button>";
+                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
 
-                                    clickk(error);
+                                    clickk(errrrr);
 
                                 }
 
                             })
 
 
-                        function clickk(err) {
-                            $('#error-' + err).on("click", function (){
+                        function clickk(errParameter) {
+                            $('#error-' + errParameter).on("click", function (){
                                 if (!$(this).hasClass("active")) {
                                     $(this).parent().find(".active").removeClass("active");
                                     monitorErrorMessage.removeClass("show");
@@ -1764,12 +1764,12 @@ function SDGGraph(data) {
                                     // 要highlight的nodes
                                     highlightJson += "\"nodes\":[";
 
-                                    for(let errorService in json[err]["errorServices"]){
-                                        highlightJson += "{\"id\":" + json[err]["errorServices"][errorService]["id"] + "}";
+                                    for(let errorService in json[errParameter]["errorServices"]){
+                                        highlightJson += "{\"id\":" + json[errParameter]["errorServices"][errorService]["id"] + "}";
                                         highlightJson += ",";
                                     }
-                                    for(let errorEndpoint in json[err]["errorEndpoints"]){
-                                        highlightJson += "{\"id\":" + json[err]["errorEndpoints"][errorEndpoint]["id"] + "}";
+                                    for(let errorEndpoint in json[errParameter]["errorEndpoints"]){
+                                        highlightJson += "{\"id\":" + json[errParameter]["errorEndpoints"][errorEndpoint]["id"] + "}";
                                         highlightJson += ",";
                                     }
 
@@ -1779,8 +1779,8 @@ function SDGGraph(data) {
 
                                     // 要highlight的links
                                     highlightJson += "\"links\":[";
-                                    for(let errorLink in json[err]["errorLinks"]){
-                                        highlightJson += "{\"source\":" + json[err]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[err]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[err]["errorLinks"][errorLink]["bid"] + "}";
+                                    for(let errorLink in json[errParameter]["errorLinks"]){
+                                        highlightJson += "{\"source\":" + json[errParameter]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[errParameter]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[errParameter]["errorLinks"][errorLink]["bid"] + "}";
                                         highlightJson += ",";
                                     }
 
