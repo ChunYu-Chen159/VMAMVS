@@ -1498,6 +1498,8 @@ function SDGGraph(data) {
         nodeInfoBody.empty();
 
         contractGroup.empty();
+        monitorErrorGroup.empty();
+
 
         graphList.find(".active").removeClass("active");
         graphProvider.unbind();
