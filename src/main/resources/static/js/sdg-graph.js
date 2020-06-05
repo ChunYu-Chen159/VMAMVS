@@ -1722,80 +1722,75 @@ function SDGGraph(data) {
                                     monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
                                 }
 
-                            })
-                            .then(json3 => {
-
-                                setTimeout(function() {
-                                    for( let everyError in json){
-                                        let jsonErr = json[everyError];
-                                        let errrrr = everyError;
-                                        console.log("err: " + everyError);
-                                        let errorAppName = json[everyError]["errorAppName"];
-                                        let errorAppVersion = json[everyError]["errorAppVersion"];
-                                        let consumerAppName = json[everyError]["consumerAppName"];
-                                        let timestamp = json[everyError]["timestamp"];
-                                        let statusCode = json[everyError]["statusCode"];
-                                        let errorMessage = json[everyError]["errorMessage"];
-                                        let errorPath = json[everyError]["errorPath"];
-                                        console.log("statusCode: " + statusCode);
+                                for( let everyError in json){
+                                    let jsonErr = json[everyError];
+                                    let errrrr = everyError;
+                                    console.log("err: " + everyError);
+                                    let errorAppName = json[everyError]["errorAppName"];
+                                    let errorAppVersion = json[everyError]["errorAppVersion"];
+                                    let consumerAppName = json[everyError]["consumerAppName"];
+                                    let timestamp = json[everyError]["timestamp"];
+                                    let statusCode = json[everyError]["statusCode"];
+                                    let errorMessage = json[everyError]["errorMessage"];
+                                    let errorPath = json[everyError]["errorPath"];
+                                    console.log("statusCode: " + statusCode);
 
 
-                                        let iddd = consumerAppName + "-error" + statusCode;
-                                        let iddd2 = "error-" + errrrr;
-                                        console.log("iddd: " + iddd);
-                                        document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
+                                    let iddd = consumerAppName + "-error" + statusCode;
+                                    let iddd2 = "error-" + errrrr;
+                                    console.log("iddd: " + iddd);
+                                    document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + errrrr + "</button>";
 
-                                        $('#error-' + everyError).on("click", function (){
-                                            if (!$(this).hasClass("active")) {
-                                                $(this).parent().find(".active").removeClass("active");
-                                                monitorErrorMessage.removeClass("show");
-                                                $(this).addClass("active");
-                                                monitorErrorMessage.addClass("show");
+                                    $('#error-' + everyError).on("click", function (){
+                                        if (!$(this).hasClass("active")) {
+                                            $(this).parent().find(".active").removeClass("active");
+                                            monitorErrorMessage.removeClass("show");
+                                            $(this).addClass("active");
+                                            monitorErrorMessage.addClass("show");
 
-                                                monitorErrorMessageJson.jsonViewer(json[everyError], {collapsed: true, withQuotes: false});
+                                            monitorErrorMessageJson.jsonViewer(json[everyError], {collapsed: true, withQuotes: false});
 
-                                                let highlightJson = "";
-                                                highlightJson += "{";
+                                            let highlightJson = "";
+                                            highlightJson += "{";
 
-                                                // 要highlight的nodes
-                                                highlightJson += "\"nodes\":[";
+                                            // 要highlight的nodes
+                                            highlightJson += "\"nodes\":[";
 
-                                                for(let errorService in json[everyError]["errorServices"]){
-                                                    highlightJson += "{\"id\":" + json[everyError]["errorServices"][errorService]["id"] + "}";
-                                                    highlightJson += ",";
-                                                }
-                                                for(let errorEndpoint in json[errParameter]["errorEndpoints"]){
-                                                    highlightJson += "{\"id\":" + json[everyError]["errorEndpoints"][errorEndpoint]["id"] + "}";
-                                                    highlightJson += ",";
-                                                }
-
-                                                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                                highlightJson += "]";
+                                            for(let errorService in json[everyError]["errorServices"]){
+                                                highlightJson += "{\"id\":" + json[everyError]["errorServices"][errorService]["id"] + "}";
                                                 highlightJson += ",";
-
-                                                // 要highlight的links
-                                                highlightJson += "\"links\":[";
-                                                for(let errorLink in json[errParameter]["errorLinks"]){
-                                                    highlightJson += "{\"source\":" + json[everyError]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[everyError]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[everyError]["errorLinks"][errorLink]["bid"] + "}";
-                                                    highlightJson += ",";
-                                                }
-
-                                                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                                highlightJson += "]";
-                                                highlightJson += "}";
-
-                                                let highlighttoJson = JSON.parse(highlightJson);
-                                                console.log(highlighttoJson);
-                                                highlight(highlighttoJson);
-                                            } else {
-                                                $(this).removeClass("active");
-                                                clearHighlight();
-                                                monitorErrorMessage.removeClass("show");
                                             }
-                                        });
+                                            for(let errorEndpoint in json[errParameter]["errorEndpoints"]){
+                                                highlightJson += "{\"id\":" + json[everyError]["errorEndpoints"][errorEndpoint]["id"] + "}";
+                                                highlightJson += ",";
+                                            }
 
-                                    }
-                                }, 5000);
+                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                            highlightJson += "]";
+                                            highlightJson += ",";
+
+                                            // 要highlight的links
+                                            highlightJson += "\"links\":[";
+                                            for(let errorLink in json[errParameter]["errorLinks"]){
+                                                highlightJson += "{\"source\":" + json[everyError]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[everyError]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[everyError]["errorLinks"][errorLink]["bid"] + "}";
+                                                highlightJson += ",";
+                                            }
+
+                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                            highlightJson += "]";
+                                            highlightJson += "}";
+
+                                            let highlighttoJson = JSON.parse(highlightJson);
+                                            console.log(highlighttoJson);
+                                            highlight(highlighttoJson);
+                                        } else {
+                                            $(this).removeClass("active");
+                                            clearHighlight();
+                                            monitorErrorMessage.removeClass("show");
+                                        }
+                                    });
+
+                                }
 
                             })
 
