@@ -1739,56 +1739,60 @@ function SDGGraph(data) {
                                     console.log("iddd: " + iddd);
                                     document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\">" + "error-" + error + "</button>";
 
-                                    $('#error-' + error).on("click", function () {
-                                        if (!$(this).hasClass("active")) {
-                                            $(this).parent().find(".active").removeClass("active");
-                                            monitorErrorMessage.removeClass("show");
-                                            $(this).addClass("active");
-                                            monitorErrorMessage.addClass("show");
+                                    $('#error-' + error).on("click", {index: error}, clickHandler);
 
-                                            monitorErrorMessageJson.jsonViewer(json[error], {collapsed: true, withQuotes: false});
 
-                                            let highlightJson = "";
-                                            highlightJson += "{";
 
-                                            // 要highlight的nodes
-                                            highlightJson += "\"nodes\":[";
+                                }
 
-                                            for(let errorService in json[error]["errorServices"]){
-                                                highlightJson += "{\"id\":" + json[error]["errorServices"][errorService]["id"] + "}";
-                                                highlightJson += ",";
-                                            }
-                                            for(let errorEndpoint in json[error]["errorEndpoints"]){
-                                                highlightJson += "{\"id\":" + json[error]["errorEndpoints"][errorEndpoint]["id"] + "}";
-                                                highlightJson += ",";
-                                            }
+                                function clickHandler(event) {
+                                    let error = event.data.index;
+                                    if (!$(this).hasClass("active")) {
+                                        $(this).parent().find(".active").removeClass("active");
+                                        monitorErrorMessage.removeClass("show");
+                                        $(this).addClass("active");
+                                        monitorErrorMessage.addClass("show");
 
-                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                            highlightJson += "]";
+                                        monitorErrorMessageJson.jsonViewer(json[error], {collapsed: true, withQuotes: false});
+
+                                        let highlightJson = "";
+                                        highlightJson += "{";
+
+                                        // 要highlight的nodes
+                                        highlightJson += "\"nodes\":[";
+
+                                        for(let errorService in json[error]["errorServices"]){
+                                            highlightJson += "{\"id\":" + json[error]["errorServices"][errorService]["id"] + "}";
                                             highlightJson += ",";
-
-                                            // 要highlight的links
-                                            highlightJson += "\"links\":[";
-                                            for(let errorLink in json[error]["errorLinks"]){
-                                                highlightJson += "{\"source\":" + json[error]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[error]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[error]["errorLinks"][errorLink]["bid"] + "}";
-                                                highlightJson += ",";
-                                            }
-
-                                            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                            highlightJson += "]";
-                                            highlightJson += "}";
-
-                                            let highlighttoJson = JSON.parse(highlightJson);
-                                            console.log(highlighttoJson);
-                                            highlight(highlighttoJson);
-                                        } else {
-                                            $(this).removeClass("active");
-                                            clearHighlight();
-                                            monitorErrorMessage.removeClass("show");
                                         }
-                                    });
+                                        for(let errorEndpoint in json[error]["errorEndpoints"]){
+                                            highlightJson += "{\"id\":" + json[error]["errorEndpoints"][errorEndpoint]["id"] + "}";
+                                            highlightJson += ",";
+                                        }
 
+                                        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                        highlightJson += "]";
+                                        highlightJson += ",";
 
+                                        // 要highlight的links
+                                        highlightJson += "\"links\":[";
+                                        for(let errorLink in json[error]["errorLinks"]){
+                                            highlightJson += "{\"source\":" + json[error]["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json[error]["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json[error]["errorLinks"][errorLink]["bid"] + "}";
+                                            highlightJson += ",";
+                                        }
+
+                                        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                                        highlightJson += "]";
+                                        highlightJson += "}";
+
+                                        let highlighttoJson = JSON.parse(highlightJson);
+                                        console.log(highlighttoJson);
+                                        highlight(highlighttoJson);
+                                    } else {
+                                        $(this).removeClass("active");
+                                        clearHighlight();
+                                        monitorErrorMessage.removeClass("show");
+                                    }
 
                                 }
                             })
