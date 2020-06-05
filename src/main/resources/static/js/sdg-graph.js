@@ -1714,10 +1714,10 @@ function SDGGraph(data) {
                                     console.log("groovy: " + groovy);
                                     let consumerService = groovy.replace(".groovy","");
                                     monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
-                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error500\" class=\"card-monitorError\">" + "-Error500" + "</h4>");
-                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error502\" class=\"card-monitorError\">" + "-Error502" + "</h4>");
-                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error503\" class=\"card-monitorError\">" + "-Error503" + "</h4>");
-                                    monitorErrorGroup.append("<h4 id=\"" + consumerService + "-error504\" class=\"card-monitorError\">" + "-Error504" + "</h4>");
+                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error500\"><h4 class=\"card-monitorError\">" + "-Error500" + "</h4></div>");
+                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error502\"><h4 class=\"card-monitorError\">" + "-Error502" + "</h4></div>>");
+                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error503\"><h4 class=\"card-monitorError\">" + "-Error503" + "</h4></div>");
+                                    monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\"><h4 class=\"card-monitorError\">" + "-Error504" + "</h4></div>");
                                 }
                                 for( let error in json){
                                     console.log("error: " + error);
