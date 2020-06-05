@@ -1752,61 +1752,11 @@ function SDGGraph(data) {
                                 let iddd2 = "error-" + errrrr;
                                 console.log("iddd: " + iddd);
                                 // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClick(" + errrrr + "," + JSON.stringify(json[everyError]) + ")'>" + "error-" + errrrr + "</button>";
-                                document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + function addClickfunction(index, jsonTemp, idTemp) {
-                                    console.log("index：" + index);
-                                    console.log("jsonTemp:" + jsonTemp);
-                                    //let jsonTemp = JSON.parse("[" + jsonString + "]");
+                                document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" onclick='addClickfunction(" + errrrr + "," + JSON.stringify(json[everyError]) + "," + iddd2 + "," + $(this) + ")'>" + "error-" + errrrr + "</button>";
 
-                                    /*            let monitorErrorMessage = $('#monitorErrorMessage');
-                                                let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
 
-                                    if (!$('#' + idTemp).hasClass("active")) {
-                                        $('#' + idTemp).parent().find(".active").removeClass("active");
-                                        monitorErrorMessage.removeClass("show");
-                                        $('#' + idTemp).addClass("active");
-                                        monitorErrorMessage.addClass("show");
 
-                                        monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
 
-                                        let highlightJson = "";
-                                        highlightJson += "{";
-
-                                        // 要highlight的nodes
-                                        highlightJson += "\"nodes\":[";
-
-                                        for(let errorService in jsonTemp["errorServices"]){
-                                            highlightJson += "{\"id\":" + jsonTemp["errorServices"][errorService]["id"] + "}";
-                                            highlightJson += ",";
-                                        }
-                                        for(let errorEndpoint in jsonTemp["errorEndpoints"]){
-                                            highlightJson += "{\"id\":" + jsonTemp["errorEndpoints"][errorEndpoint]["id"] + "}";
-                                            highlightJson += ",";
-                                        }
-
-                                        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                        highlightJson += "]";
-                                        highlightJson += ",";
-
-                                        // 要highlight的links
-                                        highlightJson += "\"links\":[";
-                                        for(let errorLink in jsonTemp["errorLinks"]){
-                                            highlightJson += "{\"source\":" + jsonTemp["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp["errorLinks"][errorLink]["bid"] + "}";
-                                            highlightJson += ",";
-                                        }
-
-                                        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                                        highlightJson += "]";
-                                        highlightJson += "}";
-
-                                        let highlighttoJson = JSON.parse(highlightJson);
-                                        highlight(highlighttoJson);
-                                    } else {
-                                        $('#' + idTemp).removeClass("active");
-                                        clearHighlight();
-                                        monitorErrorMessage.removeClass("show");
-                                    }
-                                }
-                                "\" onclick='addClickfunction(" + errrrr + "," + JSON.stringify(json[everyError]) + "," + iddd2 + ")'>" + "error-" + errrrr + "</button>";
                                 //let jsonString = JSON.stringify(json[everyError]);
                                 //document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
 /*                                $('#' + 'error-' + errrrr).click(function(){
@@ -2345,5 +2295,61 @@ function SDGGraph(data) {
     }
 
 }*/
+
+
+function addClickfunction(index, jsonTemp, idTemp, $_) {
+    console.log("index：" + index);
+    console.log("jsonTemp:" + jsonTemp);
+    //let jsonTemp = JSON.parse("[" + jsonString + "]");
+
+                let monitorErrorMessage = $('#monitorErrorMessage');
+                let monitorErrorMessageJson = $('#monitorErrorMessage-json');
+
+    if (!$('#' + idTemp).hasClass("active")) {
+        $('#' + idTemp).parent().find(".active").removeClass("active");
+        monitorErrorMessage.removeClass("show");
+        $('#' + idTemp).addClass("active");
+        monitorErrorMessage.addClass("show");
+
+        monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
+
+        let highlightJson = "";
+        highlightJson += "{";
+
+        // 要highlight的nodes
+        highlightJson += "\"nodes\":[";
+
+        for(let errorService in jsonTemp["errorServices"]){
+            highlightJson += "{\"id\":" + jsonTemp["errorServices"][errorService]["id"] + "}";
+            highlightJson += ",";
+        }
+        for(let errorEndpoint in jsonTemp["errorEndpoints"]){
+            highlightJson += "{\"id\":" + jsonTemp["errorEndpoints"][errorEndpoint]["id"] + "}";
+            highlightJson += ",";
+        }
+
+        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+        highlightJson += "]";
+        highlightJson += ",";
+
+        // 要highlight的links
+        highlightJson += "\"links\":[";
+        for(let errorLink in jsonTemp["errorLinks"]){
+            highlightJson += "{\"source\":" + jsonTemp["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp["errorLinks"][errorLink]["bid"] + "}";
+            highlightJson += ",";
+        }
+
+        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+        highlightJson += "]";
+        highlightJson += "}";
+
+        let highlighttoJson = JSON.parse(highlightJson);
+        highlight(highlighttoJson);
+    } else {
+        $('#' + idTemp).removeClass("active");
+        clearHighlight();
+        monitorErrorMessage.removeClass("show");
+    }
+}
 
 
