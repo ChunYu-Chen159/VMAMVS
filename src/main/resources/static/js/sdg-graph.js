@@ -2107,6 +2107,64 @@ function SDGGraph(data) {
         }
     });
 
+
+    function addClick(index, jsonTemp){
+
+        console.log("index：" + index);
+        console.log("jsonTemp:" + jsonTemp);
+        //let jsonTemp = JSON.parse("[" + jsonString + "]");
+
+        /*let monitorErrorMessage = $('#monitorErrorMessage');
+        let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
+
+        if (!$(this).hasClass("active")) {
+            $(this).parent().find(".active").removeClass("active");
+            monitorErrorMessage.removeClass("show");
+            $(this).addClass("active");
+            monitorErrorMessage.addClass("show");
+
+            monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
+
+            let highlightJson = "";
+            highlightJson += "{";
+
+            // 要highlight的nodes
+            highlightJson += "\"nodes\":[";
+
+            for(let errorService in jsonTemp["errorServices"]){
+                highlightJson += "{\"id\":" + jsonTemp["errorServices"][errorService]["id"] + "}";
+                highlightJson += ",";
+            }
+            for(let errorEndpoint in jsonTemp["errorEndpoints"]){
+                highlightJson += "{\"id\":" + jsonTemp["errorEndpoints"][errorEndpoint]["id"] + "}";
+                highlightJson += ",";
+            }
+
+            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+            highlightJson += "]";
+            highlightJson += ",";
+
+            // 要highlight的links
+            highlightJson += "\"links\":[";
+            for(let errorLink in jsonTemp["errorLinks"]){
+                highlightJson += "{\"source\":" + jsonTemp["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp["errorLinks"][errorLink]["bid"] + "}";
+                highlightJson += ",";
+            }
+
+            highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+            highlightJson += "]";
+            highlightJson += "}";
+
+            let highlighttoJson = JSON.parse(highlightJson);
+            highlight(highlighttoJson);
+        } else {
+            $(this).removeClass("active");
+            clearHighlight();
+            monitorErrorMessage.removeClass("show");
+        }
+
+    }
+
     this.clickNodeByNameAndVersion = function(appName, version) {
         node.filter(d => d.appName === appName && d.version === version).dispatch("click");
     };
@@ -2122,11 +2180,14 @@ function SDGGraph(data) {
 }
 
 
-function addClick(index, jsonTemp){
+/*function addClick(index, jsonTemp){
 
     console.log("index：" + index);
     console.log("jsonTemp:" + jsonTemp);
     //let jsonTemp = JSON.parse("[" + jsonString + "]");
+
+    let monitorErrorMessage = $('#monitorErrorMessage');
+    let monitorErrorMessageJson = $('#monitorErrorMessage-json');
 
     if (!$(this).hasClass("active")) {
         $(this).parent().find(".active").removeClass("active");
@@ -2174,6 +2235,6 @@ function addClick(index, jsonTemp){
         monitorErrorMessage.removeClass("show");
     }
 
-}
+}*/
 
 
