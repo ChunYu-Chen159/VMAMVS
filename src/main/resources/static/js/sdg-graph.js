@@ -1832,6 +1832,7 @@ function SDGGraph(data) {
                                 contractGroup.append("<h5 class=\"card-contract\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
+                                let parentService = parentNode;
 
                                 // for( let api in contractContent)
                                 for(let api in contractContent){
@@ -1849,7 +1850,7 @@ function SDGGraph(data) {
                                 for(let api in contractContent){
 
                                     // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
-                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerServiceId:parentNode.id, providerEnpointId:node.id}, clickHandler2);
+                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerServiceId:parentService.id, providerEnpointId:node.id}, clickHandler2);
 
                                 }
                             });
