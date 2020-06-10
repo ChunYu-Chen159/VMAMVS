@@ -1880,7 +1880,7 @@ function SDGGraph(data) {
                 highlightJson += "\"nodes\":[";
 
                 // node: provider endpoint
-                let node_provider_endpoint = data.nodes.find(npe => npe.path === api);
+                let node_provider_endpoint = data.nodes.find(npe => npe.path === index_api);
                 highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
                 highlightJson += ",";
 
