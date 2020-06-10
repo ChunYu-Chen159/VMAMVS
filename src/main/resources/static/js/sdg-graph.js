@@ -1859,6 +1859,7 @@ function SDGGraph(data) {
         }
 
         function clickHandler2(event) {
+            console.logs("data.nodes: " + data.nodes);
             let index_api = event.data.index;
             console.log("index_api: " + index_api);
             let json_content = event.data.jsonContent;
