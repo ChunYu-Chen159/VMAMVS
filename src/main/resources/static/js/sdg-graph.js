@@ -1741,7 +1741,7 @@ function SDGGraph(data) {
                                 let errorPath = json[everyError]["errorPath"];
 
 
-                                console.log("json: " + json);
+/*                                console.log("json: " + json);
                                 console.log("everyError: " + everyError);
                                 console.log("json[everyError]: " + json[everyError]);
                                 console.log("errorAppName: " + errorAppName);
@@ -1750,7 +1750,7 @@ function SDGGraph(data) {
                                 console.log("timestamp: " + timestamp);
                                 console.log("statusCode: " + statusCode);
                                 console.log("errorMessage: " + errorMessage);
-                                console.log("errorPath: " + errorPath);
+                                console.log("errorPath: " + errorPath);*/
 
 
                                 let iddd = consumerAppName + "-error" + statusCode;
@@ -1764,9 +1764,9 @@ function SDGGraph(data) {
                                 //document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
                                 //clickButton = $('#' + 'error-' + index);
 
-                                console.log("everyError: " + everyError);
+                                /*console.log("everyError: " + everyError);
 
-                                $('#error-' + everyError).bind("click", {index:everyError, jsonEvent:jsonErr}, clickHandler);
+                                $('#error-' + everyError).bind("click", {index:everyError, jsonEvent:jsonErr}, clickHandler);*/
 
                                 /*$('#' + 'error-' + index).click(function(){
                                     console.log("index：" + index);
@@ -1824,6 +1824,12 @@ function SDGGraph(data) {
                                         monitorErrorMessage.removeClass("show");
                                     }
                                 });*/
+                            }
+
+                            for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
+                                console.log("everyError: " + everyError);
+
+                                $('#error-' + everyError).bind("click", {index:everyError, jsonEvent:json[everyError]}, clickHandler);
                             }
 
                         })
