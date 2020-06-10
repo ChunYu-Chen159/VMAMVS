@@ -1768,7 +1768,7 @@ function SDGGraph(data) {
                 $('#' + errorId).addClass("active");
                 monitorErrorMessage.addClass("show");
 
-                monitorErrorMessageJson.jsonViewer(json_content, {collapsed: true, withQuotes: false});
+                monitorErrorMessageJson.jsonViewer(json_content, {collapsed: false, withQuotes: false});
 
                 let highlightJson = "";
                 highlightJson += "{";
