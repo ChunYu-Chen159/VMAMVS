@@ -1816,17 +1816,17 @@ function SDGGraph(data) {
             fetch("/web-page/graph/providers/" + d.id)
                 .then(response => response.json())
                 .then(json => {
-                    let parentNode;
+                    let parentNode = new Array();
                     json.nodes.forEach(node => {
 
 
                         let parentNodeTemp = findParentById(node.id);
-                        if (parentNode === parentNodeTemp)
+                        if (parentNode.indexOf(parentNodeTemp) === -1)
                             return;
                         else
-                            parentNode = parentNodeTemp;
+                            parentNode.push(parentNodeTemp.id);
 
-                        fetch("/web-page/app/swagger/" + parentNode.appId)
+                        fetch("/web-page/app/swagger/" + parentNodeTemp.appId)
                             .then(response => response.json())
                             .then(json2 => {
                                 contractGroup.append("<h5 class=\"card-contract\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
