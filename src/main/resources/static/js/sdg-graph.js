@@ -1849,7 +1849,7 @@ function SDGGraph(data) {
                                 for(let api in contractContent){
 
                                     // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
-                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerServiceAppName:JSON.stringify(json2["info"]["title"]).toUpperCase(), providerServiceAppVersion:JSON.stringify(json2["info"]["version"])}, clickHandler2);
+                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerServiceAppName:json2["info"]["title"].toUpperCase(), providerServiceAppVersion:json2["info"]["version"]}, clickHandler2);
 
                                 }
                             });
@@ -1869,11 +1869,11 @@ function SDGGraph(data) {
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
             console.log("providerServiceAppVersion: " + providerServiceAppVersion);
             let providerService;
-            providerService = data.nodes.find(node => (JSON.stringify(node.appName) === providerServiceAppName) && (JSON.stringify(node.version) === providerServiceAppVersion));
+            providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
             console.log("providerService: " + providerService);
             let providerEndpoint;
-            //providerEndpoint = data.nodes.find(node => (JSON.stringify(node.appName) === providerServiceAppName) && (JSON.stringify(node.labels).includes(LABEL_ENDPOINT)) && (JSON.stringify(node.path) === index_api));
-            data.nodes.forEach(node => {
+            providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
+            /*data.nodes.forEach(node => {
                 if(node.labels.includes(LABEL_ENDPOINT)){
 
                     console.log("node.appName: " + node.appName);
@@ -1881,10 +1881,11 @@ function SDGGraph(data) {
 
                     if((node.appName === providerServiceAppName) && (node.path === index_api)) {
                         providerEndpoint = node;
+                        console.log("node: " + node);
                     }
                 }
 
-            });
+            });*/
             console.log(data.nodes[12].path);
             console.log("providerEndpoint: " + providerEndpoint);
             let providerServiceId = providerService.id;
