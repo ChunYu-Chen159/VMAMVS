@@ -1821,7 +1821,7 @@ function SDGGraph(data) {
 
 
                         let parentNodeTemp = findParentById(node.id);
-                        if (parentNode.indexOf(parentNodeTemp) === -1)
+                        if (parentNode.indexOf(parentNodeTemp) !== -1)
                             return;
                         else
                             parentNode.push(parentNodeTemp.id);
