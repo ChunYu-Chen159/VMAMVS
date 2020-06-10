@@ -1869,8 +1869,7 @@ function SDGGraph(data) {
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
             console.log("providerServiceAppVersion: " + providerServiceAppVersion);
             let providerService;
-            providerService = data.nodes.find(nodee => (JSON.stringify(nodee.appName) === providerServiceAppName) && (JSON.stringify(nodee.version) === providerServiceAppVersion));
-
+            providerService = data.nodes.find(node => (JSON.stringify(node.appName) === providerServiceAppName) && (JSON.stringify(node.version) === providerServiceAppVersion));
             console.log("providerService: " + providerService);
             let providerEndpoint;
             providerEndpoint = data.nodes.find(node => (JSON.stringify(node.appName) === providerServiceAppName) && (JSON.stringify(node.labels) === LABEL_ENDPOINT) && (JSON.stringify(node.path) === index_api));
