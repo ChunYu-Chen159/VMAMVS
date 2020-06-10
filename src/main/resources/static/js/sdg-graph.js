@@ -1849,7 +1849,7 @@ function SDGGraph(data) {
                                 for(let api in contractContent){
 
                                     // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
-                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, nodeId:node.id}, clickHandler2);
+                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerServiceId:parentNode.id, providerEnpointId:node.id}, clickHandler2);
 
                                 }
                             });
@@ -1861,7 +1861,9 @@ function SDGGraph(data) {
         function clickHandler2(event) {
             let index_api = event.data.index;
             let json_content = event.data.jsonContent;
-            let nodeId = event.data.nodeId;
+            let providerEnpointId = event.data.providerEnpointId;
+            let providerServiceId = event.data.providerServiceId;
+            let consumerServiceId = event.data.consumerServiceId;
 
             let apiId = "contract-" + index_api.substring(1).replace("/","-");
 
@@ -1881,23 +1883,25 @@ function SDGGraph(data) {
                 highlightJson += "\"nodes\":[";
 
                 // node: provider endpoint
-                let node_provider_endpoint = data.nodes.find(npe => (npe.path === index_api) && (npe.id === nodeId));
+                highlightJson += "{\"id\":" + providerEnpointId + "}";
+                highlightJson += ",";
+                /*let node_provider_endpoint = data.nodes.find(npe => (npe.path === index_api) && (npe.id === nodeId));
                 highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
                 highlightJson += ",";
-
+*/
                 // node: provider parent
-                let pp = findParentById(node_provider_endpoint.id);
-                highlightJson += "{\"id\":" + pp.id + "}";
+                //let pp = findParentById(providerEnpointId);
+                highlightJson += "{\"id\":" + providerServiceId + "}";
                 highlightJson += ",";
 
                 // node: consumer parent
-                highlightJson += "{\"id\":" + d.id + "}";
+                highlightJson += "{\"id\":" + consumerServiceId + "}";
                 highlightJson += ",";
 
                 // nodes: consumer endpoint (可能不只一個)
-                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
                     .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEnpointId));
                         if (dlff !== null && dlff !== undefined){
                             dlff.forEach(dlfff => {
                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
@@ -1915,13 +1919,13 @@ function SDGGraph(data) {
                 highlightJson += "\"links\":[";
 
                 // link: consumer parent -OWN- consumer endpoint
-                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
                     .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEnpointId));
                         if (dlff !== null && dlff !== undefined){
                             dlff.forEach(dlfff => {
                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                highlightJson += "{\"source\":" + d.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
+                                highlightJson += "{\"source\":" + consumerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
                                 highlightJson += ",";
                             });
                         }else {
@@ -1932,13 +1936,13 @@ function SDGGraph(data) {
                     });
 
                 // link: consumer endpoint -HTTPREQUEST-> provider endpoint
-                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === d.id))
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
                     .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === node_provider_endpoint.id));
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEnpointId));
                         if (dlff !== null && dlff !== undefined){
                             dlff.forEach(dlfff => {
                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + node_provider_endpoint.id + "}";
+                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + providerEnpointId + "}";
                                 highlightJson += ",";
                             });
                         }else {
