@@ -1859,41 +1859,15 @@ function SDGGraph(data) {
         }
 
         function clickHandler2(event) {
-            console.log("data.nodes: " + JSON.stringify(data.nodes));
             let index_api = event.data.index;
-            console.log("index_api: " + index_api);
             let json_content = event.data.jsonContent;
-            console.log("json_content: " + json_content);
             let providerServiceAppName = event.data.providerServiceAppName;
-            console.log("providerServiceAppName: " + providerServiceAppName);
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
-            console.log("providerServiceAppVersion: " + providerServiceAppVersion);
-            let providerService;
-            providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
-            console.log("providerService: " + providerService);
-            let providerEndpoint;
-            providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
-            /*data.nodes.forEach(node => {
-                if(node.labels.includes(LABEL_ENDPOINT)){
-
-                    console.log("node.appName: " + node.appName);
-                    console.log("node.path: " + node.path);
-
-                    if((node.appName === providerServiceAppName) && (node.path === index_api)) {
-                        providerEndpoint = node;
-                        console.log("node: " + node);
-                    }
-                }
-
-            });*/
-            console.log(data.nodes[12].path);
-            console.log("providerEndpoint: " + providerEndpoint);
+            let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
+            let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
             let providerServiceId = providerService.id;
-            console.log("providerServiceId: " + providerServiceId);
             let providerEndpointId = providerEndpoint.id;
-            console.log("providerEndpointId: " + providerEndpointId);
             let consumerServiceId = event.data.consumerServiceId;
-            console.log("consumerServiceId: " + consumerServiceId);
 
             let apiId = "contract-" + index_api.substring(1).replace("/","-");
 
