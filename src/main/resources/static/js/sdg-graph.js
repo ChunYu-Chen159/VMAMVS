@@ -1862,7 +1862,8 @@ function SDGGraph(data) {
             let index_api = event.data.index;
             let json_content = event.data.jsonContent;
             let providerEnpointId = event.data.providerEnpointId;
-            let providerServiceId = findParentById(providerEnpointId);
+            let parentNodeTemp = findParentById(providerEnpointId);
+            let providerServiceId = parentNodeTemp.id;
             let consumerServiceId = event.data.consumerServiceId;
 
             let apiId = "contract-" + index_api.substring(1).replace("/","-");
