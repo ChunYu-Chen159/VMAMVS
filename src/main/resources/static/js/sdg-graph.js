@@ -1864,7 +1864,16 @@ function SDGGraph(data) {
             let providerServiceAppName = event.data.providerServiceAppName;
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
             let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
-            let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
+            // let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
+            let providerEndpoint;
+            data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api))
+                .forEach(nodeWithVersion => {
+                    data.links.filter(link => (link.type === REL_OWN) && (link.source.id === providerService.id))
+                        .forEach(nce2 => {
+                            if(nce2.target.id === nodeWithVersion.id)
+                                providerEndpoint = nodeWithVersion;
+                        });
+                });
             let providerServiceId = providerService.id;
             let providerEndpointId = providerEndpoint.id;
             let consumerServiceId = event.data.consumerServiceId;
@@ -1889,12 +1898,7 @@ function SDGGraph(data) {
                 // node: provider endpoint
                 highlightJson += "{\"id\":" + providerEndpointId + "}";
                 highlightJson += ",";
-                /*let node_provider_endpoint = data.nodes.find(npe => (npe.path === index_api) && (npe.id === nodeId));
-                highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
-                highlightJson += ",";
-*/
-                // node: provider parent
-                //let pp = findParentById(providerEnpointId);
+
                 highlightJson += "{\"id\":" + providerServiceId + "}";
                 highlightJson += ",";
 
