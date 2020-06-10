@@ -22,6 +22,7 @@ public class RiskService {
 
     private final int totalDay = 180; // 總天數180天
     private final int timeInterval = 6; // 6天為間隔
+    private final int moveInterval = 1; // 每次移動的距離
 
     private final int STATUSCODE500 = 500;
     private final int STATUSCODE502 = 502;
@@ -32,6 +33,7 @@ public class RiskService {
     public void setServiceRisk(String systemName) {
         long nowTime = System.currentTimeMillis();
         long lookback = timeInterval * 24 * 60 * 60 * 1000L;
+        long move = moveInterval * 24 * 60 * 60 * 1000L;
         int limit = 10000;
 
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
@@ -43,7 +45,7 @@ public class RiskService {
             Long endTime = nowTime;
             ArrayList<Integer> al = new ArrayList<Integer>();
 
-            for ( int i = 0; i < totalDay; i+=timeInterval) {
+            for ( int i = 0; i < totalDay - timeInterval + 1; i++) {
 
                 String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
                 String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
@@ -57,7 +59,7 @@ public class RiskService {
 
                 al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
 
-                endTime -= lookback;
+                endTime -= move;
 
             }
 
