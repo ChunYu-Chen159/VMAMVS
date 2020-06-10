@@ -1760,15 +1760,18 @@ function SDGGraph(data) {
                                 //let jsonString = JSON.stringify(json[everyError]);
                                 //document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
                                 //clickButton = $('#' + 'error-' + index);
-                                $('#' + 'error-' + index).click(function(){
+
+                                $('#error-' + everyError).bind("click", {index:everyError, jsonEvent:jsonErr}, clickHandler);
+
+                                /*$('#' + 'error-' + index).click(function(){
                                     console.log("index：" + index);
                                     console.log("everyError：" + everyError);
                                     console.log("jsonErr:" + jsonErr);
                                     let jsonTemp = jsonErr;
                                     let id3 = "error-" + index;
 
-                                    /*            let monitorErrorMessage = $('#monitorErrorMessage');
-                                                let monitorErrorMessageJson = $('#monitorErrorMessage-json');*/
+                                    /!*            let monitorErrorMessage = $('#monitorErrorMessage');
+                                                let monitorErrorMessageJson = $('#monitorErrorMessage-json');*!/
 
                                     if (!$('#' + id3).hasClass("active")) {
                                         $('#' + id3).parent().find(".active").removeClass("active");
@@ -1815,11 +1818,62 @@ function SDGGraph(data) {
                                         clearHighlight();
                                         monitorErrorMessage.removeClass("show");
                                     }
-                                });
+                                });*/
                             }
 
                         })
                 })
+        }
+
+        function clickHandler(event) {
+            let index_everyError = event.data.index;
+            let json_content = event.data.jsonEvent;
+
+            if (!$('#error-' + index_everyError).hasClass("active")) {
+                $('#error-' + index_everyError).parent().find(".active").removeClass("active");
+                monitorErrorMessage.removeClass("show");
+                $('#error-' + index_everyError).addClass("active");
+                monitorErrorMessage.addClass("show");
+
+                monitorErrorMessageJson.jsonViewer(json_content, {collapsed: true, withQuotes: false});
+
+                let highlightJson = "";
+                highlightJson += "{";
+
+                // 要highlight的nodes
+                highlightJson += "\"nodes\":[";
+
+                for(let errorService in json_content["errorServices"]){
+                    highlightJson += "{\"id\":" + json_content["errorServices"][errorService]["id"] + "}";
+                    highlightJson += ",";
+                }
+                for(let errorEndpoint in json_content["errorEndpoints"]){
+                    highlightJson += "{\"id\":" + json_content["errorEndpoints"][errorEndpoint]["id"] + "}";
+                    highlightJson += ",";
+                }
+
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+                highlightJson += ",";
+
+                // 要highlight的links
+                highlightJson += "\"links\":[";
+                for(let errorLink in json_content["errorLinks"]){
+                    highlightJson += "{\"source\":" + json_content["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json_content["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json_content["errorLinks"][errorLink]["bid"] + "}";
+                    highlightJson += ",";
+                }
+
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+                highlightJson += "}";
+
+                let highlighttoJson = JSON.parse(highlightJson);
+                highlight(highlighttoJson);
+            } else {
+                $('#error-' + index_everyError).removeClass("active");
+                clearHighlight();
+                monitorErrorMessage.removeClass("show");
+            }
         }
 
 
