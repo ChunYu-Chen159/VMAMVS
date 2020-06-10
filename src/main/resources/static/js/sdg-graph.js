@@ -1849,7 +1849,7 @@ function SDGGraph(data) {
                                 for(let api in contractContent){
 
                                     // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
-                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerEnpointId:node.id}, clickHandler2);
+                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerServiceAppName:JSON.stringify(json2["info"]["title"]).toUpperCase(), providerServiceAppVersion:JSON.stringify(json2["info"]["version"])}, clickHandler2);
 
                                 }
                             });
@@ -1861,9 +1861,12 @@ function SDGGraph(data) {
         function clickHandler2(event) {
             let index_api = event.data.index;
             let json_content = event.data.jsonContent;
-            let providerEnpointId = event.data.providerEnpointId;
-            let parentNodeTemp = findParentById(providerEnpointId);
-            let providerServiceId = parentNodeTemp.id;
+            let providerServiceAppName = event.data.providerServiceAppName;
+            let providerServiceAppVersion = event.data.providerServiceAppVersion;
+            let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
+            let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels === LABEL_ENDPOINT) && (node.path === index_api));
+            let providerEndpointId = providerEndpoint.id;
+            let providerServiceId = providerService.id;
             let consumerServiceId = event.data.consumerServiceId;
 
             let apiId = "contract-" + index_api.substring(1).replace("/","-");
@@ -1884,7 +1887,7 @@ function SDGGraph(data) {
                 highlightJson += "\"nodes\":[";
 
                 // node: provider endpoint
-                highlightJson += "{\"id\":" + providerEnpointId + "}";
+                highlightJson += "{\"id\":" + providerEndpointId + "}";
                 highlightJson += ",";
                 /*let node_provider_endpoint = data.nodes.find(npe => (npe.path === index_api) && (npe.id === nodeId));
                 highlightJson += "{\"id\":" + node_provider_endpoint.id + "}";
@@ -1902,7 +1905,7 @@ function SDGGraph(data) {
                 // nodes: consumer endpoint (可能不只一個)
                 data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
                     .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEnpointId));
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
                         if (dlff !== null && dlff !== undefined){
                             dlff.forEach(dlfff => {
                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
@@ -1922,7 +1925,7 @@ function SDGGraph(data) {
                 // link: consumer parent -OWN- consumer endpoint
                 data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
                     .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEnpointId));
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
                         if (dlff !== null && dlff !== undefined){
                             dlff.forEach(dlfff => {
                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
@@ -1939,11 +1942,11 @@ function SDGGraph(data) {
                 // link: consumer endpoint -HTTPREQUEST-> provider endpoint
                 data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
                     .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEnpointId));
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
                         if (dlff !== null && dlff !== undefined){
                             dlff.forEach(dlfff => {
                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + providerEnpointId + "}";
+                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + providerEndpointId + "}";
                                 highlightJson += ",";
                             });
                         }else {
@@ -1954,7 +1957,7 @@ function SDGGraph(data) {
                     });
 
                 // link: provider parent -OWN- provider endpoint
-                highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEnpointId + "}";
+                highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEndpointId + "}";
 
                 highlightJson += "]";
                 highlightJson += "}";
