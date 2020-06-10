@@ -424,7 +424,7 @@ function SDGGraph(data) {
         return fetch("/web-page/sleuth/getAllServiceAndPathWithHTTP_REQUEST")
             .then(response => response.json())
             .then(responseJSON => {
-                console.log("function getSleuthData()_responseJSON:::\n" + JSON.stringify(responseJSON));
+                //console.log("function getSleuthData()_responseJSON:::\n" + JSON.stringify(responseJSON));
                 sleuthData = responseJSON;
                 sleuthDataLength = responseJSON.length;
 
