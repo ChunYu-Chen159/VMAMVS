@@ -1953,7 +1953,7 @@ function SDGGraph(data) {
                     });
 
                 // link: provider parent -OWN- provider endpoint
-                highlightJson += "{\"source\":" + pp.id + ",\"type\":\"" + REL_OWN + "\",\"target\":" + node_provider_endpoint.id + "}";
+                highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEnpointId + "}";
 
                 highlightJson += "]";
                 highlightJson += "}";
