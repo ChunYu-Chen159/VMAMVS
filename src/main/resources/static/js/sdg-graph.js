@@ -1725,7 +1725,7 @@ function SDGGraph(data) {
                             }
 
 
-                            for( everyError in json){
+                            for( let everyError in json){
                                 let index = json[everyError]["index"];
                                 let jsonErr = json[everyError];
                                 let errrrr = everyError;
