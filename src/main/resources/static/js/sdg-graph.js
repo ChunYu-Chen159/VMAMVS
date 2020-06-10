@@ -1761,6 +1761,8 @@ function SDGGraph(data) {
                                 //document.getElementById(iddd2).onclick = addClickfunction(everyError, JSON.stringify(json[everyError]), iddd2);
                                 //clickButton = $('#' + 'error-' + index);
 
+                                console.log("everyError: " + everyError);
+
                                 $('#error-' + everyError).bind("click", {index:everyError, jsonEvent:jsonErr}, clickHandler);
 
                                 /*$('#' + 'error-' + index).click(function(){
@@ -1828,6 +1830,9 @@ function SDGGraph(data) {
         function clickHandler(event) {
             let index_everyError = event.data.index;
             let json_content = event.data.jsonEvent;
+
+            console.log("index_everyError: " + index_everyError);
+            console.log("json_content: " + json_content);
 
             if (!$('#error-' + index_everyError).hasClass("active")) {
                 $('#error-' + index_everyError).parent().find(".active").removeClass("active");
