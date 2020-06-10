@@ -1860,14 +1860,23 @@ function SDGGraph(data) {
 
         function clickHandler2(event) {
             let index_api = event.data.index;
+            console.log("index_api: " + index_api);
             let json_content = event.data.jsonContent;
+            console.log("json_content: " + json_content);
             let providerServiceAppName = event.data.providerServiceAppName;
+            console.log("providerServiceAppName: " + providerServiceAppName);
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
+            console.log("providerServiceAppVersion: " + providerServiceAppVersion);
             let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
+            console.log("providerService: " + providerService);
             let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels === LABEL_ENDPOINT) && (node.path === index_api));
+            console.log("providerEndpoint: " + providerEndpoint);
             let providerEndpointId = providerEndpoint.id;
+            console.log("providerEndpointId: " + providerEndpointId);
             let providerServiceId = providerService.id;
+            console.log("providerServiceId: " + providerServiceId);
             let consumerServiceId = event.data.consumerServiceId;
+            console.log("consumerServiceId: " + consumerServiceId);
 
             let apiId = "contract-" + index_api.substring(1).replace("/","-");
 
