@@ -1849,7 +1849,7 @@ function SDGGraph(data) {
                                 for(let api in contractContent){
 
                                     // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
-                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerServiceId:parentNodeTemp.id, providerEnpointId:node.id}, clickHandler2);
+                                    $('#contract-' + api.substring(1).replace("/","-")).bind("click", {index:api, jsonContent:contractContent, consumerServiceId:d.id, providerEnpointId:node.id}, clickHandler2);
 
                                 }
                             });
@@ -1862,7 +1862,7 @@ function SDGGraph(data) {
             let index_api = event.data.index;
             let json_content = event.data.jsonContent;
             let providerEnpointId = event.data.providerEnpointId;
-            let providerServiceId = event.data.providerServiceId;
+            let providerServiceId = findParentById(providerEnpointId);
             let consumerServiceId = event.data.consumerServiceId;
 
             let apiId = "contract-" + index_api.substring(1).replace("/","-");
