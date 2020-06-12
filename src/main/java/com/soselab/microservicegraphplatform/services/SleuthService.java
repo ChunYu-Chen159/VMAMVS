@@ -175,7 +175,17 @@ public class SleuthService {
     {
         JSONArray array = new JSONArray(str);
 
-        return array.length();
+        int count = 0;
+        for(int i = 0; i < array.length(); i++) { // 每個error
+            JSONArray array2= array.getJSONArray(i);
+
+            for(int j = 0; j < array2.length(); j++) {
+                if (!array2.getJSONObject(j).getString("name").equals("http:/v2/api-docs"))
+                    count++;
+            }
+        }
+
+        return count;
     }
 
 
