@@ -80,6 +80,10 @@ public class SleuthService {
                 //System.out.println("result_" + i + j + "_" + jsonObj.getString("appName") + "_" + jsonObj.getString("path") + ":" + array.getJSONArray(j).getJSONObject(0).getJSONArray("binaryAnnotations").getJSONObject(5).get("key") + ":" + array.getJSONArray(j).getJSONObject(0).getJSONArray("binaryAnnotations").getJSONObject(5).get("value"));
 
                 for(int j2 = 0;j2 < array.getJSONArray(j).length(); j2++) {
+
+                    if(array.getJSONArray(j).getJSONObject(j2).getString("name").equals("http:/v2/api-docs"))
+                        continue;
+
                     for (int j3 = 0; j3 < array.getJSONArray(j).getJSONObject(j2).getJSONArray("binaryAnnotations").length(); j3++) {
                         if (array.getJSONArray(j).getJSONObject(j2).getJSONArray("binaryAnnotations").getJSONObject(j3).get("key").equals("http.appName")) {
                             //System.out.println("http.appName:" + array.getJSONArray(j).getJSONObject(j2).getJSONArray("binaryAnnotations").getJSONObject(j3).get("value"));

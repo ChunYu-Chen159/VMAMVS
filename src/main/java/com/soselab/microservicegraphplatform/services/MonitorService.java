@@ -174,19 +174,24 @@ public class MonitorService {
             String errorPath = "";
             String consumerAppName = "";
 
-            boolean check400 = false;
+            boolean check4XX = false;
+            boolean checkSwagger =false;
 
             for(int j = 0; j < array500_everyError.length(); j++) {
                 if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
                     JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
                     if (!jsonObject.has("http.appName") || !jsonObject.has("http.version")) {
-                        check400 = true;
+                        check4XX = true;
                         break;
                     }
                 }
+                if(array500_everyError.getJSONObject(j).getString("name").equals("http:/v2/api-docs")) {
+                    checkSwagger = true;
+                    break;
+                }
             }
 
-            if(check400)
+            if(check4XX || checkSwagger)
                 break;
 
 
