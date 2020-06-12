@@ -179,6 +179,7 @@ public class SleuthService {
         for(int i = 0; i < array.length(); i++) { // 每個error
             JSONArray array2= array.getJSONArray(i);
 
+            // 去除swagger請求的錯誤
             for(int j = 0; j < array2.length(); j++) {
                 if (!array2.getJSONObject(j).getString("name").equals("http:/v2/api-docs"))
                     count++;
