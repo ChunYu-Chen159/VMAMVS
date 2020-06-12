@@ -330,11 +330,11 @@ public class MonitorService {
         if (monitorErrors.size() == 100) {
             monitorErrors.remove(99);
         } else {
-            List<MonitorError> temp = new ArrayList(monitorErrors);
+/*            List<MonitorError> temp = new ArrayList(monitorErrors);
             // 存共同有的數據
             temp.retainAll(monitorErrors2);
             // 去除共同有的數據
-            monitorErrors2.removeAll(temp);
+            monitorErrors2.removeAll(temp);*/
             // 加回去
             monitorErrors.addAll(0, monitorErrors2);
         }
