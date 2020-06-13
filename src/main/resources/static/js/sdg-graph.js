@@ -1810,7 +1810,7 @@ function SDGGraph(data) {
                                     "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(" + json_content["statusCode"] + ")<br>" +
                                     "&nbsp;&nbsp;&nbsp;}<br>" +
                                     "}";
-                monitorError_feedbackContract.innerText = feedbackContract;
+                monitorErrorGroup.append(feedbackContract);
 
                 let highlightJson = "";
                 highlightJson += "{";
