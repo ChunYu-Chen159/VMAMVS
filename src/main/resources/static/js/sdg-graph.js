@@ -1796,8 +1796,8 @@ function SDGGraph(data) {
                         feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(\"\"" + parameterAndValue[0] + ",\"" + parameterAndValue[1] + "\")<br>";
                     }
 
-                    feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}" +
-                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}";
+                    feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>" +
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>";
 
                 }else{
                     feedbackContract += "<br>";
@@ -1810,7 +1810,7 @@ function SDGGraph(data) {
                                     "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(" + json_content["statusCode"] + ")<br>" +
                                     "&nbsp;&nbsp;&nbsp;}<br>" +
                                     "}";
-                monitorErrorGroup.append(feedbackContract);
+                monitorError_feedbackContract.append(feedbackContract);
 
                 let highlightJson = "";
                 highlightJson += "{";
