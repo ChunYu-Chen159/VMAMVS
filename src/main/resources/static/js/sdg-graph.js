@@ -1776,6 +1776,7 @@ function SDGGraph(data) {
 
                 monitorErrorMessageJson.jsonViewer(json_content, {collapsed: true, withQuotes: false});
 
+                monitorError_feedbackContract.empty();
                 monitorError_feedbackContract.append("<h4 class=\"card-feedbackContract\"><span>" + "Feedback Contract：" + json_content["consumerAppName"] + ".groovy" + "</span></h4>");
 
                 let feedbackContract = "";
