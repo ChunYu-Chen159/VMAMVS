@@ -75,7 +75,7 @@ public class MonitorService {
         List<Service> services = serviceRepository.findBySystemNameWithOptionalSettingNotNull(systemName);
         updateSPCData(systemName, services);
         checkUserAlert(systemName, services);
-        checkSPCAlert(systemName);
+        //checkSPCAlert(systemName); // 這個沒有做按鈕來開啟關閉，超過就會發通知
     }
 
     @Scheduled(fixedDelay = 3600000) //每小時執行
