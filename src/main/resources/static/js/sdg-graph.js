@@ -1776,6 +1776,42 @@ function SDGGraph(data) {
 
                 monitorErrorMessageJson.jsonViewer(json_content, {collapsed: false, withQuotes: false});
 
+                let feedbackContract = "";
+                feedbackContract += "Contract.make {<br>" +
+                                    "&nbsp;&nbsp;&nbsp;description (\"\")<br>" +
+                                    "&nbsp;&nbsp;&nbsp;name (\"\")<br>" +
+                                    "&nbsp;&nbsp;&nbsp;request {<br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method (\"" + json_content["errorMethod"] + "\")<br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url (\"" + json_content["errorPath"] + "\")";
+
+                let errorUrl = json_content["errorUrl"];
+                let queryParameters = errorUrl.split(json_content["errorPath"] + "?");
+                if(queryParameters.length !== 0){
+                    feedbackContract += "&nbsp;{<br>" +
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryParameters {<br>";
+
+                    let parameters = queryParameters.split("&");
+                    for(let parameter in parameters){
+                        let parameterAndValue = parameter.split("=");
+                        feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(\"\"" + parameterAndValue[0] + ",\"" + parameterAndValue[1] + "\")";
+                    }
+
+                    feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}" +
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}";
+
+                }else{
+                    feedbackContract += "<br>";
+                }
+
+                //  http://140.121.197.128:4106/payment?userID=&price=250
+
+                feedbackContract += "&nbsp;&nbsp;&nbsp;}<br>";
+                feedbackContract += "&nbsp;&nbsp;&nbsp;response {<br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(" + json_content["statusCode"] + ")<br>" +
+                                    "&nbsp;&nbsp;&nbsp;}<br>" +
+                                    "}";
+                monitorError_feedbackContract.innerText = feedbackContract;
+
                 let highlightJson = "";
                 highlightJson += "{";
 

@@ -310,9 +310,9 @@ public class MonitorService {
             }
 
             monitorError.setErrorSystemName(systemName);
-            monitorError.setErrorAppName(errorAppName);
+            monitorError.setErrorAppName(errorAppName.toUpperCase());
             monitorError.setErrorAppVersion(errorAppVersion);
-            monitorError.setConsumerAppName(consumerAppName);
+            monitorError.setConsumerAppName(consumerAppName.toUpperCase());
             monitorError.setErrorMessage(errorMessage);
             monitorError.setStatusCode(statusCode);
             monitorError.setTimestamp(timestamp);
