@@ -1790,7 +1790,7 @@ function SDGGraph(data) {
                     feedbackContract += "&nbsp;{<br>" +
                                         "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryParameters {<br>";
 
-                    let parameters = queryParameters.split("&");
+                    let parameters = queryParameters[1].split("&");
                     for(let parameter in parameters){
                         let parameterAndValue = parameter.split("=");
                         feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(\"\"" + parameterAndValue[0] + ",\"" + parameterAndValue[1] + "\")<br>";
