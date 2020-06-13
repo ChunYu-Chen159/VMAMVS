@@ -1717,7 +1717,7 @@ function SDGGraph(data) {
                             for( let groovy in contractContent){
                                 console.log("groovy: " + groovy);
                                 let consumerService = groovy.replace(".groovy","");
-                                monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
+                                //monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
                                 monitorErrorGroup.append("<div id=\"" + consumerService + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (500)" + "</h4></div>");
                                 monitorErrorGroup.append("<div id=\"" + consumerService + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (502)" + "</h4></div>");
                                 monitorErrorGroup.append("<div id=\"" + consumerService + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (503)" + "</h4></div>");
@@ -1742,7 +1742,7 @@ function SDGGraph(data) {
                                 let iddd = consumerAppName + "-error" + statusCode;
                                 let iddd2 = "error-" + index;
 
-                                document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error-" + index + "</button>";
+                                document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>";
                                 document.getElementById(iddd).style.display = "block";
 
                             }
