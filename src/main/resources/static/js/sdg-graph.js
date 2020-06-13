@@ -1722,10 +1722,10 @@ function SDGGraph(data) {
                                 console.log("groovy: " + groovy);
                                 let consumerService = groovy.replace(".groovy","");
                                 //monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (500)" + "</h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (502)" + "</h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (503)" + "</h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (500)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (502)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (503)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
                             }
 
                             for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
@@ -1743,7 +1743,7 @@ function SDGGraph(data) {
 
 
 
-                                let iddd = consumerAppName + "-error" + statusCode;
+                                let iddd = consumerAppName.toUpperCase() + "-error" + statusCode;
                                 let iddd2 = "error-" + index;
 
                                 document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>";
@@ -1793,7 +1793,7 @@ function SDGGraph(data) {
                     let parameters = queryParameters.split("&");
                     for(let parameter in parameters){
                         let parameterAndValue = parameter.split("=");
-                        feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(\"\"" + parameterAndValue[0] + ",\"" + parameterAndValue[1] + "\")";
+                        feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(\"\"" + parameterAndValue[0] + ",\"" + parameterAndValue[1] + "\")<br>";
                     }
 
                     feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}" +
