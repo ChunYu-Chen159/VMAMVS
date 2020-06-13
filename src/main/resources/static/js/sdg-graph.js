@@ -1774,9 +1774,12 @@ function SDGGraph(data) {
                 monitorErrorMessage.addClass("show");
                 monitorError_feedbackContract.addClass("show");
 
-                monitorErrorMessageJson.jsonViewer(json_content, {collapsed: false, withQuotes: false});
+                monitorErrorMessageJson.jsonViewer(json_content, {collapsed: true, withQuotes: false});
+
+                monitorError_feedbackContract.append("<h4 class=\"card-feedbackContract\"><span>" + "Feedback Contract：" + json_content["consumerAppName"] + ".groovy" + "</span>></h4>");
 
                 let feedbackContract = "";
+                feedbackContract += "<span class='span-feedbackContract'>";
                 feedbackContract += "Contract.make {<br>" +
                                     "&nbsp;&nbsp;&nbsp;description (\"\")<br>" +
                                     "&nbsp;&nbsp;&nbsp;name (\"\")<br>" +
@@ -1803,13 +1806,12 @@ function SDGGraph(data) {
                     feedbackContract += "<br>";
                 }
 
-                //  http://140.121.197.128:4106/payment?userID=&price=250
-
                 feedbackContract += "&nbsp;&nbsp;&nbsp;}<br>";
                 feedbackContract += "&nbsp;&nbsp;&nbsp;response {<br>" +
                                     "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(" + json_content["statusCode"] + ")<br>" +
                                     "&nbsp;&nbsp;&nbsp;}<br>" +
                                     "}";
+                feedbackContract += "</span>";
                 monitorError_feedbackContract.append(feedbackContract);
 
                 let highlightJson = "";
@@ -1872,7 +1874,7 @@ function SDGGraph(data) {
                         fetch("/web-page/app/swagger/" + parentNodeTemp.appId)
                             .then(response => response.json())
                             .then(json2 => {
-                                contractGroup.append("<h5 class=\"card-contract\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
+                                contractGroup.append("<h4 class=\"card-contract\"><span>" + json2["info"]["title"].toUpperCase() + "</span>></h4>");
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
 

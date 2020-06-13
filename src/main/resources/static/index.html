@@ -31,8 +31,10 @@
 			top: 50%!important;
 		}
 
-		.card-contract, .card-monitorError {
+		.card-contract span, .card-monitorError span {
 			margin-top: 0.75rem;
+			background-color: #FFBB73;
+			color: brown;
 		}
 
 		/*
@@ -92,6 +94,27 @@
 		#monitorErrorMessage.show {
 			display: block;
 			border-top: 1px solid rgba(0,0,0,.125);
+		}
+
+		#monitorError_feedbackContract {
+			display: none;
+		}
+
+		#monitorError_feedbackContract.show {
+			display: block;
+			border-top: 1px solid rgba(0,0,0,.125);
+		}
+
+		#monitorError_feedbackContract h4.card-feedbackContract {
+			background-color: #FFBB73;
+			color: brown;
+		}
+
+		#monitorError_feedbackContract span.span-feedbackContract {
+			font-size: 1.25rem;
+			color: #212529;
+			font-weight: 500;
+			line-height: 1.2;
 		}
 
 		.tab-content {
@@ -536,6 +559,7 @@
 							</div>
 						</div>
 						<div id="extraMessage" class="card-body">
+							<h4 class="card-monitorError">Feedback Message</h4>
 							<pre id="message-json"></pre>
 						</div>
 					</div>
