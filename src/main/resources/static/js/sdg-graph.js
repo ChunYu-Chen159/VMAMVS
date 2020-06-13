@@ -1722,10 +1722,10 @@ function SDGGraph(data) {
                                 console.log("groovy: " + groovy);
                                 let consumerService = groovy.replace(".groovy","");
                                 //monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (500)" + "</h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (502)" + "</h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (503)" + "</h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\">" + "Error Detect (504)" + "</h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (500)" + "</span></h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (502)" + "</span></h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (503)" + "</span></h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (504)" + "</span></h4></div>");
                             }
 
                             for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
