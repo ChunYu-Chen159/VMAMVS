@@ -1425,6 +1425,8 @@ function SDGGraph(data) {
     let monitorErrorMessage = $('#monitorErrorMessage');
     let monitorErrorMessageJson = $('#monitorErrorMessage-json');
 
+    let monitorError_feedbackContract = $('#monitorError_feedbackContract');
+
 
     let nodeSettingforms = $("#node-setting-form");
 
@@ -1493,6 +1495,7 @@ function SDGGraph(data) {
         clearHighlight();
         extraMessage.removeClass("show");
         monitorErrorMessage.removeClass("show");
+        monitorError_feedbackContract.removeClass("show");
         cardHeaderTitle.empty();
 
         nodeInfoBody.empty();
@@ -1533,6 +1536,7 @@ function SDGGraph(data) {
             cardDiv.removeClass("show");
             extraMessage.removeClass("show");
             monitorErrorMessage.removeClass("show")
+            monitorError_feedbackContract.removeClass("show");
 
             // Release stick node.
             if (!event) simulation.alphaTarget(0.3).restart();
@@ -1765,8 +1769,10 @@ function SDGGraph(data) {
             if (!$('#' + errorId).hasClass("active")) {
                 $('#' + errorId).parent().find(".active").removeClass("active");
                 monitorErrorMessage.removeClass("show");
+                monitorError_feedbackContract.removeClass("show");
                 $('#' + errorId).addClass("active");
                 monitorErrorMessage.addClass("show");
+                monitorError_feedbackContract.addClass("show");
 
                 monitorErrorMessageJson.jsonViewer(json_content, {collapsed: false, withQuotes: false});
 
@@ -1806,6 +1812,7 @@ function SDGGraph(data) {
                 $('#' + errorId).removeClass("active");
                 clearHighlight();
                 monitorErrorMessage.removeClass("show");
+                monitorError_feedbackContract.removeClass("show");
             }
         }
 
@@ -2192,63 +2199,5 @@ function SDGGraph(data) {
     };
 
 }
-
-
-/*function addClick(index, jsonTemp){
-
-    console.log("index：" + index);
-    console.log("jsonTemp:" + jsonTemp);
-    //let jsonTemp = JSON.parse("[" + jsonString + "]");
-
-    let monitorErrorMessage = $('#monitorErrorMessage');
-    let monitorErrorMessageJson = $('#monitorErrorMessage-json');
-
-    if (!$(this).hasClass("active")) {
-        $(this).parent().find(".active").removeClass("active");
-        monitorErrorMessage.removeClass("show");
-        $(this).addClass("active");
-        monitorErrorMessage.addClass("show");
-
-        monitorErrorMessageJson.jsonViewer(jsonTemp, {collapsed: true, withQuotes: false});
-
-        let highlightJson = "";
-        highlightJson += "{";
-
-        // 要highlight的nodes
-        highlightJson += "\"nodes\":[";
-
-        for(let errorService in jsonTemp["errorServices"]){
-            highlightJson += "{\"id\":" + jsonTemp["errorServices"][errorService]["id"] + "}";
-            highlightJson += ",";
-        }
-        for(let errorEndpoint in jsonTemp["errorEndpoints"]){
-            highlightJson += "{\"id\":" + jsonTemp["errorEndpoints"][errorEndpoint]["id"] + "}";
-            highlightJson += ",";
-        }
-
-        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-        highlightJson += "]";
-        highlightJson += ",";
-
-        // 要highlight的links
-        highlightJson += "\"links\":[";
-        for(let errorLink in jsonTemp["errorLinks"]){
-            highlightJson += "{\"source\":" + jsonTemp["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + jsonTemp["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + jsonTemp["errorLinks"][errorLink]["bid"] + "}";
-            highlightJson += ",";
-        }
-
-        highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-        highlightJson += "]";
-        highlightJson += "}";
-
-        let highlighttoJson = JSON.parse(highlightJson);
-        highlight(highlighttoJson);
-    } else {
-        $(this).removeClass("active");
-        clearHighlight();
-        monitorErrorMessage.removeClass("show");
-    }
-
-}*/
 
 

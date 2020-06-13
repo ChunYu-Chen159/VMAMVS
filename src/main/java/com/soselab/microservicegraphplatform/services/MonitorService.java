@@ -161,7 +161,7 @@ public class MonitorService {
         List<MonitorError> monitorErrorList = new ArrayList<>();
 
         for(int i = 0; i < array.length(); i++) { // 每個error
-            JSONArray array500_everyError = array.getJSONArray(i);
+            JSONArray array_everyError = array.getJSONArray(i);
             MonitorError monitorError = new MonitorError();
             ArrayList<ErrorService> es = new ArrayList<>();
             ArrayList<ErrorEndpoint> ee = new ArrayList<>();
@@ -172,20 +172,22 @@ public class MonitorService {
             String errorAppName = "";
             String errorAppVersion = "";
             String errorPath = "";
+            String errorUrl = "";
+            String errorMethod = "";
             String consumerAppName = "";
 
             boolean check4XX = false;
             boolean checkSwagger =false;
 
-            for(int j = 0; j < array500_everyError.length(); j++) {
-                if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
-                    JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
+            for(int j = 0; j < array_everyError.length(); j++) {
+                if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
+                    JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
                     if (!jsonObject.has("http.appName") || !jsonObject.has("http.version")) {
                         check4XX = true;
                         break;
                     }
                 }
-                if(array500_everyError.getJSONObject(j).getString("name").equals("http:/v2/api-docs")) {
+                if(array_everyError.getJSONObject(j).getString("name").equals("http:/v2/api-docs")) {
                     checkSwagger = true;
                     break;
                 }
@@ -196,11 +198,11 @@ public class MonitorService {
 
 
             // 每個Service, Endpoint, OwnLink (httpRequest關係還未加入)
-            for(int j = 0; j < array500_everyError.length(); j++){
+            for(int j = 0; j < array_everyError.length(); j++){
 
 
-                if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
-                    JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
+                if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
+                    JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
 
                     if(!jsonObject.has("http.appName") || !jsonObject.has("http.version"))
                         break;
@@ -210,15 +212,15 @@ public class MonitorService {
                     long serviceId = serviceRepository.findServiceIdByAppId(appId);
                     String endpointPath = "";
 
-                    if(array500_everyError.getJSONObject(j).getJSONObject("tags").has("http.path")) {
-                        endpointPath = array500_everyError.getJSONObject(j).getJSONObject("tags").getString("http.path");
+                    if(array_everyError.getJSONObject(j).getJSONObject("tags").has("http.path")) {
+                        endpointPath = array_everyError.getJSONObject(j).getJSONObject("tags").getString("http.path");
                     }else{
-                        String serverId = array500_everyError.getJSONObject(j).getString("id");
-                        for(int k = 0; k < array500_everyError.length(); k++){
-                            if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
-                                String clientId = array500_everyError.getJSONObject(k).getString("id");
+                        String serverId = array_everyError.getJSONObject(j).getString("id");
+                        for(int k = 0; k < array_everyError.length(); k++){
+                            if (array_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
+                                String clientId = array_everyError.getJSONObject(k).getString("id");
                                 if (serverId.equals(clientId)) {
-                                    JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
+                                    JSONObject jsonObject2 = array_everyError.getJSONObject(k).getJSONObject("tags");
                                     endpointPath = jsonObject2.getString("http.path");
                                 }
                             }
@@ -238,12 +240,12 @@ public class MonitorService {
             }
 
             // httpRequestLink
-            for(int j = 0; j < array500_everyError.length(); j++){
-                if(array500_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
-                    if(array500_everyError.getJSONObject(j).has("shared")) {
-                        if (array500_everyError.getJSONObject(j).getBoolean("shared")) {
-                            String serverId = array500_everyError.getJSONObject(j).getString("id");
-                            JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("localEndpoint");
+            for(int j = 0; j < array_everyError.length(); j++){
+                if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
+                    if(array_everyError.getJSONObject(j).has("shared")) {
+                        if (array_everyError.getJSONObject(j).getBoolean("shared")) {
+                            String serverId = array_everyError.getJSONObject(j).getString("id");
+                            JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("localEndpoint");
                             String serverName = jsonObject.getString("serviceName");
                             long endpointId = 0;
                             for (ErrorEndpoint e : ee) {
@@ -252,11 +254,11 @@ public class MonitorService {
                                 }
                             }
 
-                            for (int k = 0; k < array500_everyError.length(); k++) {
-                                if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
-                                    String clientId = array500_everyError.getJSONObject(k).getString("id");
+                            for (int k = 0; k < array_everyError.length(); k++) {
+                                if (array_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
+                                    String clientId = array_everyError.getJSONObject(k).getString("id");
                                     if (serverId.equals(clientId)) {
-                                        JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("localEndpoint");
+                                        JSONObject jsonObject2 = array_everyError.getJSONObject(k).getJSONObject("localEndpoint");
 
                                         String clientName = jsonObject2.getString("serviceName");
 
@@ -277,25 +279,27 @@ public class MonitorService {
             }
 
             // errorAppName, errorAppVersion, errorMessage, statusCode, timestamp, errorPath, consumerAppName
-            for(int j = 0; j < array500_everyError.length(); j++){
-                if(array500_everyError.getJSONObject(j).has("shared")) {
-                    if (array500_everyError.getJSONObject(j).getBoolean("shared")) {
-                        JSONObject jsonObject = array500_everyError.getJSONObject(j).getJSONObject("tags");
-                        String serverId = array500_everyError.getJSONObject(j).getString("id");
+            for(int j = 0; j < array_everyError.length(); j++){
+                if(array_everyError.getJSONObject(j).has("shared")) {
+                    if (array_everyError.getJSONObject(j).getBoolean("shared")) {
+                        JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
+                        String serverId = array_everyError.getJSONObject(j).getString("id");
                         if (jsonObject.has("error")) {
                             errorAppName = jsonObject.getString("http.appName");
                             errorAppVersion = jsonObject.getString("http.version");
                             errorMessage = jsonObject.getString("error");
                             statusCode = jsonObject.getString("http.status_code");
-                            timestamp = array500_everyError.getJSONObject(j).getLong("timestamp");
+                            timestamp = array_everyError.getJSONObject(j).getLong("timestamp");
 
-                            for (int k = 0; k < array500_everyError.length(); k++) {
-                                if (array500_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
-                                    String clientId = array500_everyError.getJSONObject(k).getString("id");
+                            for (int k = 0; k < array_everyError.length(); k++) {
+                                if (array_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
+                                    String clientId = array_everyError.getJSONObject(k).getString("id");
                                     if (serverId.equals(clientId)) {
-                                        JSONObject jsonObject2 = array500_everyError.getJSONObject(k).getJSONObject("tags");
+                                        JSONObject jsonObject2 = array_everyError.getJSONObject(k).getJSONObject("tags");
                                         errorPath = jsonObject2.getString("http.path");
-                                        JSONObject jsonObject3 = array500_everyError.getJSONObject(k).getJSONObject("localEndpoint");
+                                        errorUrl = jsonObject2.getString("http.url");
+                                        errorMethod = jsonObject2.getString("http.method");
+                                        JSONObject jsonObject3 = array_everyError.getJSONObject(k).getJSONObject("localEndpoint");
                                         consumerAppName = jsonObject3.getString("serviceName");
                                     }
                                 }
@@ -305,6 +309,7 @@ public class MonitorService {
                 }
             }
 
+            monitorError.setErrorSystemName(systemName);
             monitorError.setErrorAppName(errorAppName);
             monitorError.setErrorAppVersion(errorAppVersion);
             monitorError.setConsumerAppName(consumerAppName);
@@ -312,6 +317,8 @@ public class MonitorService {
             monitorError.setStatusCode(statusCode);
             monitorError.setTimestamp(timestamp);
             monitorError.setErrorPath(errorPath);
+            monitorError.setErrorUrl(errorUrl);
+            monitorError.setErrorMethod(errorMethod);
             monitorError.setErrorServices(es);
             monitorError.setErrorEndpoints(ee);
             monitorError.setErrorLinks(el);
@@ -327,17 +334,19 @@ public class MonitorService {
     }
 
     private List<MonitorError> pushMonitorError(List<MonitorError> monitorErrors, List<MonitorError> monitorErrors2) {
-        if (monitorErrors.size() == 100) {
+        /*if (monitorErrors.size() == 100) {
             monitorErrors.remove(99);
-        } else {
-/*            List<MonitorError> temp = new ArrayList(monitorErrors);
+        } else {*/
+            /*List<MonitorError> temp = new ArrayList(monitorErrors);
             // 存共同有的數據
             temp.retainAll(monitorErrors2);
             // 去除共同有的數據
-            monitorErrors2.removeAll(temp);*/
+            monitorErrors2.removeAll(temp); 這段不要*/
             // 加回去
-            monitorErrors.addAll(0, monitorErrors2);
-        }
+           /* monitorErrors.addAll(0, monitorErrors2);
+        }*/
+
+        monitorErrors.addAll(0, monitorErrors2);
 
         for(MonitorError monitorError : monitorErrors)
             monitorError.setIndex(monitorErrors.indexOf(monitorError));

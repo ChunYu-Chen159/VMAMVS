@@ -7,6 +7,7 @@ public class MonitorError {
 
     // timestamp使用 https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/319101/
     private long index;
+    private String errorSystemName;
     private String errorAppName;
     private String errorAppVersion;
     private String consumerAppName;
@@ -14,6 +15,8 @@ public class MonitorError {
     private String statusCode;
     private String errorMessage;
     private String errorPath;
+    private String errorUrl;
+    private String errorMethod;
 
     private ArrayList<ErrorService> errorServices;
     private ArrayList<ErrorEndpoint> errorEndpoints;
@@ -25,6 +28,14 @@ public class MonitorError {
 
     public void setIndex(long index) {
         this.index = index;
+    }
+
+    public String getErrorSystemName() {
+        return errorSystemName;
+    }
+
+    public void setErrorSystemName(String errorSystemName) {
+        this.errorSystemName = errorSystemName;
     }
 
     public String getErrorAppName() {
@@ -105,5 +116,21 @@ public class MonitorError {
 
     public void setErrorPath(String errorPath) {
         this.errorPath = errorPath;
+    }
+
+    public String getErrorUrl() {
+        return errorUrl;
+    }
+
+    public void setErrorUrl(String errorUrl) {
+        this.errorUrl = errorUrl;
+    }
+
+    public String getErrorMethod() {
+        return errorMethod;
+    }
+
+    public void setErrorMethod(String errorMethod) {
+        this.errorMethod = errorMethod;
     }
 }
