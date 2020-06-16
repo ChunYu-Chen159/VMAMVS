@@ -1781,12 +1781,12 @@ function SDGGraph(data) {
 
                 let feedbackContract = "";
                 feedbackContract += "<span class='span-feedbackContract'>";
-                feedbackContract += "Contract.make {<br>" +
-                                    "&nbsp;&nbsp;&nbsp;description (\"\")<br>" +
-                                    "&nbsp;&nbsp;&nbsp;name (\"\")<br>" +
+                feedbackContract += "Contract.<span class='purple'>make</span> {<br>" +
+                                    "&nbsp;&nbsp;&nbsp;description (<span class='green'>\"\"</span>)<br>" +
+                                    "&nbsp;&nbsp;&nbsp;name (<span class='green'>\"\"</span>)<br>" +
                                     "&nbsp;&nbsp;&nbsp;request {<br>" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method (\"" + json_content["errorMethod"] + "\")<br>" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url (\"" + json_content["errorPath"] + "\")";
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method (<span class='green'>\"" + json_content["errorMethod"] + "\"</span>)<br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url (<span class='green'>\"" + json_content["errorPath"] + "\"</span>)";
 
                 let errorUrl = json_content["errorUrl"];
                 let queryParameters = errorUrl.split(json_content["errorPath"] + "?");
@@ -1797,7 +1797,7 @@ function SDGGraph(data) {
                     let parameters = queryParameters[1].split("&");
                     for(let parameter in parameters){
                         let parameterAndValue = parameters[parameter].split("=");
-                        feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(\"" + parameterAndValue[0] + "\",\"" + parameterAndValue[1] + "\")<br>";
+                        feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(<span class='green'>\"" + parameterAndValue[0] + "\",\"" + parameterAndValue[1] + "\"</span>)<br>";
                     }
 
                     feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>" +
@@ -1809,7 +1809,7 @@ function SDGGraph(data) {
 
                 feedbackContract += "&nbsp;&nbsp;&nbsp;}<br>";
                 feedbackContract += "&nbsp;&nbsp;&nbsp;response {<br>" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(" + json_content["statusCode"] + ")<br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(<span class='blue'>" + json_content["statusCode"] + "</span>)<br>" +
                                     "&nbsp;&nbsp;&nbsp;}<br>" +
                                     "}";
                 feedbackContract += "</span>";
