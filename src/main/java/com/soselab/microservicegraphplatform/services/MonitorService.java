@@ -142,6 +142,60 @@ public class MonitorService {
 
         }
 
+        List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
+
+        if(monitorErrors != null){
+            // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
+            for(MonitorError monitorError : monitorErrors) {
+                System.out.println("111111111111111111111111111111");
+                Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
+                if (swaggerMap != null) {
+                    System.out.println("2222222222222222222222222222222");
+                    Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
+                    Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
+                    for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                        System.out.println("333333333333333333333333333333");
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
+                        if(key.split("_")[0].equals(monitorError.getErrorPath())){
+                            System.out.println("444444444444444444444444444");
+                            Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
+                            Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
+                            String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {});
+                            if (status.equals("PASS")) {
+                                System.out.println("55555555555555555555555555555555555");
+                                String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
+                                System.out.println("time: " + time);
+                                time = time.replaceAll("T"," ").replaceAll("Z","");
+                                System.out.println("time: " + time);
+                                Long testTime = Timestamp.valueOf(time).getTime();
+
+                                System.out.println("testTime: " + testTime);
+                                System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
+
+                                if(testTime > (monitorError.getTimestamp()/1000)){
+                                    System.out.println("66666666666666666666666666666666666");
+                                    serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                                    monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            allMonitorErrorList.remove(systemName);
+            allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrors),
+                    (oldList, newList) -> pushMonitorError(oldList, monitorErrors));
+
+
+        }
+
+
+
+
+
     }
 
     public List<MonitorError> analyzeError(JSONArray array, String systemName) {
@@ -336,47 +390,6 @@ public class MonitorService {
         }*/
 
         monitorErrors.addAll(0, monitorErrors2);
-
-
-        // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
-        /*for(MonitorError monitorError : monitorErrors) {
-            System.out.println("111111111111111111111111111111");
-            Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
-            if (swaggerMap != null) {
-                System.out.println("2222222222222222222222222222222");
-                Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
-                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
-                for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
-                    System.out.println("333333333333333333333333333333");
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
-                    if(key.split("_")[0].equals(monitorError.getErrorPath())){
-                        System.out.println("444444444444444444444444444");
-                        Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
-                        Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
-                        String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {});
-                        if (status.equals("PASS")) {
-                            System.out.println("55555555555555555555555555555555555");
-                            String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
-                            System.out.println("time: " + time);
-                            time = time.replaceAll("T"," ").replaceAll("Z","");
-                            System.out.println("time: " + time);
-                            Long testTime = Timestamp.valueOf(time).getTime();
-
-                            System.out.println("testTime: " + testTime);
-                            System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
-
-                            if(testTime > (monitorError.getTimestamp()/1000)){
-                                System.out.println("66666666666666666666666666666666666");
-                                serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                monitorErrors.remove(monitorErrors.indexOf(monitorError));
-                            }
-
-                        }
-                    }
-                }
-            }
-        }*/
 
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
