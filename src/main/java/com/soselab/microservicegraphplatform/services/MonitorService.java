@@ -88,7 +88,7 @@ public class MonitorService {
     }
 
     @Scheduled(fixedDelay = 3600000) //每小時執行
-    public void hourScheduled(){
+    public void hourScheduled() throws ParseException {
         List<String> systemNames = generalRepository.getAllSystemName();
         for (String systemName : systemNames) {
             checkErrorFromSleuth(systemName);
