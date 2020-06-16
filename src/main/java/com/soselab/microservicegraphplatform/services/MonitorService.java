@@ -175,7 +175,7 @@ public class MonitorService {
                                 System.out.println("testTime: " + testTime);
                                 System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
 
-                                if(testTime < (monitorError.getTimestamp()/1000)){
+                                if(testTime > (monitorError.getTimestamp()/1000)){
                                     System.out.println("66666666666666666666666666666666666");
                                     serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
                                     monitorErrors.remove(monitorErrors.indexOf(monitorError));
