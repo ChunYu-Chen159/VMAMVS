@@ -116,12 +116,10 @@ public class MonitorService {
             String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
             String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
 
-
             System.out.println("jsonContent_500: " + jsonContent_500);
             System.out.println("jsonContent_502: " + jsonContent_502);
             System.out.println("jsonContent_503: " + jsonContent_503);
             System.out.println("jsonContent_504: " + jsonContent_504);
-
 
             JSONArray array500 = new JSONArray(jsonContent_500);
             JSONArray array502 = new JSONArray(jsonContent_502);
@@ -142,29 +140,8 @@ public class MonitorService {
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList504),
                     (oldList, newList) -> pushMonitorError(oldList, monitorErrorList504));
 
-
-
-
-
-
-
-
-/*            private long timestamp;
-            private int statusCode;
-            private String errorMessage;
-
-            private ArrayList<ErrorService> es;
-            private ArrayList<ErrorEndpoint> ee;
-            private ArrayList<ErrorLink> el;*/
-
-
-            // 要分析：
-            // 錯誤訊息
-            // 路徑
-            // 存在系統上 ， 看WebNotificationService
-
-            // 對應ContractTesting
         }
+
     }
 
     public List<MonitorError> analyzeError(JSONArray array, String systemName) {
