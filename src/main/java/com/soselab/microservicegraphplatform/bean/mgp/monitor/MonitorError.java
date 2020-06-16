@@ -7,6 +7,7 @@ public class MonitorError {
 
     // timestamp使用 https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/319101/
     private long index;
+    private String errorAppId;
     private String errorSystemName;
     private String errorAppName;
     private String errorAppVersion;
@@ -28,6 +29,14 @@ public class MonitorError {
 
     public void setIndex(long index) {
         this.index = index;
+    }
+
+    public String getErrorAppId() {
+        return errorAppId;
+    }
+
+    public void setErrorAppId(String errorAppId) {
+        this.errorAppId = errorAppId;
     }
 
     public String getErrorSystemName() {

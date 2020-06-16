@@ -39,12 +39,17 @@ function SDGGraph(data) {
     const HIGHLIGHT_LEVEL_ERROR = "error";
     const HIGHLIGHT_CONTRACTTESTING_WARNING = "contractWarning";
     const HIGHLIGHT_HIGHRISK_TRUE = "highRiskTrue";
+    const HIGHLIGHT_MONITORERROR_TRUE = "monitorErrorTrue";
+
 
     const CONDITION_CONTRACTTEST_PASS = "PASS";
     const CONDITION_CONTRACTTEST_WARNING = "WARNING";
 
     const CONDITION_HIGHRISK_TRUE = "TRUE";
     const CONDITION_HIGHRISK_FALSE = "FALSE";
+
+    const CONDITION_MONITORERROR_TRUE = "TRUE";
+    const CONDITION_MONITORERROR_FALSE = "FALSE"
 
     const HIGHLIGHT_DEBUG_TEST_LEVEL_FAIL = "FAIL";
 
@@ -53,6 +58,7 @@ function SDGGraph(data) {
 
     const NODELABEL_HIGHRISK = "<<High Risk>>";
     const NODELABEL_CONTRACTTESTFAIL = "<<Contract Testing Fail>>";
+    const NODELABEL_MONITORERROR = "<<Monitor Error>>";
 
     const NODE_SCALE = 1.5;
 
@@ -633,6 +639,13 @@ function SDGGraph(data) {
         node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_FALSE)
             .classed(HIGHLIGHT_HIGHRISK_TRUE,false);
 
+        node.filter(d => d.monitorErrorCondition === CONDITION_MONITORERROR_TRUE)
+            .classed(HIGHLIGHT_MONITORERROR_TRUE,true);
+        node.filter(d => d.monitorErrorCondition === CONDITION_MONITORERROR_FALSE)
+            .classed(HIGHLIGHT_MONITORERROR_TRUE,false);
+
+
+
 
         node.filter(d => !d.labels.includes(LABEL_NULLSERVICE) && !d.labels.includes(LABEL_NULLENDPOINT))
             .classed(HIGHLIGHT_LEVEL_ERROR, false);
@@ -691,6 +704,11 @@ function SDGGraph(data) {
             .classed(HIGHLIGHT_HIGHRISK_TRUE,true);
         nodeEnter.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_FALSE)
             .classed(HIGHLIGHT_HIGHRISK_TRUE,false);
+
+        nodeEnter.filter(d => d.monitorErrorCondition === CONDITION_MONITORERROR_TRUE)
+            .classed(HIGHLIGHT_MONITORERROR_TRUE,true);
+        nodeEnter.filter(d => d.monitorErrorCondition === CONDITION_MONITORERROR_FALSE)
+            .classed(HIGHLIGHT_MONITORERROR_TRUE,false);
 
 
         nodeEnter.filter(d => d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT))
@@ -816,6 +834,9 @@ function SDGGraph(data) {
 
         let highRiskNodelabel = nodelabel.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE);
         updateHighRiskNodeLabel(highRiskNodelabel, NODELABEL_HIGHRISK);
+
+        let monitorErrorNodelabel = nodelabel.filter(d => d.monitorErrorCondition === CONDITION_MONITORERROR_TRUE);
+        updateMonitorErrorNodeLabel(monitorErrorNodelabel, NODELABEL_MONITORERROR);
 
         let oldNullNodelabel = nodelabel.filter(d =>  d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT));
         updateExceptionNodeLabel(oldNullNodelabel, NODELABEL_NULL);
@@ -973,6 +994,56 @@ function SDGGraph(data) {
                 });
         }
 
+        function updateMonitorErrorNodeLabel (nodeLabel, text) {
+            nodeLabel.append("rect")
+                .attr("class", "tag monitorError-tag")
+                .attr("fill", "#ffc107")
+                .attr("fill-opacity", 0.5)
+                .attr("rx", 8)
+                .attr("ry", 8);
+
+            nodeLabel.append("text")
+                .attr("class", "tag monitorError-tag")
+                .attr("dx", 0)
+                .attr("dy", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position = texts.length - 1;
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 53 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 39 + position * 20;
+                    }
+                })
+                .attr("fill-opacity", 1)
+                .style("fill", "#212529")
+                .text(text);
+
+            nodeLabel.selectAll("rect.monitorError-tag")
+                .attr("width", function() {
+                    let text = d3.select(this.parentNode).select("text.monitorError-tag").node();
+                    return (text.getBBox().width + 8);
+                })
+                .attr("height", "16px")
+                .attr("x", function() {
+                    let text = d3.select(this.parentNode).select("text.monitorError-tag").node();
+                    return (text.getBBox().width + 8) / -2;
+                })
+                .attr("y", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position;
+                    for (position = 0; position < texts.length; position++) {
+                        if (texts[position].textContent === text) {
+                            break;
+                        }
+                    }
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 40 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 27 + position * 20;
+                    }
+                });
+        }
+
         // ENTER new nodelabels
         let nodelabelEnter = nodelabel.enter().append("g");
 
@@ -1041,6 +1112,9 @@ function SDGGraph(data) {
 
         let highRiskNodelabelEnter = nodelabelEnter.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE);
         addHighRiskNodeLabel(highRiskNodelabelEnter, NODELABEL_HIGHRISK);
+
+        let monitorErrorNodelabelEnter = nodelabelEnter.filter(d => d.monitorErrorCondition === CONDITION_MONITORERROR_TRUE);
+        addMonitorErrorNodeLabel(monitorErrorNodelabelEnter, NODELABEL_MONITORERROR);
 
         let nullNodelabel = nodelabelEnter.filter(d => d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT));
         addExceptionNodeLabel(nullNodelabel, NODELABEL_NULL);
@@ -1180,6 +1254,56 @@ function SDGGraph(data) {
                 .attr("height", "16px")
                 .attr("x", function() {
                     let text = d3.select(this.parentNode).select("text.highRisk-tag").node();
+                    return (text.getBBox().width + 8) / -2;
+                })
+                .attr("y", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position;
+                    for (position = 0; position < texts.length; position++) {
+                        if (texts[position].textContent === text) {
+                            break;
+                        }
+                    }
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 40 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 27 + position * 20;
+                    }
+                });
+        }
+
+        function addMonitorErrorNodeLabel (nodeLabel, text) {
+            nodeLabel.append("rect")
+                .attr("class", "tag monitorError-tag")
+                .attr("fill", "#ffc107")
+                .attr("fill-opacity", 0)
+                .attr("rx", 8)
+                .attr("ry", 8);
+
+            nodeLabel.append("text")
+                .attr("class", "tag monitorError-tag")
+                .attr("dx", 0)
+                .attr("dy", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position = texts.length - 1;
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 53 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 39 + position * 20;
+                    }
+                })
+                .attr("fill-opacity", 0)
+                .style("fill", "#212529")
+                .text(text);
+
+            nodeLabel.selectAll("rect.monitorError-tag")
+                .attr("width", function() {
+                    let text = d3.select(this.parentNode).select("text.monitorError-tag").node();
+                    return (text.getBBox().width + 8);
+                })
+                .attr("height", "16px")
+                .attr("x", function() {
+                    let text = d3.select(this.parentNode).select("text.monitorError-tag").node();
                     return (text.getBBox().width + 8) / -2;
                 })
                 .attr("y", function (d) {

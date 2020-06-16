@@ -99,6 +99,9 @@ public class MonitorService {
 
 
         for(Service s : ServicesInDB) {
+
+            serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
+
             Long endTime = nowTime;
             String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
             String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
@@ -309,6 +312,7 @@ public class MonitorService {
                 }
             }
 
+            monitorError.setErrorAppId(systemName.toUpperCase() + ":" + errorAppName.toUpperCase() + ":" + errorAppVersion);
             monitorError.setErrorSystemName(systemName);
             monitorError.setErrorAppName(errorAppName.toUpperCase());
             monitorError.setErrorAppVersion(errorAppVersion);
@@ -348,8 +352,11 @@ public class MonitorService {
 
         monitorErrors.addAll(0, monitorErrors2);
 
-        for(MonitorError monitorError : monitorErrors)
+        for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
+
+            serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "TRUE");
+        }
 
         return monitorErrors;
     }
