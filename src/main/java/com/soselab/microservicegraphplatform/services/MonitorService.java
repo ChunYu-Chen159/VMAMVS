@@ -366,16 +366,20 @@ public class MonitorService {
             System.out.println("111111111111111111111111111111");
             Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
             if (swaggerMap != null) {
+                System.out.println("2222222222222222222222222222222");
                 Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
                 Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
                 for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                    System.out.println("333333333333333333333333333333");
                     String key = entry.getKey();
                     Object value = entry.getValue();
                     if(key.equals(monitorError.getErrorPath())){
+                        System.out.println("444444444444444444444444444");
                         Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
                         Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
                         String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {});
                         if (status.equals("PASS")) {
+                            System.out.println("55555555555555555555555555555555555");
                             String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
                             Long testTime = Timestamp.valueOf(time).getTime();
 
@@ -384,6 +388,7 @@ public class MonitorService {
                             System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
 
                             if(testTime > monitorError.getTimestamp()){
+                                System.out.println("66666666666666666666666666666666666");
                                 serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
                                 monitorErrors.remove(monitorErrors.indexOf(monitorError));
                             }
