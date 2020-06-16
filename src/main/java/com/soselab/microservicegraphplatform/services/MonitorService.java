@@ -88,7 +88,7 @@ public class MonitorService {
     }
 
     @Scheduled(fixedDelay = 3600000) //每小時執行
-    public void hourScheduled() throws ParseException {
+    public void hourScheduled() {
         List<String> systemNames = generalRepository.getAllSystemName();
         for (String systemName : systemNames) {
             checkErrorFromSleuth(systemName);
@@ -97,7 +97,7 @@ public class MonitorService {
     }
 
     // 抓錯誤
-    public void checkErrorFromSleuth(String systemName) throws ParseException {
+    public void checkErrorFromSleuth(String systemName) {
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
         Long nowTime = System.currentTimeMillis();
         // 1天
@@ -170,19 +170,24 @@ public class MonitorService {
                                 String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
                                 System.out.println("time: " + time);
 
-                                Date date1 = dateFormat.parse(time);
-                                String str = dateFormat.format(monitorError.getTimestamp()/1000);
-                                Date date2 = dateFormat.parse(str);
+                                try {
 
-                                Calendar cal1 = Calendar.getInstance();
-                                Calendar cal2 = Calendar.getInstance();
-                                cal1.setTime(date1);
-                                cal2.setTime(date2);
+                                    Date date1 = dateFormat.parse(time);
+                                    String str = dateFormat.format(monitorError.getTimestamp() / 1000);
+                                    Date date2 = dateFormat.parse(str);
 
-                                if(cal1.after(cal2)){
-                                    System.out.println("66666666666666666666666666666666666");
-                                    serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                    monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                    Calendar cal1 = Calendar.getInstance();
+                                    Calendar cal2 = Calendar.getInstance();
+                                    cal1.setTime(date1);
+                                    cal2.setTime(date2);
+
+                                    if (cal1.after(cal2)) {
+                                        System.out.println("66666666666666666666666666666666666");
+                                        serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                                        monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                    }
+                                }catch(ParseException e) {
+                                    e.printStackTrace();
                                 }
 
                                /* time = time.replaceAll("T"," ").replaceAll("Z","");
@@ -405,7 +410,7 @@ public class MonitorService {
             temp.retainAll(monitorErrors2);
             // 去除共同有的數據
             monitorErrors2.removeAll(temp); 這段不要*/
-            // 加回去
+        // 加回去
            /* monitorErrors.addAll(0, monitorErrors2);
         }*/
 
@@ -666,9 +671,9 @@ public class MonitorService {
         for (Service service : services) {
             appNameAndVerSetMap.merge(service.getAppName(), new HashSet<>(Arrays.asList(service.getVersion())),
                     (oldSet, newSet) -> {
-                oldSet.add(service.getVersion());
-                return oldSet;
-            });
+                        oldSet.add(service.getVersion());
+                        return oldSet;
+                    });
         }
         appNameAndVerSetMap.forEach((appName, versions) -> {
             SpcData usageSpc = createVersionUsageSPC(systemName, appName, versions, samplingDurationMinutes);
