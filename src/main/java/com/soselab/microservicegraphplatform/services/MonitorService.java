@@ -378,6 +378,10 @@ public class MonitorService {
                             String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
                             Long testTime = Timestamp.valueOf(time).getTime();
 
+                            System.out.println("time: " + time);
+                            System.out.println("testTime: " + testTime);
+                            System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
+
                             if(testTime > monitorError.getTimestamp()){
                                 serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
                                 monitorErrors.remove(monitorErrors.indexOf(monitorError));
