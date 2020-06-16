@@ -110,7 +110,9 @@ public class MonitorService {
 
         List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
 
-        checkTimeOfTestAndMonitorError(systemName, monitorErrors);
+        monitorErrors = checkTimeOfTestAndMonitorError(monitorErrors);
+
+        allMonitorErrorList.replace(systemName, monitorErrors);
 
         for(Service s : ServicesInDB) {
 
@@ -152,12 +154,15 @@ public class MonitorService {
     }
 
 
-    public void checkTimeOfTestAndMonitorError(String systemName, List<MonitorError> monitorErrors){
-        if(monitorErrors != null){
+    public List<MonitorError> checkTimeOfTestAndMonitorError(List<MonitorError> monitorErrors){
+
+        List<MonitorError> mes = monitorErrors;
+
+        if(mes != null){
             // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
             // 倒序刪除，不然會影響前面元素
-            for(int i = monitorErrors.size() - 1; i >= 0; i--){
-                MonitorError monitorError = monitorErrors.get(i);
+            for(int i = mes.size() - 1; i >= 0; i--){
+                MonitorError monitorError = mes.get(i);
                 System.out.println("111111111111111111111111111111");
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
@@ -210,8 +215,10 @@ public class MonitorService {
                 }
             }
 
-            allMonitorErrorList.replace(systemName, monitorErrors);
+            return mes;
 
+        }else{
+            return null;
         }
     }
 
@@ -407,7 +414,9 @@ public class MonitorService {
            /* monitorErrors.addAll(0, monitorErrors2);
         }*/
 
-        monitorErrors.addAll(0, monitorErrors2);
+
+
+        monitorErrors.addAll(0, checkTimeOfTestAndMonitorError(monitorErrors2));
 
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
