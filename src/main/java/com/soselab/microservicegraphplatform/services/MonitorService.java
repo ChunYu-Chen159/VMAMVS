@@ -373,7 +373,7 @@ public class MonitorService {
                     System.out.println("333333333333333333333333333333");
                     String key = entry.getKey();
                     Object value = entry.getValue();
-                    if(key.equals(monitorError.getErrorPath())){
+                    if(key.split("_")[0].equals(monitorError.getErrorPath())){
                         System.out.println("444444444444444444444444444");
                         Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
                         Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
