@@ -2036,7 +2036,7 @@ function SDGGraph(data) {
             let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
             // let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
             let providerEndpoint;
-            data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api))
+            data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api.substring(0,index_api.lastIndexOf("_"))))
                 .forEach(nodeWithVersion => {
                     data.links.filter(link => (link.type === REL_OWN) && (link.source.id === providerService.id))
                         .forEach(nce2 => {
