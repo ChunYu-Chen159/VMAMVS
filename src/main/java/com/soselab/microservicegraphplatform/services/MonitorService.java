@@ -1,5 +1,7 @@
 package com.soselab.microservicegraphplatform.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soselab.microservicegraphplatform.bean.elasticsearch.MgpLog;
 import com.soselab.microservicegraphplatform.bean.mgp.AppMetrics;
 import com.soselab.microservicegraphplatform.bean.mgp.WebNotification;
@@ -15,6 +17,7 @@ import com.soselab.microservicegraphplatform.repositories.neo4j.LinkRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.ServiceRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.net.ntp.TimeStamp;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -23,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -49,6 +53,10 @@ public class MonitorService {
     private WebNotificationService notificationService;
     @Autowired
     private SleuthService sleuthService;
+    @Autowired
+    private SpringRestTool springRestTool;
+    @Autowired
+    private ObjectMapper mapper;
 
     private Map<String, SpcData> failureStatusRateSPCMap = new HashMap<>();
     private Map<String, SpcData> averageDurationSPCMap = new HashMap<>();
@@ -352,10 +360,37 @@ public class MonitorService {
 
         monitorErrors.addAll(0, monitorErrors2);
 
+
+        // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
+        for(MonitorError monitorError : monitorErrors) {
+            Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
+            if (swaggerMap != null) {
+                Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
+                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
+                for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+                    if(key.equals(monitorError.getErrorPath())){
+                        Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
+                        Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
+                        String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {});
+                        if (status.equals("PASS")) {
+                            String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
+                            Long testTime = Timestamp.valueOf(time).getTime();
+
+                            if(testTime > monitorError.getTimestamp()){
+                                serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                                monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
-            String time = dateFormat.format(monitorError.getTimestamp());
-            System.out.println("time: " + time);
             serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "TRUE");
         }
 
