@@ -35,6 +35,7 @@ import java.util.*;
 public class MonitorService {
     private static final Logger logger = LoggerFactory.getLogger(MonitorService.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private static final SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     @Autowired
     private GeneralRepository generalRepository;
@@ -172,9 +173,9 @@ public class MonitorService {
 
                                 try {
 
-                                    Date date1 = dateFormat.parse(time);
-                                    String str = dateFormat.format(monitorError.getTimestamp() / 1000);
-                                    Date date2 = dateFormat.parse(str);
+                                    Date date1 = dateFormat2.parse(time);
+                                    String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
+                                    Date date2 = dateFormat2.parse(str);
 
                                     Calendar cal1 = Calendar.getInstance();
                                     Calendar cal2 = Calendar.getInstance();
