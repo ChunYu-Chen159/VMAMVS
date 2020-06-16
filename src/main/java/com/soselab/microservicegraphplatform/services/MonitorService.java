@@ -174,9 +174,10 @@ public class MonitorService {
                                 try {
 
                                     Date date1 = dateFormat2.parse(time);
-                                    String str = dateFormat2.format(monitorError.getTimestamp() / 1000000);
+                                    String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
                                     Date date2 = dateFormat2.parse(str);
 
+                                    System.out.println("monitorError.getTimestamp() / 1000: " + monitorError.getTimestamp() / 1000);
                                     System.out.println("str: " + str);
 
                                     Calendar cal1 = Calendar.getInstance();
