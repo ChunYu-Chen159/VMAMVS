@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -96,7 +97,7 @@ public class MonitorService {
     }
 
     // 抓錯誤
-    public void checkErrorFromSleuth(String systemName){
+    public void checkErrorFromSleuth(String systemName) throws ParseException {
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
         Long nowTime = System.currentTimeMillis();
         // 1天
@@ -168,7 +169,23 @@ public class MonitorService {
                                 System.out.println("55555555555555555555555555555555555");
                                 String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
                                 System.out.println("time: " + time);
-                                time = time.replaceAll("T"," ").replaceAll("Z","");
+
+                                Date date1 = dateFormat.parse(time);
+                                String str = dateFormat.format(monitorError.getTimestamp()/1000);
+                                Date date2 = dateFormat.parse(str);
+
+                                Calendar cal1 = Calendar.getInstance();
+                                Calendar cal2 = Calendar.getInstance();
+                                cal1.setTime(date1);
+                                cal2.setTime(date2);
+
+                                if(cal1.after(cal2)){
+                                    System.out.println("66666666666666666666666666666666666");
+                                    serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                                    monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                }
+
+                               /* time = time.replaceAll("T"," ").replaceAll("Z","");
                                 System.out.println("time: " + time);
                                 Long testTime = Timestamp.valueOf(time).getTime();
 
@@ -180,7 +197,7 @@ public class MonitorService {
                                     System.out.println("66666666666666666666666666666666666");
                                     serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
                                     monitorErrors.remove(monitorErrors.indexOf(monitorError));
-                                }
+                                }*/
 
                             }
                         }
