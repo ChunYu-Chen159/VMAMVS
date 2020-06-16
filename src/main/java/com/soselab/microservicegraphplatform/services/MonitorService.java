@@ -381,10 +381,11 @@ public class MonitorService {
                         if (status.equals("PASS")) {
                             System.out.println("55555555555555555555555555555555555");
                             String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
+                            System.out.println("time: " + time);
                             time.replaceAll("T"," ").replaceAll("Z","");
+                            System.out.println("time: " + time);
                             Long testTime = Timestamp.valueOf(time).getTime();
 
-                            System.out.println("time: " + time);
                             System.out.println("testTime: " + testTime);
                             System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
 
