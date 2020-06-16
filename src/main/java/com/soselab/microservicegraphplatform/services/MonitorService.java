@@ -174,6 +174,7 @@ public class MonitorService {
 
                                 System.out.println("testTime: " + testTime);
                                 System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
+                                System.out.println("monitorError.getTimestamp()/1000: " + monitorError.getTimestamp()/1000);
 
                                 if(testTime > (monitorError.getTimestamp()/1000)){
                                     System.out.println("66666666666666666666666666666666666");
