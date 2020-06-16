@@ -174,7 +174,7 @@ public class MonitorService {
                                 try {
 
                                     Date date1 = dateFormat2.parse(time);
-                                    String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
+                                    String str = dateFormat2.format(monitorError.getTimestamp() / 1000000);
                                     Date date2 = dateFormat2.parse(str);
 
                                     System.out.println("str: " + str);
