@@ -354,7 +354,8 @@ public class MonitorService {
 
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
-
+            String time = dateFormat.format(monitorError.getTimestamp());
+            System.out.println("time: " + time);
             serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "TRUE");
         }
 
