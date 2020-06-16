@@ -146,7 +146,9 @@ public class MonitorService {
 
         if(monitorErrors != null){
             // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
-            for(MonitorError monitorError : monitorErrors) {
+            // 倒序刪除，不然會影響前面元素
+            for(int i = monitorErrors.size() - 1; i >= 0; i--){
+                MonitorError monitorError = monitorErrors.get(i);
                 System.out.println("111111111111111111111111111111");
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
