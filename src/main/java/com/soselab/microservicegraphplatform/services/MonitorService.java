@@ -322,9 +322,9 @@ public class MonitorService {
 
             monitorError.setErrorAppId(systemName.toUpperCase() + ":" + errorAppName.toUpperCase() + ":" + errorAppVersion);
             monitorError.setErrorSystemName(systemName);
-            monitorError.setErrorAppName(errorAppName.toUpperCase());
+            monitorError.setErrorAppName(errorAppName);
             monitorError.setErrorAppVersion(errorAppVersion);
-            monitorError.setConsumerAppName(consumerAppName.toUpperCase());
+            monitorError.setConsumerAppName(consumerAppName);
             monitorError.setErrorMessage(errorMessage);
             monitorError.setStatusCode(statusCode);
             monitorError.setTimestamp(timestamp);
@@ -363,6 +363,7 @@ public class MonitorService {
 
         // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
         for(MonitorError monitorError : monitorErrors) {
+            System.out.println("111111111111111111111111111111");
             Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
             if (swaggerMap != null) {
                 Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
