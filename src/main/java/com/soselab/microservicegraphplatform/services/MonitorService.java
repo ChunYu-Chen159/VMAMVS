@@ -177,10 +177,15 @@ public class MonitorService {
                                     String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
                                     Date date2 = dateFormat2.parse(str);
 
+                                    System.out.println("str: " + str);
+
                                     Calendar cal1 = Calendar.getInstance();
                                     Calendar cal2 = Calendar.getInstance();
                                     cal1.setTime(date1);
                                     cal2.setTime(date2);
+
+                                    System.out.println("cal1.getTime(): " + cal1.getTime());
+                                    System.out.println("cal2.getTime(): " + cal2.getTime());
 
                                     if (cal1.after(cal2)) {
                                         System.out.println("66666666666666666666666666666666666");
