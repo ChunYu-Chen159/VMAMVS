@@ -108,6 +108,10 @@ public class MonitorService {
         int limit = 10000;
 
 
+        List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
+
+        checkTimeOfTestAndMonitorError(systemName, monitorErrors);
+
         for(Service s : ServicesInDB) {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
@@ -144,8 +148,11 @@ public class MonitorService {
 
         }
 
-        List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
 
+    }
+
+
+    public void checkTimeOfTestAndMonitorError(String systemName, List<MonitorError> monitorErrors){
         if(monitorErrors != null){
             // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
             // 倒序刪除，不然會影響前面元素
@@ -197,38 +204,17 @@ public class MonitorService {
                                     e.printStackTrace();
                                 }
 
-                               /* time = time.replaceAll("T"," ").replaceAll("Z","");
-                                System.out.println("time: " + time);
-                                Long testTime = Timestamp.valueOf(time).getTime();
-
-                                System.out.println("testTime: " + testTime);
-                                System.out.println("monitorError.getTimestamp(): " + monitorError.getTimestamp());
-                                System.out.println("monitorError.getTimestamp()/1000: " + monitorError.getTimestamp()/1000);
-
-                                if(testTime > (monitorError.getTimestamp()/1000)){
-                                    System.out.println("66666666666666666666666666666666666");
-                                    serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                    monitorErrors.remove(monitorErrors.indexOf(monitorError));
-                                }*/
-
                             }
                         }
                     }
                 }
             }
 
-            allMonitorErrorList.remove(systemName);
-            allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrors),
-                    (oldList, newList) -> pushMonitorError(oldList, monitorErrors));
-
+            allMonitorErrorList.replace(systemName, monitorErrors);
 
         }
-
-
-
-
-
     }
+
 
     public List<MonitorError> analyzeError(JSONArray array, String systemName) {
 
