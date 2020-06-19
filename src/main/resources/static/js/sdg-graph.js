@@ -1933,7 +1933,7 @@ function SDGGraph(data) {
 
                 feedbackContract += "&nbsp;&nbsp;&nbsp;}<br>";
                 feedbackContract += "&nbsp;&nbsp;&nbsp;response {<br>" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(<span class='blue'>" + json_content["statusCode"] + "</span>)<br>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(<span class='blue'>" + "200" + "</span>)<br>" +
                                     "&nbsp;&nbsp;&nbsp;}<br>" +
                                     "}";
                 feedbackContract += "</span>";
@@ -2035,7 +2035,7 @@ function SDGGraph(data) {
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
             let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
             // let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
-            let providerEndpoint;
+            let providerEndpoint = "";
             data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && ((node.path === index_api) || (node.path === index_api.substring(0,index_api.lastIndexOf("_"))) ))
                 .forEach(nodeWithVersion => {
                     data.links.filter(link => (link.type === REL_OWN) && (link.source.id === providerService.id))
