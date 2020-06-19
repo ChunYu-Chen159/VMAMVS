@@ -63,9 +63,15 @@ public class RiskService {
 
             }
 
+            System.out.println("Service: " + s.getAppId());
+
             Object highStandard = Collections.max(al);
             Object lowStandard = Collections.min(al);
             double average = ((int)highStandard + (int)lowStandard) / 2.0;
+
+            System.out.println("highStandard: " + highStandard);
+            System.out.println("lowStandard: " + lowStandard);
+            System.out.println("average: " + average);
 
             averageMap.put(s.getAppId(),average);
 
@@ -93,6 +99,8 @@ public class RiskService {
                 totalNum += getNumofEndpoint_Consumer((int)nodes2.getJSONObject(j).get("id"));
             }
 
+            System.out.println("Service: " + s.getAppId());
+            System.out.println("impactTotalNum: " + totalNum);
 
             endpointNumberMap.put(s.getAppId(), totalNum);
 
@@ -100,14 +108,21 @@ public class RiskService {
 
         // 正規化[0.1, 1]
         Map<String,Object> likelihoodMap = new HashMap<>();
+        System.out.println("likelihoodMap:" );
         likelihoodMap = normalization(averageMap, ServicesInDB);
 
         // 正規化[0.1, 1]
         Map<String,Object> impactMap = new HashMap<>();
+        System.out.println("impactMap:" );
         impactMap = normalization(endpointNumberMap, ServicesInDB);
 
         // 計算RiskValue，放到neo4j存
         for(Service s : ServicesInDB) {
+
+            System.out.println("Service: " + s.getAppId());
+            System.out.println("likelihoodMap.get(s.getAppId()): " + likelihoodMap.get(s.getAppId()));
+            System.out.println("impactMap.get(s.getAppId()): " + impactMap.get(s.getAppId()));
+
             double riskValue = (double)likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId());
             serviceRepository.setRiskValueByAppId(s.getAppId(), riskValue);
         }
@@ -176,6 +191,9 @@ public class RiskService {
 
             // 計算係數k
             k = (b-a)/(max-min);
+            System.out.println("max:"  + max);
+            System.out.println("min:"  + min);
+            System.out.println("k:"  + k);
 
             // 套入公式正規化
             for (Map.Entry<String, Object> entry : map.entrySet()) {
