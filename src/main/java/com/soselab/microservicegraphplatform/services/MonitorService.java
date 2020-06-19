@@ -163,25 +163,19 @@ public class MonitorService {
             // 倒序刪除，不然會影響前面元素
             for(int i = mes.size() - 1; i >= 0; i--){
                 MonitorError monitorError = mes.get(i);
-                System.out.println("111111111111111111111111111111");
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
-                    System.out.println("2222222222222222222222222222222");
                     Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
                     Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
                     for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
-                        System.out.println("333333333333333333333333333333");
                         String key = entry.getKey();
                         Object value = entry.getValue();
                         if(key.split("_")[0].equals(monitorError.getErrorPath())){
-                            System.out.println("444444444444444444444444444");
                             Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
                             Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
                             String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {});
                             if (status.equals("PASS")) {
-                                System.out.println("55555555555555555555555555555555555");
                                 String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
-                                System.out.println("time: " + time);
 
                                 try {
 
@@ -201,7 +195,6 @@ public class MonitorService {
                                     System.out.println("cal2.getTime(): " + cal2.getTime());
 
                                     if (cal1.after(cal2)) {
-                                        System.out.println("66666666666666666666666666666666666");
                                         serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
                                         monitorErrors.remove(monitorErrors.indexOf(monitorError));
                                     }
@@ -384,6 +377,7 @@ public class MonitorService {
             monitorError.setErrorMessage(errorMessage);
             monitorError.setStatusCode(statusCode);
             monitorError.setTimestamp(timestamp);
+            monitorError.setDate(dateFormat2.format(timestamp / 1000));
             monitorError.setErrorPath(errorPath);
             monitorError.setErrorUrl(errorUrl);
             monitorError.setErrorMethod(errorMethod);

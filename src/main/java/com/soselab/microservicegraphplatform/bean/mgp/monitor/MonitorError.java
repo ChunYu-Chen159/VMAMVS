@@ -13,6 +13,7 @@ public class MonitorError {
     private String errorAppVersion;
     private String consumerAppName;
     private long timestamp;
+    private String date;
     private String statusCode;
     private String errorMessage;
     private String errorPath;
@@ -77,6 +78,14 @@ public class MonitorError {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getStatusCode() {
