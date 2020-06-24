@@ -6,6 +6,7 @@ import com.soselab.microservicegraphplatform.bean.neo4j.Service;
 import com.soselab.microservicegraphplatform.repositories.neo4j.GeneralRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.ServiceRegistryRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.ServiceRepository;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -52,11 +53,25 @@ public class ContractService {
                         Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
 
                         if (swaggerMap != null) {
+
+
+/*                            JSONObject jsonObj2 = new JSONObject(swaggerMap.get("x-contract"));
+                            JSONObject jsonObj3 = new JSONObject(jsonObj2.getJSONObject(s.getAppName().toLowerCase() + ".groovy"));
+
+
+
+                            JSONArray jsonArr = jsonObj3.get;*/
+
                             Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
                             Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
                             for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
                                 String key = entry.getKey();
                                 Object value = entry.getValue();
+
+                                System.out.println("key: " + key);
+                                System.out.println("value: " + value);
+
+
                                 Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {
                                 });
                                 Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {
