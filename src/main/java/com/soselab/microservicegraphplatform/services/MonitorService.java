@@ -1,5 +1,6 @@
 package com.soselab.microservicegraphplatform.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soselab.microservicegraphplatform.bean.elasticsearch.MgpLog;
@@ -154,7 +155,7 @@ public class MonitorService {
     }
 
 
-    public List<MonitorError> checkTimeOfTestAndMonitorError(List<MonitorError> monitorErrors){
+    public List<MonitorError> checkTimeOfTestAndMonitorError(List<MonitorError> monitorErrors) {
 
         List<MonitorError> mes = monitorErrors;
 
@@ -171,7 +172,50 @@ public class MonitorService {
                         String key = entry.getKey();
                         Object value = entry.getValue();
                         if(key.split("_")[0].equals(monitorError.getErrorPath())){
-                            Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
+
+                            try {
+
+                                String jsonStr = mapper.writeValueAsString(value);
+                                JSONArray jsonArr = new JSONArray(jsonStr);
+
+                                for (int j = 0; j < jsonArr.length(); j++) {
+                                    String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
+
+                                    if (status.equals("PASS")) {
+                                        String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
+
+                                        try {
+
+                                            Date date1 = dateFormat2.parse(time);
+                                            String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
+                                            Date date2 = dateFormat2.parse(str);
+
+                                            System.out.println("monitorError.getTimestamp() / 1000: " + monitorError.getTimestamp() / 1000);
+                                            System.out.println("str: " + str);
+
+                                            Calendar cal1 = Calendar.getInstance();
+                                            Calendar cal2 = Calendar.getInstance();
+                                            cal1.setTime(date1);
+                                            cal2.setTime(date2);
+
+                                            System.out.println("cal1.getTime(): " + cal1.getTime());
+                                            System.out.println("cal2.getTime(): " + cal2.getTime());
+
+                                            if (cal1.after(cal2)) {
+                                                serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                                                monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                            }
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            } catch (JsonProcessingException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            /*Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
                             Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
                             String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {});
                             if (status.equals("PASS")) {
@@ -202,7 +246,7 @@ public class MonitorService {
                                     e.printStackTrace();
                                 }
 
-                            }
+                            }*/
                         }
                     }
                 }
