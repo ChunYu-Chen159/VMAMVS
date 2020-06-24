@@ -82,7 +82,7 @@ public class ContractService {
                                     System.out.println("jsonArr.getJSONObject(i): " + jsonArr.getJSONObject(i));
                                     System.out.println("jsonArr.getJSONObject(i).getJSONObject(\"testResult\").getString(\"status\"): " + jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status"));
 
-                                    String status = jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status")
+                                    String status = jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status");
 
                                     if (status.equals("FAIL")) {
                                         serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
