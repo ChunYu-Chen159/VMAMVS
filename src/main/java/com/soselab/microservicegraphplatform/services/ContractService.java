@@ -79,6 +79,10 @@ public class ContractService {
 
                                 for(int i = 0; i < jsonArr.length(); i++){
                                     System.out.println("jsonArr.get(i): " + jsonArr.get(i).toString());
+                                    System.out.println("jsonArr.getJSONObject(i): " + jsonArr.getJSONObject(i));
+                                    System.out.println("jsonArr.getJSONObject(i).getJSONObject(\"testResult\").getString(\"status\"): " + jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status"));
+
+
 
                                     Map<String, Object> apiMap = mapper.convertValue(jsonArr.get(i).toString(), new TypeReference<Map<String, Object>>() {
                                     });
