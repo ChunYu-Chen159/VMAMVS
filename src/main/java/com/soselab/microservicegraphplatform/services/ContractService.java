@@ -82,14 +82,7 @@ public class ContractService {
                                     System.out.println("jsonArr.getJSONObject(i): " + jsonArr.getJSONObject(i));
                                     System.out.println("jsonArr.getJSONObject(i).getJSONObject(\"testResult\").getString(\"status\"): " + jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status"));
 
-
-
-                                    Map<String, Object> apiMap = mapper.convertValue(jsonArr.get(i).toString(), new TypeReference<Map<String, Object>>() {
-                                    });
-                                    Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {
-                                    });
-                                    String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {
-                                    });
+                                    String status = jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status")
 
                                     if (status.equals("FAIL")) {
                                         serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
