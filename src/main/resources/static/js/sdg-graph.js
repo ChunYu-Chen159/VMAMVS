@@ -2068,7 +2068,7 @@ function SDGGraph(data) {
                 $('#' + apiId).addClass("active");
                 extraMessage.addClass("show");
 
-                messageJson.jsonViewer(json_content[index_api], {collapsed: false, withQuotes: false});
+                messageJson.jsonViewer(json_content[index_api][index], {collapsed: false, withQuotes: false});
 
                 // 要highlight的nodes, links
                 let highlightJson = "";
