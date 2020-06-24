@@ -71,18 +71,24 @@ public class ContractService {
                                 System.out.println("key: " + key);
                                 System.out.println("value: " + value);
 
+                                JSONArray jsonArr = new JSONArray(value);
 
-                                Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {
-                                });
-                                Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {
-                                });
-                                String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {
-                                });
+                                for(int i = 0; i < jsonArr.length(); i++){
 
-                                if (status.equals("FAIL")) {
-                                    serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
-                                    condition = CONTRACTTESTINGCONDITION_WARNING;
+                                    Map<String, Object> apiMap = mapper.convertValue(jsonArr.get(i), new TypeReference<Map<String, Object>>() {
+                                    });
+                                    Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {
+                                    });
+                                    String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {
+                                    });
+
+                                    if (status.equals("FAIL")) {
+                                        serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
+                                        condition = CONTRACTTESTINGCONDITION_WARNING;
+                                    }
+
                                 }
+
 
                             }
 
