@@ -55,48 +55,25 @@ public class ContractService {
                         Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
 
                         if (swaggerMap != null) {
-
-
-/*                            JSONObject jsonObj2 = new JSONObject(swaggerMap.get("x-contract"));
-                            JSONObject jsonObj3 = new JSONObject(jsonObj2.getJSONObject(s.getAppName().toLowerCase() + ".groovy"));
-
-
-
-                            JSONArray jsonArr = jsonObj3.get;*/
-
                             Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
                             Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
                             for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
                                 String key = entry.getKey();
                                 Object value = entry.getValue();
 
-                                System.out.println("key: " + key);
-                                System.out.println("value: " + value);
-
                                 String jsonStr = mapper.writeValueAsString(value);
-
                                 JSONArray jsonArr = new JSONArray(jsonStr);
 
                                 for(int i = 0; i < jsonArr.length(); i++){
-                                    System.out.println("jsonArr.get(i): " + jsonArr.get(i).toString());
-                                    System.out.println("jsonArr.getJSONObject(i): " + jsonArr.getJSONObject(i));
-                                    System.out.println("jsonArr.getJSONObject(i).getJSONObject(\"testResult\").getString(\"status\"): " + jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status"));
-
                                     String status = jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status");
 
                                     if (status.equals("FAIL")) {
                                         serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
                                         condition = CONTRACTTESTINGCONDITION_WARNING;
                                     }
-
                                 }
-
-
                             }
-
-
                         }
-
 
                     } catch (JSONException | JsonProcessingException err) {
                         err.printStackTrace();

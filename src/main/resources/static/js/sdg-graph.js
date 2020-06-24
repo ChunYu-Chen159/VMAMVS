@@ -2005,13 +2005,17 @@ function SDGGraph(data) {
 
                                 // for( let api in contractContent)
                                 for(let api in contractContent){
-                                    if (contractContent[api]["testResult"]["status"] === "PASS"){
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1).replace("/","-") + "\">" + api + "</button>");
 
-                                    }else {
-                                        document.getElementById('serviceCondition').setAttribute("class","badge badge-pill badge-warning");
-                                        document.getElementById('serviceCondition').innerText = "WARNING";
-                                        contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1).replace("/","-") + "\">" + api + "</button>");
+                                    for(let index in contractContent[api]) {
+
+                                        if (contractContent[api](index)["testResult"]["status"] === "PASS") {
+                                            contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1).replace("/", "-") + "\">" + api + "</button>");
+
+                                        } else {
+                                            document.getElementById('serviceCondition').setAttribute("class", "badge badge-pill badge-warning");
+                                            document.getElementById('serviceCondition').innerText = "WARNING";
+                                            contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1).replace("/", "-") + "\">" + api + "</button>");
+                                        }
                                     }
 
                                 }
