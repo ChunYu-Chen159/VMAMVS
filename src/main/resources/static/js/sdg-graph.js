@@ -2024,7 +2024,8 @@ function SDGGraph(data) {
                                     for(let index in contractContent[api]) {
                                         // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
                                         $('#contract-' + api.substring(1).replace("/", "-") + index).bind("click", {
-                                            index: api,
+                                            index: index,
+                                            index_api: api,
                                             jsonContent: contractContent,
                                             consumerServiceId: d.id,
                                             providerServiceAppName: json2["info"]["title"].toUpperCase(),
@@ -2039,7 +2040,8 @@ function SDGGraph(data) {
         }
 
         function clickHandler2(event) {
-            let index_api = event.data.index;
+            let index = event.data.index;
+            let index_api = event.data.index_api;
             let json_content = event.data.jsonContent;
             let providerServiceAppName = event.data.providerServiceAppName;
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
@@ -2058,7 +2060,7 @@ function SDGGraph(data) {
             let providerEndpointId = providerEndpoint.id;
             let consumerServiceId = event.data.consumerServiceId;
 
-            let apiId = "contract-" + index_api.substring(1).replace("/","-");
+            let apiId = "contract-" + index_api.substring(1).replace("/","-") + index;
 
             if (!$('#' + apiId).hasClass("active")) {
                 $('#' + apiId).parent().find(".active").removeClass("active");
