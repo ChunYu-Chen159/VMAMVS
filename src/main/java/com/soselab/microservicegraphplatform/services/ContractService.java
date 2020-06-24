@@ -71,7 +71,7 @@ public class ContractService {
                                 System.out.println("key: " + key);
                                 System.out.println("value: " + value);
 
-                                JSONArray jsonArr = new JSONArray(value);
+                                JSONArray jsonArr = new JSONArray(String.valueOf(value));
 
                                 for(int i = 0; i < jsonArr.length(); i++){
 
