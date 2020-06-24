@@ -1,5 +1,6 @@
 package com.soselab.microservicegraphplatform.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soselab.microservicegraphplatform.bean.neo4j.Service;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +73,9 @@ public class ContractService {
                                 System.out.println("key: " + key);
                                 System.out.println("value: " + value);
 
-                                JSONArray jsonArr = new JSONArray(String.valueOf(value));
+                                String jsonStr = mapper.writeValueAsString(value);
+
+                                JSONArray jsonArr = new JSONArray(jsonStr);
 
                                 for(int i = 0; i < jsonArr.length(); i++){
 
@@ -96,7 +100,7 @@ public class ContractService {
                         }
 
 
-                    } catch (JSONException err) {
+                    } catch (JSONException | JsonProcessingException err) {
                         err.printStackTrace();
                         logger.error(err.toString());
                     }
