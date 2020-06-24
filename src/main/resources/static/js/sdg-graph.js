@@ -2008,7 +2008,7 @@ function SDGGraph(data) {
 
                                     for(let index in contractContent[api]) {
 
-                                        if (contractContent[api][index]["testResult"]["status"] === "PASS") {
+                                        if (contractContent[api](index)["testResult"]["status"] === "PASS") {
                                             contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1).replace("/", "-") + "\">" + api + "</button>");
 
                                         } else {
