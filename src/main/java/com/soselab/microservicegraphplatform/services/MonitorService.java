@@ -276,10 +276,12 @@ public class MonitorService {
 
                     if(appName.equals(serviceAppName) && version.equals(serviceVersion)){
                         if (jsonObject.has("error")) { // 目前檢查的服務有錯
+                            System.out.println("111111111");
                             checkErrorWithService = true;
                             for(int k = 0; k < array_everyError.length(); k++){ // 目前檢查的服務是否為最後出錯的節點
                                 if(array_everyError.getJSONObject(k).getString("kind").equals("SERVER")){
                                     if(array_everyError.getJSONObject(k).getString("parentId").equals(id)){
+                                        System.out.println("22222222222222");
                                         checkErrorWithService = false;
                                     }
                                 }
