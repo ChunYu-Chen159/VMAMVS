@@ -181,7 +181,7 @@ public class MonitorService {
                     for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
                         String key = entry.getKey();
                         Object value = entry.getValue();
-                        if(key.split("_")[0].equals(monitorError.getErrorPath())){
+                        if(key.equals(monitorError.getErrorPath())){
 
                             try {
 
