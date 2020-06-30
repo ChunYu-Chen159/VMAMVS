@@ -502,7 +502,7 @@ public class MonitorService {
             MonitorError monitorError = temp.get(i);
             System.out.println("i: " + i);
 
-            for(int j = 0; j < temp.size()-2; j++){
+            for(int j = 0; j < temp.size()-1; j++){
                 System.out.println("j: " + j);
                 MonitorError monitorError2 = temp.get(j);
                 if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
