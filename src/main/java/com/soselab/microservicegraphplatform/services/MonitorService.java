@@ -484,9 +484,23 @@ public class MonitorService {
         System.out.println("push_monitorErrors2.size(): " + monitorErrors2.size());
 
         // 刪除重複
-        Set<MonitorError> setMonitorErrors = new HashSet<>(monitorErrors);
+        List<MonitorError> temp = monitorErrors;
+        for(int i = temp.size() - 1; i >= 0; i--){
+            MonitorError monitorError = temp.get(i);
+
+            for(int j = 0; j < temp.size()-2; j++){
+                MonitorError monitorError2 = temp.get(j);
+                if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
+                    monitorError.getErrorUrl().equals(monitorError2.getErrorUrl())){
+                    monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                }
+            }
+        }
+
+
+/*        Set<MonitorError> setMonitorErrors = new HashSet<>(monitorErrors);
         monitorErrors.clear();
-        monitorErrors.addAll(setMonitorErrors);
+        monitorErrors.addAll(setMonitorErrors);*/
 
         System.out.println("push_monitorErrors.size(): " + monitorErrors.size());
 
