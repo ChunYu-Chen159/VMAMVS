@@ -751,6 +751,7 @@ function SDGGraph(data) {
                     .attr("stroke-opacity", 1)
                     .attr("fill-opacity", 1);*/
 
+
         // Highlight
         nodeEnter.filter(d =>
             d.labels.includes(LABEL_OUTDATEDVERSION) ||
