@@ -233,6 +233,7 @@ public class MonitorService {
 
         System.out.println("serviceAppName: " + serviceAppName);
 
+
         for(int i = 0; i < array.length(); i++) { // 每個error
             JSONArray array_everyError = array.getJSONArray(i);
             MonitorError monitorError = new MonitorError();
@@ -274,7 +275,11 @@ public class MonitorService {
                     String version = jsonObject.getString("http.version");
                     String id = array_everyError.getJSONObject(j).getString("id");
 
-                    if(appName.equals(serviceAppName) && version.equals(serviceVersion)){
+                    System.out.println("000000000");
+                    System.out.println("appName: " + appName);
+                    System.out.println("version: " + version);
+
+                    if(appName.toUpperCase().equals(serviceAppName) && version.toUpperCase().equals(serviceVersion)){
                         if (jsonObject.has("error")) { // 目前檢查的服務有錯
                             System.out.println("111111111");
                             checkErrorWithService = true;
@@ -396,7 +401,7 @@ public class MonitorService {
                         errorAppName = jsonObject.getString("http.appName");
                         errorAppVersion = jsonObject.getString("http.version");
 
-                        if(!errorAppName.equals(serviceAppName) || !errorAppVersion.equals(serviceVersion))
+                        if(!errorAppName.toUpperCase().equals(serviceAppName) || !errorAppVersion.toUpperCase().equals(serviceVersion))
                             continue;
 
                         errorMessage = jsonObject.getString("error");
