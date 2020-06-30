@@ -140,6 +140,11 @@ public class MonitorService {
             List<MonitorError> monitorErrorList503 = analyzeError(array503, systemName, s.getAppName(), s.getVersion());
             List<MonitorError> monitorErrorList504 = analyzeError(array504, systemName, s.getAppName(), s.getVersion());
 
+            System.out.println("ErrorList_500: " + monitorErrorList500);
+            System.out.println("ErrorList_502: " + monitorErrorList502);
+            System.out.println("ErrorList_503: " + monitorErrorList503);
+            System.out.println("ErrorList_504: " + monitorErrorList504);
+
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList500),
                     (oldList, newList) -> pushMonitorError(oldList, monitorErrorList500));
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList502),
