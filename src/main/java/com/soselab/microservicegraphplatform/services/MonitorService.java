@@ -397,6 +397,15 @@ public class MonitorService {
             monitorError.setErrorPath(errorPath);
             monitorError.setErrorUrl(errorUrl);
             monitorError.setErrorMethod(errorMethod);
+
+            // 刪除重複
+            Set<ErrorService> setEs = new HashSet<ErrorService>(es);
+            Set<ErrorEndpoint> setEe = new HashSet<ErrorEndpoint>(ee);
+            Set<ErrorLink> setEl = new HashSet<ErrorLink>(el);
+            es = new ArrayList<>(setEs);
+            ee = new ArrayList<>(setEe);
+            el = new ArrayList<>(setEl);
+
             monitorError.setErrorServices(es);
             monitorError.setErrorEndpoints(ee);
             monitorError.setErrorLinks(el);
