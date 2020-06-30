@@ -248,7 +248,8 @@ public class MonitorService {
             String consumerAppName = "";
 
             boolean check4XX = false;
-            boolean checkSwagger =false;
+            boolean checkSwagger = false;
+            boolean checkErrorWithService = false; // 確認目前分析的服務是否有出錯
 
             for(int j = 0; j < array_everyError.length(); j++) {
                 if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
@@ -264,8 +265,26 @@ public class MonitorService {
                 }
             }
 
+            for(int j = 0; j < array_everyError.length(); j++){
+                if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
+                    JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
+                    String appName = jsonObject.getString("http.appName");
+                    String version = jsonObject.getString("http.version");
+
+                    if(appName.equals(serviceAppName) && version.equals(serviceVersion)){
+                        if (jsonObject.has("error")) {
+                            checkErrorWithService = true;
+                        }
+                    }
+
+
+                }
+            }
+
             if(check4XX || checkSwagger)
-                break;
+                continue;
+            if(!checkErrorWithService)
+                continue;
 
 
             // 每個Service, Endpoint, OwnLink (httpRequest關係還未加入)
@@ -352,7 +371,7 @@ public class MonitorService {
                 }
             }
 
-            // errorAppName, errorAppVersion, errorMessage, statusCode, timestamp, errorPath, consumerAppName
+            // errorAppName, errorAppVersion, errorMessage, statusCode, timestamp, errorPath, consumerAppName...
             for(int j = 0; j < array_everyError.length(); j++){
                 if(array_everyError.getJSONObject(j).has("shared") && array_everyError.getJSONObject(j).getBoolean("shared")) {
                     JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
