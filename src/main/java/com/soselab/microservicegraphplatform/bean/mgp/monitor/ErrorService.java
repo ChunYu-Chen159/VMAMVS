@@ -39,7 +39,7 @@ public class ErrorService {
     }
 
     public void setIsSourceOfError(boolean isSourceOfError) {
-        isSourceOfError = isSourceOfError;
+        this.isSourceOfError = isSourceOfError;
     }
 
     public long getId() {
