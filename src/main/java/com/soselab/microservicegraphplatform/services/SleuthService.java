@@ -149,6 +149,8 @@ public class SleuthService {
             URL url = new URL(Zipkin_V1_BASEPATH+"api/v2/traces?annotationQuery=http.version%3D" + version + "%20and%20" + "http.status_code%3D" + statusCode + "&limit=" + limit + "&lookback=" + lookback + "&endTs=" + endTime + "&serviceName="+appName.toLowerCase()+"&sortOrder=timestamp-desc");
             URLConnection urlConnection = url.openConnection();
 
+            System.out.println("ZipkinSearch: " + url.toString());
+
 
             BufferedReader in = new BufferedReader( new InputStreamReader(urlConnection.getInputStream()) );
             String current = "";
