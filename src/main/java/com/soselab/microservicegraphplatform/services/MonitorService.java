@@ -174,10 +174,12 @@ public class MonitorService {
             // 倒序刪除，不然會影響前面元素
             for(int i = mes.size() - 1; i >= 0; i--){
                 MonitorError monitorError = mes.get(i);
+                System.out.println("monitorError.getErrorAppName(): " + monitorError.getErrorAppName());
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
                     Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
                     System.out.println("contractsMap: " + contractsMap);
+                    System.out.println("monitorError..getConsumerAppName().toLowerCase(): " + monitorError..getConsumerAppName().toLowerCase());
                     Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
 
                     System.out.println("groovyMap: " + groovyMap);
