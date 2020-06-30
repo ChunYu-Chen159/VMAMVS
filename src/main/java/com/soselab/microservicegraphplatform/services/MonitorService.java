@@ -462,10 +462,6 @@ public class MonitorService {
             monitorError.setErrorLinks(newEl);
 
 
-            System.out.println("monitorError: " + monitorError);
-            System.out.println("monitorError.getErrorAppName(): " + monitorError.getErrorAppName());
-            System.out.println("monitorError.getConsumerAppName(): " + monitorError.getConsumerAppName());
-
             monitorErrorList.add(monitorError);
 
 
@@ -502,10 +498,12 @@ public class MonitorService {
 
         // 刪除重複
         List<MonitorError> temp = monitorErrors;
-        for(int i = temp.size() - 1; i >= 0; i--){
+        for(int i = temp.size() - 1; i > 0; i--){
             MonitorError monitorError = temp.get(i);
+            System.out.println("i: " + i);
 
             for(int j = 0; j < temp.size()-2; j++){
+                System.out.println("j: " + j);
                 MonitorError monitorError2 = temp.get(j);
                 if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
                     monitorError.getErrorUrl().equals(monitorError2.getErrorUrl())){
