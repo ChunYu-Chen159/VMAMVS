@@ -231,6 +231,8 @@ public class MonitorService {
 
         List<MonitorError> monitorErrorList = new ArrayList<>();
 
+        System.out.println("serviceAppName: " + serviceAppName);
+
         for(int i = 0; i < array.length(); i++) { // 每個error
             JSONArray array_everyError = array.getJSONArray(i);
             MonitorError monitorError = new MonitorError();
@@ -288,6 +290,10 @@ public class MonitorService {
 
                 }
             }
+
+            System.out.println("check4XX: " + check4XX);
+            System.out.println("checkSwagger: " + checkSwagger);
+            System.out.println("checkErrorWithService: " + checkErrorWithService);
 
             if(check4XX || checkSwagger)
                 continue;
