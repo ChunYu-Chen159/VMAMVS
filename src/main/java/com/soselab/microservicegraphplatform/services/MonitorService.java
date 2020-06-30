@@ -300,7 +300,7 @@ public class MonitorService {
                         }
                     }
 
-                    if(array_everyError.getJSONObject(j).has("shared") && array_everyError.getJSONObject(j).getBoolean("shared"))
+                    if(!array_everyError.getJSONObject(j).has("shared"))
                         isSourceOfError = true;
 
                     long endpointId = endpointRepository.findIdByAppIdAndEnpointPath(appId,endpointPath);
