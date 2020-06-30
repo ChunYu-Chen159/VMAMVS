@@ -477,11 +477,6 @@ public class MonitorService {
             monitorError.setIndex(0);
         }
 
-        List<MonitorError> temp = new ArrayList(monitorErrors);
-        monitorErrors2 = checkTimeOfTestAndMonitorError(monitorErrors2);
-        temp.retainAll(monitorErrors2);
-        monitorErrors2.removeAll(temp);
-
         if(!monitorErrors2.isEmpty())
             monitorErrors.addAll(0, monitorErrors2);
 
