@@ -24,6 +24,10 @@ public class MonitorError {
     private ArrayList<ErrorEndpoint> errorEndpoints;
     private ArrayList<ErrorLink> errorLinks;
 
+    public MonitorError() {
+        this.index = 0;
+    }
+
     public long getIndex() {
         return index;
     }

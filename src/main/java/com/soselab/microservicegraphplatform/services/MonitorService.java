@@ -451,10 +451,17 @@ public class MonitorService {
         // 加回去
            /* monitorErrors.addAll(0, monitorErrors2);
         }*/
+        for(MonitorError monitorError : monitorErrors) {
+            monitorError.setIndex(0);
+        }
+
+        List<MonitorError> temp = new ArrayList(monitorErrors);
+        monitorErrors2 = checkTimeOfTestAndMonitorError(monitorErrors2);
+        temp.retainAll(monitorErrors2);
+        monitorErrors2.removeAll(temp);
 
 
-
-        monitorErrors.addAll(0, checkTimeOfTestAndMonitorError(monitorErrors2));
+        monitorErrors.addAll(0, monitorErrors2);
 
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
