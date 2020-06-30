@@ -285,7 +285,7 @@ public class MonitorService {
                             checkErrorWithService = true;
                             for(int k = 0; k < array_everyError.length(); k++){ // 目前檢查的服務是否為最後出錯的節點
                                 if(array_everyError.getJSONObject(k).getString("kind").equals("SERVER")){
-                                    if(array_everyError.getJSONObject(k).getString("parentId").equals(id)){
+                                    if(array_everyError.getJSONObject(k).has("parentId") && array_everyError.getJSONObject(k).getString("parentId").equals(id)){
                                         System.out.println("22222222222222");
                                         checkErrorWithService = false;
                                     }
