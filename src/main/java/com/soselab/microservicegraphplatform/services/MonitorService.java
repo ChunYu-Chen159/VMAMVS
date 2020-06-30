@@ -456,6 +456,8 @@ public class MonitorService {
             monitorError.setErrorLinks(newEl);
 
 
+            System.out.println("monitorError: " + monitorError);
+
             monitorErrorList.add(monitorError);
 
 
