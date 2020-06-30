@@ -472,20 +472,6 @@ public class MonitorService {
     }
 
     private List<MonitorError> pushMonitorError(List<MonitorError> monitorErrors, List<MonitorError> monitorErrors2) {
-        /*if (monitorErrors.size() == 100) {
-            monitorErrors.remove(99);
-        } else {*/
-            /*List<MonitorError> temp = new ArrayList(monitorErrors);
-            // 存共同有的數據
-            temp.retainAll(monitorErrors2);
-            // 去除共同有的數據
-            monitorErrors2.removeAll(temp); 這段不要*/
-        // 加回去
-           /* monitorErrors.addAll(0, monitorErrors2);
-        }*/
-
-           System.out.println("push_monitorErrors: " + monitorErrors);
-        System.out.println("push_monitorErrors.size(): " + monitorErrors.size());
 
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(0);
@@ -494,16 +480,12 @@ public class MonitorService {
         if(!monitorErrors2.isEmpty())
             monitorErrors.addAll(0, monitorErrors2);
 
-        System.out.println("push_monitorErrors2.size(): " + monitorErrors2.size());
-
         // 刪除重複
         List<MonitorError> temp = monitorErrors;
         for(int i = temp.size() - 1; i > 0; i--){
             MonitorError monitorError = temp.get(i);
-            System.out.println("i: " + i);
 
             for(int j = 0; j < temp.size()-1; j++){
-                System.out.println("j: " + j);
                 MonitorError monitorError2 = temp.get(j);
                 if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
                     monitorError.getErrorUrl().equals(monitorError2.getErrorUrl())){
@@ -511,16 +493,6 @@ public class MonitorService {
                 }
             }
         }
-
-
-/*        Set<MonitorError> setMonitorErrors = new HashSet<>(monitorErrors);
-        monitorErrors.clear();
-        monitorErrors.addAll(setMonitorErrors);*/
-
-        System.out.println("push_monitorErrors.size(): " + monitorErrors.size());
-
-
-
 
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
