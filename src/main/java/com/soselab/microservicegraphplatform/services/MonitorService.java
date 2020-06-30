@@ -177,10 +177,16 @@ public class MonitorService {
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
                     Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
+                    System.out.println("contractsMap: " + contractsMap);
                     Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
+
+                    System.out.println("groovyMap: " + groovyMap);
+
                     for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
                         String key = entry.getKey();
                         Object value = entry.getValue();
+                        System.out.println("key: " + key);
+                        System.out.println("value: " + value);
                         if(key.equals(monitorError.getErrorPath())){
 
                             try {
