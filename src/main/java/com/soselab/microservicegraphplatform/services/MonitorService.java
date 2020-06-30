@@ -119,6 +119,8 @@ public class MonitorService {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
 
+            System.out.println("service: : " + s.getAppName());
+
             Long endTime = nowTime;
             String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
             String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
@@ -135,6 +137,8 @@ public class MonitorService {
             JSONArray array503 = new JSONArray(jsonContent_503);
             JSONArray array504 = new JSONArray(jsonContent_504);
 
+            System.out.println("analyzeError: ");
+
             List<MonitorError> monitorErrorList500 = analyzeError(array500, systemName, s.getAppName(), s.getVersion());
             List<MonitorError> monitorErrorList502 = analyzeError(array502, systemName, s.getAppName(), s.getVersion());
             List<MonitorError> monitorErrorList503 = analyzeError(array503, systemName, s.getAppName(), s.getVersion());
@@ -144,6 +148,8 @@ public class MonitorService {
             System.out.println("ErrorList_502: " + monitorErrorList502);
             System.out.println("ErrorList_503: " + monitorErrorList503);
             System.out.println("ErrorList_504: " + monitorErrorList504);
+
+            System.out.println("pushMonitorError: ");
 
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList500),
                     (oldList, newList) -> pushMonitorError(oldList, monitorErrorList500));
@@ -236,9 +242,6 @@ public class MonitorService {
 
         List<MonitorError> monitorErrorList = new ArrayList<>();
 
-        System.out.println("serviceAppName: " + serviceAppName);
-
-
         for(int i = 0; i < array.length(); i++) { // 每個error
             JSONArray array_everyError = array.getJSONArray(i);
             MonitorError monitorError = new MonitorError();
@@ -280,18 +283,12 @@ public class MonitorService {
                     String version = jsonObject.getString("http.version");
                     String id = array_everyError.getJSONObject(j).getString("id");
 
-                    System.out.println("000000000");
-                    System.out.println("appName: " + appName);
-                    System.out.println("version: " + version);
-
                     if(appName.toUpperCase().equals(serviceAppName) && version.toUpperCase().equals(serviceVersion)){
                         if (jsonObject.has("error")) { // 目前檢查的服務有錯
-                            System.out.println("111111111");
                             checkErrorWithService = true;
                             for(int k = 0; k < array_everyError.length(); k++){ // 目前檢查的服務是否為最後出錯的節點
                                 if(array_everyError.getJSONObject(k).getString("kind").equals("SERVER")){
                                     if(array_everyError.getJSONObject(k).has("parentId") && array_everyError.getJSONObject(k).getString("parentId").equals(id)){
-                                        System.out.println("22222222222222");
                                         checkErrorWithService = false;
                                     }
                                 }
@@ -302,10 +299,6 @@ public class MonitorService {
 
                 }
             }
-
-            System.out.println("check4XX: " + check4XX);
-            System.out.println("checkSwagger: " + checkSwagger);
-            System.out.println("checkErrorWithService: " + checkErrorWithService);
 
             if(check4XX || checkSwagger)
                 continue;
