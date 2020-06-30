@@ -552,9 +552,9 @@ function SDGGraph(data) {
             .attr("marker-end", d => {
                 if (d.type === REL_HTTPREQUEST || d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
                     if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
-                        return"url(#arrow-l-highlight)"
+                        return"url(#arrow-l-highlight_error)"
                     } else {
-                        return "url(#arrow-m-highlight)";
+                        return "url(#arrow-m-highlight_error)";
                     }
                 } else if (d.type === REL_NEWERPATCHVERSION) {
                     return"url(#arrow-l-warning)"
