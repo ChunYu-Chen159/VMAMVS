@@ -35,8 +35,8 @@ public class ErrorEndpoint {
         return isSourceOfError;
     }
 
-    public void setSourceOfError(boolean sourceOfError) {
-        isSourceOfError = sourceOfError;
+    public void setIsSourceOfError(boolean isSourceOfError) {
+        isSourceOfError = isSourceOfError;
     }
 
     public long getId() {
