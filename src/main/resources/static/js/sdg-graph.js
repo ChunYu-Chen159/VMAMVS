@@ -2216,7 +2216,13 @@ function SDGGraph(data) {
 
                 let highlighttoJson = JSON.parse(highlightJson);
                 console.log(highlighttoJson);
-                highlight(highlighttoJson);
+                // highlight(highlighttoJson);
+
+                if (json_content[index_api][index]["testResult"]["status"] === "PASS")
+                    highlight(highlighttoJson);
+                else
+                    highlight_error(highlighttoJson);
+
 
             } else {
                 $('#' + apiId).removeClass("active");
