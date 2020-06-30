@@ -249,7 +249,7 @@ public class MonitorService {
 
             boolean check4XX = false;
             boolean checkSwagger = false;
-            boolean checkErrorWithService = false; // 確認目前分析的服務是否有出錯
+            boolean checkErrorWithService = false; // 確認目前分析的服務是否有出錯且是最後出錯的服務
 
             for(int j = 0; j < array_everyError.length(); j++) {
                 if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
@@ -270,10 +270,18 @@ public class MonitorService {
                     JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
                     String appName = jsonObject.getString("http.appName");
                     String version = jsonObject.getString("http.version");
+                    String id = jsonObject.getString("id");
 
                     if(appName.equals(serviceAppName) && version.equals(serviceVersion)){
                         if (jsonObject.has("error")) {
                             checkErrorWithService = true;
+                            for(int k = 0; k < array_everyError.length(); k++){
+                                if(array_everyError.getJSONObject(k).getString("kind").equals("SERVER")){
+                                    if(array_everyError.getJSONObject(k).getString("parentId").equals(id)){
+                                        checkErrorWithService = false;
+                                    }
+                                }
+                            }
                         }
                     }
 
