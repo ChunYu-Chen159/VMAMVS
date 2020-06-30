@@ -214,39 +214,6 @@ public class MonitorService {
                                 e.printStackTrace();
                             }
 
-
-                            /*Map<String, Object> apiMap = mapper.convertValue(value, new TypeReference<Map<String, Object>>() {});
-                            Map<String, Object> testResultMap = mapper.convertValue(apiMap.get("testResult"), new TypeReference<Map<String, Object>>() {});
-                            String status = mapper.convertValue(testResultMap.get("status"), new TypeReference<String>() {});
-                            if (status.equals("PASS")) {
-                                String time = mapper.convertValue(testResultMap.get("finished-at"), new TypeReference<String>() {});
-
-                                try {
-
-                                    Date date1 = dateFormat2.parse(time);
-                                    String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
-                                    Date date2 = dateFormat2.parse(str);
-
-                                    System.out.println("monitorError.getTimestamp() / 1000: " + monitorError.getTimestamp() / 1000);
-                                    System.out.println("str: " + str);
-
-                                    Calendar cal1 = Calendar.getInstance();
-                                    Calendar cal2 = Calendar.getInstance();
-                                    cal1.setTime(date1);
-                                    cal2.setTime(date2);
-
-                                    System.out.println("cal1.getTime(): " + cal1.getTime());
-                                    System.out.println("cal2.getTime(): " + cal2.getTime());
-
-                                    if (cal1.after(cal2)) {
-                                        serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                        monitorErrors.remove(monitorErrors.indexOf(monitorError));
-                                    }
-                                }catch(ParseException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }*/
                         }
                     }
                 }
@@ -308,6 +275,8 @@ public class MonitorService {
                 if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
                     JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
 
+                    boolean isSourceOfError = false;
+
                     if(!jsonObject.has("http.appName") || !jsonObject.has("http.version"))
                         break;
                     String appName = jsonObject.getString("http.appName").toUpperCase();
@@ -331,14 +300,17 @@ public class MonitorService {
                         }
                     }
 
+                    if(array_everyError.getJSONObject(j).has("shared") && array_everyError.getJSONObject(j).getBoolean("shared"))
+                        isSourceOfError = true;
+
                     long endpointId = endpointRepository.findIdByAppIdAndEnpointPath(appId,endpointPath);
 
                     long linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithOwn(systemName.toUpperCase(), serviceId, endpointId);
 
 
-                    es.add(new ErrorService(serviceId, appName, version, appId));
-                    ee.add(new ErrorEndpoint(endpointId, appId, appName, endpointPath));
-                    el.add(new ErrorLink(linkId, serviceId, "OWN", endpointId));
+                    es.add(new ErrorService(serviceId, isSourceOfError, appName, version, appId));
+                    ee.add(new ErrorEndpoint(endpointId, isSourceOfError,appId, appName, endpointPath));
+                    el.add(new ErrorLink(linkId, isSourceOfError, serviceId, "OWN", endpointId));
 
                 }
             }
@@ -370,7 +342,7 @@ public class MonitorService {
                                             if (e.getParentAppName().equals(clientName.toUpperCase())) {
                                                 long endpointId2 = e.getId();
                                                 long linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithHttpRequest(systemName.toUpperCase(), endpointId2, endpointId);
-                                                el.add(new ErrorLink(linkId, endpointId2, "HTTP_REQUEST", endpointId));
+                                                el.add(new ErrorLink(linkId, false, endpointId2, "HTTP_REQUEST", endpointId));
                                             }
                                         }
                                     }
