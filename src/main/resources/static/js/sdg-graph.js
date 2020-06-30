@@ -374,11 +374,40 @@ function SDGGraph(data) {
         update(graphData);
     }
 
+    function highlight_error(d) {
+        data.nodes.forEach(node => { node.highlight_error = false });
+        data.links.forEach(link => { link.highlight_error = false });
+        collapseData.nodes.forEach(node => { node.highlight_error = false });
+        collapseData.links.forEach(link => { link.highlight_error = false });
+
+        d.nodes.forEach(HNode => {
+            findNodeById(HNode.id).highlight_error = true;
+            let colNode = collapseData.nodes.find(node => node.id === HNode.id);
+            if (colNode) colNode.highlight_error = true;
+        });
+
+        d.links.forEach(HLink => {
+            findLinkById(HLink.type + ":" + HLink.source + "-" + HLink.target).highlight_error = true;
+            let colLink = collapseData.links.find(link =>
+                link.type === HLink.type &&
+                link.source.id === HLink.source &&
+                link.target.id === HLink.target);
+            if (colLink) colLink.highlight_error = true;
+        });
+
+        update(graphData);
+    }
+
     function clearHighlight() {
         data.nodes.forEach(node => { node.highlight = false });
         data.links.forEach(link => { link.highlight = false });
         collapseData.nodes.forEach(node => { node.highlight = false });
         collapseData.links.forEach(link => { link.highlight = false });
+
+        data.nodes.forEach(node => { node.highlight_error = false });
+        data.links.forEach(link => { link.highlight_error = false });
+        collapseData.nodes.forEach(node => { node.highlight_error = false });
+        collapseData.links.forEach(link => { link.highlight_error = false });
         update(graphData);
     }
 
@@ -499,6 +528,7 @@ function SDGGraph(data) {
                     return"url(#arrow-l-warning)"
                 }
             });
+
 
         link.filter(d => !(d.type === REL_NEWERPATCHVERSION))
             .classed("warning", false)
@@ -1971,7 +2001,7 @@ function SDGGraph(data) {
                 highlightJson += "}";
 
                 let highlighttoJson = JSON.parse(highlightJson);
-                highlight(highlighttoJson);
+                highlight_error(highlighttoJson);
             } else {
                 $('#' + errorId).removeClass("active");
                 clearHighlight();
