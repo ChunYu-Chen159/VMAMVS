@@ -111,7 +111,8 @@ public class MonitorService {
 
         List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
 
-        monitorErrors = checkTimeOfTestAndMonitorError(monitorErrors);
+        if(monitorErrors != null)
+            monitorErrors = checkTimeOfTestAndMonitorError(monitorErrors);
 
         allMonitorErrorList.replace(systemName, monitorErrors);
 
