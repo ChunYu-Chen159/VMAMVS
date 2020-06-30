@@ -1871,7 +1871,7 @@ function SDGGraph(data) {
                                 let iddd2 = "error-" + index;
 
                                 // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>";
-                                $('#' + iddd2).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>");
+                                $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>");
                                 document.getElementById(iddd).style.display = "block";
 
                             }
