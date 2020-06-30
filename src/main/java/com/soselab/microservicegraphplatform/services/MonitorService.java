@@ -179,7 +179,7 @@ public class MonitorService {
                 if (swaggerMap != null) {
                     Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
                     System.out.println("contractsMap: " + contractsMap);
-                    System.out.println("monitorError..getConsumerAppName().toLowerCase(): " + monitorError..getConsumerAppName().toLowerCase());
+                    System.out.println("monitorError..getConsumerAppName().toLowerCase(): " + monitorError.getConsumerAppName().toLowerCase());
                     Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
 
                     System.out.println("groovyMap: " + groovyMap);
