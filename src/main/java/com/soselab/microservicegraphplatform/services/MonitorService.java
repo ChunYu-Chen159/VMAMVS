@@ -478,6 +478,9 @@ public class MonitorService {
            /* monitorErrors.addAll(0, monitorErrors2);
         }*/
 
+           System.out.println("push_monitorErrors: " + monitorErrors);
+        System.out.println("push_monitorErrors.size(): " + monitorErrors.size());
+
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(0);
         }
@@ -485,10 +488,14 @@ public class MonitorService {
         if(!monitorErrors2.isEmpty())
             monitorErrors.addAll(0, monitorErrors2);
 
+        System.out.println("push_monitorErrors2.size(): " + monitorErrors2.size());
+
         // 刪除重複
         Set<MonitorError> setMonitorErrors = new HashSet<>(monitorErrors);
         monitorErrors.clear();
         monitorErrors.addAll(setMonitorErrors);
+
+        System.out.println("push_monitorErrors.size(): " + monitorErrors.size());
 
 
 
