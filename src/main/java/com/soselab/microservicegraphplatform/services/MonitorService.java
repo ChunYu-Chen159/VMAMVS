@@ -270,12 +270,12 @@ public class MonitorService {
                     JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
                     String appName = jsonObject.getString("http.appName");
                     String version = jsonObject.getString("http.version");
-                    String id = jsonObject.getString("id");
+                    String id = array_everyError.getJSONObject(j).getString("id");
 
                     if(appName.equals(serviceAppName) && version.equals(serviceVersion)){
-                        if (jsonObject.has("error")) {
+                        if (jsonObject.has("error")) { // 目前檢查的服務有錯
                             checkErrorWithService = true;
-                            for(int k = 0; k < array_everyError.length(); k++){
+                            for(int k = 0; k < array_everyError.length(); k++){ // 目前檢查的服務是否為最後出錯的節點
                                 if(array_everyError.getJSONObject(k).getString("kind").equals("SERVER")){
                                     if(array_everyError.getJSONObject(k).getString("parentId").equals(id)){
                                         checkErrorWithService = false;
