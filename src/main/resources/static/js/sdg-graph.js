@@ -35,6 +35,7 @@ function SDGGraph(data) {
     const COLOR_WARNING = "orange";
 
     const HIGHLIGHT_LEVEL_NORMAL = "highlight";
+    const HIGHLIGHT_MONITORERROR = "highlight_error";
     const HIGHLIGHT_LEVEL_WARNING = "warning";
     const HIGHLIGHT_LEVEL_ERROR = "error";
     const HIGHLIGHT_CONTRACTTESTING_WARNING = "contractWarning";
@@ -529,6 +530,37 @@ function SDGGraph(data) {
                 }
             });
 
+        link.filter(d => !d.highlight_error)
+            .classed("highlight_error", false)
+            .selectAll("line")
+            .attr("marker-end", d => {
+                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
+                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
+                        return"url(#arrow-l)"
+                    } else {
+                        return "url(#arrow-m)";
+                    }
+                } else if (d.type === REL_HTTPREQUEST) {
+                    return "url(#arrow-request)";
+                }else if (d.type === REL_NEWERPATCHVERSION) {
+                    return "url(#arrow-l-warning)";
+                }
+            });
+        link.filter(d => d.highlight_error)
+            .classed("highlight_error", true)
+            .selectAll("line")
+            .attr("marker-end", d => {
+                if (d.type === REL_HTTPREQUEST || d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
+                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
+                        return"url(#arrow-l-highlight)"
+                    } else {
+                        return "url(#arrow-m-highlight)";
+                    }
+                } else if (d.type === REL_NEWERPATCHVERSION) {
+                    return"url(#arrow-l-warning)"
+                }
+            });
+
 
         link.filter(d => !(d.type === REL_NEWERPATCHVERSION))
             .classed("warning", false)
@@ -686,6 +718,9 @@ function SDGGraph(data) {
 
         node.filter(d => !d.highlight).classed(HIGHLIGHT_LEVEL_NORMAL, false);
         node.filter(d => d.highlight).classed(HIGHLIGHT_LEVEL_NORMAL, true);
+
+        node.filter(d => !d.highlight_error).classed(HIGHLIGHT_MONITORERROR, false);
+        node.filter(d => d.highlight_error).classed(HIGHLIGHT_MONITORERROR, true);
 
         node.attr("fill", d => {
             if (d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT)) {
