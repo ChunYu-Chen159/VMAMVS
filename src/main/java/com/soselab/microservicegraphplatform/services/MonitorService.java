@@ -460,8 +460,8 @@ public class MonitorService {
         temp.retainAll(monitorErrors2);
         monitorErrors2.removeAll(temp);
 
-
-        monitorErrors.addAll(0, monitorErrors2);
+        if(!monitorErrors2.isEmpty())
+            monitorErrors.addAll(0, monitorErrors2);
 
         for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
