@@ -457,6 +457,8 @@ public class MonitorService {
 
 
             System.out.println("monitorError: " + monitorError);
+            System.out.println("monitorError.getErrorAppName(): " + monitorError.getErrorAppName());
+            System.out.println("monitorError.getConsumerAppName(): " + monitorError.getConsumerAppName());
 
             monitorErrorList.add(monitorError);
 
