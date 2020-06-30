@@ -108,13 +108,12 @@ public class MonitorService {
         Long lookback = 1 * 60 * 60 * 1000L;
         int limit = 10000;
 
-/*
         List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
 
         if(monitorErrors != null)
             monitorErrors = checkTimeOfTestAndMonitorError(monitorErrors);
 
-        allMonitorErrorList.replace(systemName, monitorErrors);*/
+        allMonitorErrorList.replace(systemName, monitorErrors);
 
         for(Service s : ServicesInDB) {
 
