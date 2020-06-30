@@ -2,15 +2,15 @@ package com.soselab.microservicegraphplatform.bean.mgp.monitor;
 
 public class ErrorLink {
     private long id;
-    private boolean isSourceOfError;
+    private boolean sourceOfError;
     private long AId;
     private String relationship;
     private long BId;
 
 
-    public ErrorLink(long id, boolean isSourceOfError, long AId, String relationship, long BId) {
+    public ErrorLink(long id, boolean sourceOfError, long AId, String relationship, long BId) {
         this.id = id;
-        this.isSourceOfError = isSourceOfError;
+        this.sourceOfError = sourceOfError;
         this.AId = AId;
         this.relationship = relationship;
         this.BId = BId;
@@ -24,12 +24,12 @@ public class ErrorLink {
         this.id = id;
     }
 
-    public boolean getIsSourceOfError() {
-        return isSourceOfError;
+    public boolean isSourceOfError() {
+        return sourceOfError;
     }
 
-    public void setIsSourceOfError(boolean isSourceOfError) {
-        this.isSourceOfError = isSourceOfError;
+    public void setSourceOfError(boolean sourceOfError) {
+        this.sourceOfError = sourceOfError;
     }
 
     public long getAId() {

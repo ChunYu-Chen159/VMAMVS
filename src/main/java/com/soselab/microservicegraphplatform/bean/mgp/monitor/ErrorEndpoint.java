@@ -2,14 +2,14 @@ package com.soselab.microservicegraphplatform.bean.mgp.monitor;
 
 public class ErrorEndpoint {
     private long id;
-    private boolean isSourceOfError;
+    private boolean sourceOfError;
     private String parentAppId;
     private String parentAppName;
     private String path;
 
-    public ErrorEndpoint(long id, boolean isSourceOfError, String parentAppId, String parentAppName, String path) {
+    public ErrorEndpoint(long id, boolean sourceOfError, String parentAppId, String parentAppName, String path) {
         this.id = id;
-        this.isSourceOfError = isSourceOfError;
+        this.sourceOfError = sourceOfError;
         this.parentAppId = parentAppId;
         this.parentAppName = parentAppName;
         this.path = path;
@@ -32,11 +32,11 @@ public class ErrorEndpoint {
     }
 
     public boolean isSourceOfError() {
-        return isSourceOfError;
+        return sourceOfError;
     }
 
-    public void setIsSourceOfError(boolean isSourceOfError) {
-        isSourceOfError = isSourceOfError;
+    public void setSourceOfError(boolean sourceOfError) {
+        this.sourceOfError = sourceOfError;
     }
 
     public long getId() {

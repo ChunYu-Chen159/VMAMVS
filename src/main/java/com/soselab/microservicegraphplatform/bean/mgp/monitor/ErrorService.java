@@ -4,14 +4,14 @@ package com.soselab.microservicegraphplatform.bean.mgp.monitor;
 public class ErrorService {
 
     private long id;
-    private boolean isSourceOfError;
+    private boolean sourceOfError;
     private String appName;
     private String version;
     private String appId;
 
-    public ErrorService(long id, boolean isSourceOfError, String appName, String version, String appId) {
+    public ErrorService(long id, boolean sourceOfError, String appName, String version, String appId) {
         this.id = id;
-        this.isSourceOfError = isSourceOfError;
+        this.sourceOfError = sourceOfError;
         this.appName = appName;
         this.version = version;
         this.appId = appId;
@@ -35,11 +35,11 @@ public class ErrorService {
     }
 
     public boolean isSourceOfError() {
-        return isSourceOfError;
+        return sourceOfError;
     }
 
-    public void setIsSourceOfError(boolean isSourceOfError) {
-        this.isSourceOfError = isSourceOfError;
+    public void setSourceOfError(boolean sourceOfError) {
+        this.sourceOfError = sourceOfError;
     }
 
     public long getId() {
