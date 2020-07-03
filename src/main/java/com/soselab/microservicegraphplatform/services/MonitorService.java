@@ -108,28 +108,6 @@ public class MonitorService {
         Long lookback = 1 * 60 * 60 * 1000L;
         int limit = 10000;
 
-        List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
-
-/*        if(monitorErrors != null) {
-            checkTimeOfTestAndMonitorError(monitorErrors);
-            System.out.println("outside: " + monitorErrors.get(0).isMonitorError_testedPASS());
-            allMonitorErrorList.replace(systemName, monitorErrors);
-            System.out.println("outside2: " + allMonitorErrorList.getOrDefault(systemName, null).get(0).isMonitorError_testedPASS());
-        }*/
-
-
-/*        System.out.println("monitorErrors: " + monitorErrors);
-        System.out.println("allMonitorErrorList.getOrDefault(systemName, null);: " + allMonitorErrorList.getOrDefault(systemName, null));
-
-
-        allMonitorErrorList.replace(systemName, monitorErrors);*/
-
-/*        System.out.println("allMonitorErrorList.getOrDefault(systemName, null);: " + allMonitorErrorList.getOrDefault(systemName, null));
-        System.out.println("size(): " + allMonitorErrorList.get(systemName).size());*/
-
-//        System.out.println("allMonitorErrorList.get(systemName): " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
-
-
         for(Service s : ServicesInDB) {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
@@ -175,8 +153,6 @@ public class MonitorService {
         if(allMonitorErrorList.get(systemName) != null){
             checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
             checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
-
-//            System.out.println("outside2: " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
         }
 
     }
