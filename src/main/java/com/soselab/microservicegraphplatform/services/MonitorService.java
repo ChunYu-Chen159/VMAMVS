@@ -110,8 +110,9 @@ public class MonitorService {
 
         List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
 
-        if(monitorErrors != null)
+        if(monitorErrors != null) {
             monitorErrors = checkTimeOfTestAndMonitorError(monitorErrors);
+        }
 
         allMonitorErrorList.replace(systemName, monitorErrors);
 
@@ -174,21 +175,15 @@ public class MonitorService {
             // 倒序刪除，不然會影響前面元素
             for(int i = mes.size() - 1; i >= 0; i--){
                 MonitorError monitorError = mes.get(i);
-                System.out.println("monitorError.getErrorAppName(): " + monitorError.getErrorAppName());
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
                     Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
-                    System.out.println("contractsMap: " + contractsMap);
-                    System.out.println("monitorError.getConsumerAppName().toLowerCase(): " + monitorError.getConsumerAppName().toLowerCase());
                     Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
 
-                    System.out.println("groovyMap: " + groovyMap);
 
                     for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
                         String key = entry.getKey();
                         Object value = entry.getValue();
-                        System.out.println("key: " + key);
-                        System.out.println("value: " + value);
                         if(key.equals(monitorError.getErrorPath())){
 
                             try {
@@ -202,26 +197,23 @@ public class MonitorService {
                                     if (status.equals("PASS")) {
                                         String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
 
+                                        mes.get(mes.indexOf(monitorError)).setMonitorError_testedPASS(true);
+
+
                                         try {
 
                                             Date date1 = dateFormat2.parse(time);
                                             String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
                                             Date date2 = dateFormat2.parse(str);
 
-                                            System.out.println("monitorError.getTimestamp() / 1000: " + monitorError.getTimestamp() / 1000);
-                                            System.out.println("str: " + str);
-
                                             Calendar cal1 = Calendar.getInstance();
                                             Calendar cal2 = Calendar.getInstance();
                                             cal1.setTime(date1);
                                             cal2.setTime(date2);
 
-                                            System.out.println("cal1.getTime(): " + cal1.getTime());
-                                            System.out.println("cal2.getTime(): " + cal2.getTime());
-
                                             if (cal1.after(cal2)) {
                                                 serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                                monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                                mes.remove(mes.indexOf(monitorError));
                                             }
                                         } catch (ParseException e) {
                                             e.printStackTrace();
