@@ -27,6 +27,7 @@ public class MonitorError {
 
     public MonitorError() {
         this.index = 0;
+        this.monitorError_testedPASS = false;
     }
 
     public long getIndex() {
