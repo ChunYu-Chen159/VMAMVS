@@ -113,13 +113,14 @@ public class MonitorService {
         if(monitorErrors != null) {
             checkTimeOfTestAndMonitorError(monitorErrors);
             System.out.println("outside: " + monitorErrors.get(0).isMonitorError_testedPASS());
+            allMonitorErrorList.replace(systemName, monitorErrors);
+            System.out.println("outside2: " + allMonitorErrorList.getOrDefault(systemName, null).get(0).isMonitorError_testedPASS());
         }
 
 
 
-        allMonitorErrorList.replace(systemName, monitorErrors);
+//        allMonitorErrorList.replace(systemName, monitorErrors);
 
-        System.out.println("outside2: " + allMonitorErrorList.getOrDefault(systemName, null).get(0).isMonitorError_testedPASS());
 
         for(Service s : ServicesInDB) {
 
