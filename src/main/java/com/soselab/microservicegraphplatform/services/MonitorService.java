@@ -117,13 +117,6 @@ public class MonitorService {
             System.out.println("outside2: " + allMonitorErrorList.getOrDefault(systemName, null).get(0).isMonitorError_testedPASS());
         }*/
 
-        if(allMonitorErrorList.get(systemName) != null){
-            checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
-//            System.out.println("outside: " + monitorErrors.get(0).isMonitorError_testedPASS());
-//            allMonitorErrorList.replace(systemName, monitorErrors);
-            System.out.println("outside2: " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
-        }
-
 
 /*        System.out.println("monitorErrors: " + monitorErrors);
         System.out.println("allMonitorErrorList.getOrDefault(systemName, null);: " + allMonitorErrorList.getOrDefault(systemName, null));
@@ -176,6 +169,14 @@ public class MonitorService {
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList504),
                     (oldList, newList) -> pushMonitorError(oldList, monitorErrorList504));
 
+        }
+
+
+        if(allMonitorErrorList.get(systemName) != null){
+            checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
+//            System.out.println("outside: " + monitorErrors.get(0).isMonitorError_testedPASS());
+//            allMonitorErrorList.replace(systemName, monitorErrors);
+            System.out.println("outside2: " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
         }
 
     }
