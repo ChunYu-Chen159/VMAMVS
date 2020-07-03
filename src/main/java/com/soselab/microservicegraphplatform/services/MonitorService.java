@@ -214,7 +214,11 @@ public class MonitorService {
                                     if (status.equals("PASS")) {
                                         String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
 
-                                        monitorErrors.get(monitorErrors.indexOf(monitorError)).setMonitorError_testedPASS(true);
+                                        MonitorError me = monitorErrors.get(monitorErrors.indexOf(monitorError));
+                                        me.setMonitorError_testedPASS(true);
+                                        monitorErrors.set(monitorErrors.indexOf(monitorError), me);
+
+//                                        monitorErrors.get(monitorErrors.indexOf(monitorError)).setMonitorError_testedPASS(true);
 
                                         System.out.println("testedPass: " + monitorErrors.get(monitorErrors.indexOf(monitorError)).isMonitorError_testedPASS());
 
