@@ -153,11 +153,8 @@ public class MonitorService {
         if(allMonitorErrorList.get(systemName) != null){
             checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
             checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
+            setMonitorErrorCondition(allMonitorErrorList.get(systemName));
 
-            for(MonitorError monitorError : allMonitorErrorList.get(systemName)) {
-                monitorError.setIndex(allMonitorErrorList.get(systemName).indexOf(monitorError));
-                serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "TRUE");
-            }
         }
 
 
@@ -265,6 +262,13 @@ public class MonitorService {
             }
         }
 
+    }
+
+    public void setMonitorErrorCondition(List<MonitorError> monitorErrors) {
+        for(MonitorError monitorError : monitorErrors) {
+            monitorError.setIndex(monitorErrors.indexOf(monitorError));
+            serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "TRUE");
+        }
     }
 
 
