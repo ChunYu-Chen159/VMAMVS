@@ -174,6 +174,7 @@ public class MonitorService {
 
         if(allMonitorErrorList.get(systemName) != null){
             checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
+            checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
 
             System.out.println("outside2: " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
         }
@@ -181,75 +182,104 @@ public class MonitorService {
     }
 
 
+    // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
     public void checkTimeOfTestAndMonitorError(List<MonitorError> monitorErrors) {
 
-//        List<MonitorError> mes = monitorErrors;
-
-        if(monitorErrors != null){
-            // 確認錯誤時間是否早於測試時間 （錯過之後有進行測試，然後有過）
-            // 倒序刪除，不然會影響前面元素
-            for(int i = monitorErrors.size() - 1; i >= 0; i--){
-                MonitorError monitorError = monitorErrors.get(i);
-                Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
-                if (swaggerMap != null) {
-                    Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
-                    Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
+        // 倒序刪除，不然會影響前面元素
+        for(int i = monitorErrors.size() - 1; i >= 0; i--){
+            MonitorError monitorError = monitorErrors.get(i);
+            Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
+            if (swaggerMap != null) {
+                Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
+                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
 
 
-                    for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
-                        String key = entry.getKey();
-                        Object value = entry.getValue();
-                        if(key.equals(monitorError.getErrorPath())){
+                for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+                    if(key.equals(monitorError.getErrorPath())){
 
-                            try {
+                        try {
 
-                                String jsonStr = mapper.writeValueAsString(value);
-                                JSONArray jsonArr = new JSONArray(jsonStr);
+                            String jsonStr = mapper.writeValueAsString(value);
+                            JSONArray jsonArr = new JSONArray(jsonStr);
 
-                                for (int j = 0; j < jsonArr.length(); j++) {
-                                    String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
+                            for (int j = 0; j < jsonArr.length(); j++) {
+                                String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
 
-                                    System.out.println("status: " + status);
+                                System.out.println("status: " + status);
 
-                                    if (status.equals("PASS")) {
-                                        String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
+                                if (status.equals("PASS")) {
+                                    String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
 
-/*                                        MonitorError me = monitorErrors.get(monitorErrors.indexOf(monitorError));
-                                        me.setMonitorError_testedPASS(true);
-                                        monitorErrors.set(monitorErrors.indexOf(monitorError), me);*/
+                                    try {
 
-                                        monitorErrors.get(monitorErrors.indexOf(monitorError)).setMonitorError_testedPASS(true);
+                                        Date date1 = dateFormat2.parse(time);
+                                        String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
+                                        Date date2 = dateFormat2.parse(str);
 
-                                        System.out.println("testedPass: " + monitorErrors.get(monitorErrors.indexOf(monitorError)).isMonitorError_testedPASS());
+                                        Calendar cal1 = Calendar.getInstance();
+                                        Calendar cal2 = Calendar.getInstance();
+                                        cal1.setTime(date1);
+                                        cal2.setTime(date2);
 
-
-                                        try {
-
-                                            Date date1 = dateFormat2.parse(time);
-                                            String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
-                                            Date date2 = dateFormat2.parse(str);
-
-                                            Calendar cal1 = Calendar.getInstance();
-                                            Calendar cal2 = Calendar.getInstance();
-                                            cal1.setTime(date1);
-                                            cal2.setTime(date2);
-
-                                            if (cal1.after(cal2)) {
-                                                serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                                monitorErrors.remove(monitorErrors.indexOf(monitorError));
-                                            }
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
+                                        if (cal1.after(cal2)) {
+                                            serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                                            monitorErrors.remove(monitorErrors.indexOf(monitorError));
                                         }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
                                     }
                                 }
-                            } catch (JsonProcessingException e) {
-                                e.printStackTrace();
                             }
-
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
                         }
+
                     }
                 }
+            }
+        }
+
+    }
+
+    // 確認監控到的錯誤是否測試有通過
+    public void checkTestedPASS_MonitorError(List<MonitorError> monitorErrors) {
+
+        for(int i = monitorErrors.size() - 1; i >= 0; i--){
+            MonitorError monitorError = monitorErrors.get(i);
+            Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
+            if (swaggerMap != null) {
+
+                Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
+                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
+
+                for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+
+                    if(key.equals(monitorError.getErrorPath())){
+
+                        try {
+
+                            String jsonStr = mapper.writeValueAsString(value);
+                            JSONArray jsonArr = new JSONArray(jsonStr);
+
+                            for (int j = 0; j < jsonArr.length(); j++) {
+                                String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
+
+                                if (status.equals("PASS"))
+                                    monitorErrors.get(monitorErrors.indexOf(monitorError)).setMonitorError_testedPASS(true);
+
+                            }
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+
             }
         }
 
