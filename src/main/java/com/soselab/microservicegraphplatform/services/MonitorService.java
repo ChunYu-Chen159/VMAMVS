@@ -114,6 +114,8 @@ public class MonitorService {
             checkTimeOfTestAndMonitorError(monitorErrors);
         }
 
+        System.out.println("outside: " + monitorErrors.get(0).isMonitorError_testedPASS());
+
         allMonitorErrorList.replace(systemName, monitorErrors);
 
         for(Service s : ServicesInDB) {
