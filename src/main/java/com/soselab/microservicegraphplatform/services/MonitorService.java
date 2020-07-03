@@ -199,7 +199,7 @@ public class MonitorService {
                                     if (status.equals("PASS")) {
                                         String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
 
-                                        mes.get(mes.indexOf(monitorError)).setMonitorError_testedPASS(true);
+                                        monitorErrors.get(monitorErrors.indexOf(monitorError)).setMonitorError_testedPASS(true);
 
 
                                         try {
@@ -215,7 +215,7 @@ public class MonitorService {
 
                                             if (cal1.after(cal2)) {
                                                 serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                                mes.remove(mes.indexOf(monitorError));
+                                                monitorErrors.remove(monitorErrors.indexOf(monitorError));
                                             }
                                         } catch (ParseException e) {
                                             e.printStackTrace();
