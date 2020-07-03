@@ -131,8 +131,8 @@ public class MonitorService {
 
         allMonitorErrorList.replace(systemName, monitorErrors);*/
 
-        System.out.println("allMonitorErrorList.getOrDefault(systemName, null);: " + allMonitorErrorList.getOrDefault(systemName, null));
-        System.out.println("size(): " + allMonitorErrorList.get(systemName).size());
+/*        System.out.println("allMonitorErrorList.getOrDefault(systemName, null);: " + allMonitorErrorList.getOrDefault(systemName, null));
+        System.out.println("size(): " + allMonitorErrorList.get(systemName).size());*/
 
 //        System.out.println("allMonitorErrorList.get(systemName): " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
 
