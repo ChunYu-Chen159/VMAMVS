@@ -125,11 +125,11 @@ public class MonitorService {
         }
 
 
-        System.out.println("monitorErrors: " + monitorErrors);
+/*        System.out.println("monitorErrors: " + monitorErrors);
         System.out.println("allMonitorErrorList.getOrDefault(systemName, null);: " + allMonitorErrorList.getOrDefault(systemName, null));
 
 
-        allMonitorErrorList.replace(systemName, monitorErrors);
+        allMonitorErrorList.replace(systemName, monitorErrors);*/
 
 
         for(Service s : ServicesInDB) {
