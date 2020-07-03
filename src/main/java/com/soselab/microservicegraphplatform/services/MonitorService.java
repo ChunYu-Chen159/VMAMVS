@@ -110,11 +110,18 @@ public class MonitorService {
 
         List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
 
-        if(monitorErrors != null) {
+/*        if(monitorErrors != null) {
             checkTimeOfTestAndMonitorError(monitorErrors);
             System.out.println("outside: " + monitorErrors.get(0).isMonitorError_testedPASS());
             allMonitorErrorList.replace(systemName, monitorErrors);
             System.out.println("outside2: " + allMonitorErrorList.getOrDefault(systemName, null).get(0).isMonitorError_testedPASS());
+        }*/
+
+        if(allMonitorErrorList.get(systemName) != null){
+            checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
+//            System.out.println("outside: " + monitorErrors.get(0).isMonitorError_testedPASS());
+//            allMonitorErrorList.replace(systemName, monitorErrors);
+            System.out.println("outside2: " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
         }
 
 
