@@ -176,7 +176,7 @@ public class MonitorService {
             checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
             checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
 
-            System.out.println("outside2: " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
+//            System.out.println("outside2: " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
         }
 
     }
