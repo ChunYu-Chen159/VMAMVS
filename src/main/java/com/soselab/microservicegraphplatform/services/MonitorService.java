@@ -269,7 +269,7 @@ public class MonitorService {
                                 String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
 
                                 if (status.equals("PASS"))
-                                    monitorErrors.get(monitorErrors.indexOf(monitorError)).setMonitorError_testedPASS(true);
+                                    monitorErrors.get(monitorErrors.indexOf(monitorError)).setTestedPASS(true);
 
                             }
                         } catch (JsonProcessingException e) {

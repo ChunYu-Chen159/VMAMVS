@@ -19,7 +19,7 @@ public class MonitorError {
     private String errorPath;
     private String errorUrl;
     private String errorMethod;
-    private boolean monitorError_testedPASS;
+    private boolean testedPASS;
 
     private ArrayList<ErrorService> errorServices;
     private ArrayList<ErrorEndpoint> errorEndpoints;
@@ -27,7 +27,7 @@ public class MonitorError {
 
     public MonitorError() {
         this.index = 0;
-        this.monitorError_testedPASS = false;
+        this.testedPASS = false;
     }
 
     public long getIndex() {
@@ -158,11 +158,11 @@ public class MonitorError {
         this.errorMethod = errorMethod;
     }
 
-    public boolean isMonitorError_testedPASS() {
-        return monitorError_testedPASS;
+    public boolean isTestedPASS() {
+        return testedPASS;
     }
 
-    public void setMonitorError_testedPASS(boolean monitorError_testedPASS) {
-        this.monitorError_testedPASS = monitorError_testedPASS;
+    public void setTestedPASS(boolean testedPASS) {
+        this.testedPASS = testedPASS;
     }
 }

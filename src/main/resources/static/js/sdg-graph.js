@@ -1929,6 +1929,7 @@ function SDGGraph(data) {
                                 let statusCode = json[everyError]["statusCode"];
                                 let errorMessage = json[everyError]["errorMessage"];
                                 let errorPath = json[everyError]["errorPath"];
+                                let testedPASS = json[everyError]["testedPASS"];
 
 
 
@@ -1937,7 +1938,10 @@ function SDGGraph(data) {
                                 let iddd2 = "error-" + index;
 
                                 // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>";
-                                $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>");
+                                if(testedPASS === true)
+                                    $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + " - testedPASS" + "</button>");
+                                else
+                                    $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>");
                                 document.getElementById(iddd).style.display = "block";
 
                             }
