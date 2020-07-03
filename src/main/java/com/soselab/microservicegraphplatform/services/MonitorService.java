@@ -131,6 +131,8 @@ public class MonitorService {
 
         allMonitorErrorList.replace(systemName, monitorErrors);*/
 
+        System.out.println("allMonitorErrorList.get(systemName): " + allMonitorErrorList.get(systemName).get(0).isMonitorError_testedPASS());
+
 
         for(Service s : ServicesInDB) {
 
