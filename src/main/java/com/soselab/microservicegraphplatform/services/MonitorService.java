@@ -119,6 +119,8 @@ public class MonitorService {
 
         allMonitorErrorList.replace(systemName, monitorErrors);
 
+        allMonitorErrorList.getOrDefault(systemName, null).get(0).isMonitorError_testedPASS();
+
         for(Service s : ServicesInDB) {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
