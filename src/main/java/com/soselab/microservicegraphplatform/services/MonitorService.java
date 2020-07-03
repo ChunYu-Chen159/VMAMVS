@@ -194,6 +194,8 @@ public class MonitorService {
                                 for (int j = 0; j < jsonArr.length(); j++) {
                                     String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
 
+                                    System.out.println("status: " + status);
+
                                     if (status.equals("PASS")) {
                                         String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
 
