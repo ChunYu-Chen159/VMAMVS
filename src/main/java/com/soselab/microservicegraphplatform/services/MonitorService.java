@@ -153,7 +153,13 @@ public class MonitorService {
         if(allMonitorErrorList.get(systemName) != null){
             checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
             checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
+
+            for(MonitorError monitorError : allMonitorErrorList.get(systemName)) {
+                monitorError.setIndex(allMonitorErrorList.get(systemName).indexOf(monitorError));
+                serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "TRUE");
+            }
         }
+
 
     }
 
@@ -510,11 +516,10 @@ public class MonitorService {
                 }
             }
         }
-
-        for(MonitorError monitorError : monitorErrors) {
+/*        for(MonitorError monitorError : monitorErrors) {
             monitorError.setIndex(monitorErrors.indexOf(monitorError));
             serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "TRUE");
-        }
+        }*/
 
         return monitorErrors;
     }
