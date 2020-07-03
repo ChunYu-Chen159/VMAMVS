@@ -201,6 +201,8 @@ public class MonitorService {
 
                                         monitorErrors.get(monitorErrors.indexOf(monitorError)).setMonitorError_testedPASS(true);
 
+                                        System.out.println("testedPass: " + monitorErrors.get(monitorErrors.indexOf(monitorError)).isMonitorError_testedPASS());
+
 
                                         try {
 
