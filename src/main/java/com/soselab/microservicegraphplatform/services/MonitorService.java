@@ -111,7 +111,7 @@ public class MonitorService {
         List<MonitorError> monitorErrors = allMonitorErrorList.getOrDefault(systemName, null);
 
         if(monitorErrors != null) {
-            monitorErrors = checkTimeOfTestAndMonitorError(monitorErrors);
+            checkTimeOfTestAndMonitorError(monitorErrors);
         }
 
         allMonitorErrorList.replace(systemName, monitorErrors);
@@ -166,7 +166,7 @@ public class MonitorService {
     }
 
 
-    public List<MonitorError> checkTimeOfTestAndMonitorError(List<MonitorError> monitorErrors) {
+    public void checkTimeOfTestAndMonitorError(List<MonitorError> monitorErrors) {
 
         List<MonitorError> mes = monitorErrors;
 
@@ -232,12 +232,8 @@ public class MonitorService {
                     }
                 }
             }
-
-            return mes;
-
-        }else{
-            return null;
         }
+
     }
 
 
