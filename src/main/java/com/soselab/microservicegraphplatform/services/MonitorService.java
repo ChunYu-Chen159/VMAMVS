@@ -149,7 +149,7 @@ public class MonitorService {
 
 
         if(allMonitorErrorList.get(systemName) != null){
-            checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
+            //checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
             checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
             setMonitorErrorCondition(allMonitorErrorList.get(systemName));
         }
@@ -386,8 +386,8 @@ public class MonitorService {
             }
 
 
-/*            if(!checkLastNodeError)
-                continue;*/
+            if(!checkReturnError && !checkLastNodeError && !checkNullError)
+                continue;
 
 
             // 每個Service, Endpoint, OwnLink (httpRequest關係還未加入)
