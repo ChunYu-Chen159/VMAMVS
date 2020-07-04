@@ -19,6 +19,7 @@ public class MonitorError {
     private String errorPath;
     private String errorUrl;
     private String errorMethod;
+    private String errorType; // ReturnError, LastNodeError, NullError
     private boolean testedPASS;
 
     private ArrayList<ErrorService> errorServices;
@@ -156,6 +157,14 @@ public class MonitorError {
 
     public void setErrorMethod(String errorMethod) {
         this.errorMethod = errorMethod;
+    }
+
+    public String getErrorType() {
+        return errorType;
+    }
+
+    public void setErrorType(String errorType) {
+        this.errorType = errorType;
     }
 
     public boolean isTestedPASS() {
