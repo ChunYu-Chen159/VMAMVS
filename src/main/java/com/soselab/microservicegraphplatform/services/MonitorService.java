@@ -224,6 +224,11 @@ public class MonitorService {
 
         for(int i = monitorErrors.size() - 1; i >= 0; i--){
             MonitorError monitorError = monitorErrors.get(i);
+
+            System.out.println("monitorError.getErrorSystemName(): " + monitorError.getErrorSystemName());
+            System.out.println("monitorError.getErrorAppName(): " + monitorError.getErrorAppName());
+            System.out.println("monitorError.getErrorAppVersion(): " + monitorError.getErrorAppVersion());
+
             Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
             if (swaggerMap != null) {
 
