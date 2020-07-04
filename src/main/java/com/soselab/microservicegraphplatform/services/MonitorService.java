@@ -148,7 +148,7 @@ public class MonitorService {
         }
 
 
-        if(allMonitorErrorList.get(systemName) != null && allMonitorErrorList.get(systemName).size() > 0){
+        if(!allMonitorErrorList.get(systemName).isEmpty() && allMonitorErrorList.get(systemName).size() > 0){
             //checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
             checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
             setMonitorErrorCondition(allMonitorErrorList.get(systemName));
@@ -389,6 +389,10 @@ public class MonitorService {
                     }
                 }
             }
+
+            System.out.println("checkReturnError: " + checkReturnError);
+            System.out.println("checkLastNodeError: " + checkLastNodeError);
+            System.out.println("checkNullError: " + checkNullError);
 
 
             if(!checkReturnError && !checkLastNodeError && !checkNullError)
