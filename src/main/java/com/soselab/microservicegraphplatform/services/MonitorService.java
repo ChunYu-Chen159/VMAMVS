@@ -149,7 +149,7 @@ public class MonitorService {
 
 
         if(!allMonitorErrorList.get(systemName).isEmpty() && allMonitorErrorList.get(systemName).size() > 0){
-            //checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
+            checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
             checkTestedPASS_MonitorError(allMonitorErrorList.get(systemName));
             setMonitorErrorCondition(allMonitorErrorList.get(systemName));
         }
@@ -164,54 +164,58 @@ public class MonitorService {
         // 倒序刪除，不然會影響前面元素
         for(int i = monitorErrors.size() - 1; i >= 0; i--){
             MonitorError monitorError = monitorErrors.get(i);
-            Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
-            if (swaggerMap != null) {
-                Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
-                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
+            if(!monitorError.getErrorType().equals("NullError")) {
+                Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
+                if (swaggerMap != null) {
+                    Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {
+                    });
+                    Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {
+                    });
 
 
-                for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
-                    if(key.equals(monitorError.getErrorPath())){
+                    for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
+                        if (key.equals(monitorError.getErrorPath())) {
 
-                        try {
+                            try {
 
-                            String jsonStr = mapper.writeValueAsString(value);
-                            JSONArray jsonArr = new JSONArray(jsonStr);
+                                String jsonStr = mapper.writeValueAsString(value);
+                                JSONArray jsonArr = new JSONArray(jsonStr);
 
-                            for (int j = 0; j < jsonArr.length(); j++) {
-                                String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
+                                for (int j = 0; j < jsonArr.length(); j++) {
+                                    String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
 
-                                System.out.println("status: " + status);
+                                    System.out.println("status: " + status);
 
-                                if (status.equals("PASS")) {
-                                    String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
+                                    if (status.equals("PASS")) {
+                                        String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
 
-                                    try {
+                                        try {
 
-                                        Date date1 = dateFormat2.parse(time);
-                                        String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
-                                        Date date2 = dateFormat2.parse(str);
+                                            Date date1 = dateFormat2.parse(time);
+                                            String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
+                                            Date date2 = dateFormat2.parse(str);
 
-                                        Calendar cal1 = Calendar.getInstance();
-                                        Calendar cal2 = Calendar.getInstance();
-                                        cal1.setTime(date1);
-                                        cal2.setTime(date2);
+                                            Calendar cal1 = Calendar.getInstance();
+                                            Calendar cal2 = Calendar.getInstance();
+                                            cal1.setTime(date1);
+                                            cal2.setTime(date2);
 
-                                        if (cal1.after(cal2)) {
-                                            serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
-                                            monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                            if (cal1.after(cal2)) {
+                                                serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                                                monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                            }
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
                                         }
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
                                     }
                                 }
+                            } catch (JsonProcessingException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JsonProcessingException e) {
-                            e.printStackTrace();
-                        }
 
+                        }
                     }
                 }
             }
@@ -225,42 +229,42 @@ public class MonitorService {
         for(int i = monitorErrors.size() - 1; i >= 0; i--){
             MonitorError monitorError = monitorErrors.get(i);
 
-            System.out.println("monitorError.getErrorSystemName(): " + monitorError.getErrorSystemName());
-            System.out.println("monitorError.getErrorAppName(): " + monitorError.getErrorAppName());
-            System.out.println("monitorError.getErrorAppVersion(): " + monitorError.getErrorAppVersion());
+            if(!monitorError.getErrorType().equals("NullError")) {
+                Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
+                if (swaggerMap != null) {
 
-            Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
-            if (swaggerMap != null) {
+                    Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {
+                    });
+                    Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {
+                    });
 
-                Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
-                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
+                    for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
 
-                for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
+                        if (key.equals(monitorError.getErrorPath())) {
 
-                    if(key.equals(monitorError.getErrorPath())){
+                            try {
 
-                        try {
+                                String jsonStr = mapper.writeValueAsString(value);
+                                JSONArray jsonArr = new JSONArray(jsonStr);
 
-                            String jsonStr = mapper.writeValueAsString(value);
-                            JSONArray jsonArr = new JSONArray(jsonStr);
+                                for (int j = 0; j < jsonArr.length(); j++) {
+                                    String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
 
-                            for (int j = 0; j < jsonArr.length(); j++) {
-                                String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
+                                    if (status.equals("PASS"))
+                                        monitorErrors.get(monitorErrors.indexOf(monitorError)).setTestedPASS(true);
 
-                                if (status.equals("PASS"))
-                                    monitorErrors.get(monitorErrors.indexOf(monitorError)).setTestedPASS(true);
-
+                                }
+                            } catch (JsonProcessingException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JsonProcessingException e) {
-                            e.printStackTrace();
+
                         }
 
                     }
 
                 }
-
             }
         }
 
@@ -478,38 +482,68 @@ public class MonitorService {
             }
 
             // errorAppName, errorAppVersion, errorMessage, statusCode, timestamp, errorPath, consumerAppName...
-            for(int j = 0; j < array_everyError.length(); j++){
-                if(array_everyError.getJSONObject(j).has("shared") && array_everyError.getJSONObject(j).getBoolean("shared")) {
-                    JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
-                    String serverId = array_everyError.getJSONObject(j).getString("id");
+            if(checkReturnError){
 
-                    String appName = jsonObject.getString("http.appName");
-                    String version = jsonObject.getString("http.version");
+            } else if(checkLastNodeError) {
+                for (int j = 0; j < array_everyError.length(); j++) {
+                    if (array_everyError.getJSONObject(j).has("shared") && array_everyError.getJSONObject(j).getBoolean("shared")) {
+                        JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
+                        String serverId = array_everyError.getJSONObject(j).getString("id");
 
-                    if(appName.toUpperCase().equals(serviceAppName) && version.toUpperCase().equals(serviceVersion)) {
-                        if (jsonObject.has("error")) {
-                            errorAppName = jsonObject.getString("http.appName");
-                            errorAppVersion = jsonObject.getString("http.version");
+                        String appName = jsonObject.getString("http.appName");
+                        String version = jsonObject.getString("http.version");
 
-                            if (!errorAppName.toUpperCase().equals(serviceAppName) || !errorAppVersion.toUpperCase().equals(serviceVersion))
-                                continue;
+                        if (appName.toUpperCase().equals(serviceAppName) && version.toUpperCase().equals(serviceVersion)) {
+                            if (jsonObject.has("error")) {
+                                errorAppName = jsonObject.getString("http.appName");
+                                errorAppVersion = jsonObject.getString("http.version");
 
-                            errorMessage = jsonObject.getString("error");
-                            statusCode = jsonObject.getString("http.status_code");
-                            timestamp = array_everyError.getJSONObject(j).getLong("timestamp");
+                                if (!errorAppName.toUpperCase().equals(serviceAppName) || !errorAppVersion.toUpperCase().equals(serviceVersion))
+                                    continue;
 
-                            for (int k = 0; k < array_everyError.length(); k++) {
-                                if (array_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
-                                    String clientId = array_everyError.getJSONObject(k).getString("id");
-                                    if (serverId.equals(clientId)) {
-                                        JSONObject jsonObject2 = array_everyError.getJSONObject(k).getJSONObject("tags");
-                                        errorPath = jsonObject2.getString("http.path");
-                                        errorUrl = jsonObject2.getString("http.url");
-                                        errorMethod = jsonObject2.getString("http.method");
-                                        JSONObject jsonObject3 = array_everyError.getJSONObject(k).getJSONObject("localEndpoint");
-                                        consumerAppName = jsonObject3.getString("serviceName");
+                                errorMessage = jsonObject.getString("error");
+                                statusCode = jsonObject.getString("http.status_code");
+                                timestamp = array_everyError.getJSONObject(j).getLong("timestamp");
+
+                                for (int k = 0; k < array_everyError.length(); k++) {
+                                    if (array_everyError.getJSONObject(k).getString("kind").equals("CLIENT")) {
+                                        String clientId = array_everyError.getJSONObject(k).getString("id");
+                                        if (serverId.equals(clientId)) {
+                                            JSONObject jsonObject2 = array_everyError.getJSONObject(k).getJSONObject("tags");
+                                            errorPath = jsonObject2.getString("http.path");
+                                            errorUrl = jsonObject2.getString("http.url");
+                                            errorMethod = jsonObject2.getString("http.method");
+                                            JSONObject jsonObject3 = array_everyError.getJSONObject(k).getJSONObject("localEndpoint");
+                                            consumerAppName = jsonObject3.getString("serviceName");
+                                        }
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+            } else if(checkNullError){
+                for (int j = 0; j < array_everyError.length(); j++) {
+                    if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
+                        JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
+                        String appName = jsonObject.getString("http.appName");
+                        String version = jsonObject.getString("http.version");
+                        String id = array_everyError.getJSONObject(j).getString("id");
+
+                        if (appName.toUpperCase().equals(serviceAppName) && version.toUpperCase().equals(serviceVersion)) {
+                            if (jsonObject.has("error")) {
+                                errorAppName = jsonObject.getString("http.appName");
+                                errorAppVersion = jsonObject.getString("http.version");
+
+                                if (!errorAppName.toUpperCase().equals(serviceAppName) || !errorAppVersion.toUpperCase().equals(serviceVersion))
+                                    continue;
+
+                                errorMessage = jsonObject.getString("error");
+                                errorMethod = jsonObject.getString("http.method");
+                                errorPath = jsonObject.getString("http.path");
+                                errorUrl = jsonObject.getString("http.url");
+                                statusCode = jsonObject.getString("http.status_code");
+                                timestamp = array_everyError.getJSONObject(j).getLong("timestamp");
                             }
                         }
                     }
