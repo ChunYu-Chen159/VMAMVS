@@ -2159,15 +2159,15 @@ function SDGGraph(data) {
 
                 // 要highlight的sourceNodes
                 highlightJson += "\"sourceNodes\":[";
-                for(let errorService2 in json_content["errorServices"]){
-                    if(json_content["errorServices"][errorService2]["sourceOfError"] === true){
-                        highlightJson += "{\"id\":" + json_content["errorServices"][errorService2]["id"] + "}";
+                for(let errorService in json_content["errorServices"]){
+                    if(json_content["errorServices"][errorService]["sourceOfError"] === true){
+                        highlightJson += "{\"id\":" + json_content["errorServices"][errorService]["id"] + "}";
                         highlightJson += ",";
                     }
                 }
-                for(let errorEndpoint2 in json_content["errorEndpoints"]){
-                    if(json_content["errorServices"][errorEndpoint2]["sourceOfError"] === true) {
-                        highlightJson += "{\"id\":" + json_content["errorEndpoints"][errorEndpoint2]["id"] + "}";
+                for(let errorEndpoint in json_content["errorEndpoints"]){
+                    if(json_content["errorEndpoints"][errorEndpoint]["sourceOfError"] === true) {
+                        highlightJson += "{\"id\":" + json_content["errorEndpoints"][errorEndpoint]["id"] + "}";
                         highlightJson += ",";
                     }
                 }
@@ -2178,9 +2178,9 @@ function SDGGraph(data) {
 
                 // 要highlight的sourceLinks
                 highlightJson += "\"sourceLinks\":[";
-                for(let errorLink2 in json_content["errorLinks"]){
-                    if(json_content["errorLinks"][errorLink2]["sourceOfError"] === true) {
-                        highlightJson += "{\"source\":" + json_content["errorLinks"][errorLink2]["aid"] + ",\"type\":\"" + json_content["errorLinks"][errorLink2]["relationship"] + "\",\"target\":" + json_content["errorLinks"][errorLink2]["bid"] + "}";
+                for(let errorLink in json_content["errorLinks"]){
+                    if(json_content["errorLinks"][errorLink]["sourceOfError"] === true) {
+                        highlightJson += "{\"source\":" + json_content["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json_content["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json_content["errorLinks"][errorLink]["bid"] + "}";
                         highlightJson += ",";
                     }
                 }
