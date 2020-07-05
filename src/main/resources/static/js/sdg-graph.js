@@ -567,7 +567,7 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
+                    return "url(#arrow-l-highlight_error)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
@@ -598,7 +598,7 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
+                    return "url(#arrow-l-highlight_error_source)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
@@ -737,7 +737,7 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
+                    return "url(#arrow-l-highlight_error)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
@@ -768,7 +768,7 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
+                    return "url(#arrow-l-highlight_error_source)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
