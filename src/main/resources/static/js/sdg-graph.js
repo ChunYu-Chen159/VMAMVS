@@ -2177,7 +2177,7 @@ function SDGGraph(data) {
 
 
                 // 要highlight的sourceLinks
-                highlightJson += "\"sourceNodes\":[";
+                highlightJson += "\"sourceLinks\":[";
                 for(let errorLink in json_content["errorLinks"]){
                     if(json_content["errorLinks"][errorLink]["sourceOfError"] === true) {
                         highlightJson += "{\"source\":" + json_content["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json_content["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json_content["errorLinks"][errorLink]["bid"] + "}";
