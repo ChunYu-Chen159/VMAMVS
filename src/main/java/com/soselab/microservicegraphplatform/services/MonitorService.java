@@ -664,7 +664,9 @@ public class MonitorService {
             for(int j = 0; j < temp.size()-1; j++){
                 MonitorError monitorError2 = temp.get(j);
                 if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
-                    monitorError.getErrorUrl().equals(monitorError2.getErrorUrl())){
+                    monitorError.getErrorUrl().equals(monitorError2.getErrorUrl()) &&
+                    monitorError.getErrorType().equals(monitorError2.getErrorType()) &&
+                    monitorError.getErrorAppId().equals(monitorError2.getErrorAppId())){
                     monitorErrors.remove(monitorErrors.indexOf(monitorError));
                 }
             }
