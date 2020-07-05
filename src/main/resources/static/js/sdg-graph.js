@@ -556,7 +556,7 @@ function SDGGraph(data) {
                 }
             });
 
-        link.filter(d => !d.highlight_error)
+/*        link.filter(d => !d.highlight_error)
             .classed("highlight_error", false)
             .selectAll("line")
             .attr("marker-end", d => {
@@ -567,11 +567,11 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-l-highlight_error)";
+                    return "url(#arrow-request)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
-            });
+            });*/
         link.filter(d => d.highlight_error)
             .classed("highlight_error", true)
             .selectAll("line")
@@ -587,7 +587,7 @@ function SDGGraph(data) {
                 }
             });
 
-        link.filter(d => !d.highlight_error_source)
+/*        link.filter(d => !d.highlight_error_source)
             .classed("highlight_error_source", false)
             .selectAll("line")
             .attr("marker-end", d => {
@@ -598,11 +598,11 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-l-highlight_error_source)";
+                    return "url(#arrow-request)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
-            });
+            });*/
         link.filter(d => d.highlight_error_source)
             .classed("highlight_error_source", true)
             .selectAll("line")
@@ -726,7 +726,7 @@ function SDGGraph(data) {
                 }
             });
 
-        linkEnter.filter(d => !d.highlight_error)
+/*        linkEnter.filter(d => !d.highlight_error)
             .classed("highlight_error", false)
             .selectAll("line")
             .attr("marker-end", d => {
@@ -737,11 +737,11 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-l-highlight_error)";
+                    return "url(#arrow-request)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
-            });
+            });*/
         linkEnter.filter(d => d.highlight_error)
             .classed("highlight_error", true)
             .selectAll("line")
@@ -757,7 +757,7 @@ function SDGGraph(data) {
                 }
             });
 
-        linkEnter.filter(d => !d.highlight_error_source)
+/*        linkEnter.filter(d => !d.highlight_error_source)
             .classed("highlight_error_source", false)
             .selectAll("line")
             .attr("marker-end", d => {
@@ -768,11 +768,11 @@ function SDGGraph(data) {
                         return "url(#arrow-m)";
                     }
                 } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-l-highlight_error_source)";
+                    return "url(#arrow-request)";
                 }else if (d.type === REL_NEWERPATCHVERSION) {
                     return "url(#arrow-l-warning)";
                 }
-            });
+            });*/
         linkEnter.filter(d => d.highlight_error_source)
             .classed("highlight_error_source", true)
             .selectAll("line")
