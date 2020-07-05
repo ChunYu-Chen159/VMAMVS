@@ -1912,10 +1912,10 @@ function SDGGraph(data) {
                                 console.log("groovy: " + groovy);
                                 let consumerService = groovy.replace(".groovy","");
                                 //monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (500)" + "</span></h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (502)" + "</span></h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (503)" + "</span></h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + consumerService.toUpperCase() + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (504)" + "</span></h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (500)" + "</span></h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (502)" + "</span></h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (503)" + "</span></h4></div>");
+                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (504)" + "</span></h4></div>");
                             }
 
                             for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
@@ -1934,7 +1934,7 @@ function SDGGraph(data) {
 
 
 
-                                let iddd = consumerAppName.toUpperCase() + "-error" + statusCode;
+                                let iddd = errorAppName.toUpperCase() + "-error" + statusCode;
                                 let iddd2 = "error-" + index;
 
                                 // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>";
