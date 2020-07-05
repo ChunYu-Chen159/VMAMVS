@@ -556,22 +556,9 @@ function SDGGraph(data) {
                 }
             });
 
-/*        link.filter(d => !d.highlight_error)
-            .classed("highlight_error", false)
-            .selectAll("line")
-            .attr("marker-end", d => {
-                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
-                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
-                        return"url(#arrow-l)"
-                    } else {
-                        return "url(#arrow-m)";
-                    }
-                } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
-                }else if (d.type === REL_NEWERPATCHVERSION) {
-                    return "url(#arrow-l-warning)";
-                }
-            });*/
+        link.filter(d => !d.highlight_error)
+            .classed("highlight_error", false);
+
         link.filter(d => d.highlight_error)
             .classed("highlight_error", true)
             .selectAll("line")
@@ -587,22 +574,9 @@ function SDGGraph(data) {
                 }
             });
 
-/*        link.filter(d => !d.highlight_error_source)
-            .classed("highlight_error_source", false)
-            .selectAll("line")
-            .attr("marker-end", d => {
-                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
-                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
-                        return"url(#arrow-l)"
-                    } else {
-                        return "url(#arrow-m)";
-                    }
-                } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
-                }else if (d.type === REL_NEWERPATCHVERSION) {
-                    return "url(#arrow-l-warning)";
-                }
-            });*/
+        link.filter(d => !d.highlight_error_source)
+            .classed("highlight_error_source", false);
+
         link.filter(d => d.highlight_error_source)
             .classed("highlight_error_source", true)
             .selectAll("line")
@@ -726,22 +700,9 @@ function SDGGraph(data) {
                 }
             });
 
-/*        linkEnter.filter(d => !d.highlight_error)
-            .classed("highlight_error", false)
-            .selectAll("line")
-            .attr("marker-end", d => {
-                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
-                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
-                        return"url(#arrow-l)"
-                    } else {
-                        return "url(#arrow-m)";
-                    }
-                } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
-                }else if (d.type === REL_NEWERPATCHVERSION) {
-                    return "url(#arrow-l-warning)";
-                }
-            });*/
+        linkEnter.filter(d => !d.highlight_error)
+            .classed("highlight_error", false);
+
         linkEnter.filter(d => d.highlight_error)
             .classed("highlight_error", true)
             .selectAll("line")
@@ -757,22 +718,9 @@ function SDGGraph(data) {
                 }
             });
 
-/*        linkEnter.filter(d => !d.highlight_error_source)
-            .classed("highlight_error_source", false)
-            .selectAll("line")
-            .attr("marker-end", d => {
-                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
-                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
-                        return"url(#arrow-l)"
-                    } else {
-                        return "url(#arrow-m)";
-                    }
-                } else if (d.type === REL_HTTPREQUEST) {
-                    return "url(#arrow-request)";
-                }else if (d.type === REL_NEWERPATCHVERSION) {
-                    return "url(#arrow-l-warning)";
-                }
-            });*/
+        linkEnter.filter(d => !d.highlight_error_source)
+            .classed("highlight_error_source", false);
+
         linkEnter.filter(d => d.highlight_error_source)
             .classed("highlight_error_source", true)
             .selectAll("line")
