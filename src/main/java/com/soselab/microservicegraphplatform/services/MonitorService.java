@@ -435,9 +435,21 @@ public class MonitorService {
 
                     long linkId = linkRepository.findLinkIdBySystemNameAndAidAndBidWithOwn(systemName.toUpperCase(), serviceId, endpointId);
 
-                    es.add(new ErrorService(serviceId, appName, version, appId));
-                    ee.add(new ErrorEndpoint(endpointId, appId, appName, endpointPath));
-                    el.add(new ErrorLink(linkId, serviceId, "OWN", endpointId));
+
+                    ErrorService errorService = new ErrorService(serviceId, appName, version, appId);
+                    ErrorEndpoint errorEndpoint = new ErrorEndpoint(endpointId, appId, appName, endpointPath);
+                    ErrorLink errorLink = new ErrorLink(linkId, serviceId, "OWN", endpointId);
+
+                    if(appName.toUpperCase().equals(serviceAppName.toUpperCase()) && version.toUpperCase().equals(serviceVersion)){
+                        errorService.setSourceOfError(true);
+                        errorEndpoint.setSourceOfError(true);
+                        errorLink.setSourceOfError(true);
+                    }
+
+
+                    es.add(errorService);
+                    ee.add(errorEndpoint);
+                    el.add(errorLink);
 
                 }
             }
