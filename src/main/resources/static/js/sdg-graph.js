@@ -1902,6 +1902,51 @@ function SDGGraph(data) {
                 .then(json => {
                     console.log("monitor/getErrors/" + d.systemName);
 
+                    monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (500)" + "</span></h4></div>");
+                    monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (502)" + "</span></h4></div>");
+                    monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (503)" + "</span></h4></div>");
+                    monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (504)" + "</span></h4></div>");
+
+
+                    for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
+                        let index = json[everyError]["index"];
+                        let jsonErr = json[everyError];
+                        let errrrr = everyError;
+                        let errorAppName = json[everyError]["errorAppName"];
+                        let errorAppVersion = json[everyError]["errorAppVersion"];
+                        let consumerAppName = json[everyError]["consumerAppName"];
+                        let timestamp = json[everyError]["timestamp"];
+                        let statusCode = json[everyError]["statusCode"];
+                        let errorMessage = json[everyError]["errorMessage"];
+                        let errorPath = json[everyError]["errorPath"];
+                        let testedPASS = json[everyError]["testedPASS"];
+
+
+
+
+                        let iddd = errorAppName.toUpperCase() + "-error" + statusCode;
+                        let iddd2 = "error-" + index;
+
+                        // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>";
+                        if(testedPASS === true)
+                            $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + " - testedPASS" + "</button>");
+                        else
+                            $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>");
+                        // document.getElementById(iddd).style.display = "block";
+                        $('#' + iddd).show();
+
+                    }
+
+                    // jquery跟上面寫在一起會導致事件繫結不起來
+                    for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
+                        $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
+                    }
+                })
+/*            fetch("/web-page/monitor/getErrors/" + d.systemName)
+                .then(response => response.json())
+                .then(json => {
+                    console.log("monitor/getErrors/" + d.systemName);
+
                     //monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
 
                     fetch("/web-page/app/swagger/" + d.appId)
@@ -1953,7 +1998,7 @@ function SDGGraph(data) {
                             }
 
                         })
-                })
+                })*/
         }
 
         function clickHandler(event) {
@@ -1972,44 +2017,50 @@ function SDGGraph(data) {
 
                 monitorErrorMessageJson.jsonViewer(json_content, {collapsed: true, withQuotes: false});
 
-                monitorError_feedbackContract.empty();
-                monitorError_feedbackContract.append("<h4 class=\"card-feedbackContract\"><span>" + "Feedback Contract：" + json_content["consumerAppName"] + ".groovy" + "</span></h4>");
 
-                let feedbackContract = "";
-                feedbackContract += "<span class='span-feedbackContract'>";
-                feedbackContract += "Contract.<span class='purple'>make</span> {<br>" +
-                                    "&nbsp;&nbsp;&nbsp;description (<span class='green'>\"\"</span>)<br>" +
-                                    "&nbsp;&nbsp;&nbsp;name (<span class='green'>\"\"</span>)<br>" +
-                                    "&nbsp;&nbsp;&nbsp;request {<br>" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method (<span class='green'>\"" + json_content["errorMethod"] + "\"</span>)<br>" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url (<span class='green'>\"" + json_content["errorPath"] + "\"</span>)";
+                if(json_content["errorType"] !== "NullError") {
 
-                let errorUrl = json_content["errorUrl"];
-                let queryParameters = errorUrl.split(json_content["errorPath"] + "?");
-                if(queryParameters.length !== 0){
-                    feedbackContract += "&nbsp;{<br>" +
-                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryParameters {<br>";
+                    monitorError_feedbackContract.empty();
+                    monitorError_feedbackContract.append("<h4 class=\"card-feedbackContract\"><span>" + "Feedback Contract：" + json_content["consumerAppName"] + ".groovy" + "</span></h4>");
 
-                    let parameters = queryParameters[1].split("&");
-                    for(let parameter in parameters){
-                        let parameterAndValue = parameters[parameter].split("=");
-                        feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(<span class='green'>\"" + parameterAndValue[0] + "\"</span>,<span class='green'>\"" + parameterAndValue[1] + "\"</span>)<br>";
+                    let feedbackContract = "";
+                    feedbackContract += "<span class='span-feedbackContract'>";
+                    feedbackContract += "Contract.<span class='purple'>make</span> {<br>" +
+                        "&nbsp;&nbsp;&nbsp;description (<span class='green'>\"\"</span>)<br>" +
+                        "&nbsp;&nbsp;&nbsp;name (<span class='green'>\"\"</span>)<br>" +
+                        "&nbsp;&nbsp;&nbsp;request {<br>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method (<span class='green'>\"" + json_content["errorMethod"] + "\"</span>)<br>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url (<span class='green'>\"" + json_content["errorPath"] + "\"</span>)";
+
+                    let errorUrl = json_content["errorUrl"];
+                    let queryParameters = errorUrl.split(json_content["errorPath"] + "?");
+                    if (queryParameters.length !== 0) {
+                        feedbackContract += "&nbsp;{<br>" +
+                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryParameters {<br>";
+
+                        let parameters = queryParameters[1].split("&");
+                        for (let parameter in parameters) {
+                            let parameterAndValue = parameters[parameter].split("=");
+                            feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter(<span class='green'>\"" + parameterAndValue[0] + "\"</span>,<span class='green'>\"" + parameterAndValue[1] + "\"</span>)<br>";
+                        }
+
+                        feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>" +
+                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>";
+
+                    } else {
+                        feedbackContract += "<br>";
                     }
 
-                    feedbackContract += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>" +
-                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>";
-
-                }else{
-                    feedbackContract += "<br>";
+                    feedbackContract += "&nbsp;&nbsp;&nbsp;}<br>";
+                    feedbackContract += "&nbsp;&nbsp;&nbsp;response {<br>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(<span class='blue'>" + "200" + "</span>)<br>" +
+                        "&nbsp;&nbsp;&nbsp;}<br>" +
+                        "}";
+                    feedbackContract += "</span>";
+                    monitorError_feedbackContract.append(feedbackContract);
+                }else {
+                    monitorError_feedbackContract.hide();
                 }
-
-                feedbackContract += "&nbsp;&nbsp;&nbsp;}<br>";
-                feedbackContract += "&nbsp;&nbsp;&nbsp;response {<br>" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status(<span class='blue'>" + "200" + "</span>)<br>" +
-                                    "&nbsp;&nbsp;&nbsp;}<br>" +
-                                    "}";
-                feedbackContract += "</span>";
-                monitorError_feedbackContract.append(feedbackContract);
 
                 let highlightJson = "";
                 highlightJson += "{";
