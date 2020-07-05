@@ -36,6 +36,7 @@ function SDGGraph(data) {
 
     const HIGHLIGHT_LEVEL_NORMAL = "highlight";
     const HIGHLIGHT_MONITORERROR = "highlight_error";
+    const HIGHLIGHT_MONITORERROR_SOURCE = "highlight_error_source";
     const HIGHLIGHT_LEVEL_WARNING = "warning";
     const HIGHLIGHT_LEVEL_ERROR = "error";
     const HIGHLIGHT_CONTRACTTESTING_WARNING = "contractWarning";
@@ -396,6 +397,21 @@ function SDGGraph(data) {
             if (colLink) colLink.highlight_error = true;
         });
 
+        d.sourceNodes.forEach(HNode => {
+            findNodeById(HNode.id).highlight_error_source = true;
+            let colNode = collapseData.nodes.find(node => node.id === HNode.id);
+            if (colNode) colNode.highlight_error_source = true;
+        });
+
+        d.sourceLinks.forEach(HLink => {
+            findLinkById(HLink.type + ":" + HLink.source + "-" + HLink.target).highlight_error_source = true;
+            let colLink = collapseData.links.find(link =>
+                link.type === HLink.type &&
+                link.source.id === HLink.source &&
+                link.target.id === HLink.target);
+            if (colLink) colLink.highlight_error_source = true;
+        });
+
         update(graphData);
     }
 
@@ -409,6 +425,11 @@ function SDGGraph(data) {
         data.links.forEach(link => { link.highlight_error = false });
         collapseData.nodes.forEach(node => { node.highlight_error = false });
         collapseData.links.forEach(link => { link.highlight_error = false });
+
+        data.nodes.forEach(node => { node.highlight_error_source = false });
+        data.links.forEach(link => { link.highlight_error_source = false });
+        collapseData.nodes.forEach(node => { node.highlight_error_source = false });
+        collapseData.links.forEach(link => { link.highlight_error_source = false });
         update(graphData);
     }
 
@@ -555,6 +576,37 @@ function SDGGraph(data) {
                         return"url(#arrow-l-highlight_error)"
                     } else {
                         return "url(#arrow-m-highlight_error)";
+                    }
+                } else if (d.type === REL_NEWERPATCHVERSION) {
+                    return"url(#arrow-l-warning)"
+                }
+            });
+
+        link.filter(d => !d.highlight_error_source)
+            .classed("highlight_error_source", false)
+            .selectAll("line")
+            .attr("marker-end", d => {
+                if (d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
+                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
+                        return"url(#arrow-l)"
+                    } else {
+                        return "url(#arrow-m)";
+                    }
+                } else if (d.type === REL_HTTPREQUEST) {
+                    return "url(#arrow-request)";
+                }else if (d.type === REL_NEWERPATCHVERSION) {
+                    return "url(#arrow-l-warning)";
+                }
+            });
+        link.filter(d => d.highlight_error_source)
+            .classed("highlight_error_source", true)
+            .selectAll("line")
+            .attr("marker-end", d => {
+                if (d.type === REL_HTTPREQUEST || d.type === REL_AMQPPUBLISH || d.type === REL_AMQPSUBSCRIBE) {
+                    if (d.target.labels.includes(LABEL_SERVICE) || d.target.labels.includes(LABEL_QUEUE)) {
+                        return"url(#arrow-l-highlight_error_source)"
+                    } else {
+                        return "url(#arrow-m-highlight_error_source)";
                     }
                 } else if (d.type === REL_NEWERPATCHVERSION) {
                     return"url(#arrow-l-warning)"
@@ -721,6 +773,9 @@ function SDGGraph(data) {
 
         node.filter(d => !d.highlight_error).classed(HIGHLIGHT_MONITORERROR, false);
         node.filter(d => d.highlight_error).classed(HIGHLIGHT_MONITORERROR, true);
+
+        node.filter(d => !d.highlight_error_source).classed(HIGHLIGHT_MONITORERROR_SOURCE, false);
+        node.filter(d => d.highlight_error_source).classed(HIGHLIGHT_MONITORERROR_SOURCE, true);
 
         node.attr("fill", d => {
             if (d.labels.includes(LABEL_NULLSERVICE) || d.labels.includes(LABEL_NULLENDPOINT)) {
@@ -2063,6 +2118,7 @@ function SDGGraph(data) {
                     feedbackContract += "</span>";
                     monitorError_feedbackContract.append(feedbackContract);
                 }else {
+                    monitorError_feedbackContract.empty();
                     monitorError_feedbackContract.hide();
                 }
 
@@ -2094,6 +2150,40 @@ function SDGGraph(data) {
 
                 highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
                 highlightJson += "]";
+                highlightJson += ",";
+
+                // 要highlight的sourceNodes
+                highlightJson += "\"sourceNodes\":[";
+                for(let errorService in json_content["errorServices"]){
+                    if(json_content["errorServices"][errorService]["sourceOfError"] === true){
+                        highlightJson += "{\"id\":" + json_content["errorServices"][errorService]["id"] + "}";
+                        highlightJson += ",";
+                    }
+                }
+                for(let errorEndpoint in json_content["errorEndpoints"]){
+                    if(json_content["errorServices"][errorEndpoint]["sourceOfError"] === true) {
+                        highlightJson += "{\"id\":" + json_content["errorEndpoints"][errorEndpoint]["id"] + "}";
+                        highlightJson += ",";
+                    }
+                }
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+                highlightJson += ",";
+
+
+                // 要highlight的sourceLinks
+                highlightJson += "\"sourceNodes\":[";
+                for(let errorLink in json_content["errorLinks"]){
+                    if(json_content["errorLinks"][errorLink]["sourceOfError"] === true) {
+                        highlightJson += "{\"source\":" + json_content["errorLinks"][errorLink]["aid"] + ",\"type\":\"" + json_content["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json_content["errorLinks"][errorLink]["bid"] + "}";
+                        highlightJson += ",";
+                    }
+                }
+
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "]";
+
+
                 highlightJson += "}";
 
                 let highlighttoJson = JSON.parse(highlightJson);

@@ -156,6 +156,11 @@
 			stroke-width: 10px;
 		}
 
+		.highlight_error_source.node {
+			stroke: rgba(119, 10, 94, 0.9) !important;
+			stroke-width: 10px;
+		}
+
 		.contractWarning.node {
 			stroke: #ffc107;
 			stroke-width: 7px;
@@ -193,6 +198,10 @@
 
 		.highlight_error line {
 			stroke: rgba(119, 0, 17, 0.7) !important;
+		}
+
+		.highlight_error_source line {
+			stroke: rgba(119, 10, 94, 0.9) !important;
 		}
 
 		.warning line {
@@ -248,6 +257,12 @@
 			stroke-width: 0;
 			stroke: #701c24;
 			fill: #701c24;
+		}
+
+		.highlight_error_source.arrow {
+			stroke-width: 0;
+			stroke: #770A5E;
+			fill: #770A5E;
 		}
 
 		.warning.arrow {
@@ -389,6 +404,28 @@
 			<marker
 					id="arrow-l-highlight_error"
 					class="arrow highlight_error"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="22"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-m-highlight_error_source"
+					class="arrow highlight_error_source"
+					markerWidth="10"
+					markerHeight="10"
+					viewBox="0 0 10 10"
+					refX="12.5"
+					refY="6"
+					orient="auto">
+				<path d="M2,2 L10,6 L2,10 L6,6 L2,2"></path>
+			</marker>
+			<marker
+					id="arrow-l-highlight_error_source"
+					class="arrow highlight_error_source"
 					markerWidth="10"
 					markerHeight="10"
 					viewBox="0 0 10 10"
