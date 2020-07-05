@@ -2017,6 +2017,8 @@ function SDGGraph(data) {
 
                 monitorErrorMessageJson.jsonViewer(json_content, {collapsed: true, withQuotes: false});
 
+                console.log("json_content[\"errorType\"]" + json_content["errorType"]);
+
 
                 if(json_content["errorType"] !== "NullError") {
 
