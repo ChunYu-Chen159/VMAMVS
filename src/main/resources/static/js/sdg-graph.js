@@ -2192,6 +2192,7 @@ function SDGGraph(data) {
                 highlightJson += "}";
 
                 let highlighttoJson = JSON.parse(highlightJson);
+                console.log("highlightJson: " + highlightJson);
                 highlight_error(highlighttoJson);
             } else {
                 $('#' + errorId).removeClass("active");
