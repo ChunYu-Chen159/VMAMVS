@@ -2180,7 +2180,7 @@ function SDGGraph(data) {
                 highlightJson += "\"sourceLinks\":[";
                 for(let errorLink2 in json_content["errorLinks"]){
                     if(json_content["errorLinks"][errorLink2]["sourceOfError"] === true) {
-                        highlightJson += "{\"source\":" + json_content["errorLinks"][errorLink2]["aid"] + ",\"type\":\"" + json_content["errorLinks"][errorLink]["relationship"] + "\",\"target\":" + json_content["errorLinks"][errorLink]["bid"] + "}";
+                        highlightJson += "{\"source\":" + json_content["errorLinks"][errorLink2]["aid"] + ",\"type\":\"" + json_content["errorLinks"][errorLink2]["relationship"] + "\",\"target\":" + json_content["errorLinks"][errorLink2]["bid"] + "}";
                         highlightJson += ",";
                     }
                 }
