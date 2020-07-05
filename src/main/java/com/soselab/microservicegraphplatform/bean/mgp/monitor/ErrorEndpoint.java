@@ -5,12 +5,14 @@ public class ErrorEndpoint {
     private String parentAppId;
     private String parentAppName;
     private String path;
+    private boolean sourceOfError;
 
     public ErrorEndpoint(long id, String parentAppId, String parentAppName, String path) {
         this.id = id;
         this.parentAppId = parentAppId;
         this.parentAppName = parentAppName;
         this.path = path;
+        this.sourceOfError = false;
     }
 
     public void setId(long id) {
@@ -43,5 +45,13 @@ public class ErrorEndpoint {
 
     public String getPath() {
         return path;
+    }
+
+    public boolean isSourceOfError() {
+        return sourceOfError;
+    }
+
+    public void setSourceOfError(boolean sourceOfError) {
+        this.sourceOfError = sourceOfError;
     }
 }

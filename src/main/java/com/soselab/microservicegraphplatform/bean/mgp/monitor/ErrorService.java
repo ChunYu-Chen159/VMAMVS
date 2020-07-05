@@ -7,12 +7,14 @@ public class ErrorService {
     private String appName;
     private String version;
     private String appId;
+    private boolean sourceOfError;
 
     public ErrorService(long id, String appName, String version, String appId) {
         this.id = id;
         this.appName = appName;
         this.version = version;
         this.appId = appId;
+        this.sourceOfError = false;
     }
 
 
@@ -48,5 +50,11 @@ public class ErrorService {
         return appId;
     }
 
+    public boolean isSourceOfError() {
+        return sourceOfError;
+    }
 
+    public void setSourceOfError(boolean sourceOfError) {
+        this.sourceOfError = sourceOfError;
+    }
 }

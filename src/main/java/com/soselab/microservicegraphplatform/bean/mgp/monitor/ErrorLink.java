@@ -5,6 +5,7 @@ public class ErrorLink {
     private long AId;
     private String relationship;
     private long BId;
+    private boolean sourceOfError;
 
 
     public ErrorLink(long id, long AId, String relationship, long BId) {
@@ -12,6 +13,7 @@ public class ErrorLink {
         this.AId = AId;
         this.relationship = relationship;
         this.BId = BId;
+        this.sourceOfError = false;
     }
 
     public long getId() {
@@ -44,5 +46,13 @@ public class ErrorLink {
 
     public void setBId(long BId) {
         this.BId = BId;
+    }
+
+    public boolean isSourceOfError() {
+        return sourceOfError;
+    }
+
+    public void setSourceOfError(boolean sourceOfError) {
+        this.sourceOfError = sourceOfError;
     }
 }
