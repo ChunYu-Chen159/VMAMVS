@@ -382,6 +382,11 @@ function SDGGraph(data) {
         collapseData.nodes.forEach(node => { node.highlight_error = false });
         collapseData.links.forEach(link => { link.highlight_error = false });
 
+        data.nodes.forEach(node => { node.highlight_error_source = false });
+        data.links.forEach(link => { link.highlight_error_source = false });
+        collapseData.nodes.forEach(node => { node.highlight_error_source = false });
+        collapseData.links.forEach(link => { link.highlight_error_source = false });
+
         d.nodes.forEach(HNode => {
             findNodeById(HNode.id).highlight_error = true;
             let colNode = collapseData.nodes.find(node => node.id === HNode.id);
