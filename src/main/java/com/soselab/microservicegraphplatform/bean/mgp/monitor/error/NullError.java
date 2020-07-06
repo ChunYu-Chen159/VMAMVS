@@ -27,8 +27,7 @@ public class NullError extends MonitorError {
         setProviderAppVersion("0.0.1-SNAPSHOT");
         setStatusCode("500");
         setErrorMessage("Request processing failed; nested exception is feign.FeignException: status 404 reading OrderingInterface#getSomething(String); content:\n" +
-                "{\"timestamp\":1593954502449,\"status\":404,\"error\":\"Not Found\",\"message\":\"No message available\",\"path\":\"/getSomething\"}\",\n" +
-                "errorPath: \"/getSomething");
+                "{\"timestamp\":1593954502449,\"status\":404,\"error\":\"Not Found\",\"message\":\"No message available\",\"path\":\"/getSomething\"}\"");
         setErrorPath("/getSomething");
         setErrorUrl("http://140.121.197.128:4104/getSomething?userID=2");
         setErrorMethod("GET");
