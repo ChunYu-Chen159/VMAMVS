@@ -23,6 +23,8 @@ public class NullError extends MonitorError {
         setErrorAppName("cinemacatalog");
         setErrorAppVersion("0.0.1-SNAPSHOT");
         setConsumerAppName("");
+        setProviderAppName("ordering");
+        setProviderAppVersion("0.0.1-SNAPSHOT");
         setStatusCode("500");
         setErrorMessage("Request processing failed; nested exception is feign.FeignException: status 404 reading OrderingInterface#getSomething(String); content:\n" +
                 "{\"timestamp\":1593954502449,\"status\":404,\"error\":\"Not Found\",\"message\":\"No message available\",\"path\":\"/getSomething\"}\",\n" +

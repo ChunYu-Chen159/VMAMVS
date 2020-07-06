@@ -198,15 +198,13 @@ public class MonitorService {
                                 for (int j = 0; j < jsonArr.length(); j++) {
                                     String status = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("status");
 
-                                    System.out.println("status: " + status);
-
                                     if (status.equals("PASS")) {
                                         String time = jsonArr.getJSONObject(j).getJSONObject("testResult").getString("finished_at");
 
                                         try {
 
                                             Date date1 = dateFormat2.parse(time);
-                                            String str = dateFormat2.format(monitorError.getTimestamp() / 1000);
+                                            String str = dateFormat2.format(monitorError.getTimestamp() / 1000L);
                                             Date date2 = dateFormat2.parse(str);
 
                                             Calendar cal1 = Calendar.getInstance();
@@ -229,6 +227,25 @@ public class MonitorService {
 
                         }
                     }
+                }
+            }else {
+                try {
+                    String str = dateFormat2.format((monitorError.getTimestamp() / 1000L) - 10 * 24 * 60 * 1000L);
+                    Date date1 = dateFormat2.parse(str);
+                    String str2 = dateFormat2.format(monitorError.getTimestamp() / 1000);
+                    Date date2 = dateFormat2.parse(str2);
+
+                    Calendar cal1 = Calendar.getInstance();
+                    Calendar cal2 = Calendar.getInstance();
+                    cal1.setTime(date1);
+                    cal2.setTime(date2);
+
+                    if (cal1.after(cal2)) {
+                        serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
+                        monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -676,7 +693,7 @@ public class MonitorService {
 
         if(!monitorErrors2.isEmpty()) {
             // 刪除重複
-            for(int i = monitorErrors.size() - 1; i > 0; i--){
+            for(int i = monitorErrors.size() - 1; i >= 0; i--){
                 MonitorError monitorError = monitorErrors.get(i);
                 System.out.println("i: " + i);
 

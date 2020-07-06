@@ -12,6 +12,8 @@ public class MonitorError {
     private String errorAppName;
     private String errorAppVersion;
     private String consumerAppName;
+    private String providerAppName;
+    private String providerAppVersion;
     private long timestamp;
     private String date;
     private String statusCode;
@@ -77,6 +79,22 @@ public class MonitorError {
 
     public void setConsumerAppName(String consumerAppName) {
         this.consumerAppName = consumerAppName;
+    }
+
+    public String getProviderAppName() {
+        return providerAppName;
+    }
+
+    public void setProviderAppName(String providerAppName) {
+        this.providerAppName = providerAppName;
+    }
+
+    public String getProviderAppVersion() {
+        return providerAppVersion;
+    }
+
+    public void setProviderAppVersion(String providerAppVersion) {
+        this.providerAppVersion = providerAppVersion;
     }
 
     public long getTimestamp() {
