@@ -231,7 +231,7 @@ public class MonitorService {
             }else {
                 try {
                     // 10天內
-                    String str = dateFormat2.format((monitorError.getTimestamp() / 1000L) - 10 * 24 * 60 * 60 * 1000L);
+                    String str = dateFormat2.format(System.currentTimeMillis() - 10 * 24 * 60 * 60 * 1000L);
                     Date date1 = dateFormat2.parse(str);
                     String str2 = dateFormat2.format(monitorError.getTimestamp() / 1000L);
                     Date date2 = dateFormat2.parse(str2);
