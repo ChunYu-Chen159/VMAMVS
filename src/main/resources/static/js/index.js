@@ -346,7 +346,7 @@ function startSDGGraph(systemName) {
             scales: {
                 xAxes: [{
                     gridLines: {
-                        offsetGridLines: true,
+                        // offsetGridLines: true,
                         drawOnChartArea: true
                     }
                 }],
