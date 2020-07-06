@@ -290,15 +290,15 @@ function startSDGGraph(systemName) {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
                 label: 'My First dataset',
-                backgroundColor: rgba(54, 162, 235, 0.2),
-                borderColor: rgba(54, 162, 235, 0.2),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 0.2)',
                 data: [10, 30, 39, 20, 25, 34, -10],
                 fill: false,
             }, {
                 label: 'My Second dataset',
                 fill: false,
-                backgroundColor: rgba(75, 192, 192, 0.2),
-                borderColor: rgba(75, 192, 192, 0.2),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 0.2)',
                 data: [18, 33, 22, 19, 11, 39, 30],
             }]
         },
