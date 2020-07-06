@@ -28,25 +28,29 @@ public class ReturnError extends MonitorError {
         setErrorMethod("GET");
         setErrorType("ReturnError");
         setTestedPASS(true);
-        errorServiceList.add(new ErrorService(477, "PAYMENT", "0.0.1-SNAPSHOT", "CINEMA:PAYMENT:0.0.1-SNAPSHOT", false));
-        errorServiceList.add(new ErrorService(103, "ORDERING", "0.0.1-SNAPSHOT", "CINEMA:ORDERING:0.0.1-SNAPSHOT", true));
         errorServiceList.add(new ErrorService(317, "GROCERYINVENTORY", "0.0.1-SNAPSHOT", "CINEMA:GROCERYINVENTORY:0.0.1-SNAPSHOT", false));
+        errorServiceList.add(new ErrorService(103, "ORDERING", "0.0.1-SNAPSHOT", "CINEMA:ORDERING:0.0.1-SNAPSHOT", true));
         errorServiceList.add(new ErrorService(393, "NOTIFICATION", "0.0.1-SNAPSHOT", "CINEMA:NOTIFICATION:0.0.1-SNAPSHOT", false));
+        errorServiceList.add(new ErrorService(477, "PAYMENT", "0.0.1-SNAPSHOT", "CINEMA:PAYMENT:0.0.1-SNAPSHOT", false));
         setErrorServices(errorServiceList);
 
-        errorEndpointList.add(new ErrorEndpoint(389, "CINEMA:NOTIFICATION:0.0.1-SNAPSHOT", "NOTIFICATION", "/newNotification", false));
         errorEndpointList.add(new ErrorEndpoint(479, "CINEMA:GROCERYINVENTORY:0.0.1-SNAPSHOT", "GROCERYINVENTORY", "/orderingGrocery", false));
-        errorEndpointList.add(new ErrorEndpoint(414, "CINEMA:ORDERING:0.0.1-SNAPSHOT", "ORDERING", "/newGroceryOrdering", true));
-        errorEndpointList.add(new ErrorEndpoint(416, "CINEMA:PAYMENT:0.0.1-SNAPSHOT", "PAYMENT", "/payment", false));
+        errorEndpointList.add(new ErrorEndpoint(465, "CINEMA:ORDERING:0.0.1-SNAPSHOT", "ORDERING", "/newGroceryOrdering", true));
+        errorEndpointList.add(new ErrorEndpoint(389, "CINEMA:NOTIFICATION:0.0.1-SNAPSHOT", "NOTIFICATION", "/newNotification", false));
+        errorEndpointList.add(new ErrorEndpoint(476, "CINEMA:PAYMENT:0.0.1-SNAPSHOT", "PAYMENT", "/payment", false));
         setErrorEndpoints(errorEndpointList);
 
+
+        errorLinkList.add(new ErrorLink(564, 317, "OWN", 479, false));
+        errorLinkList.add(new ErrorLink(347, 479, "HTTP_REQUEST", 465, false));
         errorLinkList.add(new ErrorLink(410, 103, "OWN", 465, true));
         errorLinkList.add(new ErrorLink(628, 465, "HTTP_REQUEST", 389, false));
+        errorLinkList.add(new ErrorLink(629, 465, "HTTP_REQUEST", 476, false));
         errorLinkList.add(new ErrorLink(365, 393, "OWN", 389, false));
         errorLinkList.add(new ErrorLink(320, 477, "OWN", 476, false));
-        errorLinkList.add(new ErrorLink(347, 479, "HTTP_REQUEST", 465, false));
-        errorLinkList.add(new ErrorLink(564, 317, "OWN", 479, false));
-        errorLinkList.add(new ErrorLink(629, 476, "HTTP_REQUEST", 465, false));
+
+
+
         setErrorLinks(errorLinkList);
 
 
