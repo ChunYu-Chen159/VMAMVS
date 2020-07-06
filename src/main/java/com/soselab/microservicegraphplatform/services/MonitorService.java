@@ -8,6 +8,7 @@ import com.soselab.microservicegraphplatform.bean.mgp.AppMetrics;
 import com.soselab.microservicegraphplatform.bean.mgp.WebNotification;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.*;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.chart.TotalErrorChart;
 import com.soselab.microservicegraphplatform.bean.mgp.notification.warning.*;
 import com.soselab.microservicegraphplatform.bean.neo4j.Service;
 import com.soselab.microservicegraphplatform.bean.neo4j.Setting;
@@ -683,15 +684,6 @@ public class MonitorService {
             monitorError.setIndex(0);
         }
 
-
-/*        for ( int i = 0 ; i < list.size() - 1 ; i ++ ) {
-            for ( int j = list.size() - 1 ; j > i; j -- ) {
-                if (list.get(j).equals(list.get(i))) {
-                    list.remove(j);
-                }
-            }
-        } System.out.println(list);*/
-
         if(!monitorErrors2.isEmpty()) {
             // 刪除重複
             for(int i = monitorErrors.size() - 1; i >= 0; i--){
@@ -722,6 +714,57 @@ public class MonitorService {
 
     public List<MonitorError> getSimulateErrorsOfSystem(String systemName) {
         return allSimulateMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
+    }
+
+    public TotalErrorChart getErrorChart(String systemName) {
+        TotalErrorChart totalErrorChart = new TotalErrorChart();
+
+        Map<Date,Integer> map = new HashMap<>();
+
+        int totalDay = 180;
+        int timeInterval = 30;
+
+        List<MonitorError> monitorErrorList = allSimulateMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
+        long nowTime = System.currentTimeMillis();
+
+        for ( int i = 0; i < totalDay; i+= timeInterval) {
+            try {
+                int countError = 0;
+                String str1 = dateFormat2.format(nowTime - i * 24 * 60 * 60 * 1000L);
+                Date date1 = dateFormat2.parse(str1);
+                String str2 = dateFormat2.format(nowTime - (i + timeInterval) * 24 * 60 * 60 * 1000L);
+                Date date2 = dateFormat2.parse(str2);
+
+
+                for(int j = 0; j < monitorErrorList.size(); j++ ) {
+                    long monitorErrorTimestamp = monitorErrorList.get(j).getTimestamp() / 1000L;
+
+
+
+                        String str3 = dateFormat2.format(monitorErrorTimestamp);
+                        Date date3 = dateFormat2.parse(str3);
+
+                        Calendar cal1 = Calendar.getInstance();
+                        Calendar cal2 = Calendar.getInstance();
+                        Calendar cal3 = Calendar.getInstance();
+                        cal1.setTime(date1);
+                        cal2.setTime(date2);
+                        cal3.setTime(date3);
+
+                        if (cal3.after(cal1) && cal3.before(cal2)) {
+                            countError++;
+                        }
+                }
+
+                map.put(date1, countError);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        totalErrorChart.setMap(map);
+
+        return totalErrorChart;
     }
 
 

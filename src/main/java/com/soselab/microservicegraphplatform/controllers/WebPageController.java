@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.SpcData;
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.chart.TotalErrorChart;
 import com.soselab.microservicegraphplatform.services.*;
 import com.soselab.microservicegraphplatform.bean.mgp.AppSetting;
 import com.soselab.microservicegraphplatform.bean.neo4j.Service;
@@ -265,6 +266,11 @@ public class WebPageController {
     @GetMapping("/monitor/simulateMonitorErrors/{systemName}")
     public List<MonitorError> simulateMonitorError(@PathVariable("systemName") String systemName) {
         return monitorErrorSimulator.simulateErrors(systemName);
+    }
+
+    @GetMapping("/monitor/getErrorChart/{systemName}")
+    public TotalErrorChart getErrorChart(@PathVariable("systemName") String systemName) {
+        return monitorService.getErrorChart(systemName);
     }
 //
 ////    @RequestMapping(value = "/getImage/{systemName}",produces = MediaType.IMAGE_PNG_VALUE)
