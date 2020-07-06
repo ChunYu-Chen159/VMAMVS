@@ -310,7 +310,9 @@ function startSDGGraph(systemName) {
             console.log("labels_sort: " + labels);
 
             for(let arrKey in labels){
+                console.log("arrKey: " + arrKey);
                 for(let key in jsonContent) {
+                    console.log("key: " + key);
                     if(arrKey === key){
                         datas.push(jsonContent[key]);
                         break;
