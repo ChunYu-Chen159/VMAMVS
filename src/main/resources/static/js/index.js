@@ -358,7 +358,7 @@ function startSDGGraph(systemName) {
                         label: 'MonitorErrorNum',
                         backgroundColor: 'rgba(255, 99, 132, 0.5)',
                         borderColor: 'rgba(255,99,132,1)',
-                        borderWidth: 7,
+                        borderWidth: 5,
                         data: datas,
                         fill: false,
                         fontSize: 30

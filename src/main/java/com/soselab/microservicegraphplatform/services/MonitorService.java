@@ -734,19 +734,11 @@ public class MonitorService {
                 String str2 = dateFormat3.format(nowTime - (i + timeInterval) * 24 * 60 * 60 * 1000L);
                 Date date2 = dateFormat3.parse(str2);
 
-                System.out.println("str1: " + str1);
-                System.out.println("str2: " + str2);
-
-
                 for(int j = 0; j < monitorErrorList.size(); j++ ) {
                     long monitorErrorTimestamp = monitorErrorList.get(j).getTimestamp() / 1000L;
 
-
-
                     String str3 = dateFormat3.format(monitorErrorTimestamp);
                     Date date3 = dateFormat3.parse(str3);
-
-                    System.out.println("str3: " + str3);
 
                     Calendar cal1 = Calendar.getInstance();
                     Calendar cal2 = Calendar.getInstance();
