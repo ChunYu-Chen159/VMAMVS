@@ -305,22 +305,12 @@ function startSDGGraph(systemName) {
                 b = new Date(b);
 
                 return a>b? -1 : a<b? 1 : 0;*/
-                return new Date(b) - new Date(a);
+                return new Date(a) - new Date(b);
             });
 
             // for(let key in jsonContent)
 
             console.log("labels_sort: " + labels);
-
-
-
-/*            jsonContent.sort(function(a,b){
-                return a[0] < b[0];
-            });
-
-            console.log("jsonContent_sort: " + jsonContent);*/
-
-
 
             let ctx = document.getElementById('monitorErrorsChart').getContext('2d');
             // 多線
