@@ -27,7 +27,7 @@ public class LastNodeError extends MonitorError {
         setErrorMethod("GET");
         setErrorType("LastNodeError");
         setTestedPASS(true);
-        errorServiceList.add(new ErrorService(477, "PAYMENT", "0.0.1-SNAPSHOT", "CINEMA:PAYMENT:0.0.1-SNAPSHOT", false));
+        errorServiceList.add(new ErrorService(477, "PAYMENT", "0.0.1-SNAPSHOT", "CINEMA:PAYMENT:0.0.1-SNAPSHOT", true));
         errorServiceList.add(new ErrorService(103, "ORDERING", "0.0.1-SNAPSHOT", "CINEMA:ORDERING:0.0.1-SNAPSHOT", false));
         errorServiceList.add(new ErrorService(440, "CINEMACATALOG", "0.0.1-SNAPSHOT", "CINEMA:CINEMACATALOG:0.0.1-SNAPSHOT", false));
         setErrorServices(errorServiceList);
