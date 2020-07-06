@@ -355,18 +355,20 @@ function startSDGGraph(systemName) {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'My First dataset',
+                        label: 'MonitorErrorNum',
                         backgroundColor: 'rgba(255, 99, 132, 0.5)',
                         borderColor: 'rgba(255,99,132,1)',
                         data: datas,
                         fill: false,
+                        fontSize: 20
                     }]
                 },
                 options: {
                     responsive: true,
                     title: {
                         display: true,
-                        text: 'Grid Line Settings'
+                        text: 'MonitorErrorsChart',
+                        fontSize: 30
                     },
                     scales: {
                         xAxes: [{
