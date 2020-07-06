@@ -387,9 +387,9 @@ function startSDGGraph(systemName) {
                                 color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
                             },
                             ticks: {
-                                min: 20,
+                                min: 0,
                                 max: 100,
-                                stepSize: 15,
+                                stepSize: 20,
                                 fontSize: 20
                             }
                         }]
