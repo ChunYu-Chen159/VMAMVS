@@ -665,13 +665,14 @@ public class MonitorService {
             monitorError.setIndex(0);
         }
 
+
         if(!monitorErrors2.isEmpty()) {
             // 刪除重複
-            for(int i = monitorErrors.size() - 1; i > 0; i--){
+            for(int i = 0; i < monitorErrors.size() - 1; i++){
                 MonitorError monitorError = monitorErrors.get(i);
                 System.out.println("i: " + i);
 
-                for(int j = 0; j < monitorErrors.size()-2; j++){
+                for(int j = monitorErrors.size() - 1; j > i; j--){
                     System.out.println("j: " + j);
                     MonitorError monitorError2 = monitorErrors.get(j);
                     if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
