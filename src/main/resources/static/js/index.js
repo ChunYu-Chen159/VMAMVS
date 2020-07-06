@@ -283,89 +283,104 @@ function startSDGGraph(systemName) {
 
 
     // monitorErrorsChart
-    let ctx = document.getElementById('monitorErrorsChart').getContext('2d');
-    // 多線
-/*    let config = {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 0.2)',
-                data: [10, 30, 39, 20, 25, 34, -10],
-                fill: false,
-            }, {
-                label: 'My Second dataset',
-                fill: false,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 0.2)',
-                data: [18, 33, 22, 19, 11, 39, 30],
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: 'Grid Line Settings'
-            },
-            scales: {
-                yAxes: [{
-                    gridLines: {
-                        drawBorder: false,
-                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
-                    },
-                    ticks: {
-                        min: 0,
-                        max: 100,
-                        stepSize: 10
-                    }
-                }]
-            }
-        }
-    };*/
+    fetch("/web-page/monitor/getErrorChart/" + systemName.value)
+        .then(response => response.json())
+        .then(json => {
 
-    let config = {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderColor: 'rgba(255,99,132,1)',
-                data: [10, 30, 39, 20, 25, 34, -10],
-                fill: false,
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: 'Grid Line Settings'
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        offsetGridLines: true
-                        // drawOnChartArea: true
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        drawBorder: false,
-                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
-                    },
-                    ticks: {
-                        min: 0,
-                        max: 100,
-                        stepSize: 10
-                    }
-                }]
-            }
-        }
-    };
+            let jsonContent = json["map"];
+            console.log("jsonContent: " + jsonContent);
+            jsonContent.sort(function(a,b){
+                return a < b;
+            });
 
-    let myChart = new Chart(ctx, config);
+            console.log("jsonContent_sort: " + jsonContent);
+
+
+
+            let ctx = document.getElementById('monitorErrorsChart').getContext('2d');
+            // 多線
+            /*    let config = {
+                    type: 'line',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        datasets: [{
+                            label: 'My First dataset',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 0.2)',
+                            data: [10, 30, 39, 20, 25, 34, -10],
+                            fill: false,
+                        }, {
+                            label: 'My Second dataset',
+                            fill: false,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 0.2)',
+                            data: [18, 33, 22, 19, 11, 39, 30],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: 'Grid Line Settings'
+                        },
+                        scales: {
+                            yAxes: [{
+                                gridLines: {
+                                    drawBorder: false,
+                                    color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                                },
+                                ticks: {
+                                    min: 0,
+                                    max: 100,
+                                    stepSize: 10
+                                }
+                            }]
+                        }
+                    }
+                };*/
+
+            let config = {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label: 'My First dataset',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        data: [10, 30, 39, 20, 25, 34, -10],
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Grid Line Settings'
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                offsetGridLines: true
+                                // drawOnChartArea: true
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                            },
+                            ticks: {
+                                min: 0,
+                                max: 100,
+                                stepSize: 10
+                            }
+                        }]
+                    }
+                }
+            };
+
+            let myChart = new Chart(ctx, config);
+        });
 
 
     stompClient.send("/mgp/graph/" + systemName.value);
