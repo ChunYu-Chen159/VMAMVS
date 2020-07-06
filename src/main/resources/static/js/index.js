@@ -291,10 +291,26 @@ function startSDGGraph(systemName) {
             console.log("jsonContent: " + jsonContent);
             console.log("jsonContent.length: " + jsonContent.length);
             console.log("jsonContent[0]: " + jsonContent[0]);
+            let labels = [];
+            let datas = [];
+
             for(let key in jsonContent){
                 console.log("key: " + key);
                 console.log("jsonContent[key]: " + jsonContent[key]);
+                labels.push(key);
             }
+            console.log("labels: " + labels);
+            labels.sort(function(a, b) {
+                a = new Date(a);
+                b = new Date(b);
+
+                return a>b? -1 : a<b? 1 : 0;
+            });
+
+            // for(let key in jsonContent)
+
+            console.log("labels_sort: " + labels);
+
 
 
 /*            jsonContent.sort(function(a,b){
