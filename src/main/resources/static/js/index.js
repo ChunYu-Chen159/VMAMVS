@@ -289,11 +289,19 @@ function startSDGGraph(systemName) {
 
             let jsonContent = json["map"];
             console.log("jsonContent: " + jsonContent);
-            jsonContent.sort(function(a,b){
-                return a < b;
+            console.log("jsonContent.length: " + jsonContent.length);
+            console.log("jsonContent[0]: " + jsonContent[0]);
+            for(let key in jsonContent){
+                console.log("key: " + key);
+                console.log("jsonContent[key]: " + jsonContent[key]);
+            }
+
+
+/*            jsonContent.sort(function(a,b){
+                return a[0] < b[0];
             });
 
-            console.log("jsonContent_sort: " + jsonContent);
+            console.log("jsonContent_sort: " + jsonContent);*/
 
 
 
