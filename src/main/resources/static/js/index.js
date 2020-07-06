@@ -309,7 +309,7 @@ function startSDGGraph(systemName) {
             });
             console.log("labels_sort: " + labels);
 
-            for(let arrKey in labels){
+            labels.forEach(arrKey => {
                 console.log("arrKey: " + arrKey);
                 for(let key in jsonContent) {
                     console.log("key: " + key);
@@ -318,7 +318,7 @@ function startSDGGraph(systemName) {
                         break;
                     }
                 }
-            }
+            });
             console.log("datas: " + datas);
 
 
