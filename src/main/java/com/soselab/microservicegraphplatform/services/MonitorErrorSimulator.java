@@ -44,7 +44,7 @@ public class MonitorErrorSimulator {
     // 視覺化 https://noob.tw/web-visualization-chartjs/
     // https://www.ucamc.com/e-learning/javascript/270-%E7%B0%A1%E5%96%AE%E4%BD%BF%E7%94%A8chart-js%E7%B6%B2%E9%A0%81%E4%B8%8A%E7%95%AB%E5%9C%96%E8%A1%A8%E7%AF%84%E4%BE%8B%E9%9B%86-javascript-%E5%9C%96%E8%A1%A8%E3%80%81jquery%E5%9C%96%E8%A1%A8%E7%B9%AA%E8%A3%BD
 
-    public  List<MonitorError> simulateError(String systemName){
+    public  List<MonitorError> simulateErrors(String systemName){
         List<MonitorError> monitorErrors = new ArrayList<>();
 
         long nowTime = System.currentTimeMillis();
@@ -72,6 +72,11 @@ public class MonitorErrorSimulator {
             int randomTime = random.nextInt(timeInterval);
 
             long errorTimestamp = nowTime - randomTime * 24 * 60 * 60 * 1000L;
+
+            System.out.println("randomErrorNum: " + randomErrorNum);
+            System.out.println("randomError: " + randomError);
+            System.out.println("randomTime: " + randomTime);
+            System.out.println("errorTimestamp: " + errorTimestamp);
 
             monitorError.setTimestamp(errorTimestamp);
             monitorError.setDate(dateFormat2.format(errorTimestamp / 1000));

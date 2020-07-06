@@ -257,9 +257,9 @@ public class WebPageController {
         monitorService.checkErrorFromSleuth(systemName);
     }
 
-    @GetMapping("/monitor/simulateMonitorError/{systemName}")
+    @GetMapping("/monitor/simulateMonitorErrors/{systemName}")
     public List<MonitorError> simulateMonitorError(@PathVariable("systemName") String systemName) {
-        return monitorErrorSimulator.simulateError(systemName);
+        return monitorErrorSimulator.simulateErrors(systemName);
     }
 //
 ////    @RequestMapping(value = "/getImage/{systemName}",produces = MediaType.IMAGE_PNG_VALUE)
