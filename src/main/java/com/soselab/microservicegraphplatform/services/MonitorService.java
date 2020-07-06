@@ -667,12 +667,11 @@ public class MonitorService {
 
         if(!monitorErrors2.isEmpty()) {
             // 刪除重複
-            List<MonitorError> temp = monitorErrors;
-            for(int i = temp.size() - 1; i > 0; i--){
-                MonitorError monitorError = temp.get(i);
+            for(int i = monitorErrors.size() - 1; i > 0; i--){
+                MonitorError monitorError = monitorErrors.get(i);
 
-                for(int j = 0; j < temp.size()-2; j++){
-                    MonitorError monitorError2 = temp.get(j);
+                for(int j = 0; j < monitorErrors.size()-2; j++){
+                    MonitorError monitorError2 = monitorErrors.get(j);
                     if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
                             monitorError.getErrorUrl().equals(monitorError2.getErrorUrl()) &&
                             monitorError.getErrorType().equals(monitorError2.getErrorType()) &&
