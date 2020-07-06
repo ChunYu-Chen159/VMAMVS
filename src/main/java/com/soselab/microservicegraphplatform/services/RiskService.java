@@ -1,5 +1,6 @@
 package com.soselab.microservicegraphplatform.services;
 
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 import com.soselab.microservicegraphplatform.bean.neo4j.Service;
 import com.soselab.microservicegraphplatform.repositories.neo4j.GeneralRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.ServiceRepository;
@@ -8,10 +9,14 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Configuration
 public class RiskService {
+
+    private static final SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     @Autowired
     private SleuthService sleuthService;
@@ -19,6 +24,8 @@ public class RiskService {
     private ServiceRepository serviceRepository;
     @Autowired
     private GeneralRepository generalRepository;
+    @Autowired
+    private MonitorService monitorService;
 
     private final int totalDay = 180; // 總天數180天
     private final int timeInterval = 6; // 6天為間隔
@@ -40,6 +47,8 @@ public class RiskService {
 
         Map<String,Object> averageMap = new HashMap<>();
 
+        List<MonitorError> simulatorMonitorErrors = monitorService.getSimulateErrorsOfSystem(systemName);
+
         // 計算所有服務的平均值，totalDay時間內，以timeInterval為間隔找出各間隔服務錯誤數，並找出最大最小值算出平均值
         for(Service s : ServicesInDB) {
             Long endTime = nowTime;
@@ -47,7 +56,8 @@ public class RiskService {
 
             for ( int i = 0; i < totalDay - timeInterval + 1; i++) {
 
-                String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                // 分析真實錯誤用的方法
+                /*String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
                 String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
                 String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
                 String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
@@ -55,9 +65,40 @@ public class RiskService {
                 int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
                 int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
                 int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
-                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
+                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);*/
 
-                al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
+                // 分析模擬錯誤用的方法
+                int totalNum = 0;
+                for(int j = 0; j < simulatorMonitorErrors.size(); j++){
+                    MonitorError monitorError = simulatorMonitorErrors.get(j);
+                    if(s.getAppId().equals(monitorError.getErrorAppId())) {
+                        try {
+
+                            String str1 = dateFormat2.format(endTime);
+                            Date date1 = dateFormat2.parse(str1);
+                            String str2 = dateFormat2.format(endTime - lookback);
+                            Date date2 = dateFormat2.parse(str2);
+                            String str3 = dateFormat2.format(monitorError.getTimestamp() / 1000L);
+                            Date date3 = dateFormat2.parse(str3);
+
+                            Calendar cal1 = Calendar.getInstance();
+                            Calendar cal2 = Calendar.getInstance();
+                            Calendar cal3 = Calendar.getInstance();
+                            cal1.setTime(date1);
+                            cal2.setTime(date2);
+                            cal3.setTime(date3);
+
+                            if (cal3.before(cal1) && cal3.after(cal2)) {
+                                totalNum++;
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                al.add(totalNum);
+//                al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
 
                 endTime -= move;
 

@@ -70,9 +70,9 @@ public class GraphService {
         // Store the graph json of each systems at a Map as cache.
         List<String> systemNames = generalRepository.getAllSystemName();
         for (String systemName : systemNames) {
+            monitorService.checkErrorFromSleuth(systemName);
             contractService.setAllServiceContractTestingCondition(systemName);
             riskService.setServiceRisk(systemName);
-            monitorService.checkErrorFromSleuth(systemName);
             //monitorService.runScheduled(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
         }
