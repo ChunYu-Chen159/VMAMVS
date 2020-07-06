@@ -288,38 +288,24 @@ function startSDGGraph(systemName) {
         .then(json => {
 
             let jsonContent = json["map"];
-            console.log("jsonContent: " + jsonContent);
-            console.log("jsonContent.length: " + jsonContent.length);
-            console.log("jsonContent[0]: " + jsonContent[0]);
             let labels = [];
             let datas = [];
 
             for(let key in jsonContent){
-                console.log("key: " + key);
-                console.log("jsonContent[key]: " + jsonContent[key]);
                 labels.push(key);
             }
-            console.log("labels: " + labels);
             labels.sort(function(a, b) {
-/*                a = new Date(a);
-                b = new Date(b);
-
-                return a>b? -1 : a<b? 1 : 0;*/
                 return new Date(a) - new Date(b);
             });
-            console.log("labels_sort: " + labels);
 
             labels.forEach(arrKey => {
-                console.log("arrKey: " + arrKey);
                 for(let key in jsonContent) {
-                    console.log("key: " + key);
                     if(arrKey === key){
                         datas.push(jsonContent[key]);
                         break;
                     }
                 }
             });
-            console.log("datas: " + datas);
 
 
             let ctx = document.getElementById('monitorErrorsChart').getContext('2d');
@@ -387,6 +373,9 @@ function startSDGGraph(systemName) {
                             gridLines: {
                                 offsetGridLines: true
                                 // drawOnChartArea: true
+                            },
+                            ticks: {
+                                fontSize: 20
                             }
                         }],
                         yAxes: [{
@@ -397,7 +386,8 @@ function startSDGGraph(systemName) {
                             ticks: {
                                 min: 0,
                                 max: 100,
-                                stepSize: 10
+                                stepSize: 20,
+                                fontSize: 20
                             }
                         }]
                     }
