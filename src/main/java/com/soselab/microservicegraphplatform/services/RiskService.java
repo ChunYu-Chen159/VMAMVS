@@ -98,6 +98,7 @@ public class RiskService {
 
                 }
                 al.add(totalNum);
+                // 分析真實錯誤用的方法
 //                al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
 
                 endTime -= move;
