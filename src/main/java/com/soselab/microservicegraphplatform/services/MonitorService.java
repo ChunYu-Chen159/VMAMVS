@@ -666,15 +666,23 @@ public class MonitorService {
         }
 
 
+/*        for ( int i = 0 ; i < list.size() - 1 ; i ++ ) {
+            for ( int j = list.size() - 1 ; j > i; j -- ) {
+                if (list.get(j).equals(list.get(i))) {
+                    list.remove(j);
+                }
+            }
+        } System.out.println(list);*/
+
         if(!monitorErrors2.isEmpty()) {
             // 刪除重複
-            for(int i = 0; i < monitorErrors.size() - 1; i++){
+            for(int i = monitorErrors.size() - 1; i > 0; i--){
                 MonitorError monitorError = monitorErrors.get(i);
                 System.out.println("i: " + i);
 
-                for(int j = monitorErrors.size() - 1; j > i; j--){
+                for(int j = 0; j < monitorErrors2.size(); j++){
                     System.out.println("j: " + j);
-                    MonitorError monitorError2 = monitorErrors.get(j);
+                    MonitorError monitorError2 = monitorErrors2.get(j);
                     if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
                             monitorError.getErrorUrl().equals(monitorError2.getErrorUrl()) &&
                             monitorError.getErrorType().equals(monitorError2.getErrorType()) &&
