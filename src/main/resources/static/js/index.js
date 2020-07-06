@@ -284,7 +284,8 @@ function startSDGGraph(systemName) {
 
     // monitorErrorsChart
     let ctx = document.getElementById('monitorErrorsChart').getContext('2d');
-    let config = {
+    // 多線
+/*    let config = {
         type: 'line',
         data: {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -300,6 +301,40 @@ function startSDGGraph(systemName) {
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 0.2)',
                 data: [18, 33, 22, 19, 11, 39, 30],
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Grid Line Settings'
+            },
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false,
+                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 10
+                    }
+                }]
+            }
+        }
+    };*/
+
+    let config = {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 0.2)',
+                data: [10, 30, 39, 20, 25, 34, -10],
+                fill: false,
             }]
         },
         options: {
