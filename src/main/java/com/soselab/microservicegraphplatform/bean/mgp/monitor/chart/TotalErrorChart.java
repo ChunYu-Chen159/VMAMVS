@@ -6,14 +6,14 @@ import java.util.Map;
 
 public class TotalErrorChart {
 
-    Map<Date,Integer> map = new HashMap<>();
+    Map<String,Integer> map = new HashMap<>();
 
 
-    public Map<Date, Integer> getMap() {
+    public Map<String, Integer> getMap() {
         return map;
     }
 
-    public void setMap(Map<Date, Integer> map) {
+    public void setMap(Map<String, Integer> map) {
         this.map = map;
     }
 }

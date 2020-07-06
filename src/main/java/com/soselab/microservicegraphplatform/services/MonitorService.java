@@ -688,10 +688,8 @@ public class MonitorService {
             // 刪除重複
             for(int i = monitorErrors.size() - 1; i >= 0; i--){
                 MonitorError monitorError = monitorErrors.get(i);
-                System.out.println("i: " + i);
 
                 for(int j = 0; j < monitorErrors2.size(); j++){
-                    System.out.println("j: " + j);
                     MonitorError monitorError2 = monitorErrors2.get(j);
                     if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
                             monitorError.getErrorUrl().equals(monitorError2.getErrorUrl()) &&
@@ -719,7 +717,7 @@ public class MonitorService {
     public TotalErrorChart getErrorChart(String systemName) {
         TotalErrorChart totalErrorChart = new TotalErrorChart();
 
-        Map<Date,Integer> map = new HashMap<>();
+        Map<String,Integer> map = new HashMap<>();
 
         int totalDay = 180;
         int timeInterval = 30;
@@ -735,28 +733,33 @@ public class MonitorService {
                 String str2 = dateFormat2.format(nowTime - (i + timeInterval) * 24 * 60 * 60 * 1000L);
                 Date date2 = dateFormat2.parse(str2);
 
+                System.out.println("str1: " + str1);
+                System.out.println("str2: " + str2);
+
 
                 for(int j = 0; j < monitorErrorList.size(); j++ ) {
                     long monitorErrorTimestamp = monitorErrorList.get(j).getTimestamp() / 1000L;
 
 
 
-                        String str3 = dateFormat2.format(monitorErrorTimestamp);
-                        Date date3 = dateFormat2.parse(str3);
+                    String str3 = dateFormat2.format(monitorErrorTimestamp);
+                    Date date3 = dateFormat2.parse(str3);
 
-                        Calendar cal1 = Calendar.getInstance();
-                        Calendar cal2 = Calendar.getInstance();
-                        Calendar cal3 = Calendar.getInstance();
-                        cal1.setTime(date1);
-                        cal2.setTime(date2);
-                        cal3.setTime(date3);
+                    System.out.println("str3: " + str3);
 
-                        if (cal3.after(cal1) && cal3.before(cal2)) {
-                            countError++;
-                        }
+                    Calendar cal1 = Calendar.getInstance();
+                    Calendar cal2 = Calendar.getInstance();
+                    Calendar cal3 = Calendar.getInstance();
+                    cal1.setTime(date1);
+                    cal2.setTime(date2);
+                    cal3.setTime(date3);
+
+                    if (cal3.before(cal1) && cal3.after(cal2)) {
+                        countError++;
+                    }
                 }
 
-                map.put(date1, countError);
+                map.put(str1, countError);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
