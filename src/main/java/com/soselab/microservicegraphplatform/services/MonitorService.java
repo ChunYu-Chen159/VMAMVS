@@ -36,6 +36,7 @@ public class MonitorService {
     private static final Logger logger = LoggerFactory.getLogger(MonitorService.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     private static final SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private GeneralRepository generalRepository;
@@ -728,10 +729,10 @@ public class MonitorService {
         for ( int i = 0; i < totalDay; i+= timeInterval) {
             try {
                 int countError = 0;
-                String str1 = dateFormat2.format(nowTime - i * 24 * 60 * 60 * 1000L);
-                Date date1 = dateFormat2.parse(str1);
-                String str2 = dateFormat2.format(nowTime - (i + timeInterval) * 24 * 60 * 60 * 1000L);
-                Date date2 = dateFormat2.parse(str2);
+                String str1 = dateFormat3.format(nowTime - i * 24 * 60 * 60 * 1000L);
+                Date date1 = dateFormat3.parse(str1);
+                String str2 = dateFormat3.format(nowTime - (i + timeInterval) * 24 * 60 * 60 * 1000L);
+                Date date2 = dateFormat3.parse(str2);
 
                 System.out.println("str1: " + str1);
                 System.out.println("str2: " + str2);
@@ -742,8 +743,8 @@ public class MonitorService {
 
 
 
-                    String str3 = dateFormat2.format(monitorErrorTimestamp);
-                    Date date3 = dateFormat2.parse(str3);
+                    String str3 = dateFormat3.format(monitorErrorTimestamp);
+                    Date date3 = dateFormat3.parse(str3);
 
                     System.out.println("str3: " + str3);
 
