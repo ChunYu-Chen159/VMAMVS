@@ -252,6 +252,11 @@ public class WebPageController {
         return monitorService.getErrorsOfSystem(systemName);
     }
 
+    @GetMapping("/monitor/getSimulateErrors/{systemName}")
+    public List<MonitorError> getSimulateErrorsOfSystem(@PathVariable("systemName") String systemName) {
+        return monitorService.getSimulateErrorsOfSystem(systemName);
+    }
+
     @GetMapping("/monitor/runMonitorErrors/{systemName}")
     public void runMonitorErrorsOfSystem(@PathVariable("systemName") String systemName) {
         monitorService.checkErrorFromSleuth(systemName);

@@ -58,6 +58,8 @@ public class MonitorService {
     private SpringRestTool springRestTool;
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private MonitorErrorSimulator monitorErrorSimulator;
 
     private Map<String, SpcData> failureStatusRateSPCMap = new HashMap<>();
     private Map<String, SpcData> averageDurationSPCMap = new HashMap<>();
@@ -69,6 +71,7 @@ public class MonitorService {
     private final int STATUSCODE504 = 504;
 
     private Map<String, List<MonitorError>> allMonitorErrorList = new HashMap<>();
+    private Map<String, List<MonitorError>> allSimulateMonitorErrorList = new HashMap<>();
 
     @Scheduled(cron = "0 0 3 1/1 * ?") // 週期執行
     private void everyDayScheduled() {
@@ -106,7 +109,8 @@ public class MonitorService {
         Long lookback = 1 * 60 * 60 * 1000L;
         int limit = 10000;
 
-        for(Service s : ServicesInDB) {
+        // 以下註解為實際分析使用的方法
+/*        for(Service s : ServicesInDB) {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
 
@@ -145,8 +149,16 @@ public class MonitorService {
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList504),
                     (oldList, newList) -> pushMonitorError(oldList, monitorErrorList504));
 
-        }
+        }*/
 
+
+        // 以下為模擬錯誤使用的方法
+        List<MonitorError> simulatorMonitorErrors = monitorErrorSimulator.simulateErrors(systemName);
+        allMonitorErrorList.merge(systemName, new ArrayList<>(simulatorMonitorErrors),
+                (oldList, newList) -> pushMonitorError(oldList, simulatorMonitorErrors));
+        allSimulateMonitorErrorList.remove(systemName);
+        allSimulateMonitorErrorList.put(systemName, simulatorMonitorErrors);
+        // ------------------------------------------------
 
         if(!allMonitorErrorList.get(systemName).isEmpty() && allMonitorErrorList.get(systemName).size() > 0){
             checkTimeOfTestAndMonitorError(allMonitorErrorList.get(systemName));
@@ -677,6 +689,10 @@ public class MonitorService {
 
     public List<MonitorError> getErrorsOfSystem(String systemName) {
         return allMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
+    }
+
+    public List<MonitorError> getSimulateErrorsOfSystem(String systemName) {
+        return allSimulateMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
     }
 
 
