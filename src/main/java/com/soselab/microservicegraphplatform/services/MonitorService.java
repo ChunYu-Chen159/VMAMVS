@@ -766,6 +766,7 @@ public class MonitorService {
             }
         }
 
+
         totalErrorChart.setMap(map);
 
         return totalErrorChart;
