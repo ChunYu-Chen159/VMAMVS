@@ -301,10 +301,11 @@ function startSDGGraph(systemName) {
             }
             console.log("labels: " + labels);
             labels.sort(function(a, b) {
-                a = new Date(a);
+/*                a = new Date(a);
                 b = new Date(b);
 
-                return a>b? -1 : a<b? 1 : 0;
+                return a>b? -1 : a<b? 1 : 0;*/
+                return new Date(b) - new Date(a);
             });
 
             // for(let key in jsonContent)
