@@ -52,35 +52,29 @@ public class MonitorErrorSimulator {
 
 
         for( int i = 0; i < randomErrorNum; i++) {
-            MonitorError monitorError = new MonitorError();
-            int randomError = random.nextInt(3) + 1;
-            switch (randomError) {
-                case 1:
-                    monitorError = returnError;
-                    break;
-                case 2:
-                    monitorError = lastNodeError;
-                    break;
-                case 3:
-                    monitorError = nullError;
-                    break;
-                default:
-                    System.out.println("None");
-                    break;
-            }
 
             int randomTime = random.nextInt(timeInterval);
 
             long errorTimestamp = nowTime - randomTime * 24 * 60 * 60 * 1000L;
 
-            System.out.println("randomErrorNum: " + randomErrorNum);
-            System.out.println("randomError: " + randomError);
-            System.out.println("randomTime: " + randomTime);
-            System.out.println("errorTimestamp: " + errorTimestamp);
+            int randomError = random.nextInt(3) + 1;
 
-            monitorError.setTimestamp(errorTimestamp);
-            monitorError.setDate(dateFormat2.format(errorTimestamp / 1000));
-
+            if(randomError == 1){
+                MonitorError monitorError = new ReturnError();
+                monitorError.setTimestamp(errorTimestamp * 1000L);
+                monitorError.setDate(dateFormat2.format(errorTimestamp));
+                monitorErrors.add(monitorError);
+            }else if(randomError == 2){
+                MonitorError monitorError = new LastNodeError();
+                monitorError.setTimestamp(errorTimestamp * 1000L);
+                monitorError.setDate(dateFormat2.format(errorTimestamp));
+                monitorErrors.add(monitorError);
+            }else if(randomError == 3) {
+                MonitorError monitorError = new NullError();
+                monitorError.setTimestamp(errorTimestamp * 1000L);
+                monitorError.setDate(dateFormat2.format(errorTimestamp));
+                monitorErrors.add(monitorError);
+            }
 
 
         }
