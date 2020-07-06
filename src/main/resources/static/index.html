@@ -319,6 +319,9 @@
 	<script defer src="js/sdg-graph.js"></script>
 	<script defer src="js/spc-graph.js"></script>
 	<script defer src="js/index.js"></script>
+
+	<!-- Chart.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 </head>
 <body>
 <div id="sdg-canvas" class="canvas border">
@@ -561,6 +564,14 @@
 							<div class="dropdown-menu notification" aria-labelledby="notificationsMenuLink">
 								<button class="dropdown-item">
 								</button>
+							</div>
+						</div>
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="monitorErrorsChartLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								monitorErrorsChart
+							</a>
+							<div class="dropdown-menu monitorErrorsChart" aria-labelledby="monitorErrorsChartLink">
+								<canvas id="monitorErrorsChart" width="800" height="600"></canvas>
 							</div>
 						</div>
 						<li class="nav-item">

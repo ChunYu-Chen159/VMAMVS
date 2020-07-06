@@ -281,6 +281,52 @@ function startSDGGraph(systemName) {
         }
     }
 
+
+    // monitorErrorsChart
+    let ctx = document.getElementById('monitorErrorsChart').getContext('2d');
+    let config = {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [10, 30, 39, 20, 25, 34, -10],
+                fill: false,
+            }, {
+                label: 'My Second dataset',
+                fill: false,
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data: [18, 33, 22, 19, 11, 39, 30],
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Grid Line Settings'
+            },
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false,
+                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 10
+                    }
+                }]
+            }
+        }
+    };
+
+    let myChart = new Chart(ctx, config);
+
+
     stompClient.send("/mgp/graph/" + systemName.value);
 }
 
