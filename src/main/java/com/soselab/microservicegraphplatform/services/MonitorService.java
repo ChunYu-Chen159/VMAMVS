@@ -109,7 +109,7 @@ public class MonitorService {
         Long lookback = 1 * 60 * 60 * 1000L;
         int limit = 10000;
 
-        // 以下註解為實際分析使用的方法
+        // 以下註解為實際分析錯誤使用的方法
 /*        for(Service s : ServicesInDB) {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
@@ -665,23 +665,24 @@ public class MonitorService {
             monitorError.setIndex(0);
         }
 
-        if(!monitorErrors2.isEmpty())
-            monitorErrors.addAll(0, monitorErrors2);
+        if(!monitorErrors2.isEmpty()) {
+            // 刪除重複
+            List<MonitorError> temp = monitorErrors;
+            for(int i = temp.size() - 1; i > 0; i--){
+                MonitorError monitorError = temp.get(i);
 
-        // 刪除重複
-        List<MonitorError> temp = monitorErrors;
-        for(int i = temp.size() - 1; i > 0; i--){
-            MonitorError monitorError = temp.get(i);
-
-            for(int j = 0; j < temp.size()-2; j++){
-                MonitorError monitorError2 = temp.get(j);
-                if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
-                    monitorError.getErrorUrl().equals(monitorError2.getErrorUrl()) &&
-                    monitorError.getErrorType().equals(monitorError2.getErrorType()) &&
-                    monitorError.getErrorAppId().equals(monitorError2.getErrorAppId())){
-                    monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                for(int j = 0; j < temp.size()-2; j++){
+                    MonitorError monitorError2 = temp.get(j);
+                    if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
+                            monitorError.getErrorUrl().equals(monitorError2.getErrorUrl()) &&
+                            monitorError.getErrorType().equals(monitorError2.getErrorType()) &&
+                            monitorError.getErrorAppId().equals(monitorError2.getErrorAppId())){
+                        monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                    }
                 }
             }
+
+            monitorErrors.addAll(0, monitorErrors2);
         }
 
         return monitorErrors;
