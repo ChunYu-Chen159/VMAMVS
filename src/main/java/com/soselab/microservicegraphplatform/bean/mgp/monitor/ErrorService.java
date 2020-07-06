@@ -17,6 +17,13 @@ public class ErrorService {
         this.sourceOfError = false;
     }
 
+    public ErrorService(long id, String appName, String version, String appId, boolean sourceOfError) {
+        this.id = id;
+        this.appName = appName;
+        this.version = version;
+        this.appId = appId;
+        this.sourceOfError = sourceOfError;
+    }
 
     public void setId(long id) {
         this.id = id;

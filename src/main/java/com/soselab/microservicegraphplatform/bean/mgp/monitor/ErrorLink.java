@@ -16,6 +16,14 @@ public class ErrorLink {
         this.sourceOfError = false;
     }
 
+    public ErrorLink(long id, long AId, String relationship, long BId, boolean sourceOfError) {
+        this.id = id;
+        this.AId = AId;
+        this.relationship = relationship;
+        this.BId = BId;
+        this.sourceOfError = sourceOfError;
+    }
+
     public long getId() {
         return id;
     }

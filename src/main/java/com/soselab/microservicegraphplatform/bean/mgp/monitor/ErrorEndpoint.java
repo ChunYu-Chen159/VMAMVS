@@ -15,6 +15,14 @@ public class ErrorEndpoint {
         this.sourceOfError = false;
     }
 
+    public ErrorEndpoint(long id, String parentAppId, String parentAppName, String path, boolean sourceOfError) {
+        this.id = id;
+        this.parentAppId = parentAppId;
+        this.parentAppName = parentAppName;
+        this.path = path;
+        this.sourceOfError = sourceOfError;
+    }
+
     public void setId(long id) {
         this.id = id;
     }

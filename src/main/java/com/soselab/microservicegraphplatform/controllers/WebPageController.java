@@ -65,6 +65,8 @@ public class WebPageController {
     private SleuthService sleuthService;
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private MonitorErrorSimulator monitorErrorSimulator;
 
     @GetMapping("/system-names")
     public String getSystems() {
@@ -253,6 +255,11 @@ public class WebPageController {
     @GetMapping("/monitor/runMonitorErrors/{systemName}")
     public void runMonitorErrorsOfSystem(@PathVariable("systemName") String systemName) {
         monitorService.checkErrorFromSleuth(systemName);
+    }
+
+    @GetMapping("/monitor/simulateMonitorError/{systemName}")
+    public List<MonitorError> simulateMonitorError(@PathVariable("systemName") String systemName) {
+        return monitorErrorSimulator.simulateError(systemName);
     }
 //
 ////    @RequestMapping(value = "/getImage/{systemName}",produces = MediaType.IMAGE_PNG_VALUE)
