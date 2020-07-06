@@ -669,8 +669,10 @@ public class MonitorService {
             // 刪除重複
             for(int i = monitorErrors.size() - 1; i > 0; i--){
                 MonitorError monitorError = monitorErrors.get(i);
+                System.out.println("i: " + i);
 
                 for(int j = 0; j < monitorErrors.size()-2; j++){
+                    System.out.println("j: " + j);
                     MonitorError monitorError2 = monitorErrors.get(j);
                     if(monitorError.getTimestamp() == monitorError2.getTimestamp() &&
                             monitorError.getErrorUrl().equals(monitorError2.getErrorUrl()) &&
