@@ -62,6 +62,10 @@ public class MonitorService {
     private ObjectMapper mapper;
     @Autowired
     private MonitorErrorSimulator monitorErrorSimulator;
+    @Autowired
+    private ContractService contractService;
+    @Autowired
+    private RiskService riskService;
 
     private Map<String, SpcData> failureStatusRateSPCMap = new HashMap<>();
     private Map<String, SpcData> averageDurationSPCMap = new HashMap<>();
@@ -97,6 +101,8 @@ public class MonitorService {
         List<String> systemNames = generalRepository.getAllSystemName();
         for (String systemName : systemNames) {
             checkErrorFromSleuth(systemName);
+            contractService.setAllServiceContractTestingCondition(systemName);
+            riskService.setServiceRisk(systemName);
         }
         logger.info("Hourly scheduled executed");
     }

@@ -68,6 +68,8 @@ public class WebPageController {
     private ContractService contractService;
     @Autowired
     private MonitorErrorSimulator monitorErrorSimulator;
+    @Autowired
+    private RiskService riskService;
 
     @GetMapping("/system-names")
     public String getSystems() {
@@ -261,6 +263,8 @@ public class WebPageController {
     @GetMapping("/monitor/runMonitorErrors/{systemName}")
     public void runMonitorErrorsOfSystem(@PathVariable("systemName") String systemName) {
         monitorService.checkErrorFromSleuth(systemName);
+        contractService.setAllServiceContractTestingCondition(systemName);
+        riskService.setServiceRisk(systemName);
     }
 
     @GetMapping("/monitor/simulateMonitorErrors/{systemName}")
