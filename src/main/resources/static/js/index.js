@@ -344,6 +344,11 @@ function startSDGGraph(systemName) {
                 text: 'Grid Line Settings'
             },
             scales: {
+                xAxes: [{
+                    gridLines: {
+                        offsetGridLines: true
+                    }
+                }],
                 yAxes: [{
                     gridLines: {
                         drawBorder: false,
