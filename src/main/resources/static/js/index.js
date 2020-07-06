@@ -307,10 +307,18 @@ function startSDGGraph(systemName) {
                 return a>b? -1 : a<b? 1 : 0;*/
                 return new Date(a) - new Date(b);
             });
-
-            // for(let key in jsonContent)
-
             console.log("labels_sort: " + labels);
+
+            for(let arrKey in labels){
+                for(let key in jsonContent) {
+                    if(arrKey === key){
+                        datas.push(jsonContent[key]);
+                        break;
+                    }
+                }
+            }
+            console.log("datas: " + datas);
+
 
             let ctx = document.getElementById('monitorErrorsChart').getContext('2d');
             // 多線
@@ -357,12 +365,12 @@ function startSDGGraph(systemName) {
             let config = {
                 type: 'line',
                 data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    labels: labels,
                     datasets: [{
                         label: 'My First dataset',
                         backgroundColor: 'rgba(255, 99, 132, 0.5)',
                         borderColor: 'rgba(255,99,132,1)',
-                        data: [10, 30, 39, 20, 25, 34, -10],
+                        data: datas,
                         fill: false,
                     }]
                 },
