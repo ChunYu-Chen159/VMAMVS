@@ -28,6 +28,7 @@ public class Service {
     private String appName;
     private String version;
     private int number;
+    private double errorProbability;
 
     public Service(){}
 
@@ -89,6 +90,14 @@ public class Service {
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
+    }
+
+    public double getErrorProbability() {
+        return errorProbability;
+    }
+
+    public void setErrorProbability(double errorProbability) {
+        this.errorProbability = errorProbability;
     }
 
     public boolean addLabel(String label) {

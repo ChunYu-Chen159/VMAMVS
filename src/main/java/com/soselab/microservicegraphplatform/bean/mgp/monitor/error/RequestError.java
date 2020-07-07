@@ -8,14 +8,14 @@ import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NullError extends MonitorError {
+public class RequestError extends MonitorError {
 
     ArrayList<ErrorService> errorServiceList = new ArrayList<>();
     ArrayList<ErrorEndpoint> errorEndpointList = new ArrayList<>();
     ArrayList<ErrorLink> errorLinkList = new ArrayList<>();
 
 
-    public NullError(){
+    public RequestError(){
         super();
 
         setErrorAppId("CINEMA:CINEMACATALOG:0.0.1-SNAPSHOT");
@@ -31,7 +31,7 @@ public class NullError extends MonitorError {
         setErrorPath("/getSomething");
         setErrorUrl("http://140.121.197.128:4104/getSomething?userID=2");
         setErrorMethod("GET");
-        setErrorType("NullError");
+        setErrorType("RequestError");
         setTestedPASS(false);
         errorServiceList.add(new ErrorService(103, "ORDERING", "0.0.1-SNAPSHOT", "CINEMA:ORDERING:0.0.1-SNAPSHOT", false));
         errorServiceList.add(new ErrorService(440, "CINEMACATALOG", "0.0.1-SNAPSHOT", "CINEMA:CINEMACATALOG:0.0.1-SNAPSHOT", true));

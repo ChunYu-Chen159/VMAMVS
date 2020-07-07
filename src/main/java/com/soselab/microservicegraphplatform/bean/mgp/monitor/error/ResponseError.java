@@ -7,13 +7,13 @@ import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 
 import java.util.ArrayList;
 
-public class ReturnError extends MonitorError {
+public class ResponseError extends MonitorError {
     ArrayList<ErrorService> errorServiceList = new ArrayList<>();
     ArrayList<ErrorEndpoint> errorEndpointList = new ArrayList<>();
     ArrayList<ErrorLink> errorLinkList = new ArrayList<>();
 
 
-    public ReturnError() {
+    public ResponseError() {
         super();
 
         setErrorAppId("CINEMA:ORDERING:0.0.1-SNAPSHOT");
@@ -26,7 +26,7 @@ public class ReturnError extends MonitorError {
         setErrorPath("/newGroceryOrdering");
         setErrorUrl("http://140.121.197.128:4105/newGroceryOrdering?userID=2&groceryID=5c49e70e212d8d18c0fccd55&quantity=2");
         setErrorMethod("GET");
-        setErrorType("ReturnError");
+        setErrorType("ResponseError");
         setTestedPASS(true);
         errorServiceList.add(new ErrorService(317, "GROCERYINVENTORY", "0.0.1-SNAPSHOT", "CINEMA:GROCERYINVENTORY:0.0.1-SNAPSHOT", false));
         errorServiceList.add(new ErrorService(103, "ORDERING", "0.0.1-SNAPSHOT", "CINEMA:ORDERING:0.0.1-SNAPSHOT", true));

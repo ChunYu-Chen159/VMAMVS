@@ -7,12 +7,12 @@ import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 
 import java.util.ArrayList;
 
-public class LastNodeError extends MonitorError {
+public class NodeError extends MonitorError {
     ArrayList<ErrorService> errorServiceList = new ArrayList<>();
     ArrayList<ErrorEndpoint> errorEndpointList = new ArrayList<>();
     ArrayList<ErrorLink> errorLinkList = new ArrayList<>();
 
-    public LastNodeError(){
+    public NodeError(){
         super();
 
         setErrorAppId("CINEMA:PAYMENT:0.0.1-SNAPSHOT");
@@ -25,7 +25,7 @@ public class LastNodeError extends MonitorError {
         setErrorPath("/payment");
         setErrorUrl("http://140.121.197.128:4106/payment?userID=&price=250");
         setErrorMethod("GET");
-        setErrorType("LastNodeError");
+        setErrorType("NodeError");
         setTestedPASS(true);
         errorServiceList.add(new ErrorService(477, "PAYMENT", "0.0.1-SNAPSHOT", "CINEMA:PAYMENT:0.0.1-SNAPSHOT", true));
         errorServiceList.add(new ErrorService(103, "ORDERING", "0.0.1-SNAPSHOT", "CINEMA:ORDERING:0.0.1-SNAPSHOT", false));

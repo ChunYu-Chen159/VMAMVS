@@ -21,7 +21,7 @@ public class MonitorError {
     private String errorPath;
     private String errorUrl;
     private String errorMethod;
-    private String errorType; // ReturnError, LastNodeError, NullError
+    private String errorType; // ResponseError, NodeError, RequestError
     private boolean testedPASS;
 
     private ArrayList<ErrorService> errorServices;

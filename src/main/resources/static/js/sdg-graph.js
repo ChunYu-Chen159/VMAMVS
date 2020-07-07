@@ -2120,12 +2120,8 @@ function SDGGraph(data) {
 
                 monitorErrorMessageJson.jsonViewer(json_content, {collapsed: true, withQuotes: false});
 
-                console.log("json_content[\"errorType\"]" + json_content["errorType"]);
+                if(json_content["errorType"] !== "RequestError") {
 
-
-                if(json_content["errorType"] !== "NullError") {
-
-                    console.log("innnnnnnnnnnnnnnnnnnnnnn");
                     monitorError_feedbackContract.show();
                     monitorError_feedbackContract.empty();
                     monitorError_feedbackContract.append("<h4 class=\"card-feedbackContract\"><span>" + "Feedback Contract：" + json_content["consumerAppName"] + ".groovy" + "</span></h4>");

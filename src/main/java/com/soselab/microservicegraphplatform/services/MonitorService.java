@@ -184,7 +184,7 @@ public class MonitorService {
         // 倒序刪除，不然會影響前面元素
         for(int i = monitorErrors.size() - 1; i >= 0; i--){
             MonitorError monitorError = monitorErrors.get(i);
-            if(!monitorError.getErrorType().equals("NullError")) {
+            if(!monitorError.getErrorType().equals("RequestError")) {
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
                     Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {
@@ -267,7 +267,7 @@ public class MonitorService {
         for(int i = monitorErrors.size() - 1; i >= 0; i--){
             MonitorError monitorError = monitorErrors.get(i);
 
-            if(!monitorError.getErrorType().equals("NullError")) {
+            if(!monitorError.getErrorType().equals("RequestError")) {
                 Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(monitorError.getErrorSystemName(), monitorError.getErrorAppName(), monitorError.getErrorAppVersion());
                 if (swaggerMap != null) {
 
@@ -343,9 +343,9 @@ public class MonitorService {
              * 最根源的節點出錯是如何
              * 呼叫就呼叫不了
              * */
-            boolean checkReturnError = false; // A-B-C 都正常 但是回傳的時候B處理不好
-            boolean checkLastNodeError = false; // 確認目前分析的服務是否有出錯且是最後出錯的服務
-            boolean checkNullError = false; // 呼叫就呼叫不了
+            boolean checkResponseError = false; // A-B-C 都正常 但是回傳的時候B處理不好
+            boolean checkNodeError = false; // 確認目前分析的服務是否有出錯且是最後出錯的服務
+            boolean checkRequestError = false; // 呼叫就呼叫不了
 
             for(int j = 0; j < array_everyError.length(); j++) {
                 if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
@@ -365,7 +365,7 @@ public class MonitorService {
                 continue;
 
 
-            // 確認是否為ReturnError (Server & shared=true) Consumer沒有statusCode
+            // 確認是否為ResponseError (Server & shared=true) Consumer沒有statusCode
             for(int j = 0; j < array_everyError.length(); j++){
                 if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
                     if(array_everyError.getJSONObject(j).has("shared")) {
@@ -380,7 +380,7 @@ public class MonitorService {
                                     if(array_everyError.getJSONObject(k).getString("kind").equals("SERVER")){
                                         if(array_everyError.getJSONObject(k).has("parentId") && array_everyError.getJSONObject(k).getString("parentId").equals(id)){
                                             if(!array_everyError.getJSONObject(k).getJSONObject("tags").has("http.status_code")){
-                                                checkReturnError = true;
+                                                checkResponseError = true;
                                             }
                                         }
                                     }
@@ -391,7 +391,7 @@ public class MonitorService {
                 }
             }
 
-            // 確認是否為LastNodeError
+            // 確認是否為NodeError
             for(int j = 0; j < array_everyError.length(); j++){
                 if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
                     JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
@@ -401,11 +401,11 @@ public class MonitorService {
 
                     if(appName.toUpperCase().equals(serviceAppName) && version.toUpperCase().equals(serviceVersion)){
                         if (jsonObject.has("error")) { // 目前檢查的服務有錯
-                            checkLastNodeError = true;
+                            checkNodeError = true;
                             for(int k = 0; k < array_everyError.length(); k++){ // 目前檢查的服務是否為最後出錯的節點
                                 if(array_everyError.getJSONObject(k).getString("kind").equals("SERVER")){
                                     if(array_everyError.getJSONObject(k).has("parentId") && array_everyError.getJSONObject(k).getString("parentId").equals(id)){
-                                        checkLastNodeError = false;
+                                        checkNodeError = false;
                                     }
                                 }
                             }
@@ -415,7 +415,7 @@ public class MonitorService {
                 }
             }
 
-            // 確認是否為NullError
+            // 確認是否為RequestError
             for(int j = 0; j < array_everyError.length(); j++) {
                 if (array_everyError.getJSONObject(j).getString("kind").equals("SERVER")) {
                     JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
@@ -425,19 +425,19 @@ public class MonitorService {
                     if(appName.toUpperCase().equals(serviceAppName) && version.toUpperCase().equals(serviceVersion)){
                         if (jsonObject.has("error")) {
                             if(jsonObject.has("mvc.controller.method") && jsonObject.getString("mvc.controller.method").equals("errorHtml")){
-                                checkNullError = true;
+                                checkRequestError = true;
                             }
                         }
                     }
                 }
             }
 
-            System.out.println("checkReturnError: " + checkReturnError);
-            System.out.println("checkLastNodeError: " + checkLastNodeError);
-            System.out.println("checkNullError: " + checkNullError);
+            System.out.println("checkResponseError: " + checkResponseError);
+            System.out.println("checkNodeError: " + checkNodeError);
+            System.out.println("checkRequestError: " + checkRequestError);
 
 
-            if(!checkReturnError && !checkLastNodeError && !checkNullError)
+            if(!checkResponseError && !checkNodeError && !checkRequestError)
                 continue;
 
 
@@ -532,7 +532,7 @@ public class MonitorService {
             }
 
             // errorAppName, errorAppVersion, errorMessage, statusCode, timestamp, errorPath, consumerAppName...
-            if(checkReturnError){
+            if(checkResponseError){
                 for (int j = 0; j < array_everyError.length(); j++) {
                     if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
                         if (array_everyError.getJSONObject(j).has("shared") && array_everyError.getJSONObject(j).getBoolean("shared")) {
@@ -572,7 +572,7 @@ public class MonitorService {
                         }
                     }
                 }
-            } else if(checkLastNodeError) {
+            } else if(checkNodeError) {
                 for (int j = 0; j < array_everyError.length(); j++) {
                     if (array_everyError.getJSONObject(j).has("shared") && array_everyError.getJSONObject(j).getBoolean("shared")) {
                         JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
@@ -610,7 +610,7 @@ public class MonitorService {
                         }
                     }
                 }
-            } else if(checkNullError){
+            } else if(checkRequestError){
                 for (int j = 0; j < array_everyError.length(); j++) {
                     if(array_everyError.getJSONObject(j).getString("kind").equals("SERVER")){
                         JSONObject jsonObject = array_everyError.getJSONObject(j).getJSONObject("tags");
@@ -651,16 +651,16 @@ public class MonitorService {
             monitorError.setErrorUrl(errorUrl);
             monitorError.setErrorMethod(errorMethod);
 
-            /*boolean checkReturnError = false; // A-B-C 都正常 但是回傳的時候B處理不好
-            boolean checkLastNodeError = false; // 確認目前分析的服務是否有出錯且是最後出錯的服務
-            boolean checkNullError = false; // 呼叫就呼叫不了*/
+            /*boolean checkResponseError = false; // A-B-C 都正常 但是回傳的時候B處理不好
+            boolean checkNodeError = false; // 確認目前分析的服務是否有出錯且是最後出錯的服務
+            boolean checkRequestError = false; // 呼叫就呼叫不了*/
 
-            if(checkReturnError)
-                monitorError.setErrorType("ReturnError");
-            if(checkLastNodeError)
-                monitorError.setErrorType("LastNodeError");
-            if(checkNullError)
-                monitorError.setErrorType("NullError");
+            if(checkResponseError)
+                monitorError.setErrorType("ResponseError");
+            if(checkNodeError)
+                monitorError.setErrorType("NodeError");
+            if(checkRequestError)
+                monitorError.setErrorType("RequestError");
 
 
             // 刪除重複
