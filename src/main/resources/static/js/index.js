@@ -343,8 +343,8 @@ function startSDGGraph(systemName) {
                         }],
                         yAxes: [{
                             gridLines: {
-                                drawBorder: false,
-                                color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                                drawBorder: false
+                                // color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
                             },
                             ticks: {
                                 min: 0,
@@ -401,6 +401,7 @@ function startSDGGraph(systemName) {
                             yAxisID: 'servicesErrorNum',
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
+                            borderWidth: 5,
                             data: datas_servicesErrorNum,
                             fill: false
                         }, {
@@ -408,6 +409,7 @@ function startSDGGraph(systemName) {
                             yAxisID: 'risk',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
+                            borderWidth: 5,
                             data: datas_risk,
                             fill: false,
                         }]
@@ -435,7 +437,7 @@ function startSDGGraph(systemName) {
                                     position: 'left',
                                     ticks: {
                                         min: 0,
-                                        max: 50,
+                                        max: 60,
                                         stepSize: 10,
                                         fontSize: 15,
                                         fontColor: 'rgba(119,9,10,0.78)'
