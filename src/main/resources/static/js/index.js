@@ -402,14 +402,14 @@ function startSDGGraph(systemName) {
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
-                            // fill: false
+                            fill: false
                         }, {
                             label: 'risk',
                             yAxisID: 'risk',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
-                            // fill: false,
+                            fill: false,
                         }]
                     },
                     options: {
