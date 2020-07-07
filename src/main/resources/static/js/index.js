@@ -434,7 +434,7 @@ function startSDGGraph(systemName) {
                                     id: 'servicesErrorNum',
                                     type: 'linear',
                                     position: 'left',
-                                    scalePositionLeft: true,
+                                    // scalePositionLeft: true,
                                     gridLines: {
                                         drawBorder: false,
                                         color: ['red']
@@ -442,7 +442,7 @@ function startSDGGraph(systemName) {
                                     ticks: {
                                         min: 0,
                                         max: 50,
-                                        stepSize: 10,
+                                        // stepSize: 10,
                                         fontSize: 10
                                     }
                                 },
@@ -450,7 +450,7 @@ function startSDGGraph(systemName) {
                                     id: 'risk',
                                     type: 'linear',
                                     position: 'right',
-                                    scalePositionLeft: false,
+                                    // scalePositionLeft: false,
                                     gridLines: {
                                         drawBorder: false,
                                         color: ['green']
@@ -458,7 +458,7 @@ function startSDGGraph(systemName) {
                                     ticks: {
                                         min: 0,
                                         max: 1,
-                                        stepSize: 0.2,
+                                        // stepSize: 0.2,
                                         fontSize: 10
                                     }
                                 }
