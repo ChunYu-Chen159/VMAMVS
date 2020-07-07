@@ -362,7 +362,7 @@ function startSDGGraph(systemName) {
 
 
     // RiskPositivelyCorrelatedChart
-    fetch("/web-page/monitor/RiskPositivelyCorrelatedChart/" + systemName.value)
+    fetch("/web-page/monitor/getRiskPositivelyCorrelatedChart/" + systemName.value)
         .then(response => response.json())
         .then(json => {
 
