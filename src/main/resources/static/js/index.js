@@ -439,8 +439,8 @@ function startSDGGraph(systemName) {
                                     },
                                     ticks: {
                                         min: 0,
-                                        max: 20,
-                                        stepSize: 5,
+                                        max: 10,
+                                        stepSize: 2,
                                         fontSize: 10
                                     }
                                 },
