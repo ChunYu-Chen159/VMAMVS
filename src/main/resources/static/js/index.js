@@ -424,7 +424,7 @@ function startSDGGraph(systemName) {
                                     // drawOnChartArea: true
                                 },
                                 ticks: {
-                                    fontSize: 20
+                                    fontSize: 5
                                 }
                             }],
                             yAxes: [
@@ -440,7 +440,8 @@ function startSDGGraph(systemName) {
                                     ticks: {
                                         min: 0,
                                         max: 20,
-                                        stepSize: 5
+                                        stepSize: 5,
+                                        fontSize: 10
                                     }
                                 },
                                 {
@@ -456,7 +457,8 @@ function startSDGGraph(systemName) {
                                     ticks: {
                                         min: 0,
                                         max: 1,
-                                        stepSize: 0.2
+                                        stepSize: 0.2,
+                                        fontSize: 10
                                     }
                                 }
                             ]
