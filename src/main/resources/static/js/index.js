@@ -398,15 +398,15 @@ function startSDGGraph(systemName) {
                         labels: labels_servicesErrorNum,
                         datasets: [{
                             label: 'servicesErrorNum',
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 0.2)',
+                            backgroundColor: 'rgba(119,9,10,0.78)',
+                            borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
                             fill: false,
                         }, {
                             label: 'risk',
                             fill: false,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 0.2)',
+                            backgroundColor: 'rgba(121,192,54,0.77)',
+                            borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
                         }]
                     },
@@ -424,7 +424,7 @@ function startSDGGraph(systemName) {
                                     // drawOnChartArea: true
                                 },
                                 ticks: {
-                                    fontSize: 5
+                                    // fontSize: 5
                                 }
                             }],
                             yAxes: [
