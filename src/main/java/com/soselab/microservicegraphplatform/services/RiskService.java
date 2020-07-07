@@ -1,6 +1,7 @@
 package com.soselab.microservicegraphplatform.services;
 
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.chart.RiskPositivelyCorrelatedChart;
 import com.soselab.microservicegraphplatform.bean.neo4j.Service;
 import com.soselab.microservicegraphplatform.repositories.neo4j.GeneralRepository;
 import com.soselab.microservicegraphplatform.repositories.neo4j.ServiceRepository;
@@ -168,13 +169,78 @@ public class RiskService {
             double riskValue = (double)likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId());
             serviceRepository.setRiskValueByAppId(s.getAppId(), riskValue);
         }
-
-
     }
 
+    public RiskPositivelyCorrelatedChart getRiskPositivelyCoreelatedChart(String systemName){
+        RiskPositivelyCorrelatedChart riskPositivelyCorrelatedChart = new RiskPositivelyCorrelatedChart();
+
+        long nowTime = System.currentTimeMillis();
+
+        Map<String,Integer> servicesErrorNum = new HashMap<>();
+        Map<String,Double> risk = new HashMap<>();
+
+        List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
+        List<MonitorError> simulatorMonitorErrors = monitorService.getSimulateErrorsOfSystem(systemName);
+
+        for(Service s : ServicesInDB) {
+            risk.put(s.getAppId(), serviceRepository.getRiskValueByAppId(s.getAppId()));
+        }
+
+
+        for(Service s : ServicesInDB) {
+            Long endTime = nowTime;
+            long lookback = 30 * 24 * 60 * 60 * 1000L; // 30天
+
+            int serviceTotalNum = 0;
+            for(int j = 0; j < simulatorMonitorErrors.size(); j++) {
+                MonitorError monitorError = simulatorMonitorErrors.get(j);
+                if (s.getAppId().equals(monitorError.getErrorAppId())) {
+                    try {
+
+                        String str1 = dateFormat2.format(endTime);
+                        Date date1 = dateFormat2.parse(str1);
+                        String str2 = dateFormat2.format(endTime - lookback);
+                        Date date2 = dateFormat2.parse(str2);
+                        String str3 = dateFormat2.format(monitorError.getTimestamp() / 1000L);
+                        Date date3 = dateFormat2.parse(str3);
+
+                        Calendar cal1 = Calendar.getInstance();
+                        Calendar cal2 = Calendar.getInstance();
+                        Calendar cal3 = Calendar.getInstance();
+                        cal1.setTime(date1);
+                        cal2.setTime(date2);
+                        cal3.setTime(date3);
+
+                        if (cal3.before(cal1) && cal3.after(cal2)) {
+                            if(s.getAppName().toUpperCase().equals("CINEMACATALOG") && s.getVersion().equals("0.0.1-SNAPSHOT")){
+                                serviceTotalNum += 2;
+                            }else if(s.getAppName().toUpperCase().equals("GROCERYINVENTORY") && s.getVersion().equals("0.0.1-SNAPSHOT")){
+                                serviceTotalNum += 2;
+                            }else if(s.getAppName().toUpperCase().equals("ORDERING") && s.getVersion().equals("0.0.1-SNAPSHOT")){
+                                serviceTotalNum += 9;
+                            }else if(s.getAppName().toUpperCase().equals("PAYMENT") && s.getVersion().equals("0.0.1-SNAPSHOT")){
+                                serviceTotalNum += 4;
+                            }else if(s.getAppName().toUpperCase().equals("NOTIFICATION") && s.getVersion().equals("0.0.1-SNAPSHOT")){
+                                serviceTotalNum += 6;
+                            }
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            servicesErrorNum.put(s.getAppId(), serviceTotalNum);
+        }
+
+        riskPositivelyCorrelatedChart.setServicesErrorNum(servicesErrorNum);
+        riskPositivelyCorrelatedChart.setRisk(risk);
+
+
+        return riskPositivelyCorrelatedChart;
+    }
 
     public double getNumofEndpoint_Provider(long id) {
-
         String provider = generalRepository.getProviders(id);
         JSONObject jsonObj = new JSONObject(provider);
         JSONArray nodes = jsonObj.getJSONArray("nodes");

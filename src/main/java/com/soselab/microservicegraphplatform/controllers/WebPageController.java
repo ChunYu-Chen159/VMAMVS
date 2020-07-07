@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.MonitorError;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.SpcData;
+import com.soselab.microservicegraphplatform.bean.mgp.monitor.chart.RiskPositivelyCorrelatedChart;
 import com.soselab.microservicegraphplatform.bean.mgp.monitor.chart.TotalErrorChart;
 import com.soselab.microservicegraphplatform.services.*;
 import com.soselab.microservicegraphplatform.bean.mgp.AppSetting;
@@ -275,6 +276,11 @@ public class WebPageController {
     @GetMapping("/monitor/getErrorChart/{systemName}")
     public TotalErrorChart getErrorChart(@PathVariable("systemName") String systemName) {
         return monitorService.getErrorChart(systemName);
+    }
+
+    @GetMapping("/monitor/getRiskPositivelyCorrelatedChart/{systemName}")
+    public RiskPositivelyCorrelatedChart getRiskPositivelyCorrelatedChart(@PathVariable("systemName") String systemName) {
+        return riskService.getRiskPositivelyCoreelatedChart(systemName);
     }
 //
 ////    @RequestMapping(value = "/getImage/{systemName}",produces = MediaType.IMAGE_PNG_VALUE)
