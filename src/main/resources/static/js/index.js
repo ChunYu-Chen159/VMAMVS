@@ -402,14 +402,14 @@ function startSDGGraph(systemName) {
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
-                            fill: false
+                            // fill: false
                         }, {
                             label: 'risk',
                             yAxisID: 'B',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
-                            fill: false,
+                            // fill: false,
                             y2axis: true
                         }]
                     },
@@ -437,7 +437,7 @@ function startSDGGraph(systemName) {
                                     ticks: {
                                         min: 0,
                                         max: 50,
-                                        // stepSize: 10,
+                                        stepSize: 10,
                                         fontSize: 10
                                     }
                                 }, {
@@ -447,7 +447,7 @@ function startSDGGraph(systemName) {
                                     ticks: {
                                         min: 0,
                                         max: 1,
-                                        // stepSize: 0.2,
+                                        stepSize: 0.2,
                                         fontSize: 10
                                     }
                                 }
