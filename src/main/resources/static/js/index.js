@@ -374,11 +374,11 @@ function startSDGGraph(systemName) {
             let datas_risk = [];
 
             for(let key in jsonContent_servicesErrorNum){
-                labels_servicesErrorNum.push(key);
+                labels_servicesErrorNum.push(key.split(":")[1] + ":" + key.split(":")[2]);
                 datas_servicesErrorNum.push(jsonContent_servicesErrorNum[key])
             }
             for(let key in jsonContent_risk){
-                labels_risk.push(key);
+                labels_risk.push(key.split(":")[1] + ":" + key.split(":")[2]);
                 datas_risk.push(jsonContent_risk[key])
             }
 
@@ -398,14 +398,14 @@ function startSDGGraph(systemName) {
                         labels: labels_servicesErrorNum,
                         datasets: [{
                             label: 'servicesErrorNum',
-                            yAxesGroup: 'servicesErrorNum',
+                            yAxesID: 'servicesErrorNum',
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
                             fill: false,
                         }, {
                             label: 'risk',
-                            yAxesGroup: 'risk',
+                            yAxesID: 'risk',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
@@ -431,7 +431,7 @@ function startSDGGraph(systemName) {
                             }],
                             yAxes: [
                                 {
-                                    name: 'servicesErrorNum',
+                                    id: 'servicesErrorNum',
                                     type: 'linear',
                                     position: 'left',
                                     scalePositionLeft: true,
@@ -447,7 +447,7 @@ function startSDGGraph(systemName) {
                                     }
                                 },
                                 {
-                                    name: 'risk',
+                                    id: 'risk',
                                     type: 'linear',
                                     position: 'right',
                                     scalePositionLeft: false,
