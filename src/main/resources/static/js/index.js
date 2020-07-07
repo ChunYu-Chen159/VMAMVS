@@ -375,11 +375,11 @@ function startSDGGraph(systemName) {
 
             for(let key in jsonContent_servicesErrorNum){
                 labels_servicesErrorNum.push(key.split(":")[1] + ":" + key.split(":")[2]);
-                datas_servicesErrorNum.push(jsonContent_servicesErrorNum[key])
+                datas_servicesErrorNum.push(jsonContent_servicesErrorNum[key]);
             }
             for(let key in jsonContent_risk){
                 labels_risk.push(key.split(":")[1] + ":" + key.split(":")[2]);
-                datas_risk.push(jsonContent_risk[key])
+                datas_risk.push(Math.round(jsonContent_risk[key] * 1000) / 1000);
             }
 
             console.log("jsonContent_servicesErrorNum: " + jsonContent_servicesErrorNum);
