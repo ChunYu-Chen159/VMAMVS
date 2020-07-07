@@ -398,14 +398,14 @@ function startSDGGraph(systemName) {
                         labels: labels_servicesErrorNum,
                         datasets: [{
                             label: 'servicesErrorNum',
-                            yAxesID: 'A',
+                            yAxisID: 'A',
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
                             fill: false
                         }, {
                             label: 'risk',
-                            yAxesID: 'B',
+                            yAxisID: 'B',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
