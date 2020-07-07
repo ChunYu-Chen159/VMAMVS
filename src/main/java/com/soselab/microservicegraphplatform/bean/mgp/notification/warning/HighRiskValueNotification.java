@@ -21,8 +21,8 @@ public class HighRiskValueNotification extends WarningNotification {
         String content = "Service \"" + appName + ":" + version +
                 "\" exceeded the threshold of \"Risk Value\": current value = " +
                 value * 1.0 + ", threshold = " + threshold * 1.0;
-/*        MSABotSender msaBotSender = new MSABotSender();
-        msaBotSender.send(content,WebNotification.LEVEL_WARNING);*/
+        MSABotSender msaBotSender = new MSABotSender();
+        msaBotSender.send(content,WebNotification.LEVEL_WARNING);
 
         return content;
     }

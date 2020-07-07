@@ -28,7 +28,7 @@ public class FailureErrorNotification extends WarningNotification {
                 value + ", threshold = " + threshold;
         MSABotSender msaBotSender = new MSABotSender();
 
-        //msaBotSender.send(content, WebNotification.LEVEL_WARNING);
+        msaBotSender.send(content, WebNotification.LEVEL_WARNING);
 
 
         return content;

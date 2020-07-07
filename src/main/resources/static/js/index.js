@@ -398,16 +398,18 @@ function startSDGGraph(systemName) {
                         labels: labels_servicesErrorNum,
                         datasets: [{
                             label: 'servicesErrorNum',
+                            yAxesGroup: 'servicesErrorNum',
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
                             fill: false,
                         }, {
                             label: 'risk',
-                            fill: false,
+                            yAxesGroup: 'risk',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
+                            fill: false,
                         }]
                     },
                     options: {
@@ -424,7 +426,7 @@ function startSDGGraph(systemName) {
                                     // drawOnChartArea: true
                                 },
                                 ticks: {
-                                     fontSize: 8
+                                     fontSize: 5
                                 }
                             }],
                             yAxes: [
@@ -439,14 +441,13 @@ function startSDGGraph(systemName) {
                                     },
                                     ticks: {
                                         min: 0,
-                                        max: 10,
-                                        stepSize: 2,
+                                        max: 50,
+                                        stepSize: 10,
                                         fontSize: 10
                                     }
                                 },
                                 {
                                     name: 'risk',
-                                    name: 'servicesErrorNum',
                                     type: 'linear',
                                     position: 'right',
                                     scalePositionLeft: false,

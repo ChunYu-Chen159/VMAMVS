@@ -38,7 +38,7 @@ public class FailureStatusRateWarningNotification extends WarningNotification {
 
         MSABotSender msaBotSender = new MSABotSender();
 
-        //msaBotSender.send(content, WebNotification.LEVEL_WARNING);
+        msaBotSender.send(content, WebNotification.LEVEL_WARNING);
 
 
         return content;
