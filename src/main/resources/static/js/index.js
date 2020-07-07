@@ -410,7 +410,6 @@ function startSDGGraph(systemName) {
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
                             // fill: false,
-                            y2axis: true
                         }]
                     },
                     options: {
@@ -426,7 +425,7 @@ function startSDGGraph(systemName) {
                                     offsetGridLines: true
                                 },
                                 ticks: {
-                                     fontSize: 5
+                                     fontSize: 12
                                 }
                             }],
                             yAxes: [
@@ -438,7 +437,7 @@ function startSDGGraph(systemName) {
                                         min: 0,
                                         max: 50,
                                         stepSize: 10,
-                                        fontSize: 10,
+                                        fontSize: 15,
                                         fontColor: 'rgba(119,9,10,0.78)'
                                     }
                                 }, {
@@ -449,7 +448,7 @@ function startSDGGraph(systemName) {
                                         min: 0,
                                         max: 1.2,
                                         stepSize: 0.2,
-                                        fontSize: 10,
+                                        fontSize: 15,
                                         fontColor: 'rgba(121,192,54,0.77)'
                                     }
                                 }
