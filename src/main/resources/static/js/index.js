@@ -398,14 +398,14 @@ function startSDGGraph(systemName) {
                         labels: labels_servicesErrorNum,
                         datasets: [{
                             label: 'servicesErrorNum',
-                            yAxesID: 'servicesErrorNum',
+                            yAxesID: 'A',
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
                             fill: false
                         }, {
                             label: 'risk',
-                            yAxesID: 'risk',
+                            yAxesID: 'B',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
@@ -431,7 +431,7 @@ function startSDGGraph(systemName) {
                             }],
                             yAxes: [
                                 {
-                                    id: 'servicesErrorNum',
+                                    id: 'A',
                                     type: 'linear',
                                     position: 'left',
                                     ticks: {
@@ -441,7 +441,7 @@ function startSDGGraph(systemName) {
                                         fontSize: 10
                                     }
                                 }, {
-                                    id: 'risk',
+                                    id: 'B',
                                     type: 'linear',
                                     position: 'right',
                                     ticks: {
