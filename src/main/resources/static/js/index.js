@@ -439,7 +439,7 @@ function startSDGGraph(systemName) {
                                         min: 0,
                                         max: 60,
                                         stepSize: 10,
-                                        fontSize: 15,
+                                        fontSize: 20,
                                         fontColor: 'rgba(119,9,10,0.78)'
                                     }
                                 }, {
@@ -450,7 +450,7 @@ function startSDGGraph(systemName) {
                                         min: 0,
                                         max: 1.2,
                                         stepSize: 0.2,
-                                        fontSize: 15,
+                                        fontSize: 20,
                                         fontColor: 'rgba(121,192,54,0.77)'
                                     }
                                 }
