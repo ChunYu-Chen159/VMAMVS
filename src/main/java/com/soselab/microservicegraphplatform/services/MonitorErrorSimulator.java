@@ -50,7 +50,7 @@ public class MonitorErrorSimulator {
             }else if(s.getAppName().toUpperCase().equals("ORDERING") && s.getVersion().equals("0.0.1-SNAPSHOT")){
                 s.setErrorProbability(0.04);
             }else if(s.getAppName().toUpperCase().equals("PAYMENT") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                s.setErrorProbability(0.02);
+                s.setErrorProbability(0.01);
             }else if(s.getAppName().toUpperCase().equals("NOTIFICATION") && s.getVersion().equals("0.0.1-SNAPSHOT")){
                 s.setErrorProbability(0.00);
             }
