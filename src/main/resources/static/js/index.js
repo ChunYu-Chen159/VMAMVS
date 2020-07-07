@@ -401,6 +401,142 @@ function startSDGGraph(systemName) {
         });
 
 
+    // RiskPositivelyCorrelatedChart
+    fetch("/web-page/monitor/RiskPositivelyCorrelatedChart/" + systemName.value)
+        .then(response => response.json())
+        .then(json => {
+
+            let jsonContent_servicesErrorNum = json["servicesErrorNum"];
+            let labels_servicesErrorNum = [];
+            let datas_servicesErrorNum = [];
+            let jsonContent_risk = json["risk"];
+            let labels_risk = [];
+            let datas_risk = [];
+
+            for(let key in jsonContent_servicesErrorNum){
+                labels_servicesErrorNum.push(key);
+                datas_servicesErrorNum.push(jsonContent_servicesErrorNum[key])
+            }
+            for(let key in jsonContent_risk){
+                labels_risk.push(key);
+                datas_risk.push(jsonContent_risk[key])
+            }
+
+
+            let ctx = document.getElementById('RiskPositivelyCorrelatedChart').getContext('2d');
+            // 多線
+                let config = {
+                    type: 'line',
+                    data: {
+                        labels: labels_servicesErrorNum,
+                        datasets: [{
+                            label: 'servicesErrorNum',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 0.2)',
+                            data: datas_servicesErrorNum,
+                            fill: false,
+                        }, {
+                            label: 'risk',
+                            fill: false,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 0.2)',
+                            data: datas_risk,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: 'Grid Line Settings'
+                        },
+                        scales: {
+                            yAxes: [
+                                {
+                                    name: 'servicesErrorNum',
+                                    type: 'linear',
+                                    position: 'left',
+                                    scalePositionLeft: true,
+                                    gridLines: {
+                                        drawBorder: false,
+                                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                                    },
+                                    ticks: {
+                                        min: 0,
+                                        max: 20,
+                                        stepSize: 5
+                                    }
+                                },
+                                {
+                                    name: 'risk',
+                                    name: 'servicesErrorNum',
+                                    type: 'linear',
+                                    position: 'right',
+                                    scalePositionLeft: false,
+                                    gridLines: {
+                                        drawBorder: false,
+                                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                                    },
+                                    ticks: {
+                                        min: 0,
+                                        max: 1,
+                                        stepSize: 0.2
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                };
+
+            /*let config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'MonitorErrorNum',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        borderWidth: 5,
+                        data: datas,
+                        fill: false,
+                        fontSize: 30
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'MonitorErrorsChart',
+                        fontSize: 30
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                offsetGridLines: true
+                                // drawOnChartArea: true
+                            },
+                            ticks: {
+                                fontSize: 20
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                            },
+                            ticks: {
+                                min: 0,
+                                max: 100,
+                                stepSize: 20,
+                                fontSize: 20
+                            }
+                        }]
+                    }
+                }
+            };*/
+
+            let myChart = new Chart(ctx, config);
+        });
+
     stompClient.send("/mgp/graph/" + systemName.value);
 }
 
