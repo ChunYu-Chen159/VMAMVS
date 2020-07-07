@@ -44,7 +44,7 @@ public class MonitorErrorSimulator {
 
         for(Service s : ServicesInDB){
             if(s.getAppName().toUpperCase().equals("CINEMACATALOG") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                s.setErrorProbability(0.01);
+                s.setErrorProbability(0.005);
             }else if(s.getAppName().toUpperCase().equals("GROCERYINVENTORY") && s.getVersion().equals("0.0.1-SNAPSHOT")){
                 s.setErrorProbability(0.00);
             }else if(s.getAppName().toUpperCase().equals("ORDERING") && s.getVersion().equals("0.0.1-SNAPSHOT")){
