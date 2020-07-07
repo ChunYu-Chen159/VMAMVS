@@ -398,14 +398,14 @@ function startSDGGraph(systemName) {
                         labels: labels_servicesErrorNum,
                         datasets: [{
                             label: 'servicesErrorNum',
-                            yAxisID: 'A',
+                            yAxisID: 'servicesErrorNum',
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
                             // fill: false
                         }, {
                             label: 'risk',
-                            yAxisID: 'B',
+                            yAxisID: 'risk',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
@@ -431,24 +431,26 @@ function startSDGGraph(systemName) {
                             }],
                             yAxes: [
                                 {
-                                    id: 'A',
+                                    id: 'servicesErrorNum',
                                     type: 'linear',
                                     position: 'left',
                                     ticks: {
                                         min: 0,
                                         max: 50,
                                         stepSize: 10,
-                                        fontSize: 10
+                                        fontSize: 10,
+                                        fontColor: 'rgba(119,9,10,0.78)'
                                     }
                                 }, {
-                                    id: 'B',
+                                    id: 'risk',
                                     type: 'linear',
                                     position: 'right',
                                     ticks: {
                                         min: 0,
                                         max: 1,
                                         stepSize: 0.2,
-                                        fontSize: 10
+                                        fontSize: 10,
+                                        fontColor: 'rgba(121,192,54,0.77)'
                                     }
                                 }
                             ]
