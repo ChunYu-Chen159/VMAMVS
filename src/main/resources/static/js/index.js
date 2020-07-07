@@ -402,14 +402,14 @@ function startSDGGraph(systemName) {
                             backgroundColor: 'rgba(119,9,10,0.78)',
                             borderColor: 'rgba(119,9,10,0.78)',
                             data: datas_servicesErrorNum,
-                            // fill: false,
+                            fill: false
                         }, {
                             label: 'risk',
                             yAxesID: 'risk',
                             backgroundColor: 'rgba(121,192,54,0.77)',
                             borderColor: 'rgba(121,192,54,0.77)',
                             data: datas_risk,
-                            // fill: false,
+                            fill: false
                         }]
                     },
                     options: {
@@ -423,7 +423,6 @@ function startSDGGraph(systemName) {
                             xAxes: [{
                                 gridLines: {
                                     offsetGridLines: true
-                                    // drawOnChartArea: true
                                 },
                                 ticks: {
                                      fontSize: 5
@@ -434,11 +433,6 @@ function startSDGGraph(systemName) {
                                     id: 'servicesErrorNum',
                                     type: 'linear',
                                     position: 'left',
-                                    // scalePositionLeft: true,
-/*                                    gridLines: {
-                                        drawBorder: false,
-                                        // color: ['red']
-                                    },*/
                                     ticks: {
                                         min: 0,
                                         max: 50,
@@ -449,11 +443,6 @@ function startSDGGraph(systemName) {
                                     id: 'risk',
                                     type: 'linear',
                                     position: 'right',
-                                    // scalePositionLeft: false,
-/*                                    gridLines: {
-                                        drawBorder: false,
-                                        // color: ['green']
-                                    },*/
                                     ticks: {
                                         min: 0,
                                         max: 1,
