@@ -424,7 +424,7 @@ function startSDGGraph(systemName) {
                                     // drawOnChartArea: true
                                 },
                                 ticks: {
-                                    // fontSize: 5
+                                     fontSize: 8
                                 }
                             }],
                             yAxes: [
