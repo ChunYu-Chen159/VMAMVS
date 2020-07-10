@@ -2350,6 +2350,7 @@ function SDGGraph(data) {
                 // link: provider parent -OWN- provider endpoint
                 highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEndpointId + "}";
                 highlightJson += "]";
+                highlightJson += ",";
 
 
                 // 要highlight的sourceNodes
