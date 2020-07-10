@@ -2045,63 +2045,6 @@ function SDGGraph(data) {
                         $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
                     }
                 })
-/*            fetch("/web-page/monitor/getErrors/" + d.systemName)
-                .then(response => response.json())
-                .then(json => {
-                    console.log("monitor/getErrors/" + d.systemName);
-
-                    //monitorErrorGroup.append("<h5 class=\"card-monitorError\">" + JSON.stringify(json2["info"]["title"]).toUpperCase() + "</h5>");
-
-                    fetch("/web-page/app/swagger/" + d.appId)
-                        .then(response2 => response2.json())
-                        .then(json2 => {
-                            let contractContent = json2["x-contract"];
-                            for( let groovy in contractContent){
-                                console.log("groovy: " + groovy);
-                                let consumerService = groovy.replace(".groovy","");
-                                //monitorErrorGroup.append("<h3 id=\"" + consumerService + "-errors\" class=\"card-monitorError\">" + JSON.stringify(consumerService).toUpperCase() + "</h3>");
-                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error500\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (500)" + "</span></h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error502\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (502)" + "</span></h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error503\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (503)" + "</span></h4></div>");
-                                monitorErrorGroup.append("<div id=\"" + d.appName.toUpperCase() + "-error504\" style=\"display:none;\"><h4 class=\"card-monitorError\"><span>" + "Error Detect (504)" + "</span></h4></div>");
-                            }
-
-                            for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
-                                let index = json[everyError]["index"];
-                                let jsonErr = json[everyError];
-                                let errrrr = everyError;
-                                let errorAppName = json[everyError]["errorAppName"];
-                                let errorAppVersion = json[everyError]["errorAppVersion"];
-                                let consumerAppName = json[everyError]["consumerAppName"];
-                                let timestamp = json[everyError]["timestamp"];
-                                let statusCode = json[everyError]["statusCode"];
-                                let errorMessage = json[everyError]["errorMessage"];
-                                let errorPath = json[everyError]["errorPath"];
-                                let testedPASS = json[everyError]["testedPASS"];
-
-
-
-
-                                let iddd = errorAppName.toUpperCase() + "-error" + statusCode;
-                                let iddd2 = "error-" + index;
-
-                                // document.getElementById(iddd).innerHTML += "<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>";
-                                if(testedPASS === true)
-                                    $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + " - testedPASS" + "</button>");
-                                else
-                                    $('#' + iddd).append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"" + iddd2 + "\" >" + "error - " + index + " - " + errorPath + "</button>");
-                                // document.getElementById(iddd).style.display = "block";
-                                $('#' + iddd).show();
-
-                            }
-
-                            // jquery跟上面寫在一起會導致事件繫結不起來
-                            for(let everyError = 0;everyError < Object.keys(json).length; everyError++){
-                                $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
-                            }
-
-                        })
-                })*/
         }
 
         function clickHandler(event) {
@@ -2406,8 +2349,16 @@ function SDGGraph(data) {
 
                 // link: provider parent -OWN- provider endpoint
                 highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEndpointId + "}";
-
                 highlightJson += "]";
+
+
+                // 要highlight的sourceNodes
+                highlightJson += "\"sourceNodes\":[]";
+                highlightJson += ",";
+
+                // 要highlight的sourceLinks
+                highlightJson += "\"sourceLinks\":[]";
+                // highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
                 highlightJson += "}";
 
                 let highlighttoJson = JSON.parse(highlightJson);
