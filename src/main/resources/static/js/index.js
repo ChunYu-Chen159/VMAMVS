@@ -427,7 +427,7 @@ function startSDGGraph(systemName) {
                                     offsetGridLines: true
                                 },
                                 ticks: {
-                                     fontSize: 12
+                                     fontSize: 15
                                 }
                             }],
                             yAxes: [
