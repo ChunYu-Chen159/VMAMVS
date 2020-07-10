@@ -280,7 +280,7 @@ public class WebPageController {
 
     @GetMapping("/monitor/getRiskPositivelyCorrelatedChart/{systemName}")
     public RiskPositivelyCorrelatedChart getRiskPositivelyCorrelatedChart(@PathVariable("systemName") String systemName) {
-        return riskService.getRiskPositivelyCoreelatedChart(systemName);
+        return riskService.getRiskPositivelyCorrelatedChart(systemName);
     }
 //
 ////    @RequestMapping(value = "/getImage/{systemName}",produces = MediaType.IMAGE_PNG_VALUE)

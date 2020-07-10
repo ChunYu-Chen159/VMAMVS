@@ -171,7 +171,7 @@ public class RiskService {
         }
     }
 
-    public RiskPositivelyCorrelatedChart getRiskPositivelyCoreelatedChart(String systemName){
+    public RiskPositivelyCorrelatedChart getRiskPositivelyCorrelatedChart(String systemName){
         RiskPositivelyCorrelatedChart riskPositivelyCorrelatedChart = new RiskPositivelyCorrelatedChart();
 
         long nowTime = System.currentTimeMillis();
@@ -213,15 +213,15 @@ public class RiskService {
 
                         if (cal3.before(cal1) && cal3.after(cal2)) {
                             if(s.getAppName().toUpperCase().equals("CINEMACATALOG") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 2;
+                                serviceTotalNum += 3;
                             }else if(s.getAppName().toUpperCase().equals("GROCERYINVENTORY") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 2;
+                                serviceTotalNum += 3;
                             }else if(s.getAppName().toUpperCase().equals("ORDERING") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 9;
+                                serviceTotalNum += 10;
                             }else if(s.getAppName().toUpperCase().equals("PAYMENT") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 4;
+                                serviceTotalNum += 5;
                             }else if(s.getAppName().toUpperCase().equals("NOTIFICATION") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 6;
+                                serviceTotalNum += 7;
                             }
                         }
                     } catch (ParseException e) {
