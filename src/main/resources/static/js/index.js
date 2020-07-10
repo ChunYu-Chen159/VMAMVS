@@ -437,8 +437,8 @@ function startSDGGraph(systemName) {
                                     position: 'left',
                                     ticks: {
                                         min: 0,
-                                        max: 90,
-                                        stepSize: 15,
+                                        max: 60,
+                                        stepSize: 10,
                                         fontSize: 20,
                                         fontColor: 'rgba(119,9,10,0.78)'
                                     }
