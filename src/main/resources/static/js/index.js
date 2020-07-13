@@ -382,12 +382,12 @@ function startSDGGraph(systemName) {
                 datas_risk.push(Math.round(jsonContent_risk[key] * 1000) / 1000);
             }
 
-            console.log("jsonContent_servicesErrorNum: " + jsonContent_servicesErrorNum);
+/*            console.log("jsonContent_servicesErrorNum: " + jsonContent_servicesErrorNum);
             console.log("labels_servicesErrorNum: " + labels_servicesErrorNum);
             console.log("datas_servicesErrorNum: " + datas_servicesErrorNum);
             console.log("jsonContent_risk: " + jsonContent_risk);
             console.log("labels_risk: " + labels_risk);
-            console.log("datas_risk: " + datas_risk);
+            console.log("datas_risk: " + datas_risk);*/
 
 
             let ctx = document.getElementById('RiskPositivelyCorrelatedChart').getContext('2d');

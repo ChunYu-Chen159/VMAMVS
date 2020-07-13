@@ -2285,16 +2285,13 @@ function SDGGraph(data) {
                 // node: provider endpoint
                 highlightJson += "{\"id\":" + providerEndpointId + "}";
                 highlightJson += ",";
-                console.log("providerEndpointId: " + providerEndpointId);
 
                 highlightJson += "{\"id\":" + providerServiceId + "}";
                 highlightJson += ",";
-                console.log("providerEndpointId: " + providerServiceId);
 
                 // node: consumer parent
                 highlightJson += "{\"id\":" + consumerServiceId + "}";
                 highlightJson += ",";
-                console.log("providerEndpointId: " + consumerServiceId);
 
                 // nodes: consumer endpoint (可能不只一個)
                 data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
@@ -2305,7 +2302,6 @@ function SDGGraph(data) {
                                 let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
                                 highlightJson += "{\"id\":" + dnfTemp.id + "}";
                                 highlightJson += ",";
-                                console.log("consumer endpoint: " + dnfTemp.id);
                             });
                         }
                     });
@@ -2540,7 +2536,7 @@ function SDGGraph(data) {
                                         update(emptyData);
                                         update(graphData);
                                     });
-                            }, 8000);
+                            }, 10000);
                         });
 
 
