@@ -192,8 +192,10 @@ public class MonitorService {
                     Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(monitorError.getConsumerAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {
                     });
 
-
+                    boolean hasRemoved = false;
                     for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                        if(hasRemoved)
+                            break;
                         String key = entry.getKey();
                         Object value = entry.getValue();
                         if (key.equals(monitorError.getErrorPath())) {
@@ -223,6 +225,8 @@ public class MonitorService {
                                             if (cal1.after(cal2)) {
                                                 serviceRepository.setMonitorErrorConditionByAppId(monitorError.getErrorAppId(), "FALSE");
                                                 monitorErrors.remove(monitorErrors.indexOf(monitorError));
+                                                hasRemoved = true;
+                                                break;
                                             }
                                         } catch (ParseException e) {
                                             e.printStackTrace();

@@ -262,10 +262,13 @@ public class WebPageController {
     }
 
     @GetMapping("/monitor/runMonitorErrors/{systemName}")
-    public void runMonitorErrorsOfSystem(@PathVariable("systemName") String systemName) {
+    public String runMonitorErrorsOfSystem(@PathVariable("systemName") String systemName) {
         monitorService.checkErrorFromSleuth(systemName);
         contractService.setAllServiceContractTestingCondition(systemName);
         riskService.setServiceRisk(systemName);
+        logger.info(systemName + "： RunMonitorErrors Success");
+        return systemName + "： RunMonitorErrors Success";
+
     }
 
     @GetMapping("/monitor/simulateMonitorErrors/{systemName}")
