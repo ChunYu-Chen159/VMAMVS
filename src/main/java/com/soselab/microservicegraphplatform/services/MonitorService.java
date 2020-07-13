@@ -117,7 +117,7 @@ public class MonitorService {
         Long lookback = 1 * 60 * 60 * 1000L;
         int limit = 10000;
 
-        // 以下註解為實際分析錯誤使用的方法
+        // 以下為實際分析錯誤使用的方法
         for(Service s : ServicesInDB) {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
@@ -729,7 +729,11 @@ public class MonitorService {
         int totalDay = 180;
         int timeInterval = 30;
 
-        List<MonitorError> monitorErrorList = allSimulateMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
+        // 真實系統用的方法
+        List<MonitorError> monitorErrorList = allMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
+
+        // 模擬錯誤用的方法
+        //List<MonitorError> monitorErrorList = allSimulateMonitorErrorList.getOrDefault(systemName, new ArrayList<>());
         long nowTime = System.currentTimeMillis();
 
         for ( int i = 0; i < totalDay; i+= timeInterval) {
