@@ -118,7 +118,7 @@ public class MonitorService {
         int limit = 10000;
 
         // 以下註解為實際分析錯誤使用的方法
-/*        for(Service s : ServicesInDB) {
+        for(Service s : ServicesInDB) {
 
             serviceRepository.setMonitorErrorConditionByAppId(s.getAppId(), "FALSE");
 
@@ -157,15 +157,15 @@ public class MonitorService {
             allMonitorErrorList.merge(systemName, new ArrayList<>(monitorErrorList504),
                     (oldList, newList) -> pushMonitorError(oldList, monitorErrorList504));
 
-        }*/
+        }
 
 
         // 以下為模擬錯誤使用的方法
-        List<MonitorError> simulatorMonitorErrors = monitorErrorSimulator.simulateErrors(systemName);
+        /*List<MonitorError> simulatorMonitorErrors = monitorErrorSimulator.simulateErrors(systemName);
         allMonitorErrorList.merge(systemName, new ArrayList<>(simulatorMonitorErrors),
                 (oldList, newList) -> pushMonitorError(oldList, simulatorMonitorErrors));
         allSimulateMonitorErrorList.remove(systemName);
-        allSimulateMonitorErrorList.put(systemName, simulatorMonitorErrors);
+        allSimulateMonitorErrorList.put(systemName, simulatorMonitorErrors);*/
         // ------------------------------------------------
 
         if(!allMonitorErrorList.get(systemName).isEmpty() && allMonitorErrorList.get(systemName).size() > 0){

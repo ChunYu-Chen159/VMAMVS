@@ -58,7 +58,7 @@ public class RiskService {
             for ( int i = 0; i < totalDay - timeInterval + 1; i++) {
 
                 // 分析真實錯誤用的方法
-                /*String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
                 String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
                 String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
                 String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
@@ -66,10 +66,10 @@ public class RiskService {
                 int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
                 int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
                 int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
-                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);*/
+                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
 
                 // 分析模擬錯誤用的方法
-                int totalNum = 0;
+                /*int totalNum = 0;
                 for(int j = 0; j < simulatorMonitorErrors.size(); j++){
                     MonitorError monitorError = simulatorMonitorErrors.get(j);
                     if(s.getAppId().equals(monitorError.getErrorAppId())) {
@@ -98,9 +98,9 @@ public class RiskService {
                     }
 
                 }
-                al.add(totalNum);
+                al.add(totalNum);*/
                 // 分析真實錯誤用的方法
-//                al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
+                al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
 
                 endTime -= move;
 
@@ -180,7 +180,11 @@ public class RiskService {
         Map<String,Double> risk = new HashMap<>();
 
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
-        List<MonitorError> simulatorMonitorErrors = monitorService.getSimulateErrorsOfSystem(systemName);
+        // 真實系統用的方法
+        List<MonitorError> monitorErrors = monitorService.getErrorsOfSystem(systemName);
+
+        // 模擬錯誤用的方法
+        //List<MonitorError> monitorErrors = monitorService.getSimulateErrorsOfSystem(systemName);
 
         for(Service s : ServicesInDB) {
             risk.put(s.getAppId(), serviceRepository.getRiskValueByAppId(s.getAppId()));
@@ -192,8 +196,8 @@ public class RiskService {
             long lookback = 30 * 24 * 60 * 60 * 1000L; // 30天
 
             int serviceTotalNum = 0;
-            for(int j = 0; j < simulatorMonitorErrors.size(); j++) {
-                MonitorError monitorError = simulatorMonitorErrors.get(j);
+            for(int j = 0; j < monitorErrors.size(); j++) {
+                MonitorError monitorError = monitorErrors.get(j);
                 if (s.getAppId().equals(monitorError.getErrorAppId())) {
                     try {
 
