@@ -121,7 +121,7 @@ public class RiskService {
             int averageStandard_total = 0;
             double averageStandard_count = 0.0;
 
-            for(int i = al.size()-1; i < al.size()/4-1; i++){
+            for(int i = al.size()/4-1; i < al.size()/4 * 3 + 1; i++){
                 averageStandard_total += al.get(i);
                 averageStandard_count++;
             }
