@@ -121,7 +121,7 @@ public class RiskService {
             int averageStandard_total = 0;
             double averageStandard_count = 0.0;
 
-            System.out.println("(al.size()/4-1): " + (al.size()/4-1));
+/*            System.out.println("(al.size()/4-1): " + (al.size()/4-1));
             System.out.println("(al.size()/4 * 3 + 1): " + (al.size()/4 * 3 + 1));
 
             for(int i = (al.size()/4-1); i < (al.size()/4 * 3 + 1); i++){
@@ -133,9 +133,9 @@ public class RiskService {
             System.out.println("averageStandard_total: " + averageStandard_total);
             System.out.println("averageStandard_count: " + averageStandard_count);
 
-            double average = averageStandard_total / (averageStandard_count*1.0);
+            double average = averageStandard_total / (averageStandard_count*1.0);*/
 
-/*            for(int i = 0; i < al.size()/4-1; i++){
+            for(int i = 0; i < al.size()/4-1; i++){
                 lowStandard_total += al.get(i);
                 lowStandard_count++;
             }
@@ -147,7 +147,7 @@ public class RiskService {
 
             double highStandard = highStandard_total/highStandard_count;
             double lowStandard = lowStandard_total/lowStandard_count;
-            double average = (highStandard + lowStandard) / 2;*/
+            double average = (highStandard + lowStandard) / 2;
 
 
 
