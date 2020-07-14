@@ -118,7 +118,17 @@ public class RiskService {
             double highStandard_count = 0.0;
             int lowStandard_total = 0;
             double lowStandard_count = 0.0;
-            for(int i = 0; i < al.size()/4-1; i++){
+            int averageStandard_total = 0;
+            double averageStandard_count = 0.0;
+
+            for(int i = al.size()-1; i < al.size()/4-1; i++){
+                averageStandard_total += al.get(i);
+                averageStandard_count++;
+            }
+
+            double average = averageStandard_total / averageStandard_count;
+
+/*            for(int i = 0; i < al.size()/4-1; i++){
                 lowStandard_total += al.get(i);
                 lowStandard_count++;
             }
@@ -130,7 +140,7 @@ public class RiskService {
 
             double highStandard = highStandard_total/highStandard_count;
             double lowStandard = lowStandard_total/lowStandard_count;
-            double average = (highStandard + lowStandard) / 2;
+            double average = (highStandard + lowStandard) / 2;*/
 
 
 
@@ -138,8 +148,8 @@ public class RiskService {
             Object lowStandard = Collections.min(al);
             double average = ((int)highStandard + (int)lowStandard) / 2.0;*/
 
-            System.out.println("highStandard: " + highStandard);
-            System.out.println("lowStandard: " + lowStandard);
+/*            System.out.println("highStandard: " + highStandard);
+            System.out.println("lowStandard: " + lowStandard);*/
             System.out.println("average: " + average);
 
             averageMap.put(s.getAppId(),average);
