@@ -126,7 +126,10 @@ public class RiskService {
                 averageStandard_count++;
             }
 
-            double average = averageStandard_total / averageStandard_count;
+            System.out.println("averageStandard_total: " + averageStandard_total);
+            System.out.println("averageStandard_count: " + averageStandard_count);
+
+            double average = averageStandard_total / (averageStandard_count*1.0);
 
 /*            for(int i = 0; i < al.size()/4-1; i++){
                 lowStandard_total += al.get(i);
