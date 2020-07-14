@@ -114,9 +114,29 @@ public class RiskService {
             System.out.println("allllllllllllllllllllllll:"  + al);
 
 
-            Object highStandard = Collections.max(al);
+            int highStandard_total = 0;
+            double highStandard_count = 0.0;
+            int lowStandard_total = 0;
+            double lowStandard_count = 0.0;
+            for(int i = 0; i < al.size()/4-1; i++){
+                lowStandard_total += al.get(i);
+                lowStandard_count++;
+            }
+
+            for(int i = al.size()-1; i > al.size()/4 * 3 + 1; i--) {
+                highStandard_total += al.get(i);
+                highStandard_count++;
+            }
+
+            double highStandard = lowStandard_total/lowStandard_count;
+            double lowStandard = highStandard_total/highStandard_count;
+            double average = (highStandard + lowStandard) / 2;
+
+
+
+/*            Object highStandard = Collections.max(al);
             Object lowStandard = Collections.min(al);
-            double average = ((int)highStandard + (int)lowStandard) / 2.0;
+            double average = ((int)highStandard + (int)lowStandard) / 2.0;*/
 
             System.out.println("highStandard: " + highStandard);
             System.out.println("lowStandard: " + lowStandard);
