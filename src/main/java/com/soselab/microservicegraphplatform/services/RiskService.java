@@ -124,7 +124,8 @@ public class RiskService {
             System.out.println("(al.size()/4-1): " + (al.size()/4-1));
             System.out.println("(al.size()/4 * 3 + 1): " + (al.size()/4 * 3 + 1));
 
-            for(int i = (int)(al.size()/4-1); i < (al.size()/4 * 3 + 1); i++){
+            for(int i = (al.size()/4-1); i < (al.size()/4 * 3 + 1); i++){
+                System.out.println("al.get(i): " + al.get(i));
                 averageStandard_total += al.get(i);
                 averageStandard_count++;
             }
