@@ -186,9 +186,9 @@ public class RiskService {
             }
 
             System.out.println("Service: " + s.getAppId());
-            System.out.println("impactTotalNum: " + totalNum);
+            System.out.println("impactTotalNum: " + totalNum+1);
 
-            endpointNumberMap.put(s.getAppId(), totalNum);
+            endpointNumberMap.put(s.getAppId(), totalNum+1);
 
         }
 
