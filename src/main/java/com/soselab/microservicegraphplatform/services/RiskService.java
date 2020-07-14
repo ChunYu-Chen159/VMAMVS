@@ -128,8 +128,8 @@ public class RiskService {
                 highStandard_count++;
             }
 
-            double highStandard = lowStandard_total/lowStandard_count;
-            double lowStandard = highStandard_total/highStandard_count;
+            double highStandard = highStandard_total/highStandard_count;
+            double lowStandard = lowStandard_total/lowStandard_count;
             double average = (highStandard + lowStandard) / 2;
 
 
