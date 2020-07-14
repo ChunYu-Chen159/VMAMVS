@@ -108,6 +108,12 @@ public class RiskService {
 
             System.out.println("Service: " + s.getAppId());
 
+
+            Collections.sort(al);
+
+            System.out.println("allllllllllllllllllllllll:"  + al);
+
+
             Object highStandard = Collections.max(al);
             Object lowStandard = Collections.min(al);
             double average = ((int)highStandard + (int)lowStandard) / 2.0;
