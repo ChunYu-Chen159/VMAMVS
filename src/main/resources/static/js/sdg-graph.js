@@ -2300,7 +2300,8 @@ function SDGGraph(data) {
                                                 consumerService_api: api,
                                                 providerServiceJsonContent: json2,
                                                 providerServiceAppName: json2["info"]["title"].toUpperCase(),
-                                                providerServiceAppVersion: json2["info"]["version"]
+                                                providerServiceAppVersion: json2["info"]["version"],
+                                                providerService_api: targetApi
                                             }, clickHandler3);
                                         }
                                     });
@@ -2456,9 +2457,10 @@ function SDGGraph(data) {
             let providerServiceJsonContent = event.data.providerServiceJsonContent;
             let providerServiceAppName = event.data.providerServiceAppName;
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
+            let providerService_api = event.data.providerService_api;
             let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
             let providerEndpoint = "";
-            data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && ((node.path === index_api) || (node.path === index_api.substring(0,index_api.lastIndexOf("_"))) ))
+            data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && ((node.path === providerService_api) || (node.path === providerService_api.substring(0,providerService_api.lastIndexOf("_"))) ))
                 .forEach(nodeWithVersion => {
                     data.links.filter(link => (link.type === REL_OWN) && (link.source.id === providerService.id))
                         .forEach(nce2 => {
