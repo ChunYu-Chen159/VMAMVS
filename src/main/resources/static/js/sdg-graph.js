@@ -2476,10 +2476,13 @@ function SDGGraph(data) {
             console.log("providerEndpoint.path.substring(1): " + providerEndpoint.path.substring(1));
             console.log("consumerServiceJsonContent[\"info\"][\"title\"].toUpperCase(): " + consumerServiceJsonContent["info"]["title"].toUpperCase());
 
-            if(!$('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).hasClass("active")){
-                $('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
+            let buttonId = "contractMissing-" + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1);
+
+
+            if(!$('#' + buttonId).hasClass("active")){
+                $('#' + buttonId).parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
-                $('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).addClass("active");
+                $('#' + buttonId).addClass("active");
                 // extraMessage.addClass("show");
 
                 // 要highlight的nodes, links
@@ -2574,124 +2577,10 @@ function SDGGraph(data) {
 
 
             }else {
-                $('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).removeClass("active");
+                $('#' + buttonId).removeClass("active");
                 clearHighlight();
                 // extraMessage.removeClass("show");
             }
-
-
-            // id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)
-
-/*            if (!$('#' + apiId).hasClass("active")) {
-                $('#' + apiId).parent().find(".active").removeClass("active");
-                extraMessage.removeClass("show");
-                $('#' + apiId).addClass("active");
-                extraMessage.addClass("show");
-
-                messageJson.jsonViewer(json_content[index_api][index], {collapsed: false, withQuotes: false});
-
-                // 要highlight的nodes, links
-                let highlightJson = "";
-                highlightJson += "{";
-
-                // 要highlight的nodes
-                highlightJson += "\"nodes\":[";
-
-                // node: provider endpoint
-                highlightJson += "{\"id\":" + providerEndpointId + "}";
-                highlightJson += ",";
-
-                highlightJson += "{\"id\":" + providerServiceId + "}";
-                highlightJson += ",";
-
-                // node: consumer parent
-                highlightJson += "{\"id\":" + consumerServiceId + "}";
-                highlightJson += ",";
-
-                // nodes: consumer endpoint (可能不只一個)
-                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
-                    .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
-                        if (dlff !== null && dlff !== undefined){
-                            dlff.forEach(dlfff => {
-                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                highlightJson += "{\"id\":" + dnfTemp.id + "}";
-                                highlightJson += ",";
-                            });
-                        }
-                    });
-                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-
-                highlightJson += "]";
-                highlightJson += ",";
-
-                // 要highlight的links
-                highlightJson += "\"links\":[";
-
-                // link: consumer parent -OWN- consumer endpoint
-                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
-                    .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
-                        if (dlff !== null && dlff !== undefined){
-                            dlff.forEach(dlfff => {
-                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                highlightJson += "{\"source\":" + consumerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
-                                highlightJson += ",";
-                            });
-                        }else {
-                            return;
-                        }
-
-
-                    });
-
-                // link: consumer endpoint -HTTPREQUEST-> provider endpoint
-                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
-                    .forEach(nce2 => {
-                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
-                        if (dlff !== null && dlff !== undefined){
-                            dlff.forEach(dlfff => {
-                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
-                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + providerEndpointId + "}";
-                                highlightJson += ",";
-                            });
-                        }else {
-                            return;
-                        }
-
-
-                    });
-
-                // link: provider parent -OWN- provider endpoint
-                highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEndpointId + "}";
-                highlightJson += "]";
-                highlightJson += ",";
-
-
-                // 要highlight的sourceNodes
-                highlightJson += "\"sourceNodes\":[]";
-                highlightJson += ",";
-
-                // 要highlight的sourceLinks
-                highlightJson += "\"sourceLinks\":[]";
-                // highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
-                highlightJson += "}";
-
-                let highlighttoJson = JSON.parse(highlightJson);
-                console.log(highlighttoJson);
-                // highlight(highlighttoJson);
-
-                if (json_content[index_api][index]["testResult"]["status"] === "PASS")
-                    highlight(highlighttoJson);
-                else
-                    highlight_error(highlighttoJson);
-
-
-            } else {
-                $('#' + apiId).removeClass("active");
-                clearHighlight();
-                extraMessage.removeClass("show");
-            }*/
         }
 
 
