@@ -2251,7 +2251,7 @@ function SDGGraph(data) {
             fetch("/web-page/app/swagger/" + d.appId)
                 .then(response => response.json())
                 .then(json => {
-                    if(json["x-serviceDependency"]){
+                    if(json["x-serviceDependency"]["httpRequest"]){
                         let httpRequestTarget = json["x-serviceDependency"]["httpRequest"];
                         console.log("d.appId: " + d.appId);
                         for( let api in httpRequestTarget){
