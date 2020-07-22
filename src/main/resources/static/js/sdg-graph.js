@@ -2285,7 +2285,7 @@ function SDGGraph(data) {
                                         let contractContent = json2["x-contract"];
                                         let groovyName = d.appName.toLowerCase() + ".groovy";
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
-                                            $('#contractMissing-' + targetService.toUpperCase()).append("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)  + "\">" + api + "</button>");
+                                            $('#contractMissing-' + targetService.toUpperCase()).after("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)  + "\">" + api + "</button>");
                                         }
                                     });
                             }
