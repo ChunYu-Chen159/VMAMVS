@@ -2276,6 +2276,7 @@ function SDGGraph(data) {
                                 console.log("targetAppId: " + targetAppId);
                                 if ($('#contractMissing-' + targetService.toUpperCase()).length <= 0) { // id不存在
                                     contractMissingGroup.append("<h4 id=\"contractMissing-" + targetService.toUpperCase() + "\" class=\"card-contract\"><span>" + targetService.toUpperCase() + "</span></h4>");
+                                    $('contractMissing-' + targetService.toUpperCase()).hide();
                                 }
 
 
@@ -2286,6 +2287,7 @@ function SDGGraph(data) {
                                         let groovyName = d.appName.toLowerCase() + ".groovy";
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
                                             $('#contractMissing-' + targetService.toUpperCase()).after("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)  + "\">" + api + "</button>");
+                                            $('contractMissing-' + targetService.toUpperCase()).show();
                                         }
                                     });
                             }
