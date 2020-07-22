@@ -1711,6 +1711,7 @@ function SDGGraph(data) {
     let metricsElasticsearchJson = $("#metrics-elasticsearch-json");
 
     let contractGroup = $('#graph-contractList');
+    let contractMissingGroup = $('#graph-contractMissingList');
     let serviceCondition = $('#serviceCondition');
 
     let monitorErrorGroup = $('#graph-MonitorErrorList');
@@ -2257,6 +2258,32 @@ function SDGGraph(data) {
                         for( let api in httpRequestTarget){
                             console.log("api: " + api);
                             console.log("httpRequestTarget[api]: " + httpRequestTarget[api]);
+                            console.log("httpRequestTarget[api][0]: " + httpRequestTarget[api][0]);
+                            console.log("httpRequestTarget[api][0][\"targets\"]: " + httpRequestTarget[api][0]["targets"]);
+
+                            for(let targetService in httpRequestTarget[api][0]["targets"]){
+                                let targetVersion = Object.keys(httpRequestTarget[api][0]["targets"][targetService])[0];
+                                let targetApi = Object.keys(httpRequestTarget[api][0]["targets"][targetService][targetVersion])[0];
+
+                                console.log("targetService: " + targetService);
+                                console.log("targetVersion: " + targetVersion);
+                                console.log("targetApi: " + targetApi);
+                                contractMissingGroup.append("<h4 class=\"card-contract\"><span>" + targetService.toUpperCase() + "</span></h4>");
+
+                                let targetAppId = d.systemName + ":" + targetService.toUpperCase() + ":" + targetVersion;
+
+                                console.log("targetAppId: " + targetAppId);
+
+                                fetch("/web-page/app/swagger/" + targetAppId)
+                                    .then(response2 => response2.json())
+                                    .then(json2 => {
+                                        let contractContent = json2["x-contract"];
+                                        let groovyName = d.appName.toLowerCase() + ".groovy";
+                                        if(!contractContent[groovyName] || !contract[groovyName][targetApi]){
+                                            contractMissingGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)  + "\">" + api + "</button>");
+                                        }
+                                    });
+                            }
                         }
                     }
                 });
