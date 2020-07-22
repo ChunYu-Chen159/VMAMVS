@@ -2288,17 +2288,6 @@ function SDGGraph(data) {
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
                                             $('#contractMissing-' + targetService.toUpperCase()).after("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)  + "\">" + api + "</button>");
                                             $('contractMissing-' + targetService.toUpperCase()).show();
-
-                                            $('#contractMissing-' + targetService + "-" + targetVersion + "-" + targetApi.substring(1)).bind("click", {
-                                                consumerServiceJsonContent: json,
-                                                consumerServiceId: d.id,
-                                                consumerServiceAppName: json["info"]["title"].toUpperCase(),
-                                                consumerServiceAppVersion: json["info"]["version"],
-                                                consumerService_api: api,
-                                                providerServiceJsonContent: json2,
-                                                providerServiceAppName: json2["info"]["title"].toUpperCase(),
-                                                providerServiceAppVersion: json2["info"]["version"]
-                                            }, clickHandler3);
                                         }
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
                                             $('#contractMissing-' + targetService + "-" + targetVersion + "-" + targetApi.substring(1)).bind("click", {
