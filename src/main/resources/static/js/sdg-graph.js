@@ -974,7 +974,7 @@ function SDGGraph(data) {
             .attr("fill-opacity", 1)
             .text(d => {
                 if (d.labels.includes(LABEL_SERVICE)) {
-                    return d.appName + ":" + d.version;
+                    return d.appName + ":" + d.version + ":" + d.number;
                 } else if (d.labels.includes(LABEL_ENDPOINT)) {
                     return "[" + d.method + "] " + d.path;
                 } else if (d.labels.includes(LABEL_QUEUE)) {
@@ -1253,7 +1253,7 @@ function SDGGraph(data) {
             .attr("fill-opacity", 0)
             .text(d => {
                 if (d.labels.includes(LABEL_SERVICE)) {
-                    return d.appName + ":" + d.version;
+                    return d.appName + ":" + d.version + ":" + d.number;
                 } else if (d.labels.includes(LABEL_ENDPOINT)) {
                     return "[" + d.method + "] " + d.path;
                 } else if (d.labels.includes(LABEL_QUEUE)) {
