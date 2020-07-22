@@ -2290,6 +2290,7 @@ function SDGGraph(data) {
                                             $('#contractMissing-' + targetService.toUpperCase()).show();
                                         }
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
+                                            console.log("clickkkkkkkkkkkkkkkkk: " + targetService + "-" + targetVersion + "-" + targetApi.substring(1));
                                             $('#contractMissing-' + targetService + "-" + targetVersion + "-" + targetApi.substring(1)).bind("click", {
                                                 consumerServiceJsonContent: json,
                                                 consumerServiceId: d.id,
