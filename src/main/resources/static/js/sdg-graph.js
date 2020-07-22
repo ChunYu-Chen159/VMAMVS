@@ -2288,66 +2288,23 @@ function SDGGraph(data) {
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
                                             $('#contractMissing-' + targetService.toUpperCase()).after("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)  + "\">" + api + "</button>");
                                             $('contractMissing-' + targetService.toUpperCase()).show();
+
+                                            $('#contractMissing-' + targetService + "-" + targetVersion + "-" + targetApi.substring(1)).bind("click", {
+                                                consumerServiceJsonContent: json,
+                                                consumerServiceId: d.id,
+                                                consumerServiceAppName: json["info"]["title"].toUpperCase(),
+                                                consumerServiceAppVersion: json["info"]["version"],
+                                                consumerService_api: api,
+                                                providerServiceJsonContent: json2,
+                                                providerServiceAppName: json2["info"]["title"].toUpperCase(),
+                                                providerServiceAppVersion: json2["info"]["version"]
+                                            }, clickHandler3);
                                         }
                                     });
                             }
                         }
                     }
                 });
-/*            fetch("/web-page/graph/providers/" + d.id)
-                .then(response => response.json())
-                .then(json => {
-                    let parentNode = new Array();
-                    json.nodes.forEach(node => {
-
-
-                        let parentNodeTemp = findParentById(node.id);
-                        if (parentNode.indexOf(parentNodeTemp.id) !== -1)
-                            return;
-                        else
-                            parentNode.push(parentNodeTemp.id);
-
-                        fetch("/web-page/app/swagger/" + parentNodeTemp.appId)
-                            .then(response => response.json())
-                            .then(json2 => {
-                                contractGroup.append("<h4 class=\"card-contract\"><span>" + json2["info"]["title"].toUpperCase() + "</span></h4>");
-
-                                let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
-
-                                // for( let api in contractContent)
-                                for(let api in contractContent){
-
-                                    for(let index in contractContent[api]) {
-
-                                        if (contractContent[api][index]["testResult"]["status"] === "PASS") {
-                                            contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1).replace("/", "-") + index + "\">" + api + "</button>");
-
-                                        } else {
-                                            document.getElementById('serviceCondition').setAttribute("class", "badge badge-pill badge-warning");
-                                            document.getElementById('serviceCondition').innerText = "WARNING";
-                                            contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1).replace("/", "-") + index + "\">" + api + "</button>");
-                                        }
-                                    }
-
-                                }
-
-                                for(let api in contractContent){
-                                    for(let index in contractContent[api]) {
-                                        // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
-                                        $('#contract-' + api.substring(1).replace("/", "-") + index).bind("click", {
-                                            index: index,
-                                            index_api: api,
-                                            jsonContent: contractContent,
-                                            consumerServiceId: d.id,
-                                            providerServiceAppName: json2["info"]["title"].toUpperCase(),
-                                            providerServiceAppVersion: json2["info"]["version"]
-                                        }, clickHandler2);
-                                    }
-                                }
-                            });
-
-                    });
-                });*/
         }
 
 
@@ -2484,6 +2441,248 @@ function SDGGraph(data) {
                 clearHighlight();
                 extraMessage.removeClass("show");
             }
+        }
+
+        function clickHandler3(event) {
+
+            let consumerServiceJsonContent = event.data.consumerServiceJsonContent;
+            let consumerServiceId = event.data.consumerServiceId;
+            let consumerServiceAppName = event.data.consumerServiceAppName;
+            let consumerServiceAppVersion = event.data.consumerServiceAppVersion;
+            let consumerService_api = event.data.consumerService_api;
+            let providerServiceJsonContent = event.data.providerServiceJsonContent;
+            let providerServiceAppName = event.data.providerServiceAppName;
+            let providerServiceAppVersion = event.data.providerServiceAppVersion;
+            let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
+            // let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
+            let providerEndpoint = "";
+            data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && ((node.path === index_api) || (node.path === index_api.substring(0,index_api.lastIndexOf("_"))) ))
+                .forEach(nodeWithVersion => {
+                    data.links.filter(link => (link.type === REL_OWN) && (link.source.id === providerService.id))
+                        .forEach(nce2 => {
+                            if(nce2.target.id === nodeWithVersion.id)
+                                providerEndpoint = nodeWithVersion;
+                        });
+                });
+            let providerServiceId = providerService.id;
+            let providerEndpointId = providerEndpoint.id;
+
+            if(!$('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).hasClass("active")){
+                $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
+                // extraMessage.removeClass("show");
+                $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).addClass("active");
+                // extraMessage.addClass("show");
+
+                // 要highlight的nodes, links
+                let highlightJson = "";
+                highlightJson += "{";
+
+                // 要highlight的nodes
+                highlightJson += "\"nodes\":[";
+                // node: provider endpoint
+                highlightJson += "{\"id\":" + providerEndpointId + "}";
+                highlightJson += ",";
+
+                highlightJson += "{\"id\":" + providerServiceId + "}";
+                highlightJson += ",";
+
+                // node: consumer parent
+                highlightJson += "{\"id\":" + consumerServiceId + "}";
+                highlightJson += ",";
+
+                // nodes: consumer endpoint
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
+                    .forEach(nce2 => {
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
+                        if (dlff !== null && dlff !== undefined){
+                            dlff.forEach(dlfff => {
+                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id && dnf.path === consumerService_api);
+                                highlightJson += "{\"id\":" + dnfTemp.id + "}";
+                                highlightJson += ",";
+                            });
+                        }
+                    });
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+
+                highlightJson += "]";
+                highlightJson += ",";
+
+                // 要highlight的links
+                highlightJson += "\"links\":[";
+
+                // link: consumer parent -OWN- consumer endpoint
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
+                    .forEach(nce2 => {
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
+                        if (dlff !== null && dlff !== undefined){
+                            dlff.forEach(dlfff => {
+                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                highlightJson += "{\"source\":" + consumerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
+                                highlightJson += ",";
+                            });
+                        }else {
+                            return;
+                        }
+
+
+                    });
+
+                // link: consumer endpoint -HTTPREQUEST-> provider endpoint
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
+                    .forEach(nce2 => {
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
+                        if (dlff !== null && dlff !== undefined){
+                            dlff.forEach(dlfff => {
+                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + providerEndpointId + "}";
+                                highlightJson += ",";
+                            });
+                        }else {
+                            return;
+                        }
+
+
+                    });
+
+                // link: provider parent -OWN- provider endpoint
+                highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEndpointId + "}";
+                highlightJson += "]";
+                highlightJson += ",";
+
+
+                // 要highlight的sourceNodes
+                highlightJson += "\"sourceNodes\":[]";
+                highlightJson += ",";
+
+                // 要highlight的sourceLinks
+                highlightJson += "\"sourceLinks\":[]";
+                // highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "}";
+
+                let highlighttoJson = JSON.parse(highlightJson);
+                console.log(highlighttoJson);
+                highlight(highlighttoJson);
+
+
+            }else {
+                $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).removeClass("active");
+                clearHighlight();
+                // extraMessage.removeClass("show");
+            }
+
+
+            // id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)
+
+/*            if (!$('#' + apiId).hasClass("active")) {
+                $('#' + apiId).parent().find(".active").removeClass("active");
+                extraMessage.removeClass("show");
+                $('#' + apiId).addClass("active");
+                extraMessage.addClass("show");
+
+                messageJson.jsonViewer(json_content[index_api][index], {collapsed: false, withQuotes: false});
+
+                // 要highlight的nodes, links
+                let highlightJson = "";
+                highlightJson += "{";
+
+                // 要highlight的nodes
+                highlightJson += "\"nodes\":[";
+
+                // node: provider endpoint
+                highlightJson += "{\"id\":" + providerEndpointId + "}";
+                highlightJson += ",";
+
+                highlightJson += "{\"id\":" + providerServiceId + "}";
+                highlightJson += ",";
+
+                // node: consumer parent
+                highlightJson += "{\"id\":" + consumerServiceId + "}";
+                highlightJson += ",";
+
+                // nodes: consumer endpoint (可能不只一個)
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
+                    .forEach(nce2 => {
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
+                        if (dlff !== null && dlff !== undefined){
+                            dlff.forEach(dlfff => {
+                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                highlightJson += "{\"id\":" + dnfTemp.id + "}";
+                                highlightJson += ",";
+                            });
+                        }
+                    });
+                highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+
+                highlightJson += "]";
+                highlightJson += ",";
+
+                // 要highlight的links
+                highlightJson += "\"links\":[";
+
+                // link: consumer parent -OWN- consumer endpoint
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
+                    .forEach(nce2 => {
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
+                        if (dlff !== null && dlff !== undefined){
+                            dlff.forEach(dlfff => {
+                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                highlightJson += "{\"source\":" + consumerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + dnfTemp.id + "}";
+                                highlightJson += ",";
+                            });
+                        }else {
+                            return;
+                        }
+
+
+                    });
+
+                // link: consumer endpoint -HTTPREQUEST-> provider endpoint
+                data.links.filter(link => (link.type === REL_OWN) && (link.source.id === consumerServiceId))
+                    .forEach(nce2 => {
+                        let dlff = data.links.filter(dlf => (dlf.type === REL_HTTPREQUEST) && (dlf.source.id === nce2.target.id) && (dlf.target.id === providerEndpointId));
+                        if (dlff !== null && dlff !== undefined){
+                            dlff.forEach(dlfff => {
+                                let dnfTemp = data.nodes.find(dnf => dnf.id === dlfff.source.id);
+                                highlightJson += "{\"source\":" + dnfTemp.id + ",\"type\":\"" + REL_HTTPREQUEST + "\",\"target\":" + providerEndpointId + "}";
+                                highlightJson += ",";
+                            });
+                        }else {
+                            return;
+                        }
+
+
+                    });
+
+                // link: provider parent -OWN- provider endpoint
+                highlightJson += "{\"source\":" + providerServiceId + ",\"type\":\"" + REL_OWN + "\",\"target\":" + providerEndpointId + "}";
+                highlightJson += "]";
+                highlightJson += ",";
+
+
+                // 要highlight的sourceNodes
+                highlightJson += "\"sourceNodes\":[]";
+                highlightJson += ",";
+
+                // 要highlight的sourceLinks
+                highlightJson += "\"sourceLinks\":[]";
+                // highlightJson = (highlightJson.substring(highlightJson.length-1)==',')?highlightJson.substring(0,highlightJson.length-1):highlightJson;
+                highlightJson += "}";
+
+                let highlighttoJson = JSON.parse(highlightJson);
+                console.log(highlighttoJson);
+                // highlight(highlighttoJson);
+
+                if (json_content[index_api][index]["testResult"]["status"] === "PASS")
+                    highlight(highlighttoJson);
+                else
+                    highlight_error(highlighttoJson);
+
+
+            } else {
+                $('#' + apiId).removeClass("active");
+                clearHighlight();
+                extraMessage.removeClass("show");
+            }*/
         }
 
 
