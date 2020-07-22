@@ -2258,12 +2258,12 @@ function SDGGraph(data) {
                         for( let api in httpRequestTarget){
                             console.log("api: " + api);
                             console.log("httpRequestTarget[api]: " + httpRequestTarget[api]);
-                            console.log("httpRequestTarget[api][0]: " + httpRequestTarget[api][0]);
-                            console.log("httpRequestTarget[api][0][\"targets\"]: " + httpRequestTarget[api][0]["targets"]);
+                            console.log("httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]: " + httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]);
+                            console.log("httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]][\"targets\"]: " + httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"]);
 
-                            for(let targetService in httpRequestTarget[api][0]["targets"]){
-                                let targetVersion = Object.keys(httpRequestTarget[api][0]["targets"][targetService])[0];
-                                let targetApi = Object.keys(httpRequestTarget[api][0]["targets"][targetService][targetVersion])[0];
+                            for(let targetService in httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"]){
+                                let targetVersion = Object.keys(httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"][targetService])[0];
+                                let targetApi = Object.keys(httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"][targetService][targetVersion])[0];
 
                                 console.log("targetService: " + targetService);
                                 console.log("targetVersion: " + targetVersion);
