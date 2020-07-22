@@ -16,7 +16,7 @@ import java.util.*;
 @Configuration
 public class MonitorErrorSimulator {
 
-    private final int totalDay = 210; // 總天數210天，當天到前30天計算各服務錯誤總數量，前31~210天計算各服務風險值
+    private final int totalDay = 168; // 總天數140+28天，當天到前28天計算各服務錯誤總數量，前29~168天計算各服務風險值
     private final int hours = 24; // 一天24小時
 
     @Autowired
@@ -26,7 +26,7 @@ public class MonitorErrorSimulator {
     final int minErrorNum = 150;
     final int maxErrorNum = 450;
 
-    final int timeInterval = 180;
+    final int timeInterval = 140;
 
     private static final SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 

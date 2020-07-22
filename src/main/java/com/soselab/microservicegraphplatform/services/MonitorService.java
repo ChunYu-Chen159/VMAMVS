@@ -730,8 +730,8 @@ public class MonitorService {
 
         Map<String,Integer> map = new HashMap<>();
 
-        int totalDay = 180;
-        int timeInterval = 30;
+        int totalDay = 140;
+        int timeInterval = 20;
 
         // 真實系統用的方法
         List<MonitorError> monitorErrorList = allMonitorErrorList.getOrDefault(systemName, new ArrayList<>());

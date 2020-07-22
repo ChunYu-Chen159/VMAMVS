@@ -28,8 +28,8 @@ public class RiskService {
     @Autowired
     private MonitorService monitorService;
 
-    private final int totalDay = 180; // 總天數180天
-    private final int timeInterval = 6; // 6天為間隔
+    private final int totalDay = 140; // 總天數140天
+    private final int timeInterval = 7; // 7天為間隔
     private final int moveInterval = 1; // 每次移動的距離
 
     private final int STATUSCODE500 = 500;
