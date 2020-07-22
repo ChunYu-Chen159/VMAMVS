@@ -2256,14 +2256,14 @@ function SDGGraph(data) {
                         let httpRequestTarget = json["x-serviceDependency"]["httpRequest"];
                         console.log("d.appId: " + d.appId);
                         for( let api in httpRequestTarget){
+                            let method = Object.keys(httpRequestTarget[api])[0];
                             console.log("api: " + api);
                             console.log("httpRequestTarget[api]: " + httpRequestTarget[api]);
-                            console.log("httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]: " + httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]);
-                            console.log("httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]][\"targets\"]: " + httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"]);
+                            console.log("method: " + method);
 
-                            for(let targetService in httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"]){
-                                let targetVersion = Object.keys(httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"][targetService])[0];
-                                let targetApi = Object.keys(httpRequestTarget[api][Object.keys(httpRequestTarget[api])[0]]["targets"][targetService][targetVersion])[0];
+                            for(let targetService in httpRequestTarget[api][method]["targets"]){
+                                let targetVersion = Object.keys(httpRequestTarget[api][method]["targets"][targetService])[0];
+                                let targetApi = Object.keys(httpRequestTarget[api][method]["targets"][targetService][targetVersion])[0];
 
                                 console.log("targetService: " + targetService);
                                 console.log("targetVersion: " + targetVersion);
@@ -2279,7 +2279,7 @@ function SDGGraph(data) {
                                     .then(json2 => {
                                         let contractContent = json2["x-contract"];
                                         let groovyName = d.appName.toLowerCase() + ".groovy";
-                                        if(!contractContent[groovyName] || !contract[groovyName][targetApi]){
+                                        if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
                                             contractMissingGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + targetService + "-" + targetVersion + "-" + targetApi.substring(1)  + "\">" + api + "</button>");
                                         }
                                     });
