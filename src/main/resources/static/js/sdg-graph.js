@@ -2474,11 +2474,12 @@ function SDGGraph(data) {
             console.log("providerServiceAppName: " + providerServiceAppName);
             console.log("providerServiceAppVersion: " + providerServiceAppVersion);
             console.log("providerEndpoint.path.substring(1): " + providerEndpoint.path.substring(1));
+            console.log("consumerServiceJsonContent[\"info\"][\"title\"].toUpperCase(): " + consumerServiceJsonContent["info"]["title"].toUpperCase());
 
             if(!$('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).hasClass("active")){
                 $('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
-                $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).addClass("active");
+                $('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).addClass("active");
                 // extraMessage.addClass("show");
 
                 // 要highlight的nodes, links
