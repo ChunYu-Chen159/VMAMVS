@@ -2274,7 +2274,7 @@ function SDGGraph(data) {
                                 let targetAppId = d.systemName + ":" + targetService.toUpperCase() + ":" + targetVersion;
 
                                 console.log("targetAppId: " + targetAppId);
-                                if (!$('#contractMissing-' + targetService.toUpperCase())) {
+                                if ($('#contractMissing-' + targetService.toUpperCase()).length <= 0) { // id不存在
                                     contractMissingGroup.append("<h4 id=\"contractMissing-" + targetService.toUpperCase() + "\" class=\"card-contract\"><span>" + targetService.toUpperCase() + "</span></h4>");
                                 }
 
