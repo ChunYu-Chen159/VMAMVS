@@ -2300,6 +2300,18 @@ function SDGGraph(data) {
                                                 providerServiceAppVersion: json2["info"]["version"]
                                             }, clickHandler3);
                                         }
+                                        if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
+                                            $('#contractMissing-' + targetService + "-" + targetVersion + "-" + targetApi.substring(1)).bind("click", {
+                                                consumerServiceJsonContent: json,
+                                                consumerServiceId: d.id,
+                                                consumerServiceAppName: json["info"]["title"].toUpperCase(),
+                                                consumerServiceAppVersion: json["info"]["version"],
+                                                consumerService_api: api,
+                                                providerServiceJsonContent: json2,
+                                                providerServiceAppName: json2["info"]["title"].toUpperCase(),
+                                                providerServiceAppVersion: json2["info"]["version"]
+                                            }, clickHandler3);
+                                        }
                                     });
                             }
                         }
