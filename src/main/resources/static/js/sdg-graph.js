@@ -2186,6 +2186,7 @@ function SDGGraph(data) {
 
 
         // Contract Tab
+        // Contract Testing Result
         if (d.labels.includes(LABEL_ENDPOINT)) {
         } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
             fetch("/web-page/graph/providers/" + d.id)
@@ -2243,6 +2244,78 @@ function SDGGraph(data) {
                     });
                 });
         }
+
+        // Missing Contract
+        if (d.labels.includes(LABEL_ENDPOINT)) {
+        } else if (d.labels.includes(LABEL_SERVICE) && !d.labels.includes(LABEL_NULLSERVICE)) {
+            fetch("/web-page/app/swagger/" + d.appId)
+                .then(response => response.json())
+                .then(json => {
+                    if(json["x-serviceDependency"]){
+                        let httpRequestTarget = json["x-serviceDependency"]["httpRequest"];
+                        console.log("d.appId: " + d.appId);
+                        for( let api in httpRequestTarget){
+                            console.log("api: " + api);
+                            console.log("httpRequestTarget[api]: " + httpRequestTarget[api]);
+                        }
+                    }
+                });
+/*            fetch("/web-page/graph/providers/" + d.id)
+                .then(response => response.json())
+                .then(json => {
+                    let parentNode = new Array();
+                    json.nodes.forEach(node => {
+
+
+                        let parentNodeTemp = findParentById(node.id);
+                        if (parentNode.indexOf(parentNodeTemp.id) !== -1)
+                            return;
+                        else
+                            parentNode.push(parentNodeTemp.id);
+
+                        fetch("/web-page/app/swagger/" + parentNodeTemp.appId)
+                            .then(response => response.json())
+                            .then(json2 => {
+                                contractGroup.append("<h4 class=\"card-contract\"><span>" + json2["info"]["title"].toUpperCase() + "</span></h4>");
+
+                                let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
+
+                                // for( let api in contractContent)
+                                for(let api in contractContent){
+
+                                    for(let index in contractContent[api]) {
+
+                                        if (contractContent[api][index]["testResult"]["status"] === "PASS") {
+                                            contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-success\" id=\"contract-" + api.substring(1).replace("/", "-") + index + "\">" + api + "</button>");
+
+                                        } else {
+                                            document.getElementById('serviceCondition').setAttribute("class", "badge badge-pill badge-warning");
+                                            document.getElementById('serviceCondition').innerText = "WARNING";
+                                            contractGroup.append("<button class=\"list-group-item list-group-item-action list-group-item-danger\" id=\"contract-" + api.substring(1).replace("/", "-") + index + "\">" + api + "</button>");
+                                        }
+                                    }
+
+                                }
+
+                                for(let api in contractContent){
+                                    for(let index in contractContent[api]) {
+                                        // $('#error-' + everyError).bind("click", {index:everyError, jsonContent:json[everyError]}, clickHandler);
+                                        $('#contract-' + api.substring(1).replace("/", "-") + index).bind("click", {
+                                            index: index,
+                                            index_api: api,
+                                            jsonContent: contractContent,
+                                            consumerServiceId: d.id,
+                                            providerServiceAppName: json2["info"]["title"].toUpperCase(),
+                                            providerServiceAppVersion: json2["info"]["version"]
+                                        }, clickHandler2);
+                                    }
+                                }
+                            });
+
+                    });
+                });*/
+        }
+
 
         function clickHandler2(event) {
             let index = event.data.index;
