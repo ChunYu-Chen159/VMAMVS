@@ -2455,7 +2455,6 @@ function SDGGraph(data) {
             let providerServiceAppName = event.data.providerServiceAppName;
             let providerServiceAppVersion = event.data.providerServiceAppVersion;
             let providerService = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.version === providerServiceAppVersion));
-            // let providerEndpoint = data.nodes.find(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && (node.path === index_api));
             let providerEndpoint = "";
             data.nodes.filter(node => (node.appName === providerServiceAppName) && (node.labels.includes(LABEL_ENDPOINT)) && ((node.path === index_api) || (node.path === index_api.substring(0,index_api.lastIndexOf("_"))) ))
                 .forEach(nodeWithVersion => {
@@ -2467,6 +2466,10 @@ function SDGGraph(data) {
                 });
             let providerServiceId = providerService.id;
             let providerEndpointId = providerEndpoint.id;
+
+            console.log("providerServiceAppName: " + providerServiceAppName);
+            console.log("providerServiceAppVersion: " + providerServiceAppVersion);
+            console.log("providerEndpoint.path.substring(1): " + providerEndpoint.path.substring(1));
 
             if(!$('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).hasClass("active")){
                 $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
