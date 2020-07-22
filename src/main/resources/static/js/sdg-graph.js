@@ -2475,8 +2475,8 @@ function SDGGraph(data) {
             console.log("providerServiceAppVersion: " + providerServiceAppVersion);
             console.log("providerEndpoint.path.substring(1): " + providerEndpoint.path.substring(1));
 
-            if(!$('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).hasClass("active")){
-                $('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
+            if(!$('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).hasClass("active")){
+                $('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
                 $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).addClass("active");
                 // extraMessage.addClass("show");
@@ -2573,7 +2573,7 @@ function SDGGraph(data) {
 
 
             }else {
-                $('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).removeClass("active");
+                $('#contractMissing-' + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).removeClass("active");
                 clearHighlight();
                 // extraMessage.removeClass("show");
             }
