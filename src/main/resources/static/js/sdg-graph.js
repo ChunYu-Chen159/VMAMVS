@@ -2287,12 +2287,12 @@ function SDGGraph(data) {
                                         let groovyName = d.appName.toLowerCase() + ".groovy";
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
                                             console.log("12332132123132132131");
-                                            $('#contractMissing-' + targetService.toUpperCase()).after("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + api.substring(1)  + "\">" + api + "</button>");
+                                            $('#contractMissing-' + targetService.toUpperCase()).after("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + json["info"]["title"].toUpperCase() + "-" + api.substring(1)  + "\">" + api + "</button>");
                                             $('#contractMissing-' + targetService.toUpperCase()).show();
                                         }
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
-                                            console.log("clickkkkkkkkkkkkkkkkk: contractMissing-" + api.substring(1));
-                                            $('#contractMissing-' + api.substring(1)).bind("click", {
+                                            console.log("clickkkkkkkkkkkkkkkkk: contractMissing-" + json["info"]["title"].toUpperCase() + "-" + api.substring(1));
+                                            $('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + api.substring(1)).bind("click", {
                                                 consumerServiceJsonContent: json,
                                                 consumerServiceId: d.id,
                                                 consumerServiceAppName: json["info"]["title"].toUpperCase(),
@@ -2475,8 +2475,8 @@ function SDGGraph(data) {
             console.log("providerServiceAppVersion: " + providerServiceAppVersion);
             console.log("providerEndpoint.path.substring(1): " + providerEndpoint.path.substring(1));
 
-            if(!$('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).hasClass("active")){
-                $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
+            if(!$('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).hasClass("active")){
+                $('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
                 $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).addClass("active");
                 // extraMessage.addClass("show");
@@ -2573,7 +2573,7 @@ function SDGGraph(data) {
 
 
             }else {
-                $('#contractMissing-' + providerServiceAppName + '-' + providerServiceAppVersion + "-" + providerEndpoint.path.substring(1)).removeClass("active");
+                $('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1)).removeClass("active");
                 clearHighlight();
                 // extraMessage.removeClass("show");
             }
