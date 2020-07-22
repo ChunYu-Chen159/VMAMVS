@@ -2483,7 +2483,7 @@ function SDGGraph(data) {
             if(!$('#' + buttonId).hasClass("active")){
                 // $('#' + buttonId).parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
-                $('#' + buttonId).addClass("active");
+                $('#' + buttonId).addClass('active');
                 // extraMessage.addClass("show");
 
                 // 要highlight的nodes, links
@@ -2578,7 +2578,7 @@ function SDGGraph(data) {
 
 
             }else {
-                $('#' + buttonId).removeClass("active");
+                $('#' + buttonId).removeClass('active');
                 clearHighlight();
                 // extraMessage.removeClass("show");
             }
