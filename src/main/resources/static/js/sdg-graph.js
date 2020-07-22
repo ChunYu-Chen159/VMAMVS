@@ -2291,7 +2291,7 @@ function SDGGraph(data) {
                                             $('#contractMissing-' + targetService.toUpperCase()).show();
                                         }
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
-                                            console.log("clickkkkkkkkkkkkkkkkk: contractMissing-" + json["info"]["title"].toUpperCase() + "-" + api.substring(1));
+                                            console.log("clickkkkkkkkkkkkkkkkk: contractMissing-" + json["info"]["title"].toUpperCase() + "-" + targetApi.substring(1));
                                             $('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + api.substring(1)).bind("click", {
                                                 consumerServiceJsonContent: json,
                                                 consumerServiceId: d.id,
