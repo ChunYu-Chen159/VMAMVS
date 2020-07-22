@@ -2478,9 +2478,10 @@ function SDGGraph(data) {
 
             let buttonId = "contractMissing-" + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1);
 
+            console.log("buttonId: " + buttonId);
 
             if(!$('#' + buttonId).hasClass("active")){
-                $('#' + buttonId).parent().find(".active").removeClass("active");
+                // $('#' + buttonId).parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
                 $('#' + buttonId).addClass("active");
                 // extraMessage.addClass("show");
