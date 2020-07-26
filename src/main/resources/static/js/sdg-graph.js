@@ -2331,13 +2331,16 @@ function SDGGraph(data) {
                         fetch("/web-page/app/swagger/" + parentNodeTemp.appId)
                             .then(response => response.json())
                             .then(json2 => {
-                                contractGroup.append("<h4 class=\"card-contract\"><span>" + json2["info"]["title"].toUpperCase() + "</span></h4>");
+                                if ($('#contractTestResult-' + json2["info"]["title"].toUpperCase()).length <= 0) { // id不存在
+                                    contractGroup.append("<h4 id=\"contractTestResult-" + json2["info"]["title"].toUpperCase() + "\" class=\"card-contract\"><span>" + json2["info"]["title"].toUpperCase() + "</span></h4>");
+                                    $('#contractTestResult-' + json2["info"]["title"].toUpperCase()).hide();
+                                }
 
                                 let contractContent = json2["x-contract"][d.appName.toLowerCase() + ".groovy"];
 
                                 // for( let api in contractContent)
                                 for(let api in contractContent){
-
+                                    $('#contractTestResult-' + json2["info"]["title"].toUpperCase()).show();
                                     for(let index in contractContent[api]) {
 
                                         if (contractContent[api][index]["testResult"]["status"] === "PASS") {
@@ -2379,7 +2382,6 @@ function SDGGraph(data) {
                 .then(json => {
                     if(json["x-serviceDependency"]["httpRequest"]){
                         let httpRequestTarget = json["x-serviceDependency"]["httpRequest"];
-                        console.log("d.appId: " + d.appId);
                         for( let api in httpRequestTarget){
                             let method = Object.keys(httpRequestTarget[api])[0];
 
@@ -2389,7 +2391,6 @@ function SDGGraph(data) {
 
                                 let targetAppId = d.systemName + ":" + targetService.toUpperCase() + ":" + targetVersion;
 
-                                console.log("targetAppId: " + targetAppId);
                                 if ($('#contractMissing-' + targetService.toUpperCase()).length <= 0) { // id不存在
                                     contractMissingGroup.append("<h4 id=\"contractMissing-" + targetService.toUpperCase() + "\" class=\"card-contract\"><span>" + targetService.toUpperCase() + "</span></h4>");
                                     $('#contractMissing-' + targetService.toUpperCase()).hide();
