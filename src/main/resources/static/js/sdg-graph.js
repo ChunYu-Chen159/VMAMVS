@@ -2584,17 +2584,10 @@ function SDGGraph(data) {
             let providerServiceId = providerService.id;
             let providerEndpointId = providerEndpoint.id;
 
-            console.log("providerServiceAppName: " + providerServiceAppName);
-            console.log("providerServiceAppVersion: " + providerServiceAppVersion);
-            console.log("providerEndpoint.path.substring(1): " + providerEndpoint.path.substring(1));
-            console.log("consumerServiceJsonContent[\"info\"][\"title\"].toUpperCase(): " + consumerServiceJsonContent["info"]["title"].toUpperCase());
-
             let buttonId = "contractMissing-" + consumerServiceJsonContent["info"]["title"].toUpperCase() + '-' + providerEndpoint.path.substring(1);
 
-            console.log("buttonId: " + buttonId);
-
             if(!$('#' + buttonId).hasClass("active")){
-                // $('#' + buttonId).parent().find(".active").removeClass("active");
+                $('#' + buttonId).parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
                 $('#' + buttonId).addClass('active');
                 // extraMessage.addClass("show");

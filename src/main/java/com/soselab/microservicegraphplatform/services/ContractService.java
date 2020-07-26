@@ -95,11 +95,7 @@ public class ContractService {
     public void setAllServiceContractMissingCondition(String systemName){
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
 
-        System.out.println("setAllServiceContractMissingCondition");
-
         for(Service s : ServicesInDB) {
-            System.out.println("service: " + s.getAppId());
-
             String condition = CONTRACTMISSINGCONDITION_FALSE;
 
             List<String> providerService = generalRepository.getAllHttpRequestServiceWithService(s.getAppId());
@@ -109,21 +105,15 @@ public class ContractService {
                     try {
                         JSONObject jsonObj = new JSONObject(str);
 
-                        System.out.println("targetApp: " + jsonObj.getString("appName"));
-
                         Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
 
                         if (swaggerMap != null) {
                             Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
 
                             if(contractsMap.get(s.getAppName().toLowerCase() + ".groovy") != null) {
-                                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {
-                                });
+                                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
 
                                 long endpointAmount = generalRepository.getEndpointAmountWithServiceAndTargetService(s.getAppId(), jsonObj.getString("appId"));
-
-                                System.out.println("groovyMap.size(): " + groovyMap.size());
-                                System.out.println("endpointAmount: " + endpointAmount);
 
                                 if( groovyMap.size() < endpointAmount){
                                     serviceRepository.setContractMissingConditionByAppId(s.getAppId(), CONTRACTMISSINGCONDITION_TRUE);
@@ -142,7 +132,6 @@ public class ContractService {
                     }
                 }
             }
-
 
             if( condition.equals(CONTRACTMISSINGCONDITION_FALSE))
                 serviceRepository.setContractMissingConditionByAppId(s.getAppId(), CONTRACTMISSINGCONDITION_FALSE);
