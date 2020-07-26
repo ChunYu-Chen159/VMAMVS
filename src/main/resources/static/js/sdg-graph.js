@@ -2397,8 +2397,7 @@ function SDGGraph(data) {
 
                                 fetch("/web-page/app/swagger/" + targetAppId)
                                     .then(response2 => response2.json())
-                                    .then(json2 => {sosel
-                                        ab401
+                                    .then(json2 => {
                                         let contractContent = json2["x-contract"];
                                         let groovyName = d.appName.toLowerCase() + ".groovy";
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
