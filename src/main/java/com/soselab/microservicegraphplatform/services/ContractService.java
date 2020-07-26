@@ -60,19 +60,21 @@ public class ContractService {
                         if (swaggerMap != null) {
                             Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
                             Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
-                            for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
-                                String key = entry.getKey();
-                                Object value = entry.getValue();
+                            if(!groovyMap.isEmpty()) {
+                                for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
+                                    String key = entry.getKey();
+                                    Object value = entry.getValue();
 
-                                String jsonStr = mapper.writeValueAsString(value);
-                                JSONArray jsonArr = new JSONArray(jsonStr);
+                                    String jsonStr = mapper.writeValueAsString(value);
+                                    JSONArray jsonArr = new JSONArray(jsonStr);
 
-                                for(int i = 0; i < jsonArr.length(); i++){
-                                    String status = jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status");
+                                    for (int i = 0; i < jsonArr.length(); i++) {
+                                        String status = jsonArr.getJSONObject(i).getJSONObject("testResult").getString("status");
 
-                                    if (status.equals("FAIL")) {
-                                        serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
-                                        condition = CONTRACTTESTINGCONDITION_WARNING;
+                                        if (status.equals("FAIL")) {
+                                            serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_WARNING);
+                                            condition = CONTRACTTESTINGCONDITION_WARNING;
+                                        }
                                     }
                                 }
                             }
