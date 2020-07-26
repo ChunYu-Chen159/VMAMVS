@@ -2450,6 +2450,7 @@ function SDGGraph(data) {
 
             if (!$('#' + apiId).hasClass("active")) {
                 $('#' + apiId).parent().find(".active").removeClass("active");
+                $('#' + apiId).parent().parent().find(".active").removeClass("active");
                 extraMessage.removeClass("show");
                 $('#' + apiId).addClass("active");
                 extraMessage.addClass("show");
@@ -2588,6 +2589,7 @@ function SDGGraph(data) {
 
             if(!$('#' + buttonId).hasClass("active")){
                 $('#' + buttonId).parent().find(".active").removeClass("active");
+                $('#' + buttonId).parent().parent().find(".active").removeClass("active");
                 // extraMessage.removeClass("show");
                 $('#' + buttonId).addClass('active');
                 // extraMessage.addClass("show");
