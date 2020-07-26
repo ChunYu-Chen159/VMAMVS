@@ -41,7 +41,7 @@ public interface GeneralRepository extends Neo4jRepository {
     @Query("Match (n:Endpoint)-[:HTTP_REQUEST]->(e:Endpoint) "  +
             "MATCH (n)<-[:OWN]-(parent:Service) WHERE parent.appId = {appId} " +
             "MATCH (e)<-[:OWN]-(targetParent:Service) WHERE targetParent.appId = {targetAppId} " +
-            "WITH DISTINCT {endpoint:n} AS nodes RETURN count(nodes)")
+            "WITH DISTINCT {endpoint:e} AS nodes RETURN count(nodes)")
     Long getEndpointAmountWithServiceAndTargetService(@Param("appId") String appId, @Param("targetAppId") String targetAppId);
 
 

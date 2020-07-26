@@ -109,6 +109,8 @@ public class ContractService {
                     try {
                         JSONObject jsonObj = new JSONObject(str);
 
+                        System.out.println("targetApp: " + jsonObj.getString("appName"));
+
                         Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
 
                         if (swaggerMap != null) {
