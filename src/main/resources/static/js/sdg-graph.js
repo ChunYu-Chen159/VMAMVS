@@ -442,6 +442,8 @@ function SDGGraph(data) {
         collapseData.nodes.forEach(node => { node.highlight_error_source = false });
         collapseData.links.forEach(link => { link.highlight_error_source = false });
         update(graphData);
+
+        extraMessage.removeClass("show");
     }
 
     function findNodeById(id) {
