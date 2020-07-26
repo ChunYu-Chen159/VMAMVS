@@ -1919,6 +1919,7 @@ function SDGGraph(data) {
         nodeInfoBody.empty();
 
         contractGroup.empty();
+        contractMissingGroup.empty();
         monitorErrorGroup.empty();
 
 
