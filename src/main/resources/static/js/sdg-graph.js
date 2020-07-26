@@ -40,12 +40,16 @@ function SDGGraph(data) {
     const HIGHLIGHT_LEVEL_WARNING = "warning";
     const HIGHLIGHT_LEVEL_ERROR = "error";
     const HIGHLIGHT_CONTRACTTESTING_WARNING = "contractWarning";
+    const HIGHLIGHT_CONTRACTMISSING_TRUE = "contractMissing";
     const HIGHLIGHT_HIGHRISK_TRUE = "highRiskTrue";
     const HIGHLIGHT_MONITORERROR_TRUE = "monitorErrorTrue";
 
 
     const CONDITION_CONTRACTTEST_PASS = "PASS";
     const CONDITION_CONTRACTTEST_WARNING = "WARNING";
+
+    const CONDITION_CONTRACTMISSING_TRUE = "TRUE";
+    const CONDITION_CONTRACTMISSING_FALSE = "FALSE";
 
     const CONDITION_HIGHRISK_TRUE = "TRUE";
     const CONDITION_HIGHRISK_FALSE = "FALSE";
@@ -60,7 +64,9 @@ function SDGGraph(data) {
 
     const NODELABEL_HIGHRISK = "<<High Risk>>";
     const NODELABEL_CONTRACTTESTFAIL = "<<Contract Testing Fail>>";
+    const NODELABEL_CONTRACTMISSINGTRUE = "<<Contract Missing>>";
     const NODELABEL_MONITORERROR = "<<Monitor Error>>";
+
 
     const NODE_SCALE = 1.5;
 
@@ -796,6 +802,13 @@ function SDGGraph(data) {
         node.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_PASS)
             .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,false);
 
+        node.filter(d => d.contractMissingCondition === CONDITION_CONTRACTMISSING_TRUE)
+            .classed(HIGHLIGHT_CONTRACTMISSING_TRUE,true);
+        node.filter(d => d.contractMissingCondition === CONDITION_CONTRACTMISSING_FALSE)
+            .classed(HIGHLIGHT_CONTRACTMISSING_TRUE,false);
+
+
+
         node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE)
             .classed(HIGHLIGHT_HIGHRISK_TRUE,true);
         node.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_FALSE)
@@ -868,6 +881,11 @@ function SDGGraph(data) {
             .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,true);
         nodeEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_PASS)
             .classed(HIGHLIGHT_CONTRACTTESTING_WARNING,false);
+
+        nodeEnter.filter(d => d.contractMissingCondition === CONDITION_CONTRACTMISSING_TRUE)
+            .classed(HIGHLIGHT_CONTRACTMISSING_TRUE,true);
+        nodeEnter.filter(d => d.contractMissingCondition === CONDITION_CONTRACTMISSING_FALSE)
+            .classed(HIGHLIGHT_CONTRACTMISSING_TRUE,false);
 
         nodeEnter.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE)
             .classed(HIGHLIGHT_HIGHRISK_TRUE,true);
@@ -1001,6 +1019,9 @@ function SDGGraph(data) {
         let contractTestingNodelabel = nodelabel.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         updateContractTestFailNodeLabel(contractTestingNodelabel, NODELABEL_CONTRACTTESTFAIL);
 
+        let contractMissingNodelabel = nodelabel.filter(d => d.contractMissingCondition === CONDITION_CONTRACTMISSING_TRUE);
+        updateContractMissingTrueNodeLabel(contractMissingNodelabel, NODELABEL_CONTRACTMISSINGTRUE);
+
         let highRiskNodelabel = nodelabel.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE);
         updateHighRiskNodeLabel(highRiskNodelabel, NODELABEL_HIGHRISK);
 
@@ -1095,6 +1116,56 @@ function SDGGraph(data) {
                 .attr("height", "16px")
                 .attr("x", function() {
                     let text = d3.select(this.parentNode).select("text.contractTestFail-tag").node();
+                    return (text.getBBox().width + 8) / -2;
+                })
+                .attr("y", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position;
+                    for (position = 0; position < texts.length; position++) {
+                        if (texts[position].textContent === text) {
+                            break;
+                        }
+                    }
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 40 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 27 + position * 20;
+                    }
+                });
+        }
+
+        function updateContractMissingTrueNodeLabel (nodeLabel, text) {
+            nodeLabel.append("rect")
+                .attr("class", "tag contractMissingTrue-tag")
+                .attr("fill", "#ffc107")
+                .attr("fill-opacity", 0.5)
+                .attr("rx", 8)
+                .attr("ry", 8);
+
+            nodeLabel.append("text")
+                .attr("class", "tag contractMissingTrue-tag")
+                .attr("dx", 0)
+                .attr("dy", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position = texts.length - 1;
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 53 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 39 + position * 20;
+                    }
+                })
+                .attr("fill-opacity", 1)
+                .style("fill", "#212529")
+                .text(text);
+
+            nodeLabel.selectAll("rect.contractMissingTrue-tag")
+                .attr("width", function() {
+                    let text = d3.select(this.parentNode).select("text.contractMissingTrue-tag").node();
+                    return (text.getBBox().width + 8);
+                })
+                .attr("height", "16px")
+                .attr("x", function() {
+                    let text = d3.select(this.parentNode).select("text.contractMissingTrue-tag").node();
                     return (text.getBBox().width + 8) / -2;
                 })
                 .attr("y", function (d) {
@@ -1279,6 +1350,9 @@ function SDGGraph(data) {
         let contractTestingNodelabelEnter = nodelabelEnter.filter(d => d.contractTestingCondition === CONDITION_CONTRACTTEST_WARNING);
         addContractTestFailNodeLabel(contractTestingNodelabelEnter, NODELABEL_CONTRACTTESTFAIL);
 
+        let contractMissingNodelabelEnter = nodelabel.filter(d => d.contractMissingCondition === CONDITION_CONTRACTMISSING_TRUE);
+        addContractMissingTrueNodeLabel(contractMissingNodelabelEnter, NODELABEL_CONTRACTMISSINGTRUE);
+
         let highRiskNodelabelEnter = nodelabelEnter.filter(d => d.highRiskCondition === CONDITION_HIGHRISK_TRUE);
         addHighRiskNodeLabel(highRiskNodelabelEnter, NODELABEL_HIGHRISK);
 
@@ -1373,6 +1447,56 @@ function SDGGraph(data) {
                 .attr("height", "16px")
                 .attr("x", function() {
                     let text = d3.select(this.parentNode).select("text.contractTestFail-tag").node();
+                    return (text.getBBox().width + 8) / -2;
+                })
+                .attr("y", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position;
+                    for (position = 0; position < texts.length; position++) {
+                        if (texts[position].textContent === text) {
+                            break;
+                        }
+                    }
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 40 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 27 + position * 20;
+                    }
+                });
+        }
+
+        function addContractMissingTrueNodeLabel (nodeLabel, text) {
+            nodeLabel.append("rect")
+                .attr("class", "tag contractMissingTrue-tag")
+                .attr("fill", "#ffc107")
+                .attr("fill-opacity", 0)
+                .attr("rx", 8)
+                .attr("ry", 8);
+
+            nodeLabel.append("text")
+                .attr("class", "tag contractMissingTrue-tag")
+                .attr("dx", 0)
+                .attr("dy", function (d) {
+                    let texts = $(this.parentNode).find("text.tag");
+                    let position = texts.length - 1;
+                    if (d.labels.includes(LABEL_SERVICE)) {
+                        return 53 + position * 20;
+                    } else if (d.labels.includes(LABEL_ENDPOINT)) {
+                        return 39 + position * 20;
+                    }
+                })
+                .attr("fill-opacity", 0)
+                .style("fill", "#212529")
+                .text(text);
+
+            nodeLabel.selectAll("rect.contractMissingTrue-tag")
+                .attr("width", function() {
+                    let text = d3.select(this.parentNode).select("text.contractMissingTrue-tag").node();
+                    return (text.getBBox().width + 8);
+                })
+                .attr("height", "16px")
+                .attr("x", function() {
+                    let text = d3.select(this.parentNode).select("text.contractMissingTrue-tag").node();
                     return (text.getBBox().width + 8) / -2;
                 })
                 .attr("y", function (d) {
@@ -2257,19 +2381,10 @@ function SDGGraph(data) {
                         console.log("d.appId: " + d.appId);
                         for( let api in httpRequestTarget){
                             let method = Object.keys(httpRequestTarget[api])[0];
-                            console.log("api: " + api);
-                            console.log("httpRequestTarget[api]: " + httpRequestTarget[api]);
-                            console.log("method: " + method);
-
-
 
                             for(let targetService in httpRequestTarget[api][method]["targets"]){
                                 let targetVersion = Object.keys(httpRequestTarget[api][method]["targets"][targetService])[0];
                                 let targetApi = Object.keys(httpRequestTarget[api][method]["targets"][targetService][targetVersion])[0];
-
-                                console.log("targetService: " + targetService);
-                                console.log("targetVersion: " + targetVersion);
-                                console.log("targetApi: " + targetApi);
 
                                 let targetAppId = d.systemName + ":" + targetService.toUpperCase() + ":" + targetVersion;
 
@@ -2282,16 +2397,15 @@ function SDGGraph(data) {
 
                                 fetch("/web-page/app/swagger/" + targetAppId)
                                     .then(response2 => response2.json())
-                                    .then(json2 => {
+                                    .then(json2 => {sosel
+                                        ab401
                                         let contractContent = json2["x-contract"];
                                         let groovyName = d.appName.toLowerCase() + ".groovy";
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
-                                            console.log("12332132123132132131");
                                             $('#contractMissing-' + targetService.toUpperCase()).after("<button class=\"list-group-item list-group-item-action list-group-item-warning\" id=\"contractMissing-" + json["info"]["title"].toUpperCase() + "-" + targetApi.substring(1)  + "\">" + targetApi + "</button>");
                                             $('#contractMissing-' + targetService.toUpperCase()).show();
                                         }
                                         if(!contractContent[groovyName] || !contractContent[groovyName][targetApi]){
-                                            console.log("clickkkkkkkkkkkkkkkkk: contractMissing-" + json["info"]["title"].toUpperCase() + "-" + targetApi.substring(1));
                                             $('#contractMissing-' + json["info"]["title"].toUpperCase() + '-' + targetApi.substring(1)).bind("click", {
                                                 consumerServiceJsonContent: json,
                                                 consumerServiceId: d.id,

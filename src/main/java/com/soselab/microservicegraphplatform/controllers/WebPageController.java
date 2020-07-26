@@ -265,6 +265,7 @@ public class WebPageController {
     public String runMonitorErrorsOfSystem(@PathVariable("systemName") String systemName) {
         monitorService.checkErrorFromSleuth(systemName);
         contractService.setAllServiceContractTestingCondition(systemName);
+        contractService.setAllServiceContractMissingCondition(systemName);
         riskService.setServiceRisk(systemName);
         logger.info(systemName + "： RunMonitorErrors Success");
         return systemName + "： RunMonitorErrors Success";

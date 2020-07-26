@@ -36,6 +36,9 @@ public class ContractService {
     private static final String CONTRACTTESTINGCONDITION_PASS = "PASS";
     private static final String CONTRACTTESTINGCONDITION_WARNING = "WARNING";
 
+    private static final String CONTRACTMISSINGCONDITION_TRUE = "TRUE";
+    private static final String CONTRACTMISSINGCONDITION_FALSE = "FALSE";
+
 
     public void setAllServiceContractTestingCondition(String systemName){
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
@@ -85,6 +88,56 @@ public class ContractService {
             if( condition.equals(CONTRACTTESTINGCONDITION_PASS))
                 serviceRepository.setContractTestingConditionByAppId(s.getAppId(), CONTRACTTESTINGCONDITION_PASS);
 
+        }
+    }
+
+
+    public void setAllServiceContractMissingCondition(String systemName){
+        List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
+
+        for(Service s : ServicesInDB) {
+
+            String condition = CONTRACTMISSINGCONDITION_FALSE;
+
+            List<String> providerService = generalRepository.getAllHttpRequestServiceWithService(s.getAppId());
+
+            if(providerService != null && !providerService.isEmpty()) {
+                for (String str : providerService) {
+                    try {
+                        JSONObject jsonObj = new JSONObject(str);
+
+                        Map<String, Object> swaggerMap = springRestTool.getSwaggerFromRemoteApp2(jsonObj.getString("systemName"), jsonObj.getString("appName"), jsonObj.getString("version"));
+
+                        if (swaggerMap != null) {
+                            Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
+
+                            if(contractsMap.get(s.getAppName().toLowerCase() + ".groovy") != null) {
+                                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {
+                                });
+
+                                long endpointAmount = generalRepository.getEndpointAmountWithServiceAndTargetService(s.getAppId(), jsonObj.getString("appId"));
+
+                                if( groovyMap.size() < endpointAmount){
+                                    serviceRepository.setContractMissingConditionByAppId(s.getAppId(), CONTRACTMISSINGCONDITION_TRUE);
+                                    condition = CONTRACTMISSINGCONDITION_TRUE;
+                                }
+                            }
+                            else {
+                                serviceRepository.setContractMissingConditionByAppId(s.getAppId(), CONTRACTMISSINGCONDITION_TRUE);
+                                condition = CONTRACTMISSINGCONDITION_TRUE;
+                            }
+                        }
+
+                    } catch (JSONException err) {
+                        err.printStackTrace();
+                        logger.error(err.toString());
+                    }
+                }
+            }
+
+
+            if( condition.equals(CONTRACTMISSINGCONDITION_FALSE))
+                serviceRepository.setContractMissingConditionByAppId(s.getAppId(), CONTRACTMISSINGCONDITION_FALSE);
         }
     }
 

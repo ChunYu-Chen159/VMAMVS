@@ -72,6 +72,7 @@ public class GraphService {
         for (String systemName : systemNames) {
             monitorService.checkErrorFromSleuth(systemName);
             contractService.setAllServiceContractTestingCondition(systemName);
+            contractService.setAllServiceContractMissingCondition(systemName);
             riskService.setServiceRisk(systemName);
             //monitorService.runScheduled(systemName);
             graphJson.put(systemName, generalRepository.getSystemGraphJson(systemName));
@@ -84,6 +85,7 @@ public class GraphService {
         systemIsUpdatedMap.forEach((systemName, isUpdated) -> {
             if (isUpdated) { //有服務上線
                 contractService.setAllServiceContractTestingCondition(systemName);
+                contractService.setAllServiceContractMissingCondition(systemName);
                 riskService.setServiceRisk(systemName);
                 //updateGraphJson(systemName);
             }

@@ -102,6 +102,7 @@ public class MonitorService {
         for (String systemName : systemNames) {
             checkErrorFromSleuth(systemName);
             contractService.setAllServiceContractTestingCondition(systemName);
+            contractService.setAllServiceContractMissingCondition(systemName);
             riskService.setServiceRisk(systemName);
         }
         logger.info("Hourly scheduled executed");

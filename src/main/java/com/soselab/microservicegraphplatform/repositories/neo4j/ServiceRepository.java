@@ -126,6 +126,9 @@ public interface ServiceRepository extends Neo4jRepository<Service, Long> {
     @Query("MATCH (s:Service{appId:{appId}}) WITH s, s.monitorErrorCondition = {monitorErrorCondition} as result SET s.monitorErrorCondition = {monitorErrorCondition} RETURN result")
     void setMonitorErrorConditionByAppId(@Param("appId") String appId, @Param("monitorErrorCondition") String monitorErrorCondition);
 
+    @Query("MATCH (s:Service{appId:{appId}}) WITH s, s.contractMissingCondition = {contractMissingCondition} as result SET s.contractMissingCondition = {contractMissingCondition} RETURN result")
+    void setContractMissingConditionByAppId(@Param("appId") String appId, @Param("contractMissingCondition") String contractMissingCondition);
+
 
 
 }

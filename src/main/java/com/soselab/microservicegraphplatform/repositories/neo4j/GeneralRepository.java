@@ -38,6 +38,13 @@ public interface GeneralRepository extends Neo4jRepository {
             "RETURN apoc.convert.toJson(nodes)")
     List<String> getAllHttpRequestServiceWithService(@Param("appId") String appId);
 
+    @Query("Match (n:Endpoint)-[:HTTP_REQUEST]->(e:Endpoint) "  +
+            "MATCH (n)<-[:OWN]-(parent:Service) WHERE parent.appId = {appId} " +
+            "MATCH (e)<-[:OWN]-(targetParent:Service) WHERE targetParent.appId = {targetAppId} " +
+            "WITH DISTINCT {endpoint:n} AS nodes RETURN count(nodes)")
+    Long getEndpointAmountWithServiceAndTargetService(@Param("appId") String appId, @Param("targetAppId") String targetAppId);
+
+
     @Query("MATCH (n:Service{appId:{appId}}) " +
             "MATCH (n)-[:OWN]->(e:Endpoint) " +
             "MATCH (n)")
