@@ -95,7 +95,10 @@ public class ContractService {
     public void setAllServiceContractMissingCondition(String systemName){
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
 
+        System.out.println("setAllServiceContractMissingCondition");
+
         for(Service s : ServicesInDB) {
+            System.out.println("service: " + s.getAppId());
 
             String condition = CONTRACTMISSINGCONDITION_FALSE;
 
@@ -116,6 +119,9 @@ public class ContractService {
                                 });
 
                                 long endpointAmount = generalRepository.getEndpointAmountWithServiceAndTargetService(s.getAppId(), jsonObj.getString("appId"));
+
+                                System.out.println("groovyMap.size(): " + groovyMap.size());
+                                System.out.println("endpointAmount: " + endpointAmount);
 
                                 if( groovyMap.size() < endpointAmount){
                                     serviceRepository.setContractMissingConditionByAppId(s.getAppId(), CONTRACTMISSINGCONDITION_TRUE);
