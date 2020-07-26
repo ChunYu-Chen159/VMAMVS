@@ -2690,7 +2690,7 @@ function SDGGraph(data) {
             }else {
                 $('#' + buttonId).removeClass('active');
                 clearHighlight();
-                // extraMessage.removeClass("show");
+                extraMessage.removeClass("show");
             }
         }
 
