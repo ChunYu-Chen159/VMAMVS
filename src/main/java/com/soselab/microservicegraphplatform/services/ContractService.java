@@ -59,8 +59,10 @@ public class ContractService {
 
                         if (swaggerMap != null) {
                             Map<String, Object> contractsMap = mapper.convertValue(swaggerMap.get("x-contract"), new TypeReference<Map<String, Object>>() {});
-                            Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {});
-                            if(!groovyMap.isEmpty()) {
+
+                            if(contractsMap.get(s.getAppName().toLowerCase() + ".groovy") != null) {
+                                Map<String, Object> groovyMap = mapper.convertValue(contractsMap.get(s.getAppName().toLowerCase() + ".groovy"), new TypeReference<Map<String, Object>>() {
+                                });
                                 for (Map.Entry<String, Object> entry : groovyMap.entrySet()) {
                                     String key = entry.getKey();
                                     Object value = entry.getValue();
