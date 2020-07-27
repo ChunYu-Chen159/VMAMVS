@@ -67,10 +67,19 @@ public class RiskService {
             Long endTime = nowTime + beginTime2 * 24 * 60 * 60 * 1000L;
 
             for ( int i = 0; i < endTime2 - beginTime2 + 1; i++) {
-                String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
-                String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
-                String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
-                String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+                String jsonContent_500 = "[]";
+                String jsonContent_502 = "[]";
+                String jsonContent_503 = "[]";
+                String jsonContent_504 = "[]";
+
+                try {
+                    jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                    jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                    jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                    jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+                }
 
                 int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
                 int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
@@ -114,10 +123,19 @@ public class RiskService {
             Long endTime = nowTime + beginTime1 * 24 * 60 * 60 * 1000L;
             double serviceErrors = 0.0;
             for ( int i = 0; i < endTime1 - beginTime1 + 1; i++) {
-                String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
-                String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
-                String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
-                String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+                String jsonContent_500 = "[]";
+                String jsonContent_502 = "[]";
+                String jsonContent_503 = "[]";
+                String jsonContent_504 = "[]";
+
+                try {
+                    jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                    jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                    jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                    jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+                }
 
                 int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
                 int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
@@ -456,10 +474,8 @@ public class RiskService {
                 returnMap.put(key, NorY);
 
                 System.out.println(key + ": " + value + " --> " + NorY);
-
             }
         }
-
 
         return returnMap;
     }
@@ -504,7 +520,6 @@ public class RiskService {
                 returnMap.put(key, NorY);
 
                 System.out.println(key + ": " + value + " --> " + NorY);
-
             }
         }
 

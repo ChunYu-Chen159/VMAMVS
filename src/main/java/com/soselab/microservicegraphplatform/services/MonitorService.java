@@ -132,7 +132,6 @@ public class MonitorService {
             String jsonContent_503 = "[]";
             String jsonContent_504 = "[]";
 
-
             try {
                 jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
                 jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
