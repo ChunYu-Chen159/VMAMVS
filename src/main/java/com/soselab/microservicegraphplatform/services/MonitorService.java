@@ -126,10 +126,21 @@ public class MonitorService {
             System.out.println("service: : " + s.getAppName());
 
             Long endTime = nowTime;
-            String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
-            String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
-            String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
-            String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+
+            String jsonContent_500 = "[]";
+            String jsonContent_502 = "[]";
+            String jsonContent_503 = "[]";
+            String jsonContent_504 = "[]";
+
+
+            try {
+                jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+            }catch(NullPointerException e){
+                e.printStackTrace();
+            }
 
             System.out.println("jsonContent_500: " + jsonContent_500);
             System.out.println("jsonContent_502: " + jsonContent_502);
