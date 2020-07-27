@@ -109,10 +109,10 @@ public class RiskService {
 
 
         // 第2周~第4周(3周) ==> 找各服務所有的錯誤數，算風險值 (根據高低標縮放比例，縮放至1~0.1)
-        Map<String,Integer> servicesErrorNumMap = new HashMap<>();
+        Map<String,Double> servicesErrorNumMap = new HashMap<>();
         for(Service s : ServicesInDB) {
             Long endTime = nowTime + beginTime1 * 24 * 60 * 60 * 1000L;
-            int serviceErrors = 0;
+            double serviceErrors = 0.0;
             for ( int i = 0; i < endTime1 - beginTime1 + 1; i++) {
                 String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
                 String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
@@ -133,14 +133,14 @@ public class RiskService {
         }
 
         System.out.println("servicesErrorNumMap: ");
-        for (Map.Entry<String, Integer> entry : servicesErrorNumMap.entrySet()) {
+        for (Map.Entry<String, Double> entry : servicesErrorNumMap.entrySet()) {
             String key = entry.getKey();
-            int value = entry.getValue();
+            double value = entry.getValue();
 
             System.out.println(key + ": " + value);
         }
 
-
+        normalization2(servicesErrorNumMap, highStandard, lowStandard);
 
 
         for(Service s : ServicesInDB) {
@@ -457,5 +457,41 @@ public class RiskService {
         return returnMap;
     }
 
+
+    public Map<String,Double> normalization2(Map<String,Double> map, double highStandard, double lowStandard){
+        double a = 0.1;
+        double b = 1;
+
+        Map<String,Double> returnMap = new HashMap<>();
+
+        if (map != null) {
+            double max = highStandard;
+            double min = lowStandard;
+            double k = 0.0;
+
+            // 計算係數k
+            k = (b - a) / (max - min);
+            System.out.println("max:" + max);
+            System.out.println("min:" + min);
+            System.out.println("k:" + k);
+
+            // 套入公式正規化
+            System.out.println("normalization2: ");
+            for (Map.Entry<String, Double> entry : map.entrySet()) {
+                String key = entry.getKey();
+                double value = entry.getValue();
+
+                double NorY = a + k * ((double) value - min);
+
+                returnMap.put(key, NorY);
+
+                System.out.println(key + ": " + value);
+
+            }
+        }
+
+
+        return returnMap;
+    }
 
 }
