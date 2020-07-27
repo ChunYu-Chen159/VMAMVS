@@ -140,13 +140,11 @@ public class RiskService {
             System.out.println(key + ": " + value);
         }
 
-        normalization2(servicesErrorNumMap, highStandard, lowStandard);
-
 
         //-------------------------------------------------------------------------------------------------------
 
 
-        for(Service s : ServicesInDB) {
+        /*for(Service s : ServicesInDB) {
             Long endTime = nowTime;
             ArrayList<Integer> al = new ArrayList<Integer>();
 
@@ -164,7 +162,7 @@ public class RiskService {
                 int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
 
                 // 分析模擬錯誤用的方法
-                /*int totalNum = 0;
+                *//*int totalNum = 0;
                 for(int j = 0; j < simulatorMonitorErrors.size(); j++){
                     MonitorError monitorError = simulatorMonitorErrors.get(j);
                     if(s.getAppId().equals(monitorError.getErrorAppId())) {
@@ -193,7 +191,7 @@ public class RiskService {
                     }
 
                 }
-                al.add(totalNum);*/
+                al.add(totalNum);*//*
                 // 分析真實錯誤用的方法
                 al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
 
@@ -216,7 +214,7 @@ public class RiskService {
             int averageStandard_total2 = 0;
             double averageStandard_count2 = 0.0;
 
-/*            System.out.println("(al.size()/4-1): " + (al.size()/4-1));
+*//*            System.out.println("(al.size()/4-1): " + (al.size()/4-1));
             System.out.println("(al.size()/4 * 3 + 1): " + (al.size()/4 * 3 + 1));
 
             for(int i = (al.size()/4-1); i < (al.size()/4 * 3 + 1); i++){
@@ -228,7 +226,7 @@ public class RiskService {
             System.out.println("averageStandard_total: " + averageStandard_total);
             System.out.println("averageStandard_count: " + averageStandard_count);
 
-            double average = averageStandard_total / (averageStandard_count*1.0);*/
+            double average = averageStandard_total / (averageStandard_count*1.0);*//*
 
             for(int i = 0; i < al.size()/4-1; i++){
                 lowStandard_total2 += al.get(i);
@@ -246,20 +244,22 @@ public class RiskService {
 
 
 
-/*            Object highStandard = Collections.max(al);
+*//*            Object highStandard = Collections.max(al);
             Object lowStandard = Collections.min(al);
-            double average = ((int)highStandard + (int)lowStandard) / 2.0;*/
+            double average = ((int)highStandard + (int)lowStandard) / 2.0;*//*
 
-/*            System.out.println("highStandard: " + highStandard);
-            System.out.println("lowStandard: " + lowStandard);*/
+*//*            System.out.println("highStandard: " + highStandard);
+            System.out.println("lowStandard: " + lowStandard);*//*
 //            System.out.println("average: " + average);
 
             averageMap.put(s.getAppId(),average);
 
-        }
+        }*/
+
+        //-------------------------------------------------------------------------------------------------------
 
         // 找出服務影響到的端點數量
-        Map<String,Object> endpointNumberMap = new HashMap<>();
+        Map<String,Double> endpointNumberMap = new HashMap<>();
         for(Service s : ServicesInDB) {
 
             String provider = generalRepository.getProviders(s.getId());
@@ -288,14 +288,15 @@ public class RiskService {
         }
 
         // 正規化[0.1, 1]
-        Map<String,Object> likelihoodMap = new HashMap<>();
+        Map<String,Double> likelihoodMap = new HashMap<>();
         System.out.println("likelihoodMap:" );
-        likelihoodMap = normalization(averageMap, ServicesInDB);
+//        likelihoodMap2 = normalization(averageMap, ServicesInDB);
+        likelihoodMap = normalization_likelihood(servicesErrorNumMap, highStandard, lowStandard);
 
         // 正規化[0.1, 1]
-        Map<String,Object> impactMap = new HashMap<>();
+        Map<String,Double> impactMap = new HashMap<>();
         System.out.println("impactMap:" );
-        impactMap = normalization(endpointNumberMap, ServicesInDB);
+        impactMap = normalization_impact(endpointNumberMap, ServicesInDB);
 
         // 計算RiskValue，放到neo4j存
         for(Service s : ServicesInDB) {
@@ -304,7 +305,7 @@ public class RiskService {
             System.out.println("likelihoodMap.get(s.getAppId()): " + likelihoodMap.get(s.getAppId()));
             System.out.println("impactMap.get(s.getAppId()): " + impactMap.get(s.getAppId()));
 
-            double riskValue = (double)likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId());
+            double riskValue = likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId());
             serviceRepository.setRiskValueByAppId(s.getAppId(), riskValue);
         }
     }
@@ -418,50 +419,7 @@ public class RiskService {
     }
 
     // 正規化[0.1, 1]
-    public Map<String,Object> normalization(Map<String,Object> map, List<Service> ServicesInDB){
-        double a = 0.1;
-        double b = 1;
-
-        Map<String,Object> returnMap = new HashMap<>();
-
-        if (map != null) {
-            double max = (double)map.get(ServicesInDB.get(0).getAppId());
-            double min = (double)map.get(ServicesInDB.get(0).getAppId());
-            double k;
-
-            // 找max , min
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                String key = entry.getKey();
-                Object value = entry.getValue();
-                if(max < (double)value)
-                    max = (double)value;
-                if(min > (double)value)
-                    min = (double)value;
-            }
-
-            // 計算係數k
-            k = (b-a)/(max-min);
-            System.out.println("max:"  + max);
-            System.out.println("min:"  + min);
-            System.out.println("k:"  + k);
-
-            // 套入公式正規化
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                String key = entry.getKey();
-                Object value = entry.getValue();
-
-                double NorY = a + k * ((double)value - min);
-
-                returnMap.put(key, NorY);
-
-            }
-        }
-
-        return returnMap;
-    }
-
-
-    public Map<String,Double> normalization2(Map<String,Double> map, double highStandard, double lowStandard){
+    public Map<String,Double> normalization_likelihood(Map<String,Double> map, double highStandard, double lowStandard){
         double a = 0.1;
         double b = 1;
 
@@ -484,7 +442,10 @@ public class RiskService {
                 String key = entry.getKey();
                 double value = entry.getValue();
 
-                double NorY = a + k * ((double) value - min);
+                double NorY = a + k * (value - min);
+
+                if(NorY > 1.0) NorY = 1.0;
+                if(NorY < 0.1) NorY = 0.1;
 
                 returnMap.put(key, NorY);
 
@@ -493,6 +454,50 @@ public class RiskService {
             }
         }
 
+
+        return returnMap;
+    }
+
+
+    // 正規化[0.1, 1]
+    public Map<String,Double> normalization_impact(Map<String,Double> map, List<Service> ServicesInDB){
+        double a = 0.1;
+        double b = 1;
+
+        Map<String,Double> returnMap = new HashMap<>();
+
+        if (map != null) {
+            double max = map.get(ServicesInDB.get(0).getAppId());
+            double min = map.get(ServicesInDB.get(0).getAppId());
+            double k;
+
+            // 找max , min
+            for (Map.Entry<String, Double> entry : map.entrySet()) {
+                String key = entry.getKey();
+                double value = entry.getValue();
+                if(max < value)
+                    max = value;
+                if(min > value)
+                    min = value;
+            }
+
+            // 計算係數k
+            k = (b-a)/(max-min);
+            System.out.println("max:"  + max);
+            System.out.println("min:"  + min);
+            System.out.println("k:"  + k);
+
+            // 套入公式正規化
+            for (Map.Entry<String, Double> entry : map.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+
+                double NorY = a + k * ((double)value - min);
+
+                returnMap.put(key, NorY);
+
+            }
+        }
 
         return returnMap;
     }
