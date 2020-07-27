@@ -143,6 +143,9 @@ public class RiskService {
         normalization2(servicesErrorNumMap, highStandard, lowStandard);
 
 
+        //-------------------------------------------------------------------------------------------------------
+
+
         for(Service s : ServicesInDB) {
             Long endTime = nowTime;
             ArrayList<Integer> al = new ArrayList<Integer>();
@@ -485,7 +488,7 @@ public class RiskService {
 
                 returnMap.put(key, NorY);
 
-                System.out.println(key + ": " + value);
+                System.out.println(key + ": " + value + ": " + NorY);
 
             }
         }
