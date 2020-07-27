@@ -132,11 +132,12 @@ public class RiskService {
             servicesErrorNumMap.put(s.getAppId(), serviceErrors);
         }
 
+        System.out.println("servicesErrorNumMap: ");
         for (Map.Entry<String, Integer> entry : servicesErrorNumMap.entrySet()) {
             String key = entry.getKey();
             int value = entry.getValue();
 
-            System.out.println(key + " :" + value);
+            System.out.println(key + ": " + value);
         }
 
 
