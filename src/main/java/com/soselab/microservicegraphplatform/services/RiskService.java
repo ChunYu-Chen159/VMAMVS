@@ -28,8 +28,8 @@ public class RiskService {
     @Autowired
     private MonitorService monitorService;
 
-    private final int totalDay = 140; // 總天數140天
-    private final int timeInterval = 7; // 7天為間隔
+    private final int totalDay = 84; // 總天數84天
+    private final int timeInterval = 21; // 21天為間隔
     private final int moveInterval = 1; // 每次移動的距離
 
     private final int STATUSCODE500 = 500;
@@ -50,7 +50,59 @@ public class RiskService {
 
         List<MonitorError> simulatorMonitorErrors = monitorService.getSimulateErrorsOfSystem(systemName);
 
-        // 計算所有服務的平均值，totalDay時間內，以timeInterval為間隔找出各間隔服務錯誤數，並找出最大最小值算出平均值
+        // Likelihood，
+        // 第5周~12周(8周) ==> 算高標(ex:8.5)、低標(ex:1.1)，
+        // 第2周~第4周(3周) ==> 找各服務所有的錯誤數，算風險值 (根據高低標縮放比例，縮放至1~0.1)
+
+        // 第5周~12周(8周) ==> 算高標(ex:8.5)、低標(ex:1.1)，
+        ArrayList<Integer> highlowStandards_errors = new ArrayList<>();
+        double highStandard = 0.0;
+        double lowStandard = 0.0;
+        for(Service s : ServicesInDB) {
+            Long endTime = nowTime + 29 * 24 * 60 * 60 * 1000L;
+
+            for ( int i = 0; i < totalDay - timeInterval + 1; i++) {
+                String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+
+                int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
+                int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
+                int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
+                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
+
+                highlowStandards_errors.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
+
+                endTime -= move;
+            }
+        }
+        Collections.sort(highlowStandards_errors);
+        System.out.println("allllllllllllllllllllllll:"  + highlowStandards_errors);
+
+        int highStandard_total = 0;
+        double highStandard_count = 0.0;
+        int lowStandard_total = 0;
+        double lowStandard_count = 0.0;
+
+
+        for(int i = 0; i < highlowStandards_errors.size()/4-1; i++){
+            lowStandard_total += highlowStandards_errors.get(i);
+            lowStandard_count++;
+        }
+
+        for(int i = highlowStandards_errors.size()-1; i > highlowStandards_errors.size()/4 * 3 + 1; i--) {
+            highStandard_total += highlowStandards_errors.get(i);
+            highStandard_count++;
+        }
+
+        highStandard = highStandard_total/highStandard_count;
+        lowStandard = lowStandard_total/lowStandard_count;
+
+        System.out.println("highStandard: " + highStandard);
+        System.out.println("lowStandard: " + lowStandard);
+
+
         for(Service s : ServicesInDB) {
             Long endTime = nowTime;
             ArrayList<Integer> al = new ArrayList<Integer>();
@@ -114,12 +166,12 @@ public class RiskService {
             System.out.println("allllllllllllllllllllllll:"  + al);
 
 
-            int highStandard_total = 0;
-            double highStandard_count = 0.0;
-            int lowStandard_total = 0;
-            double lowStandard_count = 0.0;
-            int averageStandard_total = 0;
-            double averageStandard_count = 0.0;
+            int highStandard_total2 = 0;
+            double highStandard_count2 = 0.0;
+            int lowStandard_total2 = 0;
+            double lowStandard_count2 = 0.0;
+            int averageStandard_total2 = 0;
+            double averageStandard_count2 = 0.0;
 
 /*            System.out.println("(al.size()/4-1): " + (al.size()/4-1));
             System.out.println("(al.size()/4 * 3 + 1): " + (al.size()/4 * 3 + 1));
@@ -136,18 +188,18 @@ public class RiskService {
             double average = averageStandard_total / (averageStandard_count*1.0);*/
 
             for(int i = 0; i < al.size()/4-1; i++){
-                lowStandard_total += al.get(i);
-                lowStandard_count++;
+                lowStandard_total2 += al.get(i);
+                lowStandard_count2++;
             }
 
             for(int i = al.size()-1; i > al.size()/4 * 3 + 1; i--) {
-                highStandard_total += al.get(i);
-                highStandard_count++;
+                highStandard_total2 += al.get(i);
+                highStandard_count2++;
             }
 
-            double highStandard = highStandard_total/highStandard_count;
-            double lowStandard = lowStandard_total/lowStandard_count;
-            double average = (highStandard + lowStandard) / 2;
+            double highStandard2 = highStandard_total2/highStandard_count2;
+            double lowStandard2 = lowStandard_total2/lowStandard_count2;
+            double average = (highStandard2 + lowStandard2) / 2;
 
 
 
@@ -157,7 +209,7 @@ public class RiskService {
 
 /*            System.out.println("highStandard: " + highStandard);
             System.out.println("lowStandard: " + lowStandard);*/
-            System.out.println("average: " + average);
+//            System.out.println("average: " + average);
 
             averageMap.put(s.getAppId(),average);
 
