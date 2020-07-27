@@ -302,7 +302,7 @@ public class RiskService {
         impactMap = normalization_impact(endpointNumberMap, ServicesInDB);
 
         // 計算RiskValue，放到neo4j存
-        System.out.println("\n");
+        System.out.println("\nRiskValue: ");
         for(Service s : ServicesInDB) {
 
             double riskValue = likelihoodMap.get(s.getAppId()) * impactMap.get(s.getAppId());
@@ -431,7 +431,7 @@ public class RiskService {
 
         Map<String,Double> returnMap = new HashMap<>();
 
-        System.out.println("normalization_likelihood: ");
+        System.out.println("\nnormalization_likelihood: ");
         if (map != null) {
             double max = highStandard;
             double min = lowStandard;
@@ -455,7 +455,7 @@ public class RiskService {
 
                 returnMap.put(key, NorY);
 
-                System.out.println(key + ": " + value + ": " + NorY);
+                System.out.println(key + ": " + value + " --> " + NorY);
 
             }
         }
@@ -472,7 +472,7 @@ public class RiskService {
 
         Map<String,Double> returnMap = new HashMap<>();
 
-        System.out.println("normalization_impact: ");
+        System.out.println("\nnormalization_impact: ");
         if (map != null) {
             double max = map.get(ServicesInDB.get(0).getAppId());
             double min = map.get(ServicesInDB.get(0).getAppId());
@@ -503,7 +503,7 @@ public class RiskService {
 
                 returnMap.put(key, NorY);
 
-                System.out.println(key + ": " + value + ": " + NorY);
+                System.out.println(key + ": " + value + " --> " + NorY);
 
             }
         }
