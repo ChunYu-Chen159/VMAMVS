@@ -280,11 +280,16 @@ public class RiskService {
                 totalNum += getNumofEndpoint_Consumer((int)nodes2.getJSONObject(j).get("id"));
             }
 
-            System.out.println("Service: " + s.getAppId());
-            System.out.println("impactTotalNum: " + (totalNum+1));
-
             endpointNumberMap.put(s.getAppId(), (totalNum+1));
 
+        }
+
+        System.out.println("endpointNumberMap: ");
+        for (Map.Entry<String, Double> entry : endpointNumberMap.entrySet()) {
+            String key = entry.getKey();
+            double value = entry.getValue();
+
+            System.out.println(key + ": " + value);
         }
 
         // 正規化[0.1, 1]
@@ -299,12 +304,14 @@ public class RiskService {
         // 計算RiskValue，放到neo4j存
         for(Service s : ServicesInDB) {
 
-            System.out.println("Service: " + s.getAppId());
-            System.out.println("likelihoodMap.get(s.getAppId()): " + likelihoodMap.get(s.getAppId()));
-            System.out.println("impactMap.get(s.getAppId()): " + impactMap.get(s.getAppId()));
-
-            double riskValue = likelihoodMap.get(s.getAppId()) * (double)impactMap.get(s.getAppId());
+            double riskValue = likelihoodMap.get(s.getAppId()) * impactMap.get(s.getAppId());
             serviceRepository.setRiskValueByAppId(s.getAppId(), riskValue);
+
+            System.out.println("Service: " + s.getAppId());
+            System.out.println("likelihoodMap: " + likelihoodMap.get(s.getAppId()));
+            System.out.println("impactMap: " + impactMap.get(s.getAppId()));
+            System.out.println("riskValue: " + riskValue);
+
         }
     }
 
