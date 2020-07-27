@@ -32,6 +32,11 @@ public class RiskService {
     private final int timeInterval = 21; // 21天為間隔
     private final int moveInterval = 1; // 每次移動的距離
 
+    private final int beginTime1 = 15; // 第2周開始
+    private final int endTime1 = 28; // 到第4周
+    private final int beginTime2 = 29; // 第5周開始
+    private final int endTime2 = 84; // 到第12周
+
     private final int STATUSCODE500 = 500;
     private final int STATUSCODE502 = 502;
     private final int STATUSCODE503 = 503;
@@ -59,9 +64,9 @@ public class RiskService {
         double highStandard = 0.0;
         double lowStandard = 0.0;
         for(Service s : ServicesInDB) {
-            Long endTime = nowTime + 29 * 24 * 60 * 60 * 1000L;
+            Long endTime = nowTime + beginTime2 * 24 * 60 * 60 * 1000L;
 
-            for ( int i = 0; i < totalDay - timeInterval + 1; i++) {
+            for ( int i = 0; i < endTime2 - beginTime2 + 1; i++) {
                 String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
                 String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
                 String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
@@ -101,6 +106,40 @@ public class RiskService {
 
         System.out.println("highStandard: " + highStandard);
         System.out.println("lowStandard: " + lowStandard);
+
+
+        // 第2周~第4周(3周) ==> 找各服務所有的錯誤數，算風險值 (根據高低標縮放比例，縮放至1~0.1)
+        Map<String,Integer> servicesErrorNumMap = new HashMap<>();
+        for(Service s : ServicesInDB) {
+            Long endTime = nowTime + beginTime1 * 24 * 60 * 60 * 1000L;
+            int serviceErrors = 0;
+            for ( int i = 0; i < endTime1 - beginTime1 + 1; i++) {
+                String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+
+                int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
+                int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
+                int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
+                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
+
+                serviceErrors += totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504;
+
+                endTime -= move;
+            }
+
+            servicesErrorNumMap.put(s.getAppId(), serviceErrors);
+        }
+
+        for (Map.Entry<String, Integer> entry : servicesErrorNumMap.entrySet()) {
+            String key = entry.getKey();
+            int value = entry.getValue();
+
+            System.out.println(key + " :" + value);
+        }
+
+
 
 
         for(Service s : ServicesInDB) {
