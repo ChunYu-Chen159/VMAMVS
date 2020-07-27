@@ -132,7 +132,7 @@ public class RiskService {
             servicesErrorNumMap.put(s.getAppId(), serviceErrors);
         }
 
-        System.out.println("servicesErrorNumMap: ");
+        System.out.println("\nservicesErrorNumMap: ");
         for (Map.Entry<String, Double> entry : servicesErrorNumMap.entrySet()) {
             String key = entry.getKey();
             double value = entry.getValue();
@@ -284,7 +284,7 @@ public class RiskService {
 
         }
 
-        System.out.println("endpointNumberMap: ");
+        System.out.println("\nendpointNumberMap: ");
         for (Map.Entry<String, Double> entry : endpointNumberMap.entrySet()) {
             String key = entry.getKey();
             double value = entry.getValue();
@@ -302,6 +302,7 @@ public class RiskService {
         impactMap = normalization_impact(endpointNumberMap, ServicesInDB);
 
         // 計算RiskValue，放到neo4j存
+        System.out.println("\n");
         for(Service s : ServicesInDB) {
 
             double riskValue = likelihoodMap.get(s.getAppId()) * impactMap.get(s.getAppId());
