@@ -67,7 +67,7 @@ public class RiskService {
         double lowStandard = 0.0;
         for(Service s : ServicesInDB) {
 //            Long endTime = nowTime + beginTime2 * 24 * 60 * 60 * 1000L; // 實際用天數為單位
-            Long endTime = nowTime + beginTime2 * 60 * 1000L; // 模擬用分鐘數為單位
+            Long endTime = nowTime - beginTime2 * 60 * 1000L; // 模擬用分鐘數為單位
 
             for ( int i = 0; i < endTime2 - beginTime2 + 1; i++) {
                 String jsonContent_500 = "[]";
@@ -124,7 +124,7 @@ public class RiskService {
         Map<String,Double> servicesErrorNumMap = new HashMap<>();
         for(Service s : ServicesInDB) {
 //            Long endTime = nowTime + beginTime1 * 24 * 60 * 60 * 1000L; // 實際用天數為單位
-            Long endTime = nowTime + beginTime1 * 60 * 1000L; // 模擬用分鐘為單位
+            Long endTime = nowTime - beginTime1 * 60 * 1000L; // 模擬用分鐘為單位
             double serviceErrors = 0.0;
             for ( int i = 0; i < endTime1 - beginTime1 + 1; i++) {
                 String jsonContent_500 = "[]";

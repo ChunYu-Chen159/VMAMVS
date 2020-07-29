@@ -89,35 +89,7 @@ public class MonitorErrorSimulator {
                 }
             }
         }
-/*
 
-        for( int i = 0; i < randomErrorNum; i++) {
-
-            int randomTime = random.nextInt(timeInterval);
-
-            long errorTimestamp = nowTime - randomTime * 24 * 60 * 60 * 1000L;
-
-            int randomError = random.nextInt(3) + 1;
-
-            if(randomError == 1){
-                MonitorError monitorError = new ResponseError();
-                monitorError.setTimestamp(errorTimestamp * 1000L);
-                monitorError.setDate(dateFormat2.format(errorTimestamp));
-                monitorErrors.add(monitorError);
-            }else if(randomError == 2){
-                MonitorError monitorError = new NodeError();
-                monitorError.setTimestamp(errorTimestamp * 1000L);
-                monitorError.setDate(dateFormat2.format(errorTimestamp));
-                monitorErrors.add(monitorError);
-            }else if(randomError == 3) {
-                MonitorError monitorError = new RequestError();
-                monitorError.setTimestamp(errorTimestamp * 1000L);
-                monitorError.setDate(dateFormat2.format(errorTimestamp));
-                monitorErrors.add(monitorError);
-            }
-
-
-        }*/
         return monitorErrors;
     }
 
