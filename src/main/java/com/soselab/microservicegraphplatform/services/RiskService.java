@@ -45,8 +45,10 @@ public class RiskService {
 
     public void setServiceRisk(String systemName) {
         long nowTime = System.currentTimeMillis();
-        long lookback = timeInterval * 24 * 60 * 60 * 1000L;
-        long move = moveInterval * 24 * 60 * 60 * 1000L;
+//        long lookback = timeInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
+        long lookback = timeInterval * 60 * 1000L; // 模擬錯誤用分鐘為單位
+//        long move = moveInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
+        long move = moveInterval * 60 * 1000L; // 模擬用分鐘為單位
         int limit = 10000;
 
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
