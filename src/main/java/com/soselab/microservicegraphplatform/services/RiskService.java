@@ -32,7 +32,7 @@ public class RiskService {
     private final int timeInterval = 21; // 21天為間隔
     private final int moveInterval = 1; // 每次移動的距離
 
-    private final int beginTime1 = 15; // 第2周開始
+    private final int beginTime1 = 8; // 第2周開始
     private final int endTime1 = 28; // 到第4周
     private final int beginTime2 = 29; // 第5周開始
     private final int endTime2 = 84; // 到第12周
@@ -161,6 +161,7 @@ public class RiskService {
 
             System.out.println(key + ": " + value);
         }
+
 
 
         //-------------------------------------------------------------------------------------------------------
@@ -336,6 +337,51 @@ public class RiskService {
             System.out.println("riskValue: " + riskValue);
 
         }
+
+
+        // 第1周 ==> 找各服務所有的錯誤數，算衍生錯誤
+        Map<String,Double> thisWeekErrorNumMap = new HashMap<>();
+        for(Service s : ServicesInDB) {
+            Long endTime = nowTime; // 模擬用分鐘為單位
+            double serviceErrors = 0.0;
+            for ( int i = 0; i < 7; i++) {
+                String jsonContent_500 = "[]";
+                String jsonContent_502 = "[]";
+                String jsonContent_503 = "[]";
+                String jsonContent_504 = "[]";
+
+                try {
+                    jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                    jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                    jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                    jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+                }
+
+                int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
+                int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
+                int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
+                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
+
+                serviceErrors += (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504) * endpointNumberMap.get(s.getAppId()) + (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
+
+                endTime -= move;
+            }
+
+            thisWeekErrorNumMap.put(s.getAppId(), serviceErrors);
+        }
+
+        System.out.println("\nthisWeekErrorNumMap: ");
+        for (Map.Entry<String, Double> entry : thisWeekErrorNumMap.entrySet()) {
+            String key = entry.getKey();
+            double value = entry.getValue();
+
+            System.out.println(key + ": " + value);
+        }
+
+
+
     }
 
     public RiskPositivelyCorrelatedChart getRiskPositivelyCorrelatedChart(String systemName){
