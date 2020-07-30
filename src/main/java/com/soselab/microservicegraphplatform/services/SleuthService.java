@@ -216,6 +216,8 @@ public class SleuthService {
                     count++;
             }
         }*/
+        if(str.equals("[]") || str.equals(""))
+            return 0;
 
         return array.getJSONArray(0).length();
 
