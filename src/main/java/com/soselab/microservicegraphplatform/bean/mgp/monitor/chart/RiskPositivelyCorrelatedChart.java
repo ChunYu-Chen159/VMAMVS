@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RiskPositivelyCorrelatedChart {
-    Map<String,Integer> servicesErrorNum = new HashMap<>();
+    Map<String,Double> servicesErrorNum = new HashMap<>();
     Map<String,Double> risk = new HashMap<>();
 
 
-    public Map<String, Integer> getServicesErrorNum() {
+    public Map<String, Double> getServicesErrorNum() {
         return servicesErrorNum;
     }
 
-    public void setServicesErrorNum(Map<String, Integer> servicesErrorNum) {
+    public void setServicesErrorNum(Map<String, Double> servicesErrorNum) {
         this.servicesErrorNum = servicesErrorNum;
     }
 

@@ -42,6 +42,8 @@ public class RiskService {
     private final int STATUSCODE503 = 503;
     private final int STATUSCODE504 = 504;
 
+    Map<String,Double> thisWeekErrorNumMap = new HashMap<>();
+
 
     public void setServiceRisk(String systemName) {
         long nowTime = System.currentTimeMillis();
@@ -346,7 +348,6 @@ public class RiskService {
 
         // 第1周 ==> 找各服務所有的錯誤數，算衍生錯誤
         System.out.println("\nthisWeekErrorNum: ");
-        Map<String,Double> thisWeekErrorNumMap = new HashMap<>();
         for(Service s : ServicesInDB) {
             System.out.println(s.getAppId());
             Long endTime = nowTime; // 模擬用分鐘為單位
@@ -416,7 +417,7 @@ public class RiskService {
         }
 
 
-        for(Service s : ServicesInDB) {
+/*        for(Service s : ServicesInDB) {
             Long endTime = nowTime;
             long lookback = 30 * 24 * 60 * 60 * 1000L; // 30天
 
@@ -460,9 +461,9 @@ public class RiskService {
             }
 
             servicesErrorNum.put(s.getAppId(), serviceTotalNum);
-        }
+        }*/
 
-        riskPositivelyCorrelatedChart.setServicesErrorNum(servicesErrorNum);
+        riskPositivelyCorrelatedChart.setServicesErrorNum(thisWeekErrorNumMap);
         riskPositivelyCorrelatedChart.setRisk(risk);
 
 
