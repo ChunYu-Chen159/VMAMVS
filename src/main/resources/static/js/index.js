@@ -458,7 +458,7 @@ function startSDGGraph(systemName) {
     // static Chart
     let ctx_static = document.getElementById('RiskPositivelyCorrelatedChart_static').getContext('2d');
     // 多線
-    let config = {
+    let config_static = {
         type: 'line',
         data: {
             labels: ["GROCERYINVENTORY:0.0.1-SNAPSHOT", "ORDERING:0.0.1-SNAPSHOT", "PAYMENT:0.0.1-SNAPSHOT", "CINEMACATALOG:0.0.1-SNAPSHOT", "NOTIFICATION:0.0.1-SNAPSHOT"],
@@ -525,7 +525,7 @@ function startSDGGraph(systemName) {
         }
     };
 
-    let myChart = new Chart(ctx, config);
+    let myChart_static = new Chart(ctx_static, config_static);
 
     stompClient.send("/mgp/graph/" + systemName.value);
 }
