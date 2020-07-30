@@ -454,6 +454,79 @@ function startSDGGraph(systemName) {
             let myChart = new Chart(ctx, config);
         });
 
+
+    // static Chart
+    let ctx_static = document.getElementById('RiskPositivelyCorrelatedChart_static').getContext('2d');
+    // 多線
+    let config = {
+        type: 'line',
+        data: {
+            labels: ["GROCERYINVENTORY:0.0.1-SNAPSHOT", "ORDERING:0.0.1-SNAPSHOT", "PAYMENT:0.0.1-SNAPSHOT", "CINEMACATALOG:0.0.1-SNAPSHOT", "NOTIFICATION:0.0.1-SNAPSHOT"],
+            datasets: [{
+                label: 'servicesErrorNum',
+                yAxisID: 'servicesErrorNum',
+                backgroundColor: 'rgba(119,9,10,0.78)',
+                borderColor: 'rgba(119,9,10,0.78)',
+                borderWidth: 5,
+                data: [8, 28, 12, 8, 0],
+                fill: false
+            }, {
+                label: 'risk',
+                yAxisID: 'risk',
+                backgroundColor: 'rgba(121,192,54,0.77)',
+                borderColor: 'rgba(121,192,54,0.77)',
+                borderWidth: 5,
+                data: [0.068, 0.684, 0.191, 0.068, 0.055],
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'RiskPositivelyCorrelatedChart',
+                fontSize: 30
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        offsetGridLines: true
+                    },
+                    ticks: {
+                        fontSize: 15
+                    }
+                }],
+                yAxes: [
+                    {
+                        id: 'servicesErrorNum',
+                        type: 'linear',
+                        position: 'left',
+                        ticks: {
+                            min: 0,
+                            max: 30,
+                            stepSize: 5,
+                            fontSize: 20,
+                            fontColor: 'rgba(119,9,10,0.78)'
+                        }
+                    }, {
+                        id: 'risk',
+                        type: 'linear',
+                        position: 'right',
+                        ticks: {
+                            min: 0,
+                            max: 1.2,
+                            stepSize: 0.2,
+                            fontSize: 20,
+                            fontColor: 'rgba(121,192,54,0.77)'
+                        }
+                    }
+                ]
+            }
+        }
+    };
+
+    let myChart = new Chart(ctx, config);
+
     stompClient.send("/mgp/graph/" + systemName.value);
 }
 
