@@ -62,7 +62,7 @@ public class RiskService {
 
         Map<String,Object> averageMap = new HashMap<>();
 
-        List<MonitorError> simulatorMonitorErrors = monitorService.getSimulateErrorsOfSystem(systemName);
+        //List<MonitorError> simulatorMonitorErrors = monitorService.getSimulateErrorsOfSystem(systemName);
 
         // Likelihood，
         // 第5周~12周(8周) ==> 算高標(ex:8.5)、低標(ex:1.1)，
