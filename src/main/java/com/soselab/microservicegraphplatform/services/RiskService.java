@@ -81,10 +81,10 @@ public class RiskService {
                 String jsonContent_504 = "[]";
 
                 try {
-                    jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
-                    jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
-                    jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
-                    jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+                    jsonContent_500 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                    jsonContent_502 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                    jsonContent_503 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                    jsonContent_504 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
                 }catch(NullPointerException e){
                     e.printStackTrace();
                 }
@@ -138,10 +138,10 @@ public class RiskService {
                 String jsonContent_504 = "[]";
 
                 try {
-                    jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
-                    jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
-                    jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
-                    jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
+                    jsonContent_500 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
+                    jsonContent_502 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
+                    jsonContent_503 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
+                    jsonContent_504 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
                 }catch(NullPointerException e){
                     e.printStackTrace();
                 }
@@ -358,10 +358,10 @@ public class RiskService {
             String jsonContent_504 = "[]";
 
             try {
-                jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback_thisWeek, endTime, limit);
-                jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback_thisWeek, endTime, limit);
-                jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback_thisWeek, endTime, limit);
-                jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback_thisWeek, endTime, limit);
+                jsonContent_500 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE500, lookback_thisWeek, endTime, limit);
+                jsonContent_502 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE502, lookback_thisWeek, endTime, limit);
+                jsonContent_503 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE503, lookback_thisWeek, endTime, limit);
+                jsonContent_504 = sleuthService.searchZipkinV1(s.getAppName(), s.getVersion(), STATUSCODE504, lookback_thisWeek, endTime, limit);
             }catch(NullPointerException e){
                 e.printStackTrace();
             }

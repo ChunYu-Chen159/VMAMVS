@@ -172,6 +172,35 @@ public class SleuthService {
         return result;
     }
 
+    public String searchZipkinV1(String appName, String version, int statusCode, long lookback, long endTime, int limit){
+        String result = "";
+        try {
+            URL url = new URL(Zipkin_V1_BASEPATH+"api/v1/traces?annotationQuery=http.version%3D" + version + "%20and%20" + "http.status_code%3D" + statusCode + "&limit=" + limit + "&lookback=" + lookback + "&endTs=" + endTime + "&serviceName="+appName.toLowerCase()+"&sortOrder=timestamp-desc");
+            URLConnection urlConnection = url.openConnection();
+
+            System.out.println("ZipkinSearch: " + url.toString());
+
+
+            BufferedReader in = new BufferedReader( new InputStreamReader(urlConnection.getInputStream()) );
+            String current = "";
+            while((current = in.readLine()) != null)
+            {
+                result += current;
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if("".equals(result) || result.isEmpty())
+            return "[]";
+
+        return result;
+    }
+
 
     public int getTotalNum(String str)
     {
