@@ -345,8 +345,10 @@ public class RiskService {
 
 
         // 第1周 ==> 找各服務所有的錯誤數，算衍生錯誤
+        System.out.println("\nthisWeekErrorNum: ");
         Map<String,Double> thisWeekErrorNumMap = new HashMap<>();
         for(Service s : ServicesInDB) {
+            System.out.println(s.getAppId());
             Long endTime = nowTime; // 模擬用分鐘為單位
             double serviceErrors = 0.0;
 
@@ -368,6 +370,13 @@ public class RiskService {
             int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
             int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
             int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
+
+            System.out.println("totalnum_500: " + totalnum_500);
+            System.out.println("totalnum_502: " + totalnum_502);
+            System.out.println("totalnum_503: " + totalnum_503);
+            System.out.println("totalnum_504: " + totalnum_504);
+            System.out.println("endpointNumberMap: " + endpointNumberMap.get(s.getAppId()));
+
 
             serviceErrors += (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504) * endpointNumberMap.get(s.getAppId()) + (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
 
