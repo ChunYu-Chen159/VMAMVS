@@ -47,6 +47,11 @@ public class RiskService {
         long nowTime = System.currentTimeMillis();
 //        long lookback = timeInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
         long lookback = timeInterval * 60 * 1000L; // 模擬錯誤用分鐘為單位
+
+        // 用來計算第一周的衍生錯誤
+//        long lookback_thisWeek = 7 * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
+        long lookback_thisWeek = 7 * 60 * 1000L; // 模擬錯誤用分鐘為單位
+
 //        long move = moveInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
         long move = moveInterval * 60 * 1000L; // 模擬用分鐘為單位
         int limit = 10000;
@@ -344,30 +349,28 @@ public class RiskService {
         for(Service s : ServicesInDB) {
             Long endTime = nowTime; // 模擬用分鐘為單位
             double serviceErrors = 0.0;
-            for ( int i = 0; i < 7; i++) {
-                String jsonContent_500 = "[]";
-                String jsonContent_502 = "[]";
-                String jsonContent_503 = "[]";
-                String jsonContent_504 = "[]";
 
-                try {
-                    jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
-                    jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
-                    jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
-                    jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
-                }catch(NullPointerException e){
-                    e.printStackTrace();
-                }
+            String jsonContent_500 = "[]";
+            String jsonContent_502 = "[]";
+            String jsonContent_503 = "[]";
+            String jsonContent_504 = "[]";
 
-                int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
-                int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
-                int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
-                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
-
-                serviceErrors += (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504) * endpointNumberMap.get(s.getAppId()) + (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
-
-                endTime -= move;
+            try {
+                jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback_thisWeek, endTime, limit);
+                jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback_thisWeek, endTime, limit);
+                jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback_thisWeek, endTime, limit);
+                jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback_thisWeek, endTime, limit);
+            }catch(NullPointerException e){
+                e.printStackTrace();
             }
+
+            int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
+            int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
+            int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
+            int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
+
+            serviceErrors += (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504) * endpointNumberMap.get(s.getAppId()) + (totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
+
 
             thisWeekErrorNumMap.put(s.getAppId(), serviceErrors);
         }
