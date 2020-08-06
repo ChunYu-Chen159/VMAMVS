@@ -47,15 +47,15 @@ public class RiskService {
 
     public void setServiceRisk(String systemName) {
         long nowTime = System.currentTimeMillis();
-//        long lookback = timeInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
-        long lookback = timeInterval * 60 * 1000L; // 模擬錯誤用分鐘為單位
+        long lookback = timeInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
+//        long lookback = timeInterval * 60 * 1000L; // 模擬錯誤用分鐘為單位
 
         // 用來計算第一周的衍生錯誤
-//        long lookback_thisWeek = 7 * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
-        long lookback_thisWeek = 7 * 60 * 1000L; // 模擬錯誤用分鐘為單位
+        long lookback_thisWeek = 7 * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
+//        long lookback_thisWeek = 7 * 60 * 1000L; // 模擬錯誤用分鐘為單位
 
-//        long move = moveInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
-        long move = moveInterval * 60 * 1000L; // 模擬用分鐘為單位
+        long move = moveInterval * 24 * 60 * 60 * 1000L; // 實際使用天數為單位
+//        long move = moveInterval * 60 * 1000L; // 模擬用分鐘為單位
         int limit = 10000;
 
         List<Service> ServicesInDB = serviceRepository.findBySysName(systemName);
@@ -73,8 +73,8 @@ public class RiskService {
         double highStandard = 0.0;
         double lowStandard = 0.0;
         for(Service s : ServicesInDB) {
-//            Long endTime = nowTime + beginTime2 * 24 * 60 * 60 * 1000L; // 實際用天數為單位
-            Long endTime = nowTime - beginTime2 * 60 * 1000L; // 模擬用分鐘數為單位
+            Long endTime = nowTime + beginTime2 * 24 * 60 * 60 * 1000L; // 實際用天數為單位
+//            Long endTime = nowTime - beginTime2 * 60 * 1000L; // 模擬用分鐘數為單位
 
             for ( int i = 0; i < endTime2 - beginTime2 + 1; i++) {
                 String jsonContent_500 = "[]";
@@ -130,8 +130,8 @@ public class RiskService {
         // 第2周~第4周(3周) ==> 找各服務所有的錯誤數，算風險值 (根據高低標縮放比例，縮放至1~0.1)
         Map<String,Double> servicesErrorNumMap = new HashMap<>();
         for(Service s : ServicesInDB) {
-//            Long endTime = nowTime + beginTime1 * 24 * 60 * 60 * 1000L; // 實際用天數為單位
-            Long endTime = nowTime - beginTime1 * 60 * 1000L; // 模擬用分鐘為單位
+            Long endTime = nowTime + beginTime1 * 24 * 60 * 60 * 1000L; // 實際用天數為單位
+//            Long endTime = nowTime - beginTime1 * 60 * 1000L; // 模擬用分鐘為單位
             double serviceErrors = 0.0;
             for ( int i = 0; i < endTime1 - beginTime1 + 1; i++) {
                 String jsonContent_500 = "[]";
@@ -168,125 +168,6 @@ public class RiskService {
 
             System.out.println(key + ": " + value);
         }
-
-
-
-        //-------------------------------------------------------------------------------------------------------
-
-
-        /*for(Service s : ServicesInDB) {
-            Long endTime = nowTime;
-            ArrayList<Integer> al = new ArrayList<Integer>();
-
-            for ( int i = 0; i < totalDay - timeInterval + 1; i++) {
-
-                // 分析真實錯誤用的方法
-                String jsonContent_500 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE500, lookback, endTime, limit);
-                String jsonContent_502 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE502, lookback, endTime, limit);
-                String jsonContent_503 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE503, lookback, endTime, limit);
-                String jsonContent_504 = sleuthService.searchZipkin(s.getAppName(), s.getVersion(), STATUSCODE504, lookback, endTime, limit);
-
-                int totalnum_500 = sleuthService.getTotalNum(jsonContent_500);
-                int totalnum_502 = sleuthService.getTotalNum(jsonContent_502);
-                int totalnum_503 = sleuthService.getTotalNum(jsonContent_503);
-                int totalnum_504 = sleuthService.getTotalNum(jsonContent_504);
-
-                // 分析模擬錯誤用的方法
-                *//*int totalNum = 0;
-                for(int j = 0; j < simulatorMonitorErrors.size(); j++){
-                    MonitorError monitorError = simulatorMonitorErrors.get(j);
-                    if(s.getAppId().equals(monitorError.getErrorAppId())) {
-                        try {
-
-                            String str1 = dateFormat2.format(endTime);
-                            Date date1 = dateFormat2.parse(str1);
-                            String str2 = dateFormat2.format(endTime - lookback);
-                            Date date2 = dateFormat2.parse(str2);
-                            String str3 = dateFormat2.format(monitorError.getTimestamp() / 1000L);
-                            Date date3 = dateFormat2.parse(str3);
-
-                            Calendar cal1 = Calendar.getInstance();
-                            Calendar cal2 = Calendar.getInstance();
-                            Calendar cal3 = Calendar.getInstance();
-                            cal1.setTime(date1);
-                            cal2.setTime(date2);
-                            cal3.setTime(date3);
-
-                            if (cal3.before(cal1) && cal3.after(cal2)) {
-                                totalNum++;
-                            }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                }
-                al.add(totalNum);*//*
-                // 分析真實錯誤用的方法
-                al.add(totalnum_500 + totalnum_502 + totalnum_503 + totalnum_504);
-
-                endTime -= move;
-
-            }
-
-            System.out.println("Service: " + s.getAppId());
-
-
-            Collections.sort(al);
-
-            System.out.println("allllllllllllllllllllllll:"  + al);
-
-
-            int highStandard_total2 = 0;
-            double highStandard_count2 = 0.0;
-            int lowStandard_total2 = 0;
-            double lowStandard_count2 = 0.0;
-            int averageStandard_total2 = 0;
-            double averageStandard_count2 = 0.0;
-
-*//*            System.out.println("(al.size()/4-1): " + (al.size()/4-1));
-            System.out.println("(al.size()/4 * 3 + 1): " + (al.size()/4 * 3 + 1));
-
-            for(int i = (al.size()/4-1); i < (al.size()/4 * 3 + 1); i++){
-                System.out.println("al.get(i): " + al.get(i));
-                averageStandard_total += al.get(i);
-                averageStandard_count++;
-            }
-
-            System.out.println("averageStandard_total: " + averageStandard_total);
-            System.out.println("averageStandard_count: " + averageStandard_count);
-
-            double average = averageStandard_total / (averageStandard_count*1.0);*//*
-
-            for(int i = 0; i < al.size()/4-1; i++){
-                lowStandard_total2 += al.get(i);
-                lowStandard_count2++;
-            }
-
-            for(int i = al.size()-1; i > al.size()/4 * 3 + 1; i--) {
-                highStandard_total2 += al.get(i);
-                highStandard_count2++;
-            }
-
-            double highStandard2 = highStandard_total2/highStandard_count2;
-            double lowStandard2 = lowStandard_total2/lowStandard_count2;
-            double average = (highStandard2 + lowStandard2) / 2;
-
-
-
-*//*            Object highStandard = Collections.max(al);
-            Object lowStandard = Collections.min(al);
-            double average = ((int)highStandard + (int)lowStandard) / 2.0;*//*
-
-*//*            System.out.println("highStandard: " + highStandard);
-            System.out.println("lowStandard: " + lowStandard);*//*
-//            System.out.println("average: " + average);
-
-            averageMap.put(s.getAppId(),average);
-
-        }*/
-
-        //-------------------------------------------------------------------------------------------------------
 
         // 找出服務影響到的端點數量
         Map<String,Double> endpointNumberMap = new HashMap<>();
@@ -350,7 +231,7 @@ public class RiskService {
         System.out.println("\nthisWeekErrorNum: ");
         for(Service s : ServicesInDB) {
             System.out.println(s.getAppId());
-            Long endTime = nowTime; // 模擬用分鐘為單位
+            Long endTime = nowTime;
             double serviceErrors = 0.0;
 
             String jsonContent_500 = "[]";
@@ -415,53 +296,6 @@ public class RiskService {
         for(Service s : ServicesInDB) {
             risk.put(s.getAppId(), serviceRepository.getRiskValueByAppId(s.getAppId()));
         }
-
-
-/*        for(Service s : ServicesInDB) {
-            Long endTime = nowTime;
-            long lookback = 30 * 24 * 60 * 60 * 1000L; // 30天
-
-            int serviceTotalNum = 0;
-            for(int j = 0; j < monitorErrors.size(); j++) {
-                MonitorError monitorError = monitorErrors.get(j);
-                if (s.getAppId().equals(monitorError.getErrorAppId())) {
-                    try {
-
-                        String str1 = dateFormat2.format(endTime);
-                        Date date1 = dateFormat2.parse(str1);
-                        String str2 = dateFormat2.format(endTime - lookback);
-                        Date date2 = dateFormat2.parse(str2);
-                        String str3 = dateFormat2.format(monitorError.getTimestamp() / 1000L);
-                        Date date3 = dateFormat2.parse(str3);
-
-                        Calendar cal1 = Calendar.getInstance();
-                        Calendar cal2 = Calendar.getInstance();
-                        Calendar cal3 = Calendar.getInstance();
-                        cal1.setTime(date1);
-                        cal2.setTime(date2);
-                        cal3.setTime(date3);
-
-                        if (cal3.before(cal1) && cal3.after(cal2)) {
-                            if(s.getAppName().toUpperCase().equals("CINEMACATALOG") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 3;
-                            }else if(s.getAppName().toUpperCase().equals("GROCERYINVENTORY") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 3;
-                            }else if(s.getAppName().toUpperCase().equals("ORDERING") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 10;
-                            }else if(s.getAppName().toUpperCase().equals("PAYMENT") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 5;
-                            }else if(s.getAppName().toUpperCase().equals("NOTIFICATION") && s.getVersion().equals("0.0.1-SNAPSHOT")){
-                                serviceTotalNum += 7;
-                            }
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            servicesErrorNum.put(s.getAppId(), serviceTotalNum);
-        }*/
 
         riskPositivelyCorrelatedChart.setServicesErrorNum(thisWeekErrorNumMap);
         riskPositivelyCorrelatedChart.setRisk(risk);
