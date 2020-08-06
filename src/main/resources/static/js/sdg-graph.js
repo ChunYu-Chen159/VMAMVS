@@ -753,6 +753,20 @@ function SDGGraph(data) {
             .text(d => {
                 switch (d.type) {
                     case REL_HTTPREQUEST:
+                        if (sleuthDataLength !== 0) {
+                            for(let i = 0; i < sleuthDataLength; i++){
+                                let targetNode = data.links.find(targetNode => targetNode.target === d.target);
+                                //console.log("targetNode: " + JSON.stringify(targetNode));
+                                //console.log("sleuthData[i].targetServiceVersion: " + sleuthData[i].targetServiceVersion);
+                                //console.log("targetNode.version: " + targetNode.source.version);
+                                if(d.source.path === sleuthData[i].path &&
+                                    d.source.appName === sleuthData[i].appName &&
+                                    sleuthData[i].targetServiceVersion === targetNode.source.version &&
+                                    sleuthData[i].targetAppName === targetNode.source.appName) {
+                                    return REL_TEXT_REL_HTTPREQUEST + " (" + sleuthData[i].num + ")";
+                                }
+                            }
+                        }
                         return REL_TEXT_REL_HTTPREQUEST;
                     case REL_AMQPSUBSCRIBE:
                         return REL_TEXT_AMQPSUBSCRIBE;
@@ -2388,6 +2402,9 @@ function SDGGraph(data) {
                             for(let targetService in httpRequestTarget[api][method]["targets"]){
                                 let targetVersion = Object.keys(httpRequestTarget[api][method]["targets"][targetService])[0];
                                 let targetApi = Object.keys(httpRequestTarget[api][method]["targets"][targetService][targetVersion])[0];
+
+                                if(targetVersion === "notSpecified")
+                                    targetVersion = "0.0.1-SNAPSHOT";
 
                                 let targetAppId = d.systemName + ":" + targetService.toUpperCase() + ":" + targetVersion;
 
