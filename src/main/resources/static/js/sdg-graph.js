@@ -1314,8 +1314,13 @@ function SDGGraph(data) {
             .text(d => {
                 if (d.labels.includes(LABEL_SERVICE)) {
                     //return d.number; //*********************修改Risk的地方*************************************************
-                    if (d.riskValue) return d.riskValue.toFixed(2);
-                    return 0.01;
+                    try {
+                        if (d.riskValue) return d.riskValue.toFixed(2);
+                    } catch (err) {
+                        console.error(err);
+                    } finally {
+                        return 0.01;
+                    }
                 }
             });
 
