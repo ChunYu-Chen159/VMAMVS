@@ -984,7 +984,14 @@ function SDGGraph(data) {
             .attr("alignment-baseline", "central")
             .style("font-size", 28)
             .style("fill", "#000000")
-            .text(d => d.riskValue.toFixed(2)); //***Risk********************************************
+            .text(d => {
+                try {
+                    return d.riskValue.toFixed(2);
+                } catch(err) {
+                    console.error(err);
+                    return 0.01;
+                }
+            }); //***Risk********************************************
 
         nodelabel.append("rect")
             .attr("class", "tag")
